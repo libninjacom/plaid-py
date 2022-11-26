@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  lint-and-check:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,9 +17,6 @@ jobs:
       - name: Install dependencies
         run: |
           pdm install
-      - name: Run lint
-        run: |
-          just lint
       - name: Run check
         run: |
           just check
@@ -29,7 +26,7 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.6"
+          - "3.7"
     steps:
       - uses: actions/checkout@v3
       - uses: extractions/setup-just@v1
@@ -56,7 +53,7 @@ jobs:
     if: >-
       ((github.event_name == 'workflow_dispatch') || (github.event_name == 'push')) &&
       startsWith(github.ref, 'refs/tags/v')
-    needs: [ "lint-and-check", "test" ]
+    needs: [ "check", "test" ]
     steps:
       - uses: actions/checkout@master
       - uses: extractions/setup-just@v1
@@ -70,3 +67,26 @@ jobs:
         env:
           PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         run: just publish
+
+  doc:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    if: >-
+          ((github.event_name == 'workflow_dispatch') || (github.event_name == 'push')) &&
+          startsWith(github.ref, 'refs/tags/v')
+    needs: [ "check", "test" ]
+    steps:
+    - uses: actions/checkout@master
+    - uses: extractions/setup-just@v1
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install tooling
+      run: pdm install --dev
+    - name: Build docs
+      run: just doc
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: _build
