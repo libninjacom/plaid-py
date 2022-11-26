@@ -65,11 +65,15 @@ Documentation
 You can see working examples of every API call in the ``examples/``
 directory.
 
-.. autosummary::
-     :toctree: _autosummary
-     :recursive:
+.. toctree::
+   :glob:
+   :maxdepth: 1
 
-   plaid2
+   plaid2.async_client
+   plaid2.client
+   plaid2.logger
+   plaid2.model
+   plaid2.authenticator
 
 Contributing
 ============

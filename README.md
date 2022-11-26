@@ -58,14 +58,7 @@ This example loads configuration from environment variables, specifically:
 
 * `PLAID_VERSION`
 
-
-
-
-
 # Documentation
-
-
-
 
 You can see working examples of every API call in the `examples/` directory.
 
