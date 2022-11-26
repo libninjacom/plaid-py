@@ -66,7 +66,10 @@ You can see working examples of every API call in the ``examples/``
 directory.
 
 .. autosummary::
-     :toctree: stubs
+     :toctree: _autosummary
+     :recursive:
+
+   plaid2
 
 Contributing
 ============
