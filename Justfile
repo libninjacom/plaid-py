@@ -40,5 +40,12 @@ open:
     open http://localhost:8000
     python3 -m http.server --directory _build
 
+version level:
+    VERSION=$(toml get -r pyproject.toml project.version) && \
+        git commit -am "Bump version {{level}} to $VERSION" --allow-empty && \
+        git tag v$VERSION && \
+        git push origin v$VERSION
+    git push
+
 shell:
     pdm run ipython3 -i -c "from plaid2 import *"
