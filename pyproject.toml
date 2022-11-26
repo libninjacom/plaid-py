@@ -7,9 +7,10 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
-    "ipython>=7.34.0",
     "pydantic>=1.10.2",
     "aiohttp>=3.8.3",
+    "requests>=2.28.1",
+    "urllib3>=1.26.12",
 ]
 [project.optional-dependencies]
 
@@ -22,6 +23,7 @@ dependencies = [
 [tool.pdm.dev-dependencies]
 dev = [
     "pyright>=1.1.271",
+    "ipython>=7.34.0",
     "sphinx-rtd-theme>=1.1.1",
     "commonmark>=0.9.1",
     "sphinxcontrib-fulltoc>=1.2.0",
@@ -35,10 +37,3 @@ build-backend = "pdm.pep517.api"
 
 keywords = []
 classifiers = []
-
-dependencies = [
-    "requests>=2.28.1",
-    "pydantic>=1.10.2",
-    "aiohttp>=3.8.1",
-    "urllib3>=1.26.12",
-]
