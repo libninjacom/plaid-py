@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 from .income_summary_field_number import IncomeSummaryFieldNumber
 
 
 class ProjectedIncomeSummaryFieldNumber(BaseModel):
-    """Field number for income summary"""
-
     income_summary_field_number: Optional[IncomeSummaryFieldNumber] = None
+    """Field number for income summary"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +23,6 @@ class ProjectedIncomeSummaryFieldNumber(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProjectedIncomeSummaryFieldNumber":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProjectedIncomeSummaryFieldNumber":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

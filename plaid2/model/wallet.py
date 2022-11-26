@@ -6,13 +6,14 @@ from .wallet_numbers import WalletNumbers
 
 
 class Wallet(BaseModel):
+    wallet_id: str
     """A unique ID identifying the e-wallet"""
 
-    wallet_id: str
-    """An object representing the e-wallet balance"""
     balance: WalletBalance
-    """An object representing the e-wallet account numbers"""
+    """An object representing the e-wallet balance"""
+
     numbers: WalletNumbers
+    """An object representing the e-wallet account numbers"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -5,11 +5,11 @@ from .connected_application import ConnectedApplication
 
 
 class ItemApplicationListResponse(BaseModel):
+    request_id: Optional[str] = None
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
-    request_id: Optional[str] = None
-    """A list of connected applications."""
     applications: List[ConnectedApplication]
+    """A list of connected applications."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class ItemApplicationListResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ItemApplicationListResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ItemApplicationListResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

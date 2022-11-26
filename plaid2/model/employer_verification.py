@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, Field
 
 
 class EmployerVerification(BaseModel):
+    name_: Optional[str] = Field(default=None, alias="name")
     """Name of employer."""
-
-    name: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

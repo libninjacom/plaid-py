@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PaymentAmount(BaseModel):
-    """The amount of the payment. Must contain at most two digits of precision e.g. `1.23`. Minimum accepted value is `1`."""
+    currency: str
+    """The ISO-4217 currency code of the payment. For standing orders and payment consents, `"GBP"` must be used."""
 
     value: float
-    """The ISO-4217 currency code of the payment. For standing orders and payment consents, `"GBP"` must be used."""
-    currency: str
+    """The amount of the payment. Must contain at most two digits of precision e.g. `1.23`. Minimum accepted value is `1`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

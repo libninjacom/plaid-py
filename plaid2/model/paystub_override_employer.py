@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, Field
 
 
 class PaystubOverrideEmployer(BaseModel):
+    name_: Optional[str] = Field(default=None, alias="name")
     """The name of the employer."""
-
-    name: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +22,6 @@ class PaystubOverrideEmployer(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaystubOverrideEmployer":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaystubOverrideEmployer":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

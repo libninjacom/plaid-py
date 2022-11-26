@@ -4,25 +4,32 @@ from pydantic import BaseModel, Field
 
 
 class JwkPublicKey(BaseModel):
-    """The alg member identifies the cryptographic algorithm family used with the key."""
+    crv: str
+    """The crv member identifies the cryptographic curve used with the key."""
+
+    y: str
+    """The y member contains the y coordinate for the elliptic curve point."""
+
+    x: str
+    """The x member contains the x coordinate for the elliptic curve point."""
+
+    created_at: int
+    """The timestamp when the key was created, in Unix time."""
+
+    use: str
+    """The use (public key use) parameter identifies the intended use of the public key."""
+
+    kid: str
+    """The kid (Key ID) member can be used to match a specific key. This can be used, for instance, to choose among a set of keys within the JWK during key rollover."""
 
     alg: str
-    """The kty (key type) parameter identifies the cryptographic algorithm family used with the key, such as RSA or EC."""
+    """The alg member identifies the cryptographic algorithm family used with the key."""
+
     kty: str
-    """The x member contains the x coordinate for the elliptic curve point."""
-    x: str
-    """The y member contains the y coordinate for the elliptic curve point."""
-    y: str
-    """The timestamp when the key expired, in Unix time."""
+    """The kty (key type) parameter identifies the cryptographic algorithm family used with the key, such as RSA or EC."""
+
     expired_at: Optional[int] = None
-    """The kid (Key ID) member can be used to match a specific key. This can be used, for instance, to choose among a set of keys within the JWK during key rollover."""
-    kid: str
-    """The timestamp when the key was created, in Unix time."""
-    created_at: int
-    """The crv member identifies the cryptographic curve used with the key."""
-    crv: str
-    """The use (public key use) parameter identifies the intended use of the public key."""
-    use: str
+    """The timestamp when the key expired, in Unix time."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

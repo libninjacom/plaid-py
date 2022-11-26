@@ -6,10 +6,11 @@ from .credit_employment_verification import CreditEmploymentVerification
 
 class CreditEmploymentItem(BaseModel):
     employments: List[CreditEmploymentVerification]
-    """A reference id to reference what payroll data was returned from this endpoint"""
     pull_id: str
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """A reference id to reference what payroll data was returned from this endpoint"""
+
     item_id: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

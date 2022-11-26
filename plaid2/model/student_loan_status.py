@@ -4,12 +4,12 @@ from pydantic import BaseModel, Field
 
 
 class StudentLoanStatus(BaseModel):
-    """The status type of the student loan"""
-
-    type: Optional[str] = None
+    end_date: Optional[str] = None
     """The date until which the loan will be in its current status. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD).
     """
-    end_date: Optional[str] = None
+
+    type: Optional[str] = None
+    """The status type of the student loan"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

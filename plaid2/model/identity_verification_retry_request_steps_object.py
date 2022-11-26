@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationRetryRequestStepsObject(BaseModel):
-    """A boolean field specifying whether the new session should require or skip the `verify_sms` step."""
+    documentary_verification: bool
+    """A boolean field specifying whether the new session should require or skip the `documentary_verification` step."""
+
+    selfie_check: bool
+    """A boolean field specifying whether the new session should require or skip the `selfie_check` step."""
 
     verify_sms: bool
-    """A boolean field specifying whether the new session should require or skip the `documentary_verification` step."""
-    documentary_verification: bool
-    """A boolean field specifying whether the new session should require or skip the `kyc_check` step."""
+    """A boolean field specifying whether the new session should require or skip the `verify_sms` step."""
+
     kyc_check: bool
-    """A boolean field specifying whether the new session should require or skip the `selfie_check` step."""
-    selfie_check: bool
+    """A boolean field specifying whether the new session should require or skip the `kyc_check` step."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class IdentityVerificationRetryRequestStepsObject(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IdentityVerificationRetryRequestStepsObject":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IdentityVerificationRetryRequestStepsObject":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

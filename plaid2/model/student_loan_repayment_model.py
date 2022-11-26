@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class StudentLoanRepaymentModel(BaseModel):
+    non_repayment_months: float
     """Configures the number of months before repayment starts."""
 
-    non_repayment_months: float
-    """Configures the number of months of repayments before the loan is paid off."""
-    repayment_months: float
-    """The only currently supported value for this field is `standard`."""
     type: str
+    """The only currently supported value for this field is `standard`."""
+
+    repayment_months: float
+    """Configures the number of months of repayments before the loan is paid off."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class StudentLoanRepaymentModel(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "StudentLoanRepaymentModel":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "StudentLoanRepaymentModel":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 from .item_status import ItemStatus
 
 
 class ItemStatusNullable(BaseModel):
-    """An object with information about the status of the Item."""
-
     item_status: Optional[ItemStatus] = None
+    """An object with information about the status of the Item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

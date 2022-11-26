@@ -4,19 +4,22 @@ from pydantic import BaseModel, Field
 
 
 class PayStubDeductionsBreakdown(BaseModel):
-    """Raw amount of the deduction"""
-
-    current_amount: Optional[float] = None
-    """Description of the deduction line item"""
-    description: Optional[str] = None
-    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
     iso_currency_code: Optional[str] = None
+    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
+
+    unofficial_currency_code: Optional[str] = None
     """The unofficial currency code associated with the line item. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
     
     See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s."""
-    unofficial_currency_code: Optional[str] = None
-    """The year-to-date amount of the deduction"""
+
+    description: Optional[str] = None
+    """Description of the deduction line item"""
+
+    current_amount: Optional[float] = None
+    """Raw amount of the deduction"""
+
     ytd_amount: Optional[float] = None
+    """The year-to-date amount of the deduction"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +37,6 @@ class PayStubDeductionsBreakdown(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PayStubDeductionsBreakdown":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PayStubDeductionsBreakdown":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class NumbersBacs(BaseModel):
-    """The Plaid account ID associated with the account numbers"""
+    sort_code: str
+    """The BACS sort code for the account"""
 
     account_id: str
-    """The BACS account number for the account"""
+    """The Plaid account ID associated with the account numbers"""
+
     account: str
-    """The BACS sort code for the account"""
-    sort_code: str
+    """The BACS account number for the account"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

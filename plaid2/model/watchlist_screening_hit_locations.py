@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningHitLocations(BaseModel):
-    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
+    full: str
+    """The full location string, potentially including elements like street, city, postal codes and country codes. Note that this is not necessarily a complete or well-formatted address."""
 
     country: str
-    """The full location string, potentially including elements like street, city, postal codes and country codes. Note that this is not necessarily a complete or well-formatted address."""
-    full: str
+    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class WatchlistScreeningHitLocations(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WatchlistScreeningHitLocations":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WatchlistScreeningHitLocations":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

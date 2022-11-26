@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferMigrateAccountRequest(BaseModel):
-    """The type of the bank account (`checking` or `savings`)."""
+    wire_routing_number: Optional[str] = None
+    """The user's wire transfer routing number. This is the ABA number; for some institutions, this may differ from the ACH number used in `routing_number`."""
+
+    account_number: str
+    """The user's account number."""
+
+    routing_number: str
+    """The user's routing number."""
 
     account_type: str
-    """The user's account number."""
-    account_number: str
-    """The user's routing number."""
-    routing_number: str
-    """The user's wire transfer routing number. This is the ABA number; for some institutions, this may differ from the ACH number used in `routing_number`."""
-    wire_routing_number: Optional[str] = None
+    """The type of the bank account (`checking` or `savings`)."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class BankTransferMigrateAccountRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "BankTransferMigrateAccountRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "BankTransferMigrateAccountRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

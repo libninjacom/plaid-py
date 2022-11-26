@@ -2,13 +2,18 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class CreditDocumentMetadata(BaseModel):
-    """Signed URL to retrieve the underlying file."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
-    download_url: Optional[str] = None
+    name_: str
     """The name of the document."""
-    name: str
+
+    document_type: Optional[str] = None
     """The type of document.
     
     `PAYSTUB`: A paystub.
@@ -28,9 +33,12 @@ class CreditDocumentMetadata(BaseModel):
     `NONE`: Used to indicate that there is no underlying document for the data.
     
     `UNKNOWN`: Document type could not be determined."""
-    document_type: Optional[str] = None
-    """The processing status of the document."""
+
     status: Optional[str] = None
+    """The processing status of the document."""
+
+    download_url: Optional[str] = None
+    """Signed URL to retrieve the underlying file."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

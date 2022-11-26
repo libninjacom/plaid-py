@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 from .auth_supported_methods import AuthSupportedMethods
 
 
 class AuthMetadata(BaseModel):
-    """Metadata specifically related to which auth methods an institution supports."""
-
     supported_methods: Optional[AuthSupportedMethods] = None
+    """Metadata specifically related to which auth methods an institution supports."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

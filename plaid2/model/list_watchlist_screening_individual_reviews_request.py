@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ListWatchlistScreeningIndividualReviewsRequest(BaseModel):
-    """An identifier that determines which page of results you receive."""
+    watchlist_screening_id: str
+    """ID of the associated screening."""
 
     cursor: Optional[str] = None
-    """ID of the associated screening."""
-    watchlist_screening_id: str
+    """An identifier that determines which page of results you receive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class ListWatchlistScreeningIndividualReviewsRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ListWatchlistScreeningIndividualReviewsRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ListWatchlistScreeningIndividualReviewsRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

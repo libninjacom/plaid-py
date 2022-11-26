@@ -4,23 +4,29 @@ from pydantic import BaseModel, Field
 
 
 class Location(BaseModel):
-    """The region or state where the transaction occurred. In API versions 2018-05-22 and earlier, this field is called `state`."""
+    lat: Optional[float] = None
+    """The latitude where the transaction occurred."""
+
+    store_number: Optional[str] = None
+    """The merchant defined store number where the transaction occurred."""
+
+    postal_code: Optional[str] = None
+    """The postal code where the transaction occurred. In API versions 2018-05-22 and earlier, this field is called `zip`."""
+
+    city: Optional[str] = None
+    """The city where the transaction occurred."""
 
     region: Optional[str] = None
-    """The city where the transaction occurred."""
-    city: Optional[str] = None
-    """The postal code where the transaction occurred. In API versions 2018-05-22 and earlier, this field is called `zip`."""
-    postal_code: Optional[str] = None
-    """The street address where the transaction occurred."""
-    address: Optional[str] = None
-    """The longitude where the transaction occurred."""
+    """The region or state where the transaction occurred. In API versions 2018-05-22 and earlier, this field is called `state`."""
+
     lon: Optional[float] = None
-    """The ISO 3166-1 alpha-2 country code where the transaction occurred."""
+    """The longitude where the transaction occurred."""
+
     country: Optional[str] = None
-    """The latitude where the transaction occurred."""
-    lat: Optional[float] = None
-    """The merchant defined store number where the transaction occurred."""
-    store_number: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code where the transaction occurred."""
+
+    address: Optional[str] = None
+    """The street address where the transaction occurred."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

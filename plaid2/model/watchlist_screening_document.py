@@ -4,9 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningDocument(BaseModel):
-    """The numeric or alphanumeric identifier associated with this document."""
-
-    number: str
+    type: str
     """The kind of official document represented by this object.
     
     `birth_certificate` - A certificate of birth
@@ -34,7 +32,9 @@ class WatchlistScreeningDocument(BaseModel):
     `travel_document` - Visas, entry permits, refugee documents, etc.
     
     `voter_id` - Identification issued for the purpose of voting"""
-    type: str
+
+    number: str
+    """The numeric or alphanumeric identifier associated with this document."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -52,8 +52,6 @@ class WatchlistScreeningDocument(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WatchlistScreeningDocument":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WatchlistScreeningDocument":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

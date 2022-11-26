@@ -5,11 +5,11 @@ from .client_provided_raw_transaction import ClientProvidedRawTransaction
 
 
 class TransactionsEnhanceGetRequest(BaseModel):
+    account_type: str
     """The type of account for the requested transactions (`depository` or `credit`)."""
 
-    account_type: str
-    """An array of raw transactions to be enhanced."""
     transactions: List[ClientProvidedRawTransaction]
+    """An array of raw transactions to be enhanced."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class TransactionsEnhanceGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsEnhanceGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsEnhanceGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -5,21 +5,24 @@ from .transactions_rule_details import TransactionsRuleDetails
 
 
 class TransactionsCategoryRule(BaseModel):
-    """A unique identifier of the rule created"""
+    item_id: Optional[str] = None
+    """A unique identifier of the item the rule was created for"""
 
-    id: Optional[str] = None
+    created_at: Optional[str] = None
+    """Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ).
+    """
+
+    personal_finance_category: Optional[str] = None
     """Personal finance category unique identifier.
     
     In the personal finance category taxonomy, this field is represented by the detailed category field.
     """
-    personal_finance_category: Optional[str] = None
-    """A representation of transactions rule details."""
+
+    id: Optional[str] = None
+    """A unique identifier of the rule created"""
+
     rule_details: Optional[TransactionsRuleDetails] = None
-    """A unique identifier of the item the rule was created for"""
-    item_id: Optional[str] = None
-    """Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ).
-    """
-    created_at: Optional[str] = None
+    """A representation of transactions rule details."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -37,8 +40,6 @@ class TransactionsCategoryRule(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsCategoryRule":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsCategoryRule":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -1,22 +1,20 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .credit_filter import CreditFilter
-from .depository_filter import DepositoryFilter
-from .investment_filter import InvestmentFilter
-from .loan_filter import LoanFilter
 
 
 class AccountFiltersResponse(BaseModel):
+    loan: Optional[List[str]] = None
     """A filter to apply to `loan`-type accounts"""
 
-    loan: Optional[LoanFilter] = None
-    """A filter to apply to `credit`-type accounts"""
-    credit: Optional[CreditFilter] = None
-    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
-    investment: Optional[InvestmentFilter] = None
+    depository: Optional[List[str]] = None
     """A filter to apply to `depository`-type accounts"""
-    depository: Optional[DepositoryFilter] = None
+
+    investment: Optional[List[str]] = None
+    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
+
+    credit: Optional[List[str]] = None
+    """A filter to apply to `credit`-type accounts"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -5,9 +5,8 @@ from .client_provided_enhanced_transaction import ClientProvidedEnhancedTransact
 
 
 class TransactionsEnhanceGetResponse(BaseModel):
-    """An array of enhanced transactions."""
-
     enhanced_transactions: List[ClientProvidedEnhancedTransaction]
+    """An array of enhanced transactions."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +24,6 @@ class TransactionsEnhanceGetResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsEnhanceGetResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsEnhanceGetResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

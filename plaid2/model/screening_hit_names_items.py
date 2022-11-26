@@ -2,15 +2,14 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 from .individual_screening_hit_names import IndividualScreeningHitNames
-from .match_summary import MatchSummary
 
 
 class ScreeningHitNamesItems(BaseModel):
-    """Summary object reflecting the match result of the associated data"""
-
-    analysis: Optional[MatchSummary] = None
-    """Name information for the associated individual watchlist hit"""
     data: Optional[IndividualScreeningHitNames] = None
+    """Name information for the associated individual watchlist hit"""
+
+    analysis: Optional[str] = None
+    """Summary object reflecting the match result of the associated data"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

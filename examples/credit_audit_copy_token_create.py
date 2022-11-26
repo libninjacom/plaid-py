@@ -1,6 +1,15 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+report_tokens = [
+    ReportToken(
+        report_type="your report type",
+        token="your token",
+    )
+]
+auditor_id = "your auditor id"
 
 
 def main():
@@ -15,13 +24,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-report_tokens = [
-    ReportToken(
-        report_type="your report type",
-        token="your token",
-    )
-]
-auditor_id = "your auditor id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

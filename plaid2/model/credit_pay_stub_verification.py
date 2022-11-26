@@ -6,8 +6,8 @@ from .pay_stub_verification_attribute import PayStubVerificationAttribute
 
 class CreditPayStubVerification(BaseModel):
     verification_attributes: List[PayStubVerificationAttribute]
-    """Derived verification status."""
     verification_status: Optional[str] = None
+    """Derived verification status."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +25,6 @@ class CreditPayStubVerification(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditPayStubVerification":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditPayStubVerification":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

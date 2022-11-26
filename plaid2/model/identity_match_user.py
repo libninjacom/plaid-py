@@ -1,19 +1,21 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .address_data_nullable import AddressDataNullable
+from .address_data import AddressData
 
 
 class IdentityMatchUser(BaseModel):
+    phone_number: Optional[str] = None
     """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567". Phone numbers provided in other formats will be parsed on a best-effort basis."""
 
-    phone_number: Optional[str] = None
+    address: Optional[AddressData] = None
     """Data about the components comprising an address."""
-    address: Optional[AddressDataNullable] = None
-    """The user's email address."""
-    email_address: Optional[str] = None
-    """The user's full legal name."""
+
     legal_name: Optional[str] = None
+    """The user's full legal name."""
+
+    email_address: Optional[str] = None
+    """The user's email address."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

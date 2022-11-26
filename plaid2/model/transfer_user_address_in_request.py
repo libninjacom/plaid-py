@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class TransferUserAddressInRequest(BaseModel):
-    """A two-letter country code (e.g., "US")."""
+    postal_code: Optional[str] = None
+    """The postal code (e.g., "94103")."""
+
+    region: Optional[str] = None
+    """The state or province (e.g., "CA")."""
 
     country: Optional[str] = None
-    """The street number and name (i.e., "100 Market St.")."""
+    """A two-letter country code (e.g., "US")."""
+
     street: Optional[str] = None
-    """Ex. "San Francisco" """
+    """The street number and name (i.e., "100 Market St.")."""
+
     city: Optional[str] = None
-    """The state or province (e.g., "CA")."""
-    region: Optional[str] = None
-    """The postal code (e.g., "94103")."""
-    postal_code: Optional[str] = None
+    """Ex. "San Francisco" """
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -32,8 +35,6 @@ class TransferUserAddressInRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferUserAddressInRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferUserAddressInRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

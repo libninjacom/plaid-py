@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferEventSyncRequest(BaseModel):
-    """The latest (largest) `event_id` fetched via the sync endpoint, or 0 initially."""
+    count: Optional[int] = None
+    """The maximum number of bank transfer events to return."""
 
     after_id: int
-    """The maximum number of bank transfer events to return."""
-    count: Optional[int] = None
+    """The latest (largest) `event_id` fetched via the sync endpoint, or 0 initially."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class BankTransferEventSyncRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "BankTransferEventSyncRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "BankTransferEventSyncRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

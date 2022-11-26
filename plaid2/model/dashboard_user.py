@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class DashboardUser(BaseModel):
-    """The current status of the user."""
+    created_at: str
+    """An ISO8601 formatted timestamp."""
+
+    email_address: str
+    """A valid email address."""
+
+    id: str
+    """ID of the associated user."""
 
     status: str
-    """ID of the associated user."""
-    id: str
-    """An ISO8601 formatted timestamp."""
-    created_at: str
-    """A valid email address."""
-    email_address: str
+    """The current status of the user."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,21 +1,19 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .transactions_recurring_get_request_options import (
-    TransactionsRecurringGetRequestOptions,
-)
 
 
 class TransactionsRecurringGetRequest(BaseModel):
-    """The access token associated with the Item data is being requested for."""
-
-    access_token: str
-    """An optional object to be used with the request. If specified, `options` must not be `null`."""
-    options: Optional[TransactionsRecurringGetRequestOptions] = None
+    account_ids: List[str]
     """A list of `account_ids` to retrieve for the Item
     
     Note: An error will be returned if a provided `account_id` is not associated with the Item."""
-    account_ids: List[str]
+
+    options: Optional[bool] = None
+    """An optional object to be used with the request. If specified, `options` must not be `null`."""
+
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +31,6 @@ class TransactionsRecurringGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsRecurringGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsRecurringGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -5,22 +5,26 @@ from .credit_bank_income_transaction import CreditBankIncomeTransaction
 
 
 class CreditBankIncomeHistoricalSummary(BaseModel):
-    transactions: Optional[List[CreditBankIncomeTransaction]] = None
-    """The ISO 4217 currency code of the amount or balance."""
-    iso_currency_code: Optional[str] = None
-    """The end date of the period included in this monthly summary.
-    This date will be the last day of the month, unless the month being covered is a partial month because it is the last month included in the summary and the date range being requested does not end with the last day of the month.
-    The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
-    end_date: Optional[str] = None
+    start_date: Optional[str] = None
     """The start date of the period covered in this monthly summary.
     This date will be the first day of the month, unless the month being covered is a partial month because it is the first month included in the summary and the date range being requested does not begin with the first day of the month.
     The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
-    start_date: Optional[str] = None
-    """Total amount of earnings for the income source(s) of the user for the month in the summary."""
+
     total_amount: Optional[float] = None
+    """Total amount of earnings for the income source(s) of the user for the month in the summary."""
+
+    unofficial_currency_code: Optional[str] = None
     """The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null.
     Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries."""
-    unofficial_currency_code: Optional[str] = None
+
+    end_date: Optional[str] = None
+    """The end date of the period included in this monthly summary.
+    This date will be the last day of the month, unless the month being covered is a partial month because it is the last month included in the summary and the date range being requested does not end with the last day of the month.
+    The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
+
+    transactions: Optional[List[CreditBankIncomeTransaction]] = None
+    iso_currency_code: Optional[str] = None
+    """The ISO 4217 currency code of the amount or balance."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -38,8 +42,6 @@ class CreditBankIncomeHistoricalSummary(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditBankIncomeHistoricalSummary":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditBankIncomeHistoricalSummary":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

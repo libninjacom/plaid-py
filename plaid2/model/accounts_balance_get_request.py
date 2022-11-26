@@ -5,11 +5,11 @@ from .accounts_balance_get_request_options import AccountsBalanceGetRequestOptio
 
 
 class AccountsBalanceGetRequest(BaseModel):
+    access_token: str
     """The access token associated with the Item data is being requested for."""
 
-    access_token: str
-    """An optional object to filter `/accounts/balance/get` results."""
     options: Optional[AccountsBalanceGetRequestOptions] = None
+    """An optional object to filter `/accounts/balance/get` results."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class AccountsBalanceGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AccountsBalanceGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AccountsBalanceGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

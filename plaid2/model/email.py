@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class Email(BaseModel):
-    """The email address."""
+    type: str
+    """The type of email account as described by the financial institution."""
 
     data: str
-    """When `true`, identifies the email address as the primary email on an account."""
+    """The email address."""
+
     primary: bool
-    """The type of email account as described by the financial institution."""
-    type: str
+    """When `true`, identifies the email address as the primary email on an account."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

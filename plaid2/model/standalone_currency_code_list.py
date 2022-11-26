@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class StandaloneCurrencyCodeList(BaseModel):
-    """List of unofficial currency codes"""
+    iso_currency_code: str
+    """Plaid supports all ISO 4217 currency codes."""
 
     unofficial_currency_code: str
-    """Plaid supports all ISO 4217 currency codes."""
-    iso_currency_code: str
+    """List of unofficial currency codes"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class StandaloneCurrencyCodeList(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "StandaloneCurrencyCodeList":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "StandaloneCurrencyCodeList":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

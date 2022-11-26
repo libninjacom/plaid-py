@@ -15,30 +15,39 @@ from .paystub_ytd_details import PaystubYtdDetails
 
 
 class Paystub(BaseModel):
-    """An object representing details that can be found on the paystub."""
+    earnings: Earnings
+    """An object representing both a breakdown of earnings on a paystub and the total earnings."""
+
+    employment_details: Optional[EmploymentDetails] = None
+    """An object representing employment details found on a paystub."""
+
+    employer: PaystubEmployer
+    """Information about the employer on the paystub"""
+
+    pay_period_details: PayPeriodDetails
+    """Details about the pay period."""
+
+    net_pay: NetPay
+    """An object representing information about the net pay amount on the paystub."""
 
     paystub_details: Optional[PaystubDetails] = None
-    """The amount of income earned year to date, as based on paystub data."""
-    ytd_earnings: Optional[PaystubYtdDetails] = None
-    """An object representing both a breakdown of earnings on a paystub and the total earnings."""
-    earnings: Earnings
-    income_breakdown: Optional[List[IncomeBreakdown]] = None
-    """An object with the deduction information found on a paystub."""
+    """An object representing details that can be found on the paystub."""
+
     deductions: Deductions
-    """An object representing information about the net pay amount on the paystub."""
-    net_pay: NetPay
-    """An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
-    verification: Optional[PaystubVerification] = None
-    """An object representing employment details found on a paystub."""
-    employment_details: Optional[EmploymentDetails] = None
-    """Information about the employer on the paystub"""
-    employer: PaystubEmployer
-    """An identifier of the document referenced by the document metadata."""
-    doc_id: str
-    """Data about the employee."""
+    """An object with the deduction information found on a paystub."""
+
+    income_breakdown: Optional[List[IncomeBreakdown]] = None
     employee: Employee
-    """Details about the pay period."""
-    pay_period_details: PayPeriodDetails
+    """Data about the employee."""
+
+    doc_id: str
+    """An identifier of the document referenced by the document metadata."""
+
+    ytd_earnings: Optional[PaystubYtdDetails] = None
+    """The amount of income earned year to date, as based on paystub data."""
+
+    verification: Optional[PaystubVerification] = None
+    """An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

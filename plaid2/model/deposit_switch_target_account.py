@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchTargetAccount(BaseModel):
-    """The account subtype of the account, either `checking` or `savings`."""
+    account_number: str
+    """Account number for deposit switch destination"""
 
     account_subtype: str
-    """Routing number for deposit switch destination"""
+    """The account subtype of the account, either `checking` or `savings`."""
+
     routing_number: str
-    """The name of the deposit switch destination account, as it will be displayed to the end user in the Deposit Switch interface. It is not required to match the name used in online banking."""
+    """Routing number for deposit switch destination"""
+
     account_name: str
-    """Account number for deposit switch destination"""
-    account_number: str
+    """The name of the deposit switch destination account, as it will be displayed to the end user in the Deposit Switch interface. It is not required to match the name used in online banking."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class DepositSwitchTargetAccount(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchTargetAccount":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchTargetAccount":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

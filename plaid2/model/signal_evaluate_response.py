@@ -6,9 +6,13 @@ from .signal_scores import SignalScores
 
 
 class SignalEvaluateResponse(BaseModel):
-    """Risk scoring details broken down by risk category."""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     scores: SignalScores
+    """Risk scoring details broken down by risk category."""
+
+    core_attributes: Optional[SignalEvaluateCoreAttributes] = None
     """The core attributes object contains additional data that can be used to assess the ACH return risk. Examples of data include:
     
     `days_since_first_plaid_connection`: The number of days since the first time the Item was connected to an application via Plaid
@@ -18,9 +22,6 @@ class SignalEvaluateResponse(BaseModel):
     `is_savings_or_money_market_account`: Indicates whether the ACH transaction funding account is a savings/money market account
     
     For the full list and detailed documentation of core attributes available, or to request that core attributes not be returned, contact Sales or your Plaid account manager"""
-    core_attributes: Optional[SignalEvaluateCoreAttributes] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,12 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class ProcessorAuthGetRequest(BaseModel):
-    """The processor token obtained from the Plaid integration partner. Processor tokens are in the format: `processor-<environment>-<identifier>`"""
-
     processor_token: str
+    """The processor token obtained from the Plaid integration partner. Processor tokens are in the format:
+    `processor-<environment>-<identifier>`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +23,6 @@ class ProcessorAuthGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProcessorAuthGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProcessorAuthGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

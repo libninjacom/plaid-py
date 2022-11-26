@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class W2Box12(BaseModel):
+    code: Optional[str] = None
     """W2 Box 12 code."""
 
-    code: Optional[str] = None
-    """W2 Box 12 amount."""
     amount: Optional[str] = None
+    """W2 Box 12 amount."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

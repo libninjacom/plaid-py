@@ -1,18 +1,15 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .wallet_transaction_counterparty_bacs import WalletTransactionCounterpartyBacs
-from .wallet_transaction_counterparty_international import (
-    WalletTransactionCounterpartyInternational,
-)
+from .recipient_bacs import RecipientBacs
 
 
 class WalletTransactionCounterpartyNumbers(BaseModel):
-    """The account number and sort code of the counterparty's account"""
-
-    bacs: Optional[WalletTransactionCounterpartyBacs] = None
+    international: Optional[str] = None
     """International Bank Account Number for a Wallet Transaction"""
-    international: Optional[WalletTransactionCounterpartyInternational] = None
+
+    bacs: Optional[RecipientBacs] = None
+    """The account number and sort code of the counterparty's account"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +27,6 @@ class WalletTransactionCounterpartyNumbers(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WalletTransactionCounterpartyNumbers":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WalletTransactionCounterpartyNumbers":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

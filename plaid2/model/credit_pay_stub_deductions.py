@@ -6,9 +6,9 @@ from .pay_stub_deductions_total import PayStubDeductionsTotal
 
 
 class CreditPayStubDeductions(BaseModel):
+    total: PayStubDeductionsTotal
     """An object representing the total deductions for the pay period"""
 
-    total: PayStubDeductionsTotal
     breakdown: List[PayStubDeductionsBreakdown]
 
     def json(self, **kwargs: Any) -> str:
@@ -27,8 +27,6 @@ class CreditPayStubDeductions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditPayStubDeductions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditPayStubDeductions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

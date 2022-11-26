@@ -5,4 +5,4 @@ from pydantic import BaseModel, Field
 
 class TransactionsRuleField(str, Enum):
     transaction_id = "TRANSACTION_ID"
-    name = "NAME"
+    name_ = "NAME"

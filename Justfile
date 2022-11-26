@@ -1,5 +1,8 @@
 export PATH := "./.venv/bin:" + env_var('PATH')
 
+help:
+    @just --list --unsorted
+
 example ARG:
     go run {{ARG}}
 
@@ -31,12 +34,15 @@ lint:
     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --ignore=F401,E501,F841,W503 --exclude=__pypackages__,.venv
 
 doc:
-    mkdir -p docs/
-    fd -e rst . docs/ -x rm
-    pandoc README.md -o docs/index.rst
-    sphinx-apidoc -o docs plaid2/
+    # mkdir -p docs/
+    # fd -e rst . docs/ -x rm
+    # pandoc README.md -o docs/index.rst
+    # sphinx-apidoc -o docs plaid2/ -e
     sphinx-build docs _build
 
 open:
     open http://localhost:8000
     python3 -m http.server --directory _build
+
+shell:
+    pdm run ipython3 -i -c "from plaid2 import *"

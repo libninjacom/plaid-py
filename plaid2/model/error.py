@@ -4,29 +4,36 @@ from pydantic import BaseModel, Field
 
 
 class Error(BaseModel):
-    """A user-friendly representation of the error code. `null` if the error is not related to user action.
+    status: Optional[float] = None
+    """The HTTP status code associated with the error. This will only be returned in the response body when the error information is provided via a webhook."""
 
-    This may change over time and is not safe for programmatic use."""
-
-    display_message: Optional[str] = None
+    causes: Optional[List[Any]] = None
     """In the Assets product, a request can pertain to more than one Item. If an error is returned for such a request, `causes` will return an array of errors containing a breakdown of these errors on the individual Item level, if any can be identified.
     
     `causes` will only be provided for the `error_type` `ASSET_REPORT_ERROR`. `causes` will also not be populated inside an error nested within a `warning` object."""
-    causes: Optional[List[Any]] = None
-    """A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use."""
-    error_message: str
-    """The HTTP status code associated with the error. This will only be returned in the response body when the error information is provided via a webhook."""
-    status: Optional[float] = None
-    """A broad categorization of the error. Safe for programmatic use."""
+
+    display_message: Optional[str] = None
+    """A user-friendly representation of the error code. `null` if the error is not related to user action.
+    
+    This may change over time and is not safe for programmatic use."""
+
     error_type: str
-    """The URL of a Plaid documentation page with more information about the error"""
-    documentation_url: Optional[str] = None
-    """The particular error code. Safe for programmatic use."""
-    error_code: str
-    """A unique ID identifying the request, to be used for troubleshooting purposes. This field will be omitted in errors provided by webhooks."""
+    """A broad categorization of the error. Safe for programmatic use."""
+
     request_id: Optional[str] = None
-    """Suggested steps for resolving the error"""
+    """A unique ID identifying the request, to be used for troubleshooting purposes. This field will be omitted in errors provided by webhooks."""
+
+    documentation_url: Optional[str] = None
+    """The URL of a Plaid documentation page with more information about the error"""
+
+    error_code: str
+    """The particular error code. Safe for programmatic use."""
+
+    error_message: str
+    """A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use."""
+
     suggested_action: Optional[str] = None
+    """Suggested steps for resolving the error"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

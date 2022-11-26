@@ -3,21 +3,31 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .credit_pay_stub_address import CreditPayStubAddress
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class Credit1099Recipient(BaseModel):
-    """Checked if 2nd TIN exists."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    name_: Optional[str] = None
+    """Name of recipient."""
+
+    address: Optional[CreditPayStubAddress] = None
+    """Address on the pay stub."""
+
+    facta_filing_requirement: Optional[str] = None
+    """Checked if FACTA is a filing requirement."""
+
+    tin: Optional[str] = None
+    """Tax identification number of recipient."""
 
     second_tin_exists: Optional[str] = None
-    """Checked if FACTA is a filing requirement."""
-    facta_filing_requirement: Optional[str] = None
-    """Name of recipient."""
-    name: Optional[str] = None
-    """Tax identification number of recipient."""
-    tin: Optional[str] = None
-    """Address on the pay stub."""
-    address: Optional[CreditPayStubAddress] = None
-    """Account number number of recipient."""
+    """Checked if 2nd TIN exists."""
+
     account_number: Optional[str] = None
+    """Account number number of recipient."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

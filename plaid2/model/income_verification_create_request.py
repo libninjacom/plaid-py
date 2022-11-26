@@ -1,19 +1,17 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .income_verification_create_request_options import (
-    IncomeVerificationCreateRequestOptions,
-)
 
 
 class IncomeVerificationCreateRequest(BaseModel):
-    """The ID of a precheck created with `/income/verification/precheck`. Will be used to improve conversion of the income verification flow."""
+    webhook: str
+    """The URL endpoint to which Plaid should send webhooks related to the progress of the income verification process."""
+
+    options: Optional[List[str]] = None
+    """Optional arguments for `/income/verification/create`"""
 
     precheck_id: Optional[str] = None
-    """The URL endpoint to which Plaid should send webhooks related to the progress of the income verification process."""
-    webhook: str
-    """Optional arguments for `/income/verification/create`"""
-    options: Optional[IncomeVerificationCreateRequestOptions] = None
+    """The ID of a precheck created with `/income/verification/precheck`. Will be used to improve conversion of the income verification flow."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -31,8 +29,6 @@ class IncomeVerificationCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

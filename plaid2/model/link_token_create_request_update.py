@@ -1,12 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 
 
 class LinkTokenCreateRequestUpdate(BaseModel):
-    """If `true`, enables [update mode with Account Select](https://plaid.com/docs/link/update-mode/#using-update-mode-to-request-new-accounts)."""
-
     account_selection_enabled: Optional[bool] = None
+    """If `true`, enables [update mode with Account Select](https://plaid.com/docs/link/update-mode/#using-update-
+    mode-to-request-new-accounts)."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +23,6 @@ class LinkTokenCreateRequestUpdate(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateRequestUpdate":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateRequestUpdate":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

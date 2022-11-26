@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class WalletBalance(BaseModel):
-    """The ISO-4217 currency code of the balance"""
+    current: float
+    """The total amount of funds in the account"""
 
     iso_currency_code: str
-    """The total amount of funds in the account"""
-    current: float
+    """The ISO-4217 currency code of the balance"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportRelayCreateResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    asset_relay_token: str
+    """A token that can be shared with a third party to allow them to access the Asset Report. This token should be stored securely."""
 
     request_id: str
-    """A token that can be shared with a third party to allow them to access the Asset Report. This token should be stored securely."""
-    asset_relay_token: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class AssetReportRelayCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportRelayCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportRelayCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

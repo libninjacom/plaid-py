@@ -5,15 +5,17 @@ from .deposit_switch_create_request_options import DepositSwitchCreateRequestOpt
 
 
 class DepositSwitchCreateRequest(BaseModel):
-    """ISO-3166-1 alpha-2 country code standard."""
+    target_account_id: str
+    """Plaid Account ID that specifies the target bank account. This account will become the recipient for a user's direct deposit."""
+
+    options: Optional[DepositSwitchCreateRequestOptions] = None
+    """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
 
     country_code: Optional[str] = None
-    """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
-    options: Optional[DepositSwitchCreateRequestOptions] = None
-    """Plaid Account ID that specifies the target bank account. This account will become the recipient for a user's direct deposit."""
-    target_account_id: str
-    """Access token for the target Item, typically provided in the Import Item response. """
+    """ISO-3166-1 alpha-2 country code standard."""
+
     target_access_token: str
+    """Access token for the target Item, typically provided in the Import Item response. """
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -31,8 +33,6 @@ class DepositSwitchCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

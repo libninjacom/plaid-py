@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class AccountFilter(BaseModel):
+    depository: Optional[List[str]] = None
     """A list of account subtypes to be filtered."""
 
     credit: Optional[List[str]] = None
     """A list of account subtypes to be filtered."""
+
     loan: Optional[List[str]] = None
     """A list of account subtypes to be filtered."""
-    depository: Optional[List[str]] = None
-    """A list of account subtypes to be filtered."""
+
     investment: Optional[List[str]] = None
+    """A list of account subtypes to be filtered."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

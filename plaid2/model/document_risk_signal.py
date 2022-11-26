@@ -1,27 +1,29 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .document_risk_signal_institution_metadata import (
-    DocumentRiskSignalInstitutionMetadata,
-)
 
 
 class DocumentRiskSignal(BaseModel):
+    signal_description: Optional[str] = None
+    """A human-readable explanation providing more detail into the particular risk signal"""
+
+    actual_value: Optional[str] = None
+    """The derived value obtained in the risk signal calculation process for this field"""
+
+    has_fraud_risk: Optional[bool] = None
+    """A flag used to quickly identify if the signal indicates that this field is authentic or fraudulent"""
+
+    institution_metadata: Optional[str] = None
     """An object which contains additional metadata about the institution used to compute the verification attribute"""
 
-    institution_metadata: Optional[DocumentRiskSignalInstitutionMetadata] = None
-    """A human-readable explanation providing more detail into the particular risk signal"""
-    signal_description: Optional[str] = None
-    """A flag used to quickly identify if the signal indicates that this field is authentic or fraudulent"""
-    has_fraud_risk: Optional[bool] = None
-    """The result from the risk signal check."""
-    type: Optional[str] = None
-    """The field which the risk signal was computed for"""
     field: Optional[str] = None
-    """The expected value of the field, as seen on the document"""
+    """The field which the risk signal was computed for"""
+
     expected_value: Optional[str] = None
-    """The derived value obtained in the risk signal calculation process for this field"""
-    actual_value: Optional[str] = None
+    """The expected value of the field, as seen on the document"""
+
+    type: Optional[str] = None
+    """The result from the risk signal check."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

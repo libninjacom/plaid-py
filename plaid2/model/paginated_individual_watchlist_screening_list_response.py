@@ -5,13 +5,14 @@ from .watchlist_screening_individual import WatchlistScreeningIndividual
 
 
 class PaginatedIndividualWatchlistScreeningListResponse(BaseModel):
-    """List of individual watchlist screenings"""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    next_cursor: Optional[str] = None
+    """An identifier that determines which page of results you receive."""
 
     watchlist_screenings: List[WatchlistScreeningIndividual]
-    """An identifier that determines which page of results you receive."""
-    next_cursor: Optional[str] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
+    """List of individual watchlist screenings"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,15 +25,11 @@ class PaginatedIndividualWatchlistScreeningListResponse(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(
-        cls, data: Any
-    ) -> "PaginatedIndividualWatchlistScreeningListResponse":
+    def parse_obj(cls, data: Any) -> "PaginatedIndividualWatchlistScreeningListResponse":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaginatedIndividualWatchlistScreeningListResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaginatedIndividualWatchlistScreeningListResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,16 +4,18 @@ from pydantic import BaseModel, Field
 
 
 class ProductStatusBreakdown(BaseModel):
-    """The percentage of login attempts that are successful, expressed as a decimal."""
+    error_institution: float
+    """The percentage of logins that are failing due to an issue in the institution's system, expressed as a decimal."""
 
-    success: float
+    error_plaid: float
     """The percentage of logins that are failing due to an internal Plaid issue, expressed as a decimal.
     """
-    error_plaid: float
-    """The percentage of logins that are failing due to an issue in the institution's system, expressed as a decimal."""
-    error_institution: float
-    """The `refresh_interval` may be `DELAYED` or `STOPPED` even when the success rate is high. This value is only returned for Transactions status breakdowns."""
+
+    success: float
+    """The percentage of login attempts that are successful, expressed as a decimal."""
+
     refresh_interval: Optional[str] = None
+    """The `refresh_interval` may be `DELAYED` or `STOPPED` even when the success rate is high. This value is only returned for Transactions status breakdowns."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

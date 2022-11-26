@@ -4,10 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class InstitutionsSearchAccountFilter(BaseModel):
-    loan: Optional[List[str]] = None
     depository: Optional[List[str]] = None
     credit: Optional[List[str]] = None
     investment: Optional[List[str]] = None
+    loan: Optional[List[str]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +25,6 @@ class InstitutionsSearchAccountFilter(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InstitutionsSearchAccountFilter":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InstitutionsSearchAccountFilter":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

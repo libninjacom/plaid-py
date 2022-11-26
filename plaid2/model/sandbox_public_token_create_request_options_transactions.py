@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SandboxPublicTokenCreateRequestOptionsTransactions(BaseModel):
+    end_date: Optional[str] = None
     """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
 
-    end_date: Optional[str] = None
-    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
     start_date: Optional[str] = None
+    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -21,15 +21,11 @@ class SandboxPublicTokenCreateRequestOptionsTransactions(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(
-        cls, data: Any
-    ) -> "SandboxPublicTokenCreateRequestOptionsTransactions":
+    def parse_obj(cls, data: Any) -> "SandboxPublicTokenCreateRequestOptionsTransactions":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SandboxPublicTokenCreateRequestOptionsTransactions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SandboxPublicTokenCreateRequestOptionsTransactions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

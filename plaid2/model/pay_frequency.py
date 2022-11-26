@@ -4,21 +4,21 @@ from pydantic import BaseModel, Field
 
 
 class PayFrequency(BaseModel):
-    """The verification status. One of the following:
-
-    `"VERIFIED"`: The information was successfully verified.
-
-    `"UNVERIFIED"`: The verification has not yet been performed.
-
-    `"NEEDS_INFO"`: The verification was attempted but could not be completed due to missing information.
-
-    "`UNABLE_TO_VERIFY`": The verification was performed and the information could not be verified.
-
-    `"UNKNOWN"`: The verification status is unknown."""
+    value: str
+    """The frequency of the pay period."""
 
     verification_status: str
-    """The frequency of the pay period."""
-    value: str
+    """The verification status. One of the following:
+    
+    `"VERIFIED"`: The information was successfully verified.
+    
+    `"UNVERIFIED"`: The verification has not yet been performed.
+    
+    `"NEEDS_INFO"`: The verification was attempted but could not be completed due to missing information.
+    
+    "`UNABLE_TO_VERIFY`": The verification was performed and the information could not be verified.
+    
+    `"UNKNOWN"`: The verification status is unknown."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

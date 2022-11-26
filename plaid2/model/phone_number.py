@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class PhoneNumber(BaseModel):
+    data: str
     """The phone number."""
 
-    data: str
-    """The type of phone number."""
-    type: str
-    """When `true`, identifies the phone number as the primary number on an account."""
     primary: bool
+    """When `true`, identifies the phone number as the primary number on an account."""
+
+    type: str
+    """The type of phone number."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

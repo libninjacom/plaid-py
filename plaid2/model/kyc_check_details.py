@@ -2,26 +2,32 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 from .kyc_check_address_summary import KycCheckAddressSummary
-from .kyc_check_date_of_birth_summary import KycCheckDateOfBirthSummary
-from .kyc_check_id_number_summary import KycCheckIdNumberSummary
-from .kyc_check_name_summary import KycCheckNameSummary
-from .kyc_check_phone_summary import KycCheckPhoneSummary
+
+_ALIAS_MAP = {"name_": "name"}
 
 
 class KycCheckDetails(BaseModel):
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    id_number: str
+    """Result summary object specifying how the `id_number` field matched."""
+
+    address: KycCheckAddressSummary
+    """Result summary object specifying how the `address` field matched."""
+
+    date_of_birth: str
+    """Result summary object specifying how the `date_of_birth` field matched."""
+
+    phone_number: str
+    """Result summary object specifying how the `phone` field matched."""
+
+    name_: str
     """Result summary object specifying how the `name` field matched."""
 
-    name: KycCheckNameSummary
-    """Result summary object specifying how the `phone` field matched."""
-    phone_number: KycCheckPhoneSummary
-    """The outcome status for the associated Identity Verification attempt's `kyc_check` step. This field will always have the same value as `steps.kyc_check`."""
     status: str
-    """Result summary object specifying how the `address` field matched."""
-    address: KycCheckAddressSummary
-    """Result summary object specifying how the `date_of_birth` field matched."""
-    date_of_birth: KycCheckDateOfBirthSummary
-    """Result summary object specifying how the `id_number` field matched."""
-    id_number: KycCheckIdNumberSummary
+    """The outcome status for the associated Identity Verification attempt's `kyc_check` step. This field will always have the same value as `steps.kyc_check`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

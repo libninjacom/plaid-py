@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class NumbersInternational(BaseModel):
-    """The Plaid account ID associated with the account numbers"""
+    iban: str
+    """The International Bank Account Number (IBAN) for the account"""
 
     account_id: str
-    """The International Bank Account Number (IBAN) for the account"""
-    iban: str
-    """The Bank Identifier Code (BIC) for the account"""
+    """The Plaid account ID associated with the account numbers"""
+
     bic: str
+    """The Bank Identifier Code (BIC) for the account"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

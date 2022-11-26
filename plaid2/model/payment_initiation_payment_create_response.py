@@ -4,15 +4,16 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationPaymentCreateResponse(BaseModel):
+    request_id: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
-    request_id: str
-    """A unique ID identifying the payment"""
     payment_id: str
+    """A unique ID identifying the payment"""
+
+    status: str
     """For a payment returned by this endpoint, there is only one possible value:
     
     `PAYMENT_STATUS_INPUT_NEEDED`: The initial phase of the payment"""
-    status: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +31,6 @@ class PaymentInitiationPaymentCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationPaymentCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationPaymentCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

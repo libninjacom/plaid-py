@@ -2,17 +2,18 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 from .item import Item
-from .item_status_nullable import ItemStatusNullable
+from .item_status import ItemStatus
 
 
 class ItemGetResponse(BaseModel):
+    status: Optional[ItemStatus] = None
     """Information about the last successful and failed transactions update for the Item."""
 
-    status: Optional[ItemStatusNullable] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """Metadata about the Item."""
     item: Item
+    """Metadata about the Item."""
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

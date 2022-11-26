@@ -5,10 +5,11 @@ from pydantic import BaseModel, Field
 
 class WatchlistScreeningAuditTrail(BaseModel):
     dashboard_user_id: Optional[str] = None
-    """An ISO8601 formatted timestamp."""
     timestamp: str
-    """A type indicating whether a dashboard user, an API-based user, or Plaid last touched this object."""
+    """An ISO8601 formatted timestamp."""
+
     source: str
+    """A type indicating whether a dashboard user, an API-based user, or Plaid last touched this object."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +27,6 @@ class WatchlistScreeningAuditTrail(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WatchlistScreeningAuditTrail":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WatchlistScreeningAuditTrail":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

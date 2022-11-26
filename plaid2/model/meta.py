@@ -2,15 +2,22 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class Meta(BaseModel):
-    """The account's official name"""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
     official_name: str
-    """The account's limit"""
-    limit: float
+    """The account's official name"""
+
+    name_: str
     """The account's name"""
-    name: str
+
+    limit: float
+    """The account's limit"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

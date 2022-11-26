@@ -4,14 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class ListEntityWatchlistScreeningRequest(BaseModel):
-    """ID of the associated entity program."""
-
-    entity_watchlist_program_id: str
-    client_user_id: Optional[str] = None
-    assignee: Optional[str] = None
     status: Optional[str] = None
-    """An identifier that determines which page of results you receive."""
     cursor: Optional[str] = None
+    """An identifier that determines which page of results you receive."""
+
+    assignee: Optional[str] = None
+    client_user_id: Optional[str] = None
+    entity_watchlist_program_id: str
+    """ID of the associated entity program."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -29,8 +29,6 @@ class ListEntityWatchlistScreeningRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ListEntityWatchlistScreeningRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ListEntityWatchlistScreeningRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

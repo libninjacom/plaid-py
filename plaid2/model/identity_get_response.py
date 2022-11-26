@@ -6,13 +6,14 @@ from .item import Item
 
 
 class IdentityGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    accounts: List[AccountIdentity]
+    """The accounts for which Identity data has been requested"""
+
+    item: Item
+    """Metadata about the Item."""
 
     request_id: str
-    """Metadata about the Item."""
-    item: Item
-    """The accounts for which Identity data has been requested"""
-    accounts: List[AccountIdentity]
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

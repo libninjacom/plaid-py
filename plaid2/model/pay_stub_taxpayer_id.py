@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PayStubTaxpayerId(BaseModel):
+    id_type: Optional[str] = None
     """Type of ID, e.g. 'SSN'."""
 
-    id_type: Optional[str] = None
-    """ID mask; i.e. last 4 digits of the taxpayer ID."""
     id_mask: Optional[str] = None
+    """ID mask; i.e. last 4 digits of the taxpayer ID."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,15 +1,14 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .investment_holdings_get_request_options import InvestmentHoldingsGetRequestOptions
 
 
 class InvestmentsHoldingsGetRequest(BaseModel):
-    """An optional object to filter `/investments/holdings/get` results. If provided, must not be `null`."""
-
-    options: Optional[InvestmentHoldingsGetRequestOptions] = None
-    """The access token associated with the Item data is being requested for."""
     access_token: str
+    """The access token associated with the Item data is being requested for."""
+
+    options: Optional[List[str]] = None
+    """An optional object to filter `/investments/holdings/get` results. If provided, must not be `null`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +26,6 @@ class InvestmentsHoldingsGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InvestmentsHoldingsGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InvestmentsHoldingsGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

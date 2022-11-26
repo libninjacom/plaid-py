@@ -4,25 +4,31 @@ from pydantic import BaseModel, Field
 
 
 class EarningsBreakdown(BaseModel):
-    """Number of hours applicable for this earning."""
+    iso_currency_code: Optional[str] = None
+    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
+
+    current_amount: Optional[float] = None
+    """Raw amount of the earning line item."""
 
     hours: Optional[float] = None
-    """Commonly used term to describe the earning line item."""
-    canonical_description: Optional[str] = None
-    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
-    iso_currency_code: Optional[str] = None
-    """Description of the earning line item."""
-    description: Optional[str] = None
-    """Hourly rate applicable for this earning."""
+    """Number of hours applicable for this earning."""
+
     rate: Optional[float] = None
+    """Hourly rate applicable for this earning."""
+
+    ytd_amount: Optional[float] = None
+    """The year-to-date amount of the deduction."""
+
+    description: Optional[str] = None
+    """Description of the earning line item."""
+
+    canonical_description: Optional[str] = None
+    """Commonly used term to describe the earning line item."""
+
+    unofficial_currency_code: Optional[str] = None
     """The unofficial currency code associated with the line item. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
     
     See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s."""
-    unofficial_currency_code: Optional[str] = None
-    """Raw amount of the earning line item."""
-    current_amount: Optional[float] = None
-    """The year-to-date amount of the deduction."""
-    ytd_amount: Optional[float] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

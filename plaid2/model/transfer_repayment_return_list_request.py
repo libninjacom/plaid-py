@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class TransferRepaymentReturnListRequest(BaseModel):
-    """The maximum number of repayments to return."""
+    offset: Optional[int] = None
+    """The number of repayments to skip before returning results."""
 
     count: Optional[int] = None
-    """The number of repayments to skip before returning results."""
-    offset: Optional[int] = None
-    """Identifier of the repayment to query."""
+    """The maximum number of repayments to return."""
+
     repayment_id: str
+    """Identifier of the repayment to query."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class TransferRepaymentReturnListRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferRepaymentReturnListRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferRepaymentReturnListRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

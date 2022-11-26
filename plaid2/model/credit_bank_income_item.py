@@ -6,19 +6,23 @@ from .credit_bank_income_source import CreditBankIncomeSource
 
 
 class CreditBankIncomeItem(BaseModel):
-    """The time when this Item's data was last retrieved from the financial institution."""
+    item_id: Optional[str] = None
+    """The unique identifier for the Item."""
+
+    bank_income_accounts: Optional[List[CreditBankIncomeAccount]] = None
+    """The Item's accounts that have Bank Income data."""
+
+    bank_income_sources: Optional[List[CreditBankIncomeSource]] = None
+    """The income sources for this Item. Each entry in the array is a single income source."""
 
     last_updated_time: Optional[str] = None
-    """The name of the institution associated with the Item."""
-    institution_name: Optional[str] = None
-    """The unique identifier for the Item."""
-    item_id: Optional[str] = None
-    """The unique identifier of the institution associated with the Item."""
+    """The time when this Item's data was last retrieved from the financial institution."""
+
     institution_id: Optional[str] = None
-    """The Item's accounts that have Bank Income data."""
-    bank_income_accounts: Optional[List[CreditBankIncomeAccount]] = None
-    """The income sources for this Item. Each entry in the array is a single income source."""
-    bank_income_sources: Optional[List[CreditBankIncomeSource]] = None
+    """The unique identifier of the institution associated with the Item."""
+
+    institution_name: Optional[str] = None
+    """The name of the institution associated with the Item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

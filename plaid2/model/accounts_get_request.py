@@ -1,15 +1,14 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .accounts_get_request_options import AccountsGetRequestOptions
 
 
 class AccountsGetRequest(BaseModel):
+    access_token: str
     """The access token associated with the Item data is being requested for."""
 
-    access_token: str
+    options: Optional[List[str]] = None
     """An optional object to filter `/accounts/get` results."""
-    options: Optional[AccountsGetRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

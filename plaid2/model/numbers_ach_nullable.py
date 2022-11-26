@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 from .numbers_ach import NumbersAch
 
 
 class NumbersAchNullable(BaseModel):
-    """Identifying information for transferring money to or from a US account via ACH or wire transfer."""
-
     numbers_ach: NumbersAch
+    """Identifying information for transferring money to or from a US account via ACH or wire transfer."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

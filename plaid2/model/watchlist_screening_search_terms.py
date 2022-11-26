@@ -4,16 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningSearchTerms(BaseModel):
+    watchlist_program_id: str
+    """ID of the associated program."""
+
+    document_number: Optional[str] = None
+    version: float
     """The current version of the search terms. Starts at `1` and increments with each edit to `search_terms`."""
 
-    version: float
-    """ID of the associated program."""
-    watchlist_program_id: str
-    """The legal name of the individual being screened."""
-    legal_name: str
     date_of_birth: Optional[str] = None
-    document_number: Optional[str] = None
     country: Optional[str] = None
+    legal_name: str
+    """The legal name of the individual being screened."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -31,8 +32,6 @@ class WatchlistScreeningSearchTerms(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WatchlistScreeningSearchTerms":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WatchlistScreeningSearchTerms":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

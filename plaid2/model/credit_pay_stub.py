@@ -12,25 +12,32 @@ from .pay_stub_pay_period_details import PayStubPayPeriodDetails
 
 
 class CreditPayStub(BaseModel):
-    """Object representing metadata pertaining to the document."""
+    employee: CreditPayStubEmployee
+    """Data about the employee."""
+
+    deductions: CreditPayStubDeductions
+    """An object with the deduction information found on a pay stub."""
+
+    employer: CreditPayStubEmployer
+    """Information about the employer on the pay stub."""
+
+    document_id: Optional[str] = None
+    """An identifier of the document referenced by the document metadata."""
 
     document_metadata: CreditDocumentMetadata
-    """An identifier of the document referenced by the document metadata."""
-    document_id: Optional[str] = None
-    """An object with the deduction information found on a pay stub."""
-    deductions: CreditPayStubDeductions
-    """Information about the employer on the pay stub."""
-    employer: CreditPayStubEmployer
-    """An object representing information about the net pay amount on the pay stub."""
-    net_pay: CreditPayStubNetPay
-    """Data about the employee."""
-    employee: CreditPayStubEmployee
-    """(To be deprecated) Verification info will be moved to a separate endpoint in the future. An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
-    verification: Optional[CreditPayStubVerification] = None
-    """An object representing both a breakdown of earnings on a pay stub and the total earnings."""
-    earnings: CreditPayStubEarnings
-    """Details about the pay period."""
+    """Object representing metadata pertaining to the document."""
+
     pay_period_details: PayStubPayPeriodDetails
+    """Details about the pay period."""
+
+    net_pay: CreditPayStubNetPay
+    """An object representing information about the net pay amount on the pay stub."""
+
+    verification: Optional[CreditPayStubVerification] = None
+    """(To be deprecated) Verification info will be moved to a separate endpoint in the future. An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
+
+    earnings: CreditPayStubEarnings
+    """An object representing both a breakdown of earnings on a pay stub and the total earnings."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

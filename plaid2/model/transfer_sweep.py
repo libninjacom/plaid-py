@@ -4,17 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class TransferSweep(BaseModel):
-    """Signed decimal amount of the sweep as it appears on your sweep account ledger (e.g. "-10.00")
-
-    If amount is not present, the sweep was net-settled to zero and outstanding debits and credits between the sweep account and Plaid are balanced."""
+    created: str
+    """The datetime when the sweep occurred, in RFC 3339 format."""
 
     amount: str
-    """Identifier of the sweep."""
+    """Signed decimal amount of the sweep as it appears on your sweep account ledger (e.g. "-10.00")
+    
+    If amount is not present, the sweep was net-settled to zero and outstanding debits and credits between the sweep account and Plaid are balanced."""
+
     id: str
-    """The datetime when the sweep occurred, in RFC 3339 format."""
-    created: str
-    """The currency of the sweep, e.g. "USD"."""
+    """Identifier of the sweep."""
+
     iso_currency_code: str
+    """The currency of the sweep, e.g. "USD"."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

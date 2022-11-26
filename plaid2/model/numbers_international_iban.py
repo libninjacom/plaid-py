@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class NumbersInternationalIban(BaseModel):
+    iban: str
     """International Bank Account Number (IBAN)."""
 
-    iban: str
-    """The Business Identifier Code, also known as SWIFT code, for this bank account."""
     bic: str
+    """The Business Identifier Code, also known as SWIFT code, for this bank account."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class NumbersInternationalIban(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "NumbersInternationalIban":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersInternationalIban":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

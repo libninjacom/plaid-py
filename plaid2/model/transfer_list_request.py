@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class TransferListRequest(BaseModel):
-    """The end datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+    origination_account_id: Optional[str] = None
+    """Filter transfers to only those originated through the specified origination account."""
 
     end_date: Optional[str] = None
-    """Filter transfers to only those originated through the specified origination account."""
-    origination_account_id: Optional[str] = None
-    """The maximum number of transfers to return."""
-    count: Optional[int] = None
-    """The number of transfers to skip before returning results."""
-    offset: Optional[int] = None
-    """The start datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+    """The end datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+
     start_date: Optional[str] = None
+    """The start datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+
+    count: Optional[int] = None
+    """The maximum number of transfers to return."""
+
+    offset: Optional[int] = None
+    """The number of transfers to skip before returning results."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

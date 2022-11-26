@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationStandingOrderMetadata(BaseModel):
+    supports_standing_order_end_date: bool
     """Indicates whether the institution supports closed-ended standing orders by providing an end date."""
 
-    supports_standing_order_end_date: bool
-    """This is only applicable to `MONTHLY` standing orders. Indicates whether the institution supports negative integers (-1 to -5) for setting up a `MONTHLY` standing order relative to the end of the month."""
     supports_standing_order_negative_execution_days: bool
-    """A list of the valid standing order intervals supported by the institution."""
+    """This is only applicable to `MONTHLY` standing orders. Indicates whether the institution supports negative integers (-1 to -5) for setting up a `MONTHLY` standing order relative to the end of the month."""
+
     valid_standing_order_intervals: List[str]
+    """A list of the valid standing order intervals supported by the institution."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class PaymentInitiationStandingOrderMetadata(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationStandingOrderMetadata":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationStandingOrderMetadata":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

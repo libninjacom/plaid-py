@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 from .scopes import Scopes
 
 
 class ScopesNullable(BaseModel):
-    """The scopes object"""
-
     scopes: Scopes
+    """The scopes object"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

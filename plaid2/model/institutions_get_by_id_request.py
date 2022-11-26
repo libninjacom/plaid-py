@@ -5,14 +5,15 @@ from .institutions_get_by_id_request_options import InstitutionsGetByIdRequestOp
 
 
 class InstitutionsGetByIdRequest(BaseModel):
-    """Specifies optional parameters for `/institutions/get_by_id`. If provided, must not be `null`."""
-
-    options: Optional[InstitutionsGetByIdRequestOptions] = None
-    """The ID of the institution to get details about"""
-    institution_id: str
+    country_codes: List[str]
     """Specify an array of Plaid-supported country codes this institution supports, using the ISO-3166-1 alpha-2 country code standard. In API versions 2019-05-29 and earlier, the `country_codes` parameter is an optional parameter within the `options` object and will default to `[US]` if it is not supplied.
     """
-    country_codes: List[str]
+
+    options: Optional[InstitutionsGetByIdRequestOptions] = None
+    """Specifies optional parameters for `/institutions/get_by_id`. If provided, must not be `null`."""
+
+    institution_id: str
+    """The ID of the institution to get details about"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +31,6 @@ class InstitutionsGetByIdRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InstitutionsGetByIdRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InstitutionsGetByIdRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

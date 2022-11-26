@@ -1,15 +1,14 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .credit_bank_income_get_request_options import CreditBankIncomeGetRequestOptions
 
 
 class CreditBankIncomeGetRequest(BaseModel):
-    """An optional object for `/credit/bank_income/get` request options."""
-
-    options: Optional[CreditBankIncomeGetRequestOptions] = None
-    """The user token associated with the User data is being requested for."""
     user_token: Optional[str] = None
+    """The user token associated with the User data is being requested for."""
+
+    options: Optional[int] = None
+    """An optional object for `/credit/bank_income/get` request options."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +26,6 @@ class CreditBankIncomeGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditBankIncomeGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditBankIncomeGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

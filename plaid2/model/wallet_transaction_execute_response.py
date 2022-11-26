@@ -4,9 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class WalletTransactionExecuteResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    transaction_id: str
+    """A unique ID identifying the transaction"""
 
-    request_id: str
+    status: str
     """The status of the transaction.
     
     `INITIATED`: This is the initial state of all transactions. It indicates that the transaction has been initiated and is currently being processed.
@@ -16,9 +17,9 @@ class WalletTransactionExecuteResponse(BaseModel):
     `FAILED`: The transaction failed to process successfully. This is a terminal status.
     
     `BLOCKED`: The transaction has been blocked for violating compliance rules. This is a terminal status."""
-    status: str
-    """A unique ID identifying the transaction"""
-    transaction_id: str
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -36,8 +37,6 @@ class WalletTransactionExecuteResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WalletTransactionExecuteResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WalletTransactionExecuteResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

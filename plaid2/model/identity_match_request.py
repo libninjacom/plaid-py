@@ -1,18 +1,18 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .identity_match_request_options import IdentityMatchRequestOptions
 from .identity_match_user import IdentityMatchUser
 
 
 class IdentityMatchRequest(BaseModel):
-    """The user's legal name, phone number, email address and address used to perform fuzzy match."""
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     user: Optional[IdentityMatchUser] = None
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
+    """The user's legal name, phone number, email address and address used to perform fuzzy match."""
+
+    options: Optional[List[str]] = None
     """An optional object to filter /identity/match results"""
-    options: Optional[IdentityMatchRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

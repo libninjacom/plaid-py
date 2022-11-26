@@ -4,23 +4,23 @@ from pydantic import BaseModel, Field
 
 
 class EntityDocument(BaseModel):
-    """The kind of official document represented by this object.
-
-    `bik` - Russian bank code
-
-    `business_number` - A number that uniquely identifies the business within a category of businesses
-
-    `imo` - Number assigned to the entity by the International Maritime Organization
-
-    `other` - Any document not covered by other categories
-
-    `swift` - Number identifying a bank and branch.
-
-    `tax_id` - Identification issued for the purpose of collecting taxes"""
+    number: str
+    """The numeric or alphanumeric identifier associated with this document."""
 
     type: str
-    """The numeric or alphanumeric identifier associated with this document."""
-    number: str
+    """The kind of official document represented by this object.
+    
+    `bik` - Russian bank code
+    
+    `business_number` - A number that uniquely identifies the business within a category of businesses
+    
+    `imo` - Number assigned to the entity by the International Maritime Organization
+    
+    `other` - Any document not covered by other categories
+    
+    `swift` - Number identifying a bank and branch.
+    
+    `tax_id` - Identification issued for the purpose of collecting taxes"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

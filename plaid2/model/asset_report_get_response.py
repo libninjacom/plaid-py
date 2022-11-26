@@ -6,13 +6,14 @@ from .warning import Warning
 
 
 class AssetReportGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    report: AssetReport
+    """An object representing an Asset Report"""
 
     request_id: str
-    """An object representing an Asset Report"""
-    report: AssetReport
-    """If the Asset Report generation was successful but identity information cannot be returned, this array will contain information about the errors causing identity information to be missing"""
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     warnings: List[Warning]
+    """If the Asset Report generation was successful but identity information cannot be returned, this array will contain information about the errors causing identity information to be missing"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

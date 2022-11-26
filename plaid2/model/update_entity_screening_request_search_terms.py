@@ -4,14 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class UpdateEntityScreeningRequestSearchTerms(BaseModel):
+    url: Optional[str] = None
+    phone_number: Optional[str] = None
+    entity_watchlist_program_id: str
+    """ID of the associated entity program."""
+
     legal_name: Optional[str] = None
     document_number: Optional[str] = None
-    phone_number: Optional[str] = None
     email_address: Optional[str] = None
     country: Optional[str] = None
-    """ID of the associated entity program."""
-    entity_watchlist_program_id: str
-    url: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -29,8 +30,6 @@ class UpdateEntityScreeningRequestSearchTerms(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "UpdateEntityScreeningRequestSearchTerms":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "UpdateEntityScreeningRequestSearchTerms":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

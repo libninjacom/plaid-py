@@ -1,6 +1,10 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+oauth_state_id = "your oauth state id"
+accounts = ["your accounts"]
 
 
 def main():
@@ -15,8 +19,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-oauth_state_id = "your oauth state id"
-accounts = ["your accounts"]
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

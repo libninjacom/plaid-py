@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class Pay(BaseModel):
-    """Currency code, e.g. USD"""
+    amount: Optional[float] = None
+    """A numerical amount of a specific currency."""
 
     currency: Optional[str] = None
-    """A numerical amount of a specific currency."""
-    amount: Optional[float] = None
+    """Currency code, e.g. USD"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

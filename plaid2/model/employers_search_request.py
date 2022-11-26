@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class EmployersSearchRequest(BaseModel):
+    products: List[str]
     """The Plaid products the returned employers should support. Currently, this field must be set to `"deposit_switch"`."""
 
-    products: List[str]
-    """The employer name to be searched for."""
     query: str
+    """The employer name to be searched for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

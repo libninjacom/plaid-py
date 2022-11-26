@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchCreateResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    deposit_switch_id: str
+    """ID of the deposit switch. This ID is persisted throughout the lifetime of the deposit switch."""
 
     request_id: str
-    """ID of the deposit switch. This ID is persisted throughout the lifetime of the deposit switch."""
-    deposit_switch_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class DepositSwitchCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

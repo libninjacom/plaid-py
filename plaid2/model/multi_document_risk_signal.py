@@ -6,11 +6,11 @@ from .risk_signal_document_reference import RiskSignalDocumentReference
 
 
 class MultiDocumentRiskSignal(BaseModel):
+    risk_signals: List[DocumentRiskSignal]
     """Array of attributes that indicate whether or not there is fraud risk with a set of documents"""
 
-    risk_signals: List[DocumentRiskSignal]
-    """Array of objects containing attributes that could indicate if a document is fraudulent"""
     document_references: List[RiskSignalDocumentReference]
+    """Array of objects containing attributes that could indicate if a document is fraudulent"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +28,6 @@ class MultiDocumentRiskSignal(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "MultiDocumentRiskSignal":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "MultiDocumentRiskSignal":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

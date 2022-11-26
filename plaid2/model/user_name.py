@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class UserName(BaseModel):
-    """A string with at least one non-whitespace character, with a max length of 100 characters."""
-
     family_name: str
     """A string with at least one non-whitespace character, with a max length of 100 characters."""
+
     given_name: str
+    """A string with at least one non-whitespace character, with a max length of 100 characters."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

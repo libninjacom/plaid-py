@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemApplicationListUserAuth(BaseModel):
+    fi_username_hash: Optional[str] = None
     """Account username hashed by FI."""
 
-    fi_username_hash: Optional[str] = None
-    """Account username."""
     user_id: Optional[str] = None
+    """Account username."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class ItemApplicationListUserAuth(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ItemApplicationListUserAuth":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ItemApplicationListUserAuth":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

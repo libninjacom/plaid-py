@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PersonalFinanceCategory(BaseModel):
-    """A granular category conveying the transaction's intent. This field can also be used as a unique identifier for the category."""
+    primary: str
+    """A high level category that communicates the broad category of the transaction."""
 
     detailed: str
-    """A high level category that communicates the broad category of the transaction."""
-    primary: str
+    """A granular category conveying the transaction's intent. This field can also be used as a unique identifier for the category."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class PersonalFinanceCategory(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PersonalFinanceCategory":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PersonalFinanceCategory":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -5,17 +5,20 @@ from .account_assets import AccountAssets
 
 
 class AssetReportItem(BaseModel):
+    accounts: List[AccountAssets]
     """Data about each of the accounts open on the Item."""
 
-    accounts: List[AccountAssets]
-    """The id of the financial institution associated with the Item."""
-    institution_id: str
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
     item_id: str
-    """The full financial institution name associated with the Item."""
-    institution_name: str
-    """The date and time when this Item’s data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+
     date_last_updated: str
+    """The date and time when this Item’s data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+
+    institution_id: str
+    """The id of the financial institution associated with the Item."""
+
+    institution_name: str
+    """The full financial institution name associated with the Item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

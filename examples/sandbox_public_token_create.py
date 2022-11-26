@@ -1,6 +1,10 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+institution_id = "your institution id"
+initial_products = ["your initial products"]
 
 
 def main():
@@ -11,14 +15,10 @@ def main():
 
 async def async_main():
     client = AsyncPlaidClient.from_env()
-    response = await client.sandbox_public_token_create(
-        institution_id, initial_products
-    )
+    response = await client.sandbox_public_token_create(institution_id, initial_products)
     print(f"{response!r}")
 
 
-institution_id = "your institution id"
-initial_products = ["your initial products"]
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

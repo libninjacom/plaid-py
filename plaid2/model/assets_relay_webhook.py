@@ -4,19 +4,23 @@ from pydantic import BaseModel, Field
 
 
 class AssetsRelayWebhook(BaseModel):
-    """`ASSETS`"""
+    asset_relay_token: str
+    """The `asset_relay_token` that was created by calling `/asset_report/relay/create."""
+
+    relay_event: str
+    """The webhook code indicating which endpoint was called. It can be one of `GET_CALLED`, `REFRESH_CALLED` or `AUDIT_COPY_CREATE_CALLED`."""
+
+    secondary_client_id: str
+    """The id of the client with whom the Asset Report is being shared."""
 
     webhook_type: str
-    """`RELAY_EVENT`"""
+    """`ASSETS`"""
+
     webhook_code: str
-    """The `asset_report_id` that can be provided to `/asset_report/relay/get` to retrieve the Asset Report."""
+    """`RELAY_EVENT`"""
+
     asset_report_id: str
-    """The webhook code indicating which endpoint was called. It can be one of `GET_CALLED`, `REFRESH_CALLED` or `AUDIT_COPY_CREATE_CALLED`."""
-    relay_event: str
-    """The `asset_relay_token` that was created by calling `/asset_report/relay/create."""
-    asset_relay_token: str
-    """The id of the client with whom the Asset Report is being shared."""
-    secondary_client_id: str
+    """The `asset_report_id` that can be provided to `/asset_report/relay/get` to retrieve the Asset Report."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

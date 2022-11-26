@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class DashboardUserResponse(BaseModel):
+    email_address: str
     """A valid email address."""
 
-    email_address: str
-    """ID of the associated user."""
-    id: str
-    """An ISO8601 formatted timestamp."""
     created_at: str
-    """The current status of the user."""
+    """An ISO8601 formatted timestamp."""
+
+    id: str
+    """ID of the associated user."""
+
     status: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    """The current status of the user."""
+
     request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

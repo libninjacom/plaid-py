@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class TransferAuthorizationDevice(BaseModel):
+    ip_address: Optional[str] = None
     """The IP address of the device being used to initiate the authorization. Required for guaranteed ACH customers."""
 
-    ip_address: Optional[str] = None
-    """The user agent of the device being used to initiate the authorization. Required for guaranteed ACH customers."""
     user_agent: Optional[str] = None
+    """The user agent of the device being used to initiate the authorization. Required for guaranteed ACH customers."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class TransferAuthorizationDevice(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferAuthorizationDevice":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferAuthorizationDevice":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

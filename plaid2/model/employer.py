@@ -1,19 +1,27 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .address_data_nullable import AddressDataNullable
+from .address_data import AddressData
+
+_ALIAS_MAP = {"name_": "name"}
 
 
 class Employer(BaseModel):
-    """Plaid's unique identifier for the employer."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    address: Optional[AddressData] = None
+    """Data about the components comprising an address."""
+
+    confidence_score: float
+    """A number from 0 to 1 indicating Plaid's level of confidence in the pairing between the employer and the institution (not yet implemented)."""
 
     employer_id: str
-    """Data about the components comprising an address."""
-    address: Optional[AddressDataNullable] = None
-    """A number from 0 to 1 indicating Plaid's level of confidence in the pairing between the employer and the institution (not yet implemented)."""
-    confidence_score: float
+    """Plaid's unique identifier for the employer."""
+
+    name_: str
     """The name of the employer"""
-    name: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

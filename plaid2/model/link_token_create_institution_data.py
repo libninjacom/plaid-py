@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 
 
 class LinkTokenCreateInstitutionData(BaseModel):
-    """The routing number of the bank to highlight."""
-
     routing_number: Optional[str] = None
+    """The routing number of the bank to highlight."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +22,6 @@ class LinkTokenCreateInstitutionData(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateInstitutionData":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateInstitutionData":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

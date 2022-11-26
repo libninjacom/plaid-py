@@ -3,11 +3,15 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class EntityWatchlistProgramResponse(BaseModel):
-    """Indicator specifying whether the program is enabled and will perform daily rescans."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
-    is_rescanning_enabled: bool
+    name_sensitivity: str
     """The valid name matching sensitivity configurations for a screening program. Note that while certain matching techniques may be more prevalent on less strict settings, all matching algorithms are enabled for every sensitivity.
     
     `coarse` - See more potential matches. This sensitivity will see more broad phonetic matches across alphabets that make missing a potential hit very unlikely. This setting is noisier and will require more manual review.
@@ -17,21 +21,30 @@ class EntityWatchlistProgramResponse(BaseModel):
     `strict` - Aggressive false positive reduction. This sensitivity will require names to be more similar than `coarse` and `balanced` settings, relying less on phonetics, while still accounting for character transpositions, missing tokens, and other common permutations.
     
     `exact` - Matches must be nearly exact. This sensitivity will only show hits with exact or nearly exact name matches with only basic correction such as extraneous symbols and capitalization. This setting is generally not recommended unless you have a very specific use case."""
-    name_sensitivity: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """ID of the associated entity program."""
+
     id: str
-    """A name for the entity program to define its purpose. For example, "High Risk Organizations" or "Applicants"."""
-    name: str
-    """An ISO8601 formatted timestamp."""
+    """ID of the associated entity program."""
+
     created_at: str
-    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
-    is_archived: bool
-    """Watchlists enabled for the associated program"""
+    """An ISO8601 formatted timestamp."""
+
     lists_enabled: List[str]
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    """Watchlists enabled for the associated program"""
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    is_rescanning_enabled: bool
+    """Indicator specifying whether the program is enabled and will perform daily rescans."""
+
+    is_archived: bool
+    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
+
+    name_: str
+    """A name for the entity program to define its purpose. For example, "High Risk Organizations" or "Applicants"."""
+
     audit_trail: WatchlistScreeningAuditTrail
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -49,8 +62,6 @@ class EntityWatchlistProgramResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityWatchlistProgramResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "EntityWatchlistProgramResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

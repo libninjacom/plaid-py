@@ -5,18 +5,19 @@ from .product_status_breakdown import ProductStatusBreakdown
 
 
 class ProductStatus(BaseModel):
-    """This field is deprecated in favor of the `breakdown` object, which provides more granular institution health data.
+    last_status_change: str
+    """[ISO 8601](https://wikipedia.org/wiki/ISO_8601) formatted timestamp of the last status change for the institution.
+    """
 
+    status: str
+    """This field is deprecated in favor of the `breakdown` object, which provides more granular institution health data.
+    
     `HEALTHY`: the majority of requests are successful
     `DEGRADED`: only some requests are successful
     `DOWN`: all requests are failing"""
 
-    status: str
-    """A detailed breakdown of the institution's performance for a request type. The values for `success`, `error_plaid`, and `error_institution` sum to 1."""
     breakdown: ProductStatusBreakdown
-    """[ISO 8601](https://wikipedia.org/wiki/ISO_8601) formatted timestamp of the last status change for the institution.
-    """
-    last_status_change: str
+    """A detailed breakdown of the institution's performance for a request type. The values for `success`, `error_plaid`, and `error_institution` sum to 1."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

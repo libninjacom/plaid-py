@@ -1,16 +1,14 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .entity_screening_hit_emails import EntityScreeningHitEmails
-from .match_summary import MatchSummary
 
 
 class EntityScreeningHitEmailsItems(BaseModel):
-    """Email address information for the associated entity watchlist hit"""
-
-    data: Optional[EntityScreeningHitEmails] = None
+    analysis: Optional[str] = None
     """Summary object reflecting the match result of the associated data"""
-    analysis: Optional[MatchSummary] = None
+
+    data: Optional[str] = None
+    """Email address information for the associated entity watchlist hit"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +26,6 @@ class EntityScreeningHitEmailsItems(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityScreeningHitEmailsItems":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "EntityScreeningHitEmailsItems":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

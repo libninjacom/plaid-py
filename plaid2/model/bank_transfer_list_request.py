@@ -4,19 +4,23 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferListRequest(BaseModel):
-    """Filter bank transfers to only those originated through the specified origination account."""
+    start_date: Optional[str] = None
+    """The start datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+
+    offset: Optional[int] = None
+    """The number of bank transfers to skip before returning results."""
 
     origination_account_id: Optional[str] = None
-    """The maximum number of bank transfers to return."""
+    """Filter bank transfers to only those originated through the specified origination account."""
+
     count: Optional[int] = None
-    """Indicates the direction of the transfer: `outbound` for API-initiated transfers, or `inbound` for payments received by the FBO account."""
+    """The maximum number of bank transfers to return."""
+
     direction: Optional[str] = None
-    """The start datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
-    start_date: Optional[str] = None
-    """The end datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
+    """Indicates the direction of the transfer: `outbound` for API-initiated transfers, or `inbound` for payments received by the FBO account."""
+
     end_date: Optional[str] = None
-    """The number of bank transfers to skip before returning results."""
-    offset: Optional[int] = None
+    """The end datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`)"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +38,6 @@ class BankTransferListRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "BankTransferListRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "BankTransferListRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

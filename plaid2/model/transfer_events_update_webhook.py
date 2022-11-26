@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class TransferEventsUpdateWebhook(BaseModel):
+    webhook_type: str
     """`TRANSFER`"""
 
-    webhook_type: str
-    """`TRANSFER_EVENTS_UPDATE`"""
     webhook_code: str
+    """`TRANSFER_EVENTS_UPDATE`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class TransferEventsUpdateWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferEventsUpdateWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferEventsUpdateWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

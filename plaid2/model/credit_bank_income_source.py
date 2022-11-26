@@ -5,28 +5,35 @@ from .credit_bank_income_historical_summary import CreditBankIncomeHistoricalSum
 
 
 class CreditBankIncomeSource(BaseModel):
-    """A unique identifier for an income source."""
+    total_amount: Optional[float] = None
+    """Total amount of earnings in the user’s bank account for the specific income source for days requested by the client."""
 
-    income_source_id: Optional[str] = None
-    """The income category."""
     income_category: Optional[str] = None
-    """Maximum of all dates within the specific income sources in the user’s bank account for days requested by the client.
-    The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
-    end_date: Optional[str] = None
+    """The income category."""
+
+    start_date: Optional[str] = None
     """Minimum of all dates within the specific income sources in the user's bank account for days requested by the client.
     The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
-    start_date: Optional[str] = None
-    """The income pay frequency."""
-    pay_frequency: Optional[str] = None
-    """The most common name or original description for the underlying income transactions."""
-    income_description: Optional[str] = None
+
+    end_date: Optional[str] = None
+    """Maximum of all dates within the specific income sources in the user’s bank account for days requested by the client.
+    The date will be returned in an ISO 8601 format (YYYY-MM-DD)."""
+
+    income_source_id: Optional[str] = None
+    """A unique identifier for an income source."""
+
     historical_summary: Optional[List[CreditBankIncomeHistoricalSummary]] = None
-    """Plaid's unique idenfier for the account."""
-    account_id: Optional[str] = None
-    """Total amount of earnings in the user’s bank account for the specific income source for days requested by the client."""
-    total_amount: Optional[float] = None
-    """Number of transactions for the income source within the start and end date."""
     transaction_count: Optional[int] = None
+    """Number of transactions for the income source within the start and end date."""
+
+    pay_frequency: Optional[str] = None
+    """The income pay frequency."""
+
+    account_id: Optional[str] = None
+    """Plaid's unique idenfier for the account."""
+
+    income_description: Optional[str] = None
+    """The most common name or original description for the underlying income transactions."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

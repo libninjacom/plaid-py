@@ -4,21 +4,26 @@ from pydantic import BaseModel, Field
 
 
 class W2StateAndLocalWages(BaseModel):
-    """Income tax from the specified state."""
+    employer_state_id_number: Optional[str] = None
+    """State identification number of the employer."""
+
+    state: Optional[str] = None
+    """State associated with the wage."""
+
+    locality_name: Optional[str] = None
+    """Name of the locality."""
+
+    local_income_tax: Optional[str] = None
+    """Income tax from the locality."""
+
+    local_wages_tips: Optional[str] = None
+    """Wages and tips from the locality."""
+
+    state_wages_tips: Optional[str] = None
+    """Wages and tips from the specified state."""
 
     state_income_tax: Optional[str] = None
-    """State identification number of the employer."""
-    employer_state_id_number: Optional[str] = None
-    """State associated with the wage."""
-    state: Optional[str] = None
-    """Wages and tips from the specified state."""
-    state_wages_tips: Optional[str] = None
-    """Name of the locality."""
-    locality_name: Optional[str] = None
-    """Wages and tips from the locality."""
-    local_wages_tips: Optional[str] = None
-    """Income tax from the locality."""
-    local_income_tax: Optional[str] = None
+    """Income tax from the specified state."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

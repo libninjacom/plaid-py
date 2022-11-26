@@ -6,6 +6,12 @@ authors = []
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.7"
+dependencies = [
+    "ipython>=7.34.0",
+    "pydantic>=1.10.2",
+    "aiohttp>=3.8.3",
+]
+[project.optional-dependencies]
 
 
 
@@ -16,7 +22,11 @@ requires-python = ">=3.7"
 [tool.pdm.dev-dependencies]
 dev = [
     "pyright>=1.1.271",
+    "sphinx-rtd-theme>=1.1.1",
+    "commonmark>=0.9.1",
 ]
+[tool.ruff]
+line-length = 120
 
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class WalletListRequest(BaseModel):
-    """The number of e-wallets to fetch"""
+    cursor: Optional[str] = None
+    """A base64 value representing the latest e-wallet that has already been requested. Set this to `next_cursor` received from the previous `/wallet/list` request. If provided, the response will only contain e-wallets created before that e-wallet. If omitted, the response will contain e-wallets starting from the most recent, and in descending order."""
 
     count: Optional[int] = None
-    """An ISO-4217 currency code, used with e-wallets and transactions."""
+    """The number of e-wallets to fetch"""
+
     iso_currency_code: Optional[str] = None
-    """A base64 value representing the latest e-wallet that has already been requested. Set this to `next_cursor` received from the previous `/wallet/list` request. If provided, the response will only contain e-wallets created before that e-wallet. If omitted, the response will contain e-wallets starting from the most recent, and in descending order."""
-    cursor: Optional[str] = None
+    """An ISO-4217 currency code, used with e-wallets and transactions."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,19 +4,22 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchAddressData(BaseModel):
+    city: str
     """The full city name"""
 
-    city: str
-    """The full street address
-    Example: `"564 Main Street, APT 15"`"""
-    street: str
-    """The postal code"""
-    postal_code: str
-    """The ISO 3166-1 alpha-2 country code"""
-    country: str
+    region: str
     """The region or state
     Example: `"NC"`"""
-    region: str
+
+    postal_code: str
+    """The postal code"""
+
+    country: str
+    """The ISO 3166-1 alpha-2 country code"""
+
+    street: str
+    """The full street address
+    Example: `"564 Main Street, APT 15"`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +37,6 @@ class DepositSwitchAddressData(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchAddressData":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchAddressData":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

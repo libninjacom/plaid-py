@@ -1,5 +1,5 @@
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 
 class PlaidAuthentication:
@@ -9,7 +9,7 @@ class PlaidAuthentication:
         self.plaid_version = plaid_version
 
     def authenticate(
-        self, headers: Dict[str, str], params: Dict[str, str], data: Dict[str, Any]
+        self, headers: Dict[str, Union[str, None]], params: Dict[str, Union[str, int, None]], data: Dict[str, Any]
     ) -> None:
         headers["PLAID-CLIENT-ID"] = self.client_id
         headers["PLAID-SECRET"] = self.secret

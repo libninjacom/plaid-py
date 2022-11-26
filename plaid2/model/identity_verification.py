@@ -3,49 +3,13 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .documentary_verification import DocumentaryVerification
 from .identity_verification_step_summary import IdentityVerificationStepSummary
-from .identity_verification_template_reference import (
-    IdentityVerificationTemplateReference,
-)
+from .identity_verification_template_reference import IdentityVerificationTemplateReference
 from .identity_verification_user_data import IdentityVerificationUserData
 from .kyc_check_details import KycCheckDetails
 
 
 class IdentityVerification(BaseModel):
-    """An ISO8601 formatted timestamp."""
-
-    completed_at: Optional[str] = None
-    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
-    client_user_id: str
-    """A shareable URL that can be sent directly to the user to complete verification"""
-    shareable_url: Optional[str] = None
-    """The identity data that was either collected from the user or provided via API in order to perform an identity verification."""
-    user: IdentityVerificationUserData
-    """The ID for the Identity Verification preceding this session. This field will only be filled if the current Identity Verification is a retry of a previous attempt."""
-    previous_attempt_id: Optional[str] = None
-    """The status of this Identity Verification attempt.
-    
-    
-    `active` - The Identity Verification attempt is incomplete. The user may have completed part of the session, but has neither failed or passed.
-    
-    `success` - The Identity Verification attempt has completed, passing all steps defined to the associated Identity Verification template
-    
-    `failed` - The user failed one or more steps in the session and was told to contact support.
-    
-    `expired` - The Identity Verification attempt was active for more than 48 hours without being completed and was automatically marked as expired.
-    
-    `canceled` - The Identity Verification attempt was canceled, either via the dashboard by a user, or via API. The user may have completed part of the session, but has neither failed or passed.
-    
-    `pending_review` - The Identity Verification attempt template was configured to perform a screening that had one or more hits needing review."""
-    status: str
-    """data, images, analysis, and results from the `documentary_verification` step."""
-    documentary_verification: Optional[DocumentaryVerification] = None
-    """The outcome of the `kyc_check` step."""
-    kyc_check: Optional[KycCheckDetails] = None
-    watchlist_screening_id: Optional[str] = None
-    """ID of the associated Identity Verification attempt."""
-    id: str
-    """An ISO8601 formatted timestamp."""
-    created_at: str
+    steps: IdentityVerificationStepSummary
     """Each step will be one of the following values:
     
     
@@ -70,9 +34,53 @@ class IdentityVerification(BaseModel):
     `manually_approved` - The step was manually overridden to pass by a team member in the dashboard.
     
     `manually_rejected` - The step was manually overridden to fail by a team member in the dashboard."""
-    steps: IdentityVerificationStepSummary
-    """The resource ID and version number of the template configuring the behavior of a given identity verification."""
+
+    shareable_url: Optional[str] = None
+    """A shareable URL that can be sent directly to the user to complete verification"""
+
     template: IdentityVerificationTemplateReference
+    """The resource ID and version number of the template configuring the behavior of a given identity verification."""
+
+    created_at: str
+    """An ISO8601 formatted timestamp."""
+
+    status: str
+    """The status of this Identity Verification attempt.
+    
+    
+    `active` - The Identity Verification attempt is incomplete. The user may have completed part of the session, but has neither failed or passed.
+    
+    `success` - The Identity Verification attempt has completed, passing all steps defined to the associated Identity Verification template
+    
+    `failed` - The user failed one or more steps in the session and was told to contact support.
+    
+    `expired` - The Identity Verification attempt was active for more than 48 hours without being completed and was automatically marked as expired.
+    
+    `canceled` - The Identity Verification attempt was canceled, either via the dashboard by a user, or via API. The user may have completed part of the session, but has neither failed or passed.
+    
+    `pending_review` - The Identity Verification attempt template was configured to perform a screening that had one or more hits needing review."""
+
+    watchlist_screening_id: Optional[str] = None
+    completed_at: Optional[str] = None
+    """An ISO8601 formatted timestamp."""
+
+    client_user_id: str
+    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
+
+    previous_attempt_id: Optional[str] = None
+    """The ID for the Identity Verification preceding this session. This field will only be filled if the current Identity Verification is a retry of a previous attempt."""
+
+    documentary_verification: Optional[DocumentaryVerification] = None
+    """data, images, analysis, and results from the `documentary_verification` step."""
+
+    id: str
+    """ID of the associated Identity Verification attempt."""
+
+    user: IdentityVerificationUserData
+    """The identity data that was either collected from the user or provided via API in order to perform an identity verification."""
+
+    kyc_check: Optional[KycCheckDetails] = None
+    """The outcome of the `kyc_check` step."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

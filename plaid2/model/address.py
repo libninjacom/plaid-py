@@ -5,11 +5,11 @@ from .address_data import AddressData
 
 
 class Address(BaseModel):
+    data: AddressData
     """Data about the components comprising an address."""
 
-    data: AddressData
-    """When `true`, identifies the address as the primary address on an account."""
     primary: Optional[bool] = None
+    """When `true`, identifies the address as the primary address on an account."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

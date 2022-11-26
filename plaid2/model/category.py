@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class Category(BaseModel):
+    category_id: str
     """An identifying number for the category. `category_id` is a Plaid-specific identifier and does not necessarily correspond to merchant category codes."""
 
-    category_id: str
-    """A hierarchical array of the categories to which this `category_id` belongs."""
     hierarchy: List[str]
-    """`place` for physical transactions or `special` for other transactions such as bank charges."""
+    """A hierarchical array of the categories to which this `category_id` belongs."""
+
     group: str
+    """`place` for physical transactions or `special` for other transactions such as bank charges."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

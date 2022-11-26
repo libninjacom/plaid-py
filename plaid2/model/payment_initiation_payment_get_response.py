@@ -5,9 +5,8 @@ from .payment_initiation_payment import PaymentInitiationPayment
 
 
 class PaymentInitiationPaymentGetResponse(BaseModel):
-    """PaymentInitiationPayment defines a payment initiation payment"""
-
     payment_initiation_payment: PaymentInitiationPayment
+    """PaymentInitiationPayment defines a payment initiation payment"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +24,6 @@ class PaymentInitiationPaymentGetResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationPaymentGetResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationPaymentGetResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

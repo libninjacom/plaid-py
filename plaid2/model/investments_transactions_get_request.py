@@ -1,21 +1,21 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .investments_transactions_get_request_options import (
-    InvestmentsTransactionsGetRequestOptions,
-)
+from .investments_transactions_get_request_options import InvestmentsTransactionsGetRequestOptions
 
 
 class InvestmentsTransactionsGetRequest(BaseModel):
-    """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+    start_date: str
+    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+
+    options: Optional[InvestmentsTransactionsGetRequestOptions] = None
+    """An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`."""
 
     end_date: str
-    """The access token associated with the Item data is being requested for."""
+    """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+
     access_token: str
-    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
-    start_date: str
-    """An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`."""
-    options: Optional[InvestmentsTransactionsGetRequestOptions] = None
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +33,6 @@ class InvestmentsTransactionsGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InvestmentsTransactionsGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InvestmentsTransactionsGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

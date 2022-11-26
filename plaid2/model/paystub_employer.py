@@ -3,13 +3,19 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .paystub_address import PaystubAddress
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class PaystubEmployer(BaseModel):
-    """The name of the employer on the paystub."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
-    name: Optional[str] = None
-    """Address on the paystub"""
     address: Optional[PaystubAddress] = None
+    """Address on the paystub"""
+
+    name_: Optional[str] = None
+    """The name of the employer on the paystub."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

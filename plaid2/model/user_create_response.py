@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class UserCreateResponse(BaseModel):
-    """The user token associated with the User data is being requested for."""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     user_token: str
-    """The Plaid `user_id` of the User associated with this webhook, warning, or error."""
+    """The user token associated with the User data is being requested for."""
+
     user_id: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
+    """The Plaid `user_id` of the User associated with this webhook, warning, or error."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

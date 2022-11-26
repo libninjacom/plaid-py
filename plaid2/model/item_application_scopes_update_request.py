@@ -5,17 +5,20 @@ from .scopes import Scopes
 
 
 class ItemApplicationScopesUpdateRequest(BaseModel):
-    """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
+    scopes: Scopes
+    """The scopes object"""
+
+    state: Optional[str] = None
+    """When scopes are updated during enrollment, this field must be populated with the state sent to the partner in the OAuth Login URI. This field is required when the context is `ENROLLMENT`."""
+
+    context: str
+    """An indicator for when scopes are being updated. When scopes are updated via enrollment (i.e. OAuth), the partner must send `ENROLLMENT`. When scopes are updated in a post-enrollment view, the partner must send `PORTAL`."""
+
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     application_id: str
-    """When scopes are updated during enrollment, this field must be populated with the state sent to the partner in the OAuth Login URI. This field is required when the context is `ENROLLMENT`."""
-    state: Optional[str] = None
-    """An indicator for when scopes are being updated. When scopes are updated via enrollment (i.e. OAuth), the partner must send `ENROLLMENT`. When scopes are updated in a post-enrollment view, the partner must send `PORTAL`."""
-    context: str
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
-    """The scopes object"""
-    scopes: Scopes
+    """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +36,6 @@ class ItemApplicationScopesUpdateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ItemApplicationScopesUpdateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ItemApplicationScopesUpdateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class LinkTokenCreateRequestTransfer(BaseModel):
+    payment_profile_id: Optional[str] = None
     """The `payment_profile_id` returned by the `/payment_profile/create` endpoint."""
 
-    payment_profile_id: Optional[str] = None
-    """The `id` returned by the `/transfer/intent/create` endpoint."""
     intent_id: Optional[str] = None
+    """The `id` returned by the `/transfer/intent/create` endpoint."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class LinkTokenCreateRequestTransfer(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateRequestTransfer":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateRequestTransfer":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

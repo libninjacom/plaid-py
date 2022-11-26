@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationDocumentsDownloadRequest(BaseModel):
-    """The access token associated with the Item data is being requested for."""
+    income_verification_id: Optional[str] = None
+    """The ID of the verification."""
+
+    document_id: Optional[str] = None
+    """The document ID to download. If passed, a single document will be returned in the resulting zip file, rather than all document"""
 
     access_token: Optional[str] = None
-    """The document ID to download. If passed, a single document will be returned in the resulting zip file, rather than all document"""
-    document_id: Optional[str] = None
-    """The ID of the verification."""
-    income_verification_id: Optional[str] = None
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class IncomeVerificationDocumentsDownloadRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationDocumentsDownloadRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationDocumentsDownloadRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class PaystubDeduction(BaseModel):
-    """The description of the deduction, as provided on the paystub. For example: `"401(k)"`, `"FICA MED TAX"`."""
+    total: Optional[float] = None
+    """The amount of the deduction."""
 
     type: Optional[str] = None
-    """`true` if the deduction is pre-tax; `false` otherwise."""
+    """The description of the deduction, as provided on the paystub. For example: `"401(k)"`, `"FICA MED TAX"`."""
+
     is_pretax: Optional[bool] = None
-    """The amount of the deduction."""
-    total: Optional[float] = None
+    """`true` if the deduction is pre-tax; `false` otherwise."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

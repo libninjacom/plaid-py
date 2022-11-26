@@ -1,15 +1,14 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .processor_balance_get_request_options import ProcessorBalanceGetRequestOptions
 
 
 class ProcessorBalanceGetRequest(BaseModel):
+    processor_token: str
     """The processor token obtained from the Plaid integration partner. Processor tokens are in the format: `processor-<environment>-<identifier>`"""
 
-    processor_token: str
+    options: Optional[str] = None
     """An optional object to filter `/processor/balance/get` results."""
-    options: Optional[ProcessorBalanceGetRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +26,6 @@ class ProcessorBalanceGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProcessorBalanceGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProcessorBalanceGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

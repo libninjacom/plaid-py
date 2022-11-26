@@ -3,17 +3,25 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .credit_pay_stub_address import CreditPayStubAddress
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class Credit1099Payer(BaseModel):
-    """Address on the pay stub."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    tin: Optional[str] = None
+    """Tax identification number of payer."""
 
     address: Optional[CreditPayStubAddress] = None
-    """Name of payer."""
-    name: Optional[str] = None
-    """Tax identification number of payer."""
-    tin: Optional[str] = None
-    """Telephone number of payer."""
+    """Address on the pay stub."""
+
     telephone_number: Optional[str] = None
+    """Telephone number of payer."""
+
+    name_: Optional[str] = None
+    """Name of payer."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,6 +1,7 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
 
 
 def main():
@@ -10,28 +11,24 @@ def main():
         reference="your reference",
         scopes=["your scopes"],
         constraints=PaymentInitiationConsentConstraints(
-            max_payment_amount=PaymentConsentMaxPaymentAmount(
-                payment_amount=PaymentAmount(
-                    value=1.0,
-                    currency="your currency",
-                ),
+            max_payment_amount=PaymentAmount(
+                currency="your currency",
+                value=1.0,
             ),
-            periodic_amounts=[
-                PaymentConsentPeriodicAmount(
-                    interval="your interval",
-                    amount=PaymentConsentPeriodicAmountAmount(
-                        payment_amount=PaymentAmount(
-                            value=1.0,
-                            currency="your currency",
-                        ),
-                    ),
-                    alignment="your alignment",
-                )
-            ],
             valid_date_time=PaymentConsentValidDateTime(
                 to="your to",
                 from_="your from",
             ),
+            periodic_amounts=[
+                PaymentConsentPeriodicAmount(
+                    amount=PaymentAmount(
+                        currency="your currency",
+                        value=1.0,
+                    ),
+                    interval="your interval",
+                    alignment="your alignment",
+                )
+            ],
         ),
     )
     print(f"{response!r}")
@@ -44,28 +41,24 @@ async def async_main():
         reference="your reference",
         scopes=["your scopes"],
         constraints=PaymentInitiationConsentConstraints(
-            max_payment_amount=PaymentConsentMaxPaymentAmount(
-                payment_amount=PaymentAmount(
-                    value=1.0,
-                    currency="your currency",
-                ),
+            max_payment_amount=PaymentAmount(
+                currency="your currency",
+                value=1.0,
             ),
-            periodic_amounts=[
-                PaymentConsentPeriodicAmount(
-                    interval="your interval",
-                    amount=PaymentConsentPeriodicAmountAmount(
-                        payment_amount=PaymentAmount(
-                            value=1.0,
-                            currency="your currency",
-                        ),
-                    ),
-                    alignment="your alignment",
-                )
-            ],
             valid_date_time=PaymentConsentValidDateTime(
                 to="your to",
                 from_="your from",
             ),
+            periodic_amounts=[
+                PaymentConsentPeriodicAmount(
+                    amount=PaymentAmount(
+                        currency="your currency",
+                        value=1.0,
+                    ),
+                    interval="your interval",
+                    alignment="your alignment",
+                )
+            ],
         ),
     )
     print(f"{response!r}")

@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class ClientProvidedRawTransaction(BaseModel):
-    """Unique transaction identifier to tie transactions back to clients' systems."""
+    description: str
+    """The raw description of the transaction."""
+
+    amount: float
+    """The value of the transaction, denominated in the account's currency, as stated in `iso_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative."""
 
     id: str
-    """The ISO-4217 currency code of the transaction."""
+    """Unique transaction identifier to tie transactions back to clients' systems."""
+
     iso_currency_code: str
-    """The value of the transaction, denominated in the account's currency, as stated in `iso_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative."""
-    amount: float
-    """The raw description of the transaction."""
-    description: str
+    """The ISO-4217 currency code of the transaction."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class ClientProvidedRawTransaction(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ClientProvidedRawTransaction":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ClientProvidedRawTransaction":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class WalletTransactionAmount(BaseModel):
-    """An ISO-4217 currency code, used with e-wallets and transactions."""
+    value: float
+    """The amount of the transaction. Must contain at most two digits of precision e.g. `1.23`."""
 
     iso_currency_code: str
-    """The amount of the transaction. Must contain at most two digits of precision e.g. `1.23`."""
-    value: float
+    """An ISO-4217 currency code, used with e-wallets and transactions."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class WalletTransactionAmount(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WalletTransactionAmount":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WalletTransactionAmount":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

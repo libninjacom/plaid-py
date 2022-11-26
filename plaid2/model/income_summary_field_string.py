@@ -4,9 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class IncomeSummaryFieldString(BaseModel):
+    value: str
     """The value of the field."""
 
-    value: str
+    verification_status: str
     """The verification status. One of the following:
     
     `"VERIFIED"`: The information was successfully verified.
@@ -18,7 +19,6 @@ class IncomeSummaryFieldString(BaseModel):
     "`UNABLE_TO_VERIFY`": The verification was performed and the information could not be verified.
     
     `"UNKNOWN"`: The verification status is unknown."""
-    verification_status: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -36,8 +36,6 @@ class IncomeSummaryFieldString(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeSummaryFieldString":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeSummaryFieldString":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class CreditPlatformIds(BaseModel):
+    employee_id: Optional[str] = None
     """The ID of an employee as given by their employer."""
 
-    employee_id: Optional[str] = None
-    """The ID of the position of the employee."""
     position_id: Optional[str] = None
-    """The ID of an employee as given by their payroll."""
+    """The ID of the position of the employee."""
+
     payroll_id: Optional[str] = None
+    """The ID of an employee as given by their payroll."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

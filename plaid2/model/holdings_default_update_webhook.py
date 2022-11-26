@@ -1,23 +1,27 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .plaid_error import PlaidError
+from .error import Error
 
 
 class HoldingsDefaultUpdateWebhook(BaseModel):
-    """`DEFAULT_UPDATE`"""
+    updated_holdings: float
+    """The number of updated holdings reported since the last time this webhook was fired."""
+
+    new_holdings: float
+    """The number of new holdings reported since the last time this webhook was fired."""
 
     webhook_code: str
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """`DEFAULT_UPDATE`"""
+
     item_id: str
-    """The number of new holdings reported since the last time this webhook was fired."""
-    new_holdings: float
-    """`HOLDINGS`"""
-    webhook_type: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+
+    error: Optional[Error] = None
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
-    error: Optional[PlaidError] = None
-    """The number of updated holdings reported since the last time this webhook was fired."""
-    updated_holdings: float
+
+    webhook_type: str
+    """`HOLDINGS`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -35,8 +39,6 @@ class HoldingsDefaultUpdateWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "HoldingsDefaultUpdateWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "HoldingsDefaultUpdateWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

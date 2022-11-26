@@ -7,15 +7,17 @@ from .deposit_switch_target_user import DepositSwitchTargetUser
 
 
 class DepositSwitchAltCreateRequest(BaseModel):
-    """The deposit switch destination account"""
+    country_code: Optional[str] = None
+    """ISO-3166-1 alpha-2 country code standard."""
+
+    options: Optional[DepositSwitchCreateRequestOptions] = None
+    """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
 
     target_account: DepositSwitchTargetAccount
-    """The deposit switch target user"""
+    """The deposit switch destination account"""
+
     target_user: DepositSwitchTargetUser
-    """ISO-3166-1 alpha-2 country code standard."""
-    country_code: Optional[str] = None
-    """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
-    options: Optional[DepositSwitchCreateRequestOptions] = None
+    """The deposit switch target user"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +35,6 @@ class DepositSwitchAltCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchAltCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchAltCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

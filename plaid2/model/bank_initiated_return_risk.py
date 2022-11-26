@@ -4,9 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class BankInitiatedReturnRisk(BaseModel):
-    """A score from 0-99 that indicates the transaction return risk: a higher risk score suggests a higher return likelihood."""
-
-    score: int
+    risk_tier: int
     """In the `bank_initiated_return_risk` object, there are eight risk tiers corresponding to the scores:
       1: Predicted bank-initiated return incidence rate between 0.0% - 0.5%
       2: Predicted bank-initiated return incidence rate between 0.5% - 1.5%
@@ -17,7 +15,9 @@ class BankInitiatedReturnRisk(BaseModel):
       7: Predicted bank-initiated return incidence rate between 15% and 50%
       8: Predicted bank-initiated return incidence rate greater than 50%
     """
-    risk_tier: int
+
+    score: int
+    """A score from 0-99 that indicates the transaction return risk: a higher risk score suggests a higher return likelihood."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -35,8 +35,6 @@ class BankInitiatedReturnRisk(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "BankInitiatedReturnRisk":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "BankInitiatedReturnRisk":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

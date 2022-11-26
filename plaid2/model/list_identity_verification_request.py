@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class ListIdentityVerificationRequest(BaseModel):
+    template_id: str
     """ID of the associated Identity Verification template."""
 
-    template_id: str
-    """An identifier that determines which page of results you receive."""
-    cursor: Optional[str] = None
-    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
     client_user_id: str
+    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
+
+    cursor: Optional[str] = None
+    """An identifier that determines which page of results you receive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class ListIdentityVerificationRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ListIdentityVerificationRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ListIdentityVerificationRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

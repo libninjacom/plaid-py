@@ -1,6 +1,9 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+sweep_id = "your sweep id"
 
 
 def main():
@@ -15,7 +18,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-sweep_id = "your sweep id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

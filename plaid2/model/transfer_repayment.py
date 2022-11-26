@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class TransferRepayment(BaseModel):
-    """The currency of the repayment, e.g. "USD"."""
+    repayment_id: str
+    """Identifier of the repayment."""
+
+    created: str
+    """The datetime when the repayment occurred, in RFC 3339 format."""
 
     iso_currency_code: str
-    """Identifier of the repayment."""
-    repayment_id: str
-    """The datetime when the repayment occurred, in RFC 3339 format."""
-    created: str
-    """Decimal amount of the repayment as it appears on your account ledger."""
+    """The currency of the repayment, e.g. "USD"."""
+
     amount: str
+    """Decimal amount of the repayment as it appears on your account ledger."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

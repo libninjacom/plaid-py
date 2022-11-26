@@ -6,18 +6,22 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class EntityWatchlistScreeningResponse(BaseModel):
-    assignee: Optional[str] = None
-    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
-    status: str
-    """ID of the associated entity screening."""
-    id: str
-    client_user_id: Optional[str] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """Search terms associated with an entity used for searching against watchlists"""
-    search_terms: EntityWatchlistScreeningSearchTerms
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
     audit_trail: WatchlistScreeningAuditTrail
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+
+    assignee: Optional[str] = None
+    client_user_id: Optional[str] = None
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    id: str
+    """ID of the associated entity screening."""
+
+    status: str
+    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
+
+    search_terms: EntityWatchlistScreeningSearchTerms
+    """Search terms associated with an entity used for searching against watchlists"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -35,8 +39,6 @@ class EntityWatchlistScreeningResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityWatchlistScreeningResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "EntityWatchlistScreeningResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

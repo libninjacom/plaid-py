@@ -5,15 +5,17 @@ from .transfer_user_address_in_response import TransferUserAddressInResponse
 
 
 class TransferUserInResponse(BaseModel):
-    """The user's legal name."""
+    address: Optional[TransferUserAddressInResponse] = None
+    """The address associated with the account holder."""
+
+    email_address: Optional[str] = None
+    """The user's email address."""
+
+    phone_number: Optional[str] = None
+    """The user's phone number."""
 
     legal_name: str
-    """The user's email address."""
-    email_address: Optional[str] = None
-    """The user's phone number."""
-    phone_number: Optional[str] = None
-    """The address associated with the account holder."""
-    address: Optional[TransferUserAddressInResponse] = None
+    """The user's legal name."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

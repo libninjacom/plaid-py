@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class CreditBankIncomeRefreshRequestOptions(BaseModel):
+    days_requested: Optional[int] = None
     """How many days of data to include in the refresh. If not specified, this will default to the days requested in the most recently generated bank income report for the user."""
 
-    days_requested: Optional[int] = None
-    """The URL where Plaid will send the bank income webhook."""
     webhook: Optional[str] = None
+    """The URL where Plaid will send the bank income webhook."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class CreditBankIncomeRefreshRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditBankIncomeRefreshRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditBankIncomeRefreshRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

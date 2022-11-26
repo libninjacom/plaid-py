@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SignalReturnReportRequest(BaseModel):
+    client_transaction_id: str
     """Must be the same as the `client_transaction_id` supplied when calling `/signal/evaluate`"""
 
-    client_transaction_id: str
-    """Must be a valid ACH return code (e.g. "R01")"""
     return_code: str
+    """Must be a valid ACH return code (e.g. "R01")"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class SignalReturnReportRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SignalReturnReportRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SignalReturnReportRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

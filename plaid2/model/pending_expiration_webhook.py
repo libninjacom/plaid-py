@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class PendingExpirationWebhook(BaseModel):
-    """`PENDING_EXPIRATION`"""
+    consent_expiration_time: str
+    """The date and time at which the Item's access consent will expire, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format"""
+
+    webhook_type: str
+    """`ITEM`"""
 
     webhook_code: str
-    """`ITEM`"""
-    webhook_type: str
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """`PENDING_EXPIRATION`"""
+
     item_id: str
-    """The date and time at which the Item's access consent will expire, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format"""
-    consent_expiration_time: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class PendingExpirationWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PendingExpirationWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PendingExpirationWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

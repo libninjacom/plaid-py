@@ -4,12 +4,12 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationPrecheckMilitaryInfo(BaseModel):
-    """Is the user currently active duty in the US military"""
-
-    is_active_duty: Optional[bool] = None
+    branch: Optional[str] = None
     """If the user is currently serving in the US military, the branch of the military in which they are serving
     Valid values: 'AIR FORCE', 'ARMY', 'COAST GUARD', 'MARINES', 'NAVY', 'UNKNOWN'"""
-    branch: Optional[str] = None
+
+    is_active_duty: Optional[bool] = None
+    """Is the user currently active duty in the US military"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class IncomeVerificationPrecheckMilitaryInfo(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationPrecheckMilitaryInfo":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationPrecheckMilitaryInfo":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

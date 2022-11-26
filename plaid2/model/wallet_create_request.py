@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class WalletCreateRequest(BaseModel):
-    """An ISO-4217 currency code, used with e-wallets and transactions."""
-
     iso_currency_code: str
+    """An ISO-4217 currency code, used with e-wallets and transactions."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SignalDevice(BaseModel):
+    ip_address: Optional[str] = None
     """The IP address of the device that initiated the transaction"""
 
-    ip_address: Optional[str] = None
-    """The user agent of the device that initiated the transaction (e.g. "Mozilla/5.0")"""
     user_agent: Optional[str] = None
+    """The user agent of the device that initiated the transaction (e.g. "Mozilla/5.0")"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

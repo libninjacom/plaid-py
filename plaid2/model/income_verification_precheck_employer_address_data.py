@@ -4,19 +4,22 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationPrecheckEmployerAddressData(BaseModel):
-    """The full city name"""
-
-    city: Optional[str] = None
-    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
     postal_code: Optional[str] = None
-    """The ISO 3166-1 alpha-2 country code"""
-    country: Optional[str] = None
-    """The region or state. In API versions 2018-05-22 and earlier, this field is called `state`.
-    Example: `"NC"`"""
-    region: Optional[str] = None
+    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
+
+    street: Optional[str] = None
     """The full street address
     Example: `"564 Main Street, APT 15"`"""
-    street: Optional[str] = None
+
+    region: Optional[str] = None
+    """The region or state. In API versions 2018-05-22 and earlier, this field is called `state`.
+    Example: `"NC"`"""
+
+    country: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code"""
+
+    city: Optional[str] = None
+    """The full city name"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +37,6 @@ class IncomeVerificationPrecheckEmployerAddressData(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationPrecheckEmployerAddressData":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationPrecheckEmployerAddressData":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

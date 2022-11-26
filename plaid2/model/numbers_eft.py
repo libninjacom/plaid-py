@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class NumbersEft(BaseModel):
-    """The EFT institution number for the account"""
+    account: str
+    """The EFT account number for the account"""
 
     institution: str
-    """The EFT branch number for the account"""
+    """The EFT institution number for the account"""
+
     branch: str
-    """The Plaid account ID associated with the account numbers"""
+    """The EFT branch number for the account"""
+
     account_id: str
-    """The EFT account number for the account"""
-    account: str
+    """The Plaid account ID associated with the account numbers"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

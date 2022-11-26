@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferFailure(BaseModel):
-    """A human-readable description of the reason for the failure or reversal."""
+    ach_return_code: Optional[str] = None
+    """The ACH return code, e.g. `R01`.  A return code will be provided if and only if the transfer status is `reversed`. For a full listing of ACH return codes, see [Bank Transfers errors](https://plaid.com/docs/errors/bank-transfers/#ach-return-codes)."""
 
     description: Optional[str] = None
-    """The ACH return code, e.g. `R01`.  A return code will be provided if and only if the transfer status is `reversed`. For a full listing of ACH return codes, see [Bank Transfers errors](https://plaid.com/docs/errors/bank-transfers/#ach-return-codes)."""
-    ach_return_code: Optional[str] = None
+    """A human-readable description of the reason for the failure or reversal."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

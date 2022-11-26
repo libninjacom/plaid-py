@@ -5,9 +5,8 @@ from .payment_initiation_recipient import PaymentInitiationRecipient
 
 
 class PaymentInitiationRecipientGetResponse(BaseModel):
-    """PaymentInitiationRecipient defines a payment initiation recipient"""
-
     payment_initiation_recipient: PaymentInitiationRecipient
+    """PaymentInitiationRecipient defines a payment initiation recipient"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +24,6 @@ class PaymentInitiationRecipientGetResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationRecipientGetResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationRecipientGetResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -6,11 +6,11 @@ from .recipient_bacs import RecipientBacs
 
 
 class WalletNumbers(BaseModel):
-    """Account numbers using the International Bank Account Number and BIC/SWIFT code format."""
+    bacs: Optional[RecipientBacs] = None
+    """An object containing a BACS account number and sort code. If an IBAN is not provided or if you need to accept domestic GBP-denominated payments, BACS data is required."""
 
     international: Optional[NumbersInternationalIban] = None
-    """An object containing a BACS account number and sort code. If an IBAN is not provided or if you need to accept domestic GBP-denominated payments, BACS data is required."""
-    bacs: Optional[RecipientBacs] = None
+    """Account numbers using the International Bank Account Number and BIC/SWIFT code format."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

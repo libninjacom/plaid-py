@@ -5,26 +5,28 @@ from .entity_screening_hit_documents_items import EntityScreeningHitDocumentsIte
 from .entity_screening_hit_emails_items import EntityScreeningHitEmailsItems
 from .entity_screening_hit_names_items import EntityScreeningHitNamesItems
 from .entity_screening_hit_urls_items import EntityScreeningHitUrlsItems
-from .entity_screening_hits_phone_number_items import (
-    EntityScreeningHitsPhoneNumberItems,
-)
+from .entity_screening_hits_phone_number_items import EntityScreeningHitsPhoneNumberItems
 from .generic_screening_hit_location_items import GenericScreeningHitLocationItems
 
 
 class EntityScreeningHitData(BaseModel):
-    """Documents associated with the watchlist hit"""
+    email_addresses: Optional[List[EntityScreeningHitEmailsItems]] = None
+    """Email addresses associated with the watchlist hit"""
+
+    names: Optional[List[EntityScreeningHitNamesItems]] = None
+    """Names associated with the watchlist hit"""
+
+    phone_numbers: Optional[List[EntityScreeningHitsPhoneNumberItems]] = None
+    """Phone numbers associated with the watchlist hit"""
 
     documents: Optional[List[EntityScreeningHitDocumentsItems]] = None
-    """Locations associated with the watchlist hit"""
+    """Documents associated with the watchlist hit"""
+
     locations: Optional[List[GenericScreeningHitLocationItems]] = None
-    """Names associated with the watchlist hit"""
-    names: Optional[List[EntityScreeningHitNamesItems]] = None
-    """Phone numbers associated with the watchlist hit"""
-    phone_numbers: Optional[List[EntityScreeningHitsPhoneNumberItems]] = None
-    """Email addresses associated with the watchlist hit"""
-    email_addresses: Optional[List[EntityScreeningHitEmailsItems]] = None
-    """URLs associated with the watchlist hit"""
+    """Locations associated with the watchlist hit"""
+
     urls: Optional[List[EntityScreeningHitUrlsItems]] = None
+    """URLs associated with the watchlist hit"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

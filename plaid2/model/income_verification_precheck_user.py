@@ -5,15 +5,17 @@ from .signal_address_data import SignalAddressData
 
 
 class IncomeVerificationPrecheckUser(BaseModel):
-    """The user's first name"""
+    email_address: Optional[str] = None
+    """The user's email address"""
+
+    home_address: Optional[SignalAddressData] = None
+    """Data about the components comprising an address."""
+
+    last_name: Optional[str] = None
+    """The user's last name"""
 
     first_name: Optional[str] = None
-    """Data about the components comprising an address."""
-    home_address: Optional[SignalAddressData] = None
-    """The user's last name"""
-    last_name: Optional[str] = None
-    """The user's email address"""
-    email_address: Optional[str] = None
+    """The user's first name"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -31,8 +33,6 @@ class IncomeVerificationPrecheckUser(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationPrecheckUser":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationPrecheckUser":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class EntityScreeningHitPhoneNumbers(BaseModel):
-    """A phone number in E.164 format."""
+    type: str
+    """An enum indicating whether a phone number is a phone line or a fax line."""
 
     phone_number: str
-    """An enum indicating whether a phone number is a phone line or a fax line."""
-    type: str
+    """A phone number in E.164 format."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class EntityScreeningHitPhoneNumbers(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityScreeningHitPhoneNumbers":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "EntityScreeningHitPhoneNumbers":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

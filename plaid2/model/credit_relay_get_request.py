@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class CreditRelayGetRequest(BaseModel):
-    """The `relay_token` granting access to the report you would like to get."""
+    report_type: str
+    """The report type. It can be `assets` or `income`."""
 
     relay_token: str
-    """The report type. It can be `assets` or `income`."""
-    report_type: str
+    """The `relay_token` granting access to the report you would like to get."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

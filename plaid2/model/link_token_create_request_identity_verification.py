@@ -5,12 +5,13 @@ from pydantic import BaseModel, Field
 
 class LinkTokenCreateRequestIdentityVerification(BaseModel):
     consent: Optional[bool] = None
+    template_id: str
+    """ID of the associated Identity Verification template."""
+
+    gave_consent: Optional[bool] = None
     """A flag specifying whether the end user has already agreed to a privacy policy specifying that their data will be shared with Plaid for verification purposes.
     
     If `gave_consent` is set to `true`, the `accept_tos` step will be marked as `skipped` and the end user's session will start at the next step requirement."""
-    gave_consent: Optional[bool] = None
-    """ID of the associated Identity Verification template."""
-    template_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class LinkTokenCreateRequestIdentityVerification(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateRequestIdentityVerification":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateRequestIdentityVerification":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

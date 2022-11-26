@@ -5,13 +5,14 @@ from .wallet import Wallet
 
 
 class WalletListResponse(BaseModel):
-    """Cursor used for fetching e-wallets created before the latest e-wallet provided in this response"""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    wallets: List[Wallet]
+    """An array of e-wallets"""
 
     next_cursor: Optional[str] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """An array of e-wallets"""
-    wallets: List[Wallet]
+    """Cursor used for fetching e-wallets created before the latest e-wallet provided in this response"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

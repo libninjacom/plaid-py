@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class ScreeningStatusUpdatedWebhook(BaseModel):
-    """`SCREENING`"""
+    webhook_code: str
+    """`STATUS_UPDATED`"""
 
     webhook_type: str
-    """The ID of the associated screening."""
+    """`SCREENING`"""
+
     screening_id: Any
-    """`STATUS_UPDATED`"""
-    webhook_code: str
+    """The ID of the associated screening."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class ScreeningStatusUpdatedWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ScreeningStatusUpdatedWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ScreeningStatusUpdatedWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

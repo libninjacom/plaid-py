@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationTaxformsGetRequest(BaseModel):
+    income_verification_id: Optional[str] = None
     """The ID of the verification."""
 
-    income_verification_id: Optional[str] = None
-    """The access token associated with the Item data is being requested for."""
     access_token: Optional[str] = None
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class IncomeVerificationTaxformsGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IncomeVerificationTaxformsGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IncomeVerificationTaxformsGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

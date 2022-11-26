@@ -1,6 +1,14 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+recipient_id = "your recipient id"
+reference = "your reference"
+amount = PaymentAmount(
+    currency="your currency",
+    value=1.0,
+)
 
 
 def main():
@@ -11,18 +19,10 @@ def main():
 
 async def async_main():
     client = AsyncPlaidClient.from_env()
-    response = await client.payment_initiation_payment_create(
-        recipient_id, reference, amount
-    )
+    response = await client.payment_initiation_payment_create(recipient_id, reference, amount)
     print(f"{response!r}")
 
 
-recipient_id = "your recipient id"
-reference = "your reference"
-amount = PaymentAmount(
-    value=1.0,
-    currency="your currency",
-)
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

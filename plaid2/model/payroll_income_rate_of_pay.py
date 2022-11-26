@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PayrollIncomeRateOfPay(BaseModel):
+    pay_rate: Optional[str] = None
     """The rate at which an employee is paid."""
 
-    pay_rate: Optional[str] = None
-    """The amount at which an employee is paid."""
     pay_amount: Optional[float] = None
+    """The amount at which an employee is paid."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

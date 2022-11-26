@@ -1,22 +1,24 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .numbers_ach_nullable import NumbersAchNullable
-from .numbers_bacs_nullable import NumbersBacsNullable
-from .numbers_eft_nullable import NumbersEftNullable
-from .numbers_international_nullable import NumbersInternationalNullable
+from .numbers_ach import NumbersAch
+from .numbers_bacs import NumbersBacs
+from .numbers_eft import NumbersEft
+from .numbers_international import NumbersInternational
 
 
 class ProcessorNumber(BaseModel):
+    international: Optional[NumbersInternational] = None
+    """Identifying information for transferring money to or from an international bank account via wire transfer."""
+
+    eft: Optional[NumbersEft] = None
     """Identifying information for transferring money to or from a Canadian bank account via EFT."""
 
-    eft: Optional[NumbersEftNullable] = None
+    ach: Optional[NumbersAch] = None
     """Identifying information for transferring money to or from a US account via ACH or wire transfer."""
-    ach: Optional[NumbersAchNullable] = None
+
+    bacs: Optional[NumbersBacs] = None
     """Identifying information for transferring money to or from a UK bank account via BACS."""
-    bacs: Optional[NumbersBacsNullable] = None
-    """Identifying information for transferring money to or from an international bank account via wire transfer."""
-    international: Optional[NumbersInternationalNullable] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

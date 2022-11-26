@@ -4,11 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationConsentCreateResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
-    """A unique ID identifying the payment consent."""
-    consent_id: str
+    status: str
     """The status of the payment consent.
     
     `UNAUTHORISED`: Consent created, but requires user authorisation.
@@ -20,7 +16,12 @@ class PaymentInitiationConsentCreateResponse(BaseModel):
     `REVOKED`: Consent has been revoked and can no longer be used.
     
     `EXPIRED`: Consent is no longer valid."""
-    status: str
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    consent_id: str
+    """A unique ID identifying the payment consent."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -38,8 +39,6 @@ class PaymentInitiationConsentCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationConsentCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationConsentCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

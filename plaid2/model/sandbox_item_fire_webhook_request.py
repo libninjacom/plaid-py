@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class SandboxItemFireWebhookRequest(BaseModel):
+    webhook_code: str
     """The webhook codes that can be fired by this test endpoint."""
 
-    webhook_code: str
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
-    """The webhook types that can be fired by this test endpoint."""
     webhook_type: Optional[str] = None
+    """The webhook types that can be fired by this test endpoint."""
+
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class SandboxItemFireWebhookRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SandboxItemFireWebhookRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SandboxItemFireWebhookRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

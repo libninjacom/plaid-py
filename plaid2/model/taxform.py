@@ -5,13 +5,14 @@ from .w_2 import W2
 
 
 class Taxform(BaseModel):
-    """W2 is an object that represents income data taken from a W2 tax document."""
+    document_type: str
+    """The type of tax document. Currently, the only supported value is `w2`."""
 
     w_2: Optional[W2] = None
-    """The type of tax document. Currently, the only supported value is `w2`."""
-    document_type: str
-    """An identifier of the document referenced by the document metadata."""
+    """W2 is an object that represents income data taken from a W2 tax document."""
+
     doc_id: Optional[str] = None
+    """An identifier of the document referenced by the document metadata."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

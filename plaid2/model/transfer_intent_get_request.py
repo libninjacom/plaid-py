@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class TransferIntentGetRequest(BaseModel):
-    """Plaid's unique identifier for a transfer intent object."""
-
     transfer_intent_id: str
+    """Plaid's unique identifier for a transfer intent object."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +22,6 @@ class TransferIntentGetRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferIntentGetRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferIntentGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

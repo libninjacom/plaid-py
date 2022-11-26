@@ -1,6 +1,7 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
 
 
 def main():
@@ -14,9 +15,9 @@ def main():
         iso_currency_code="your iso currency code",
         description="your description",
         user=BankTransferUser(
-            legal_name="your legal name",
             email_address="your email address",
             routing_number="your routing number",
+            legal_name="your legal name",
         ),
     )
     print(f"{response!r}")
@@ -33,9 +34,9 @@ async def async_main():
         iso_currency_code="your iso currency code",
         description="your description",
         user=BankTransferUser(
-            legal_name="your legal name",
             email_address="your email address",
             routing_number="your routing number",
+            legal_name="your legal name",
         ),
     )
     print(f"{response!r}")

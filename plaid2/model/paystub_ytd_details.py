@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PaystubYtdDetails(BaseModel):
-    """Year-to-date net (take home) earnings."""
+    gross_earnings: Optional[float] = None
+    """Year-to-date gross earnings."""
 
     net_earnings: Optional[float] = None
-    """Year-to-date gross earnings."""
-    gross_earnings: Optional[float] = None
+    """Year-to-date net (take home) earnings."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

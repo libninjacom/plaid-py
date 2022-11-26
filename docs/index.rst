@@ -1,13 +1,23 @@
-.. container::
-   :name: top
-
 .. raw:: html
 
    <p align="center">
+    <a href="https://github.com/libninjacom/plaid-py/stargazers">
+        <img src="https://img.shields.io/github/stars/libninjacom/plaid-py.svg?style=flat-square" alt="Stars" />
+    </a>
+    <a href="https://github.com/libninjacom/plaid-py/actions">
+        <img src="https://img.shields.io/github/workflow/status/libninjacom/plaid-py/ci?style=flat-square" alt="Build Status" />
+    </a>
 
-.. raw:: html
+    <a href="https://pypi.org/project/plaid2">
+        <img src="https://img.shields.io/pypi/dm/plaid2?style=flat-square" alt="Downloads" />
+    </a>
 
-   </p>
+    <a href="https://pypi.org/project/plaid2">
+        <img src="https://img.shields.io/pypi/v/plaid2?style=flat-square" alt="Pypi" />
+    </a>
+
+    </p>
+
 
 Plaid client, generated from the OpenAPI spec.
 
@@ -54,6 +64,9 @@ Documentation
 
 You can see working examples of every API call in the ``examples/``
 directory.
+
+.. autosummary::
+     :toctree: stubs
 
 Contributing
 ============

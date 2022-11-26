@@ -1,16 +1,15 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .match_summary import MatchSummary
 from .watchlist_screening_document import WatchlistScreeningDocument
 
 
 class ScreeningHitDocumentsItems(BaseModel):
+    analysis: Optional[str] = None
     """Summary object reflecting the match result of the associated data"""
 
-    analysis: Optional[MatchSummary] = None
-    """An official document, usually issued by a governing body or institution, with an associated identifier."""
     data: Optional[WatchlistScreeningDocument] = None
+    """An official document, usually issued by a governing body or institution, with an associated identifier."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +27,6 @@ class ScreeningHitDocumentsItems(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ScreeningHitDocumentsItems":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ScreeningHitDocumentsItems":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

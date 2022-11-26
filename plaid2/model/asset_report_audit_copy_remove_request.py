@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class AssetReportAuditCopyRemoveRequest(BaseModel):
-    """The `audit_copy_token` granting access to the Audit Copy you would like to revoke."""
-
     audit_copy_token: str
+    """The `audit_copy_token` granting access to the Audit Copy you would like to revoke."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +22,6 @@ class AssetReportAuditCopyRemoveRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportAuditCopyRemoveRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportAuditCopyRemoveRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

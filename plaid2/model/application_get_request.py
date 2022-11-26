@@ -1,12 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class ApplicationGetRequest(BaseModel):
-    """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
-
     application_id: str
+    """This field will map to the application ID that is returned from /item/applications/list, or provided to the
+    institution in an oauth redirect."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

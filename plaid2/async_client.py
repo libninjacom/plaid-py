@@ -13,9 +13,7 @@ def filter_none(d: Dict[str, Any]) -> Dict[str, str]:
     return {k: str(v) for k, v in d.items() if v is not None}
 
 
-def log_request(
-    method: str, url: str, headers: Dict[str, str], params: Dict[str, str], data: Any
-) -> None:
+def log_request(method: str, url: str, headers: Dict[str, str], params: Dict[str, str], data: Any) -> None:
     logger.debug(
         json.dumps(
             dict(
@@ -65,12 +63,8 @@ class AsyncPlaidClient:
         params1 = filter_none(params)
         do_debug = logger.getEffectiveLevel() == logging.DEBUG
         if do_debug:
-            log_request(
-                method, url, dict(**headers1, **self.session.headers), params1, data
-            )
-        async with self.session.request(
-            method, url, headers=headers1, params=params1, json=data
-        ) as res:
+            log_request(method, url, dict(**headers1, **self.session.headers), params1, data)
+        async with self.session.request(method, url, headers=headers1, params=params1, json=data) as res:
             text = await res.text()
             if do_debug:
                 log_response(text, res)
@@ -85,9 +79,7 @@ class AsyncPlaidClient:
                 )
             return text
 
-    async def item_application_list(
-        self, *, access_token: Optional[str] = None
-    ) -> model.ItemApplicationListResponse:
+    async def item_application_list(self, *, access_token: Optional[str] = None) -> model.ItemApplicationListResponse:
         """List a user’s connected applications"""
         url = self.base_url + "/item/application/list"
         headers: Dict[str, Union[str, None]] = {}
@@ -99,13 +91,7 @@ class AsyncPlaidClient:
         return model.ItemApplicationListResponse.parse_raw(text)
 
     async def item_application_scopes_update(
-        self,
-        access_token: str,
-        application_id: str,
-        scopes: model.Scopes,
-        context: str,
-        *,
-        state: Optional[str] = None,
+        self, access_token: str, application_id: str, scopes: model.Scopes, context: str, *, state: Optional[str] = None
     ) -> model.ItemApplicationScopesUpdateResponse:
         """Update the scopes of access for a particular application
 
@@ -123,12 +109,11 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ItemApplicationScopesUpdateResponse.parse_raw(text)
 
-    async def application_get(
-        self, application_id: str
-    ) -> model.ApplicationGetResponse:
+    async def application_get(self, application_id: str) -> model.ApplicationGetResponse:
         """Retrieve information about a Plaid application
 
-        Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences"""
+        Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences
+        """
         url = self.base_url + "/application/get"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -153,12 +138,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ItemGetResponse.parse_raw(text)
 
-    async def auth_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AuthGetRequestOptions] = None,
-    ) -> model.AuthGetResponse:
+    async def auth_get(self, access_token: str, *, options: Optional[List[str]] = None) -> model.AuthGetResponse:
         """Retrieve auth data
 
         The `/auth/get` endpoint returns the bank account and bank identification numbers (such as routing numbers, for US accounts) associated with an Item's checking and savings accounts, along with high-level account data and balances when available.
@@ -175,7 +155,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AuthGetResponse.parse_raw(text)
@@ -213,9 +193,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsGetResponse.parse_raw(text)
 
-    async def transactions_refresh(
-        self, access_token: str
-    ) -> model.TransactionsRefreshResponse:
+    async def transactions_refresh(self, access_token: str) -> model.TransactionsRefreshResponse:
         """Refresh transaction data
 
         `/transactions/refresh` is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling `/transactions/refresh`, Plaid will fire a webhook: [`TRANSACTIONS_REMOVED`](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [`DEFAULT_UPDATE`](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling `/transactions/get`.
@@ -233,11 +211,7 @@ class AsyncPlaidClient:
         return model.TransactionsRefreshResponse.parse_raw(text)
 
     async def transactions_recurring_get(
-        self,
-        access_token: str,
-        account_ids: List[str],
-        *,
-        options: Optional[model.TransactionsRecurringGetRequestOptions] = None,
+        self, access_token: str, account_ids: List[str], *, options: Optional[bool] = None
     ) -> model.TransactionsRecurringGetResponse:
         """Fetch recurring transaction streams
 
@@ -255,7 +229,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
             "account_ids": account_ids,
         }
         text = await self.send("POST", url, headers, params, data)
@@ -405,10 +379,7 @@ class AsyncPlaidClient:
         return model.ItemRemoveResponse.parse_raw(text)
 
     async def accounts_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AccountsGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.AccountsGetResponse:
         """Retrieve accounts
 
@@ -423,7 +394,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AccountsGetResponse.parse_raw(text)
@@ -442,10 +413,7 @@ class AsyncPlaidClient:
         return model.CategoriesGetResponse.parse_raw(text)
 
     async def sandbox_processor_token_create(
-        self,
-        institution_id: str,
-        *,
-        options: Optional[model.SandboxProcessorTokenCreateRequestOptions] = None,
+        self, institution_id: str, *, options: Optional[model.SandboxProcessorTokenCreateRequestOptions] = None
     ) -> model.SandboxProcessorTokenCreateResponse:
         """Create a test Item and processor token
 
@@ -488,11 +456,7 @@ class AsyncPlaidClient:
         return model.SandboxPublicTokenCreateResponse.parse_raw(text)
 
     async def sandbox_item_fire_webhook(
-        self,
-        access_token: str,
-        webhook_code: str,
-        *,
-        webhook_type: Optional[str] = None,
+        self, access_token: str, webhook_code: str, *, webhook_type: Optional[str] = None
     ) -> model.SandboxItemFireWebhookResponse:
         """Fire a test webhook
 
@@ -521,10 +485,7 @@ class AsyncPlaidClient:
         return model.SandboxItemFireWebhookResponse.parse_raw(text)
 
     async def accounts_balance_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AccountsBalanceGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[model.AccountsBalanceGetRequestOptions] = None
     ) -> model.AccountsGetResponse:
         """Retrieve real-time balance data
 
@@ -542,10 +503,7 @@ class AsyncPlaidClient:
         return model.AccountsGetResponse.parse_raw(text)
 
     async def identity_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.IdentityGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.IdentityGetResponse:
         """Retrieve identity data
 
@@ -561,17 +519,13 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityGetResponse.parse_raw(text)
 
     async def identity_match(
-        self,
-        access_token: str,
-        *,
-        user: Optional[model.IdentityMatchUser] = None,
-        options: Optional[model.IdentityMatchRequestOptions] = None,
+        self, access_token: str, *, user: Optional[model.IdentityMatchUser] = None, options: Optional[List[str]] = None
     ) -> model.IdentityMatchResponse:
         """Retrieve identity match score
 
@@ -586,14 +540,12 @@ class AsyncPlaidClient:
         data: Dict[str, Any] = {
             "access_token": access_token,
             "user": None if user is None else user.dict(),
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityMatchResponse.parse_raw(text)
 
-    async def dashobard_user_get(
-        self, dashboard_user_id: str
-    ) -> model.DashboardUserResponse:
+    async def dashobard_user_get(self, dashboard_user_id: str) -> model.DashboardUserResponse:
         """Retrieve a dashboard user
 
         Retrieve information about a dashboard user.
@@ -608,9 +560,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.DashboardUserResponse.parse_raw(text)
 
-    async def dashboard_user_list(
-        self, *, cursor: Optional[str] = None
-    ) -> model.PaginatedDashboardUserListResponse:
+    async def dashboard_user_list(self, *, cursor: Optional[str] = None) -> model.PaginatedDashboardUserListResponse:
         """List dashboard users
 
         List all dashboard users associated with your account.
@@ -640,7 +590,8 @@ class AsyncPlaidClient:
         If you don't know whether the associated user already has an active Identity Verification, you can specify `"is_idempotent": true` in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated `client_user_id` and `template_id`. If an Identity Verification is found, it will be returned unmodified with an `200 OK` HTTP status code.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationcreate>.
+        """
         url = self.base_url + "/identity_verification/create"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -654,9 +605,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
-    async def identity_verification_get(
-        self, identity_verification_id: str
-    ) -> model.IdentityVerificationResponse:
+    async def identity_verification_get(self, identity_verification_id: str) -> model.IdentityVerificationResponse:
         """Retrieve Identity Verification
 
         Retrieve a previously created identity verification
@@ -716,10 +665,7 @@ class AsyncPlaidClient:
         return model.IdentityVerificationResponse.parse_raw(text)
 
     async def watchlist_screening_entity_create(
-        self,
-        search_terms: model.EntityWatchlistSearchTerms,
-        *,
-        client_user_id: Optional[str] = None,
+        self, search_terms: model.EntityWatchlistSearchTerms, *, client_user_id: Optional[str] = None
     ) -> model.EntityWatchlistScreeningResponse:
         """Create a watchlist screening for an entity
 
@@ -923,10 +869,7 @@ class AsyncPlaidClient:
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     async def watchlist_screening_individual_create(
-        self,
-        search_terms: model.WatchlistScreeningRequestSearchTerms,
-        *,
-        client_user_id: Optional[str] = None,
+        self, search_terms: model.WatchlistScreeningRequestSearchTerms, *, client_user_id: Optional[str] = None
     ) -> model.WatchlistScreeningIndividualResponse:
         """Create a watchlist screening for a person
 
@@ -994,9 +937,7 @@ class AsyncPlaidClient:
             "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
-        return model.PaginatedIndividualWatchlistScreeningHitListResponse.parse_raw(
-            text
-        )
+        return model.PaginatedIndividualWatchlistScreeningHitListResponse.parse_raw(text)
 
     async def watchlist_screening_individual_list(
         self,
@@ -1071,7 +1012,8 @@ class AsyncPlaidClient:
 
         Create a review for the individual watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewcreate>.
+        """
         url = self.base_url + "/watchlist_screening/individual/review/create"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1100,17 +1042,13 @@ class AsyncPlaidClient:
             "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
-        return model.PaginatedIndividualWatchlistScreeningReviewListResponse.parse_raw(
-            text
-        )
+        return model.PaginatedIndividualWatchlistScreeningReviewListResponse.parse_raw(text)
 
     async def watchlist_screening_individual_update(
         self,
         watchlist_screening_id: str,
         *,
-        search_terms: Optional[
-            model.UpdateIndividualScreeningRequestSearchTerms
-        ] = None,
+        search_terms: Optional[model.UpdateIndividualScreeningRequestSearchTerms] = None,
         assignee: Optional[str] = None,
         status: Optional[str] = None,
         client_user_id: Optional[str] = None,
@@ -1135,9 +1073,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
-    async def processor_auth_get(
-        self, processor_token: str
-    ) -> model.ProcessorAuthGetResponse:
+    async def processor_auth_get(self, processor_token: str) -> model.ProcessorAuthGetResponse:
         """Retrieve Auth data
 
         The `/processor/auth/get` endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that''s associated with a given `processor_token`. The endpoint also returns high-level account data and balances when available.
@@ -1196,9 +1132,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorBankTransferCreateResponse.parse_raw(text)
 
-    async def processor_identity_get(
-        self, processor_token: str
-    ) -> model.ProcessorIdentityGetResponse:
+    async def processor_identity_get(self, processor_token: str) -> model.ProcessorIdentityGetResponse:
         """Retrieve Identity data
 
         The `/processor/identity/get` endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses.
@@ -1214,10 +1148,7 @@ class AsyncPlaidClient:
         return model.ProcessorIdentityGetResponse.parse_raw(text)
 
     async def processor_balance_get(
-        self,
-        processor_token: str,
-        *,
-        options: Optional[model.ProcessorBalanceGetRequestOptions] = None,
+        self, processor_token: str, *, options: Optional[str] = None
     ) -> model.ProcessorBalanceGetResponse:
         """Retrieve Balance data
 
@@ -1229,7 +1160,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "processor_token": processor_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorBalanceGetResponse.parse_raw(text)
@@ -1252,9 +1183,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ItemWebhookUpdateResponse.parse_raw(text)
 
-    async def item_access_token_invalidate(
-        self, access_token: str
-    ) -> model.ItemAccessTokenInvalidateResponse:
+    async def item_access_token_invalidate(self, access_token: str) -> model.ItemAccessTokenInvalidateResponse:
         """Invalidate access_token
 
         By default, the `access_token` associated with an Item does not expire and should be stored in a persistent, secure manner.
@@ -1272,9 +1201,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ItemAccessTokenInvalidateResponse.parse_raw(text)
 
-    async def webhook_verification_key_get(
-        self, key_id: str
-    ) -> model.WebhookVerificationKeyGetResponse:
+    async def webhook_verification_key_get(self, key_id: str) -> model.WebhookVerificationKeyGetResponse:
         """Get webhook verification key
 
         Plaid signs all outgoing webhooks and provides JSON Web Tokens (JWTs) so that you can verify the authenticity of any incoming webhooks to your application. A message signature is included in the `Plaid-Verification` header.
@@ -1292,10 +1219,7 @@ class AsyncPlaidClient:
         return model.WebhookVerificationKeyGetResponse.parse_raw(text)
 
     async def liabilities_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.LiabilitiesGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.LiabilitiesGetResponse:
         """Retrieve Liabilities data
 
@@ -1311,17 +1235,17 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.LiabilitiesGetResponse.parse_raw(text)
 
     async def payment_initiation_recipient_create(
         self,
-        name: str,
+        name_: str,
         *,
         iban: Optional[str] = None,
-        bacs: Optional[model.RecipientBacsNullable] = None,
+        bacs: Optional[model.RecipientBacs] = None,
         address: Optional[model.PaymentInitiationAddress] = None,
     ) -> model.PaymentInitiationRecipientCreateResponse:
         """Create payment recipient
@@ -1331,12 +1255,13 @@ class AsyncPlaidClient:
         The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same `recipient_id`.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientcreate>.
+        """
         url = self.base_url + "/payment_initiation/recipient/create"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "name": name,
+            "name": name_,
             "iban": iban,
             "bacs": None if bacs is None else bacs.dict(),
             "address": None if address is None else address.dict(),
@@ -1354,7 +1279,8 @@ class AsyncPlaidClient:
         A payment can only be reversed once and will be refunded to the original sender's account.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentreverse>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentreverse>.
+        """
         url = self.base_url + "/payment_initiation/payment/reverse"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1366,14 +1292,13 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentReverseResponse.parse_raw(text)
 
-    async def payment_initiation_recipient_get(
-        self, recipient_id: str
-    ) -> model.PaymentInitiationRecipientGetResponse:
+    async def payment_initiation_recipient_get(self, recipient_id: str) -> model.PaymentInitiationRecipientGetResponse:
         """Get payment recipient
 
         Get details about a payment recipient you have previously created.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientget>.
+        """
         url = self.base_url + "/payment_initiation/recipient/get"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1383,14 +1308,13 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationRecipientGetResponse.parse_raw(text)
 
-    async def payment_initiation_recipient_list(
-        self,
-    ) -> model.PaymentInitiationRecipientListResponse:
+    async def payment_initiation_recipient_list(self) -> model.PaymentInitiationRecipientListResponse:
         """List payment recipients
 
         The `/payment_initiation/recipient/list` endpoint list the payment recipients that you have previously created.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientlist>.
+        """
         url = self.base_url + "/payment_initiation/recipient/list"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1404,7 +1328,7 @@ class AsyncPlaidClient:
         reference: str,
         amount: model.PaymentAmount,
         *,
-        schedule: Optional[model.ExternalPaymentScheduleRequest] = None,
+        schedule: Optional[model.ExternalPaymentScheduleBase] = None,
         options: Optional[model.ExternalPaymentOptions] = None,
     ) -> model.PaymentInitiationPaymentCreateResponse:
         """Create a payment
@@ -1415,7 +1339,8 @@ class AsyncPlaidClient:
 
         In the Development environment, payments must be below 5 GBP / EUR. For details on any payment limits in Production, contact your Plaid Account Manager.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentcreate>.
+        """
         url = self.base_url + "/payment_initiation/payment/create"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1429,9 +1354,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentCreateResponse.parse_raw(text)
 
-    async def create_payment_token(
-        self, payment_id: str
-    ) -> model.PaymentInitiationPaymentTokenCreateResponse:
+    async def create_payment_token(self, payment_id: str) -> model.PaymentInitiationPaymentTokenCreateResponse:
         """Create payment token
 
         The `/payment_initiation/payment/token/create` endpoint has been deprecated. New Plaid customers will be unable to use this endpoint, and existing customers are encouraged to migrate to the newer, `link_token`-based flow. The recommended flow is to provide the `payment_id` to `/link/token/create`, which returns a `link_token` used to initialize Link.
@@ -1463,7 +1386,8 @@ class AsyncPlaidClient:
 
         Consents can be limited in time and scope, and have constraints that describe limitations for payments.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentcreate>.
+        """
         url = self.base_url + "/payment_initiation/consent/create"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1477,9 +1401,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentCreateResponse.parse_raw(text)
 
-    async def payment_initiation_consent_get(
-        self, consent_id: str
-    ) -> model.PaymentInitiationConsentGetResponse:
+    async def payment_initiation_consent_get(self, consent_id: str) -> model.PaymentInitiationConsentGetResponse:
         """Get payment consent
 
         The `/payment_initiation/consent/get` endpoint can be used to check the status of a payment consent, as well as to receive basic information such as recipient and constraints.
@@ -1494,14 +1416,13 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentGetResponse.parse_raw(text)
 
-    async def payment_initiation_consent_revoke(
-        self, consent_id: str
-    ) -> model.PaymentInitiationConsentRevokeResponse:
+    async def payment_initiation_consent_revoke(self, consent_id: str) -> model.PaymentInitiationConsentRevokeResponse:
         """Revoke payment consent
 
         The `/payment_initiation/consent/revoke` endpoint can be used to revoke the payment consent. Once the consent is revoked, it is not possible to initiate payments using it.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentrevoke>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentrevoke>.
+        """
         url = self.base_url + "/payment_initiation/consent/revoke"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1518,7 +1439,8 @@ class AsyncPlaidClient:
 
         The `/payment_initiation/consent/payment/execute` endpoint can be used to execute payments using payment consent.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentpaymentexecute>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentpaymentexecute>.
+        """
         url = self.base_url + "/payment_initiation/consent/payment/execute"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -1530,9 +1452,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentPaymentExecuteResponse.parse_raw(text)
 
-    async def sandbox_item_reset_login(
-        self, access_token: str
-    ) -> model.SandboxItemResetLoginResponse:
+    async def sandbox_item_reset_login(self, access_token: str) -> model.SandboxItemResetLoginResponse:
         """Force a Sandbox Item into an error state
 
         `/sandbox/item/reset_login/` forces an Item into an `ITEM_LOGIN_REQUIRED` state in order to simulate an Item whose login is no longer valid. This makes it easy to test Link's [update mode](https://plaid.com/docs/link/update-mode) flow in the Sandbox environment.  After calling `/sandbox/item/reset_login`, You can then use Plaid Link update mode to restore the Item to a good state. An `ITEM_LOGIN_REQUIRED` webhook will also be fired after a call to this endpoint, if one is associated with the Item.
@@ -1573,9 +1493,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxItemSetVerificationStatusResponse.parse_raw(text)
 
-    async def item_public_token_exchange(
-        self, public_token: str
-    ) -> model.ItemPublicTokenExchangeResponse:
+    async def item_public_token_exchange(self, public_token: str) -> model.ItemPublicTokenExchangeResponse:
         """Exchange public token for an access token
 
         Exchange a Link `public_token` for an API `access_token`. Link hands off the `public_token` client-side via the `onSuccess` callback once a user has successfully created an Item. The `public_token` is ephemeral and expires after 30 minutes. An `access_token` does not expire, but can be revoked by calling `/item/remove`.
@@ -1592,9 +1510,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.ItemPublicTokenExchangeResponse.parse_raw(text)
 
-    async def item_create_public_token(
-        self, access_token: str
-    ) -> model.ItemPublicTokenCreateResponse:
+    async def item_create_public_token(self, access_token: str) -> model.ItemPublicTokenCreateResponse:
         """Create public token
 
         Note: As of July 2020, the `/item/public_token/create` endpoint is deprecated. Instead, use `/link/token/create` with an `access_token` to create a Link token for use with [update mode](https://plaid.com/docs/link/update-mode).
@@ -1632,9 +1548,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.UserCreateResponse.parse_raw(text)
 
-    async def payment_initiation_payment_get(
-        self, payment_id: str
-    ) -> model.PaymentInitiationPaymentGetResponse:
+    async def payment_initiation_payment_get(self, payment_id: str) -> model.PaymentInitiationPaymentGetResponse:
         """Get payment details
 
         The `/payment_initiation/payment/get` endpoint can be used to check the status of a payment, as well as to receive basic information such as recipient and payment amount. In the case of standing orders, the `/payment_initiation/payment/get` endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.
@@ -1650,11 +1564,7 @@ class AsyncPlaidClient:
         return model.PaymentInitiationPaymentGetResponse.parse_raw(text)
 
     async def payment_initiation_payment_list(
-        self,
-        *,
-        count: Optional[int] = None,
-        cursor: Optional[str] = None,
-        consent_id: Optional[str] = None,
+        self, *, count: Optional[int] = None, cursor: Optional[str] = None, consent_id: Optional[str] = None
     ) -> model.PaymentInitiationPaymentListResponse:
         """List payments
 
@@ -1742,9 +1652,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRelayRefreshResponse.parse_raw(text)
 
-    async def asset_report_remove(
-        self, asset_report_token: str
-    ) -> model.AssetReportRemoveResponse:
+    async def asset_report_remove(self, asset_report_token: str) -> model.AssetReportRemoveResponse:
         """Delete an Asset Report
 
         The `/item/remove` endpoint allows you to invalidate an `access_token`, meaning you will not be able to create new Asset Reports with it. Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove them specifically.
@@ -1786,11 +1694,7 @@ class AsyncPlaidClient:
         return model.AssetReportFilterResponse.parse_raw(text)
 
     async def asset_report_get(
-        self,
-        asset_report_token: str,
-        *,
-        include_insights: Optional[bool] = None,
-        fast_report: Optional[bool] = None,
+        self, asset_report_token: str, *, include_insights: Optional[bool] = None, fast_report: Optional[bool] = None
     ) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report
 
@@ -1851,9 +1755,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportAuditCopyCreateResponse.parse_raw(text)
 
-    async def asset_report_audit_copy_remove(
-        self, audit_copy_token: str
-    ) -> model.AssetReportAuditCopyRemoveResponse:
+    async def asset_report_audit_copy_remove(self, audit_copy_token: str) -> model.AssetReportAuditCopyRemoveResponse:
         """Remove Asset Report Audit Copy
 
         The `/asset_report/audit_copy/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Asset Report, the Asset Report itself and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
@@ -1869,11 +1771,7 @@ class AsyncPlaidClient:
         return model.AssetReportAuditCopyRemoveResponse.parse_raw(text)
 
     async def asset_report_relay_create(
-        self,
-        asset_report_token: str,
-        secondary_client_id: str,
-        *,
-        webhook: Optional[str] = None,
+        self, asset_report_token: str, secondary_client_id: str, *, webhook: Optional[str] = None
     ) -> model.AssetReportRelayCreateResponse:
         """Create an `asset_relay_token` to share an Asset Report with a partner client
 
@@ -1893,9 +1791,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRelayCreateResponse.parse_raw(text)
 
-    async def asset_report_relay_get(
-        self, asset_relay_token: str
-    ) -> model.AssetReportGetResponse:
+    async def asset_report_relay_get(self, asset_relay_token: str) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report that was shared with you
 
         `/asset_report/relay/get` allows third parties to get an Asset Report that was shared with them, using an `asset_relay_token` that was created by the report owner.
@@ -1910,9 +1806,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
-    async def asset_report_relay_remove(
-        self, asset_relay_token: str
-    ) -> model.AssetReportRelayRemoveResponse:
+    async def asset_report_relay_remove(self, asset_relay_token: str) -> model.AssetReportRelayRemoveResponse:
         """Remove Asset Report Relay Token
 
         The `/asset_report/relay/remove` endpoint allows you to invalidate an `asset_relay_token`, meaning the third party holding the token will no longer be able to use it to access the Asset Report to which the `asset_relay_token` gives access to. The Asset Report, Items associated with it, and other Asset Relay Tokens that provide access to the same Asset Report are not affected and will remain accessible after removing the given `asset_relay_token.
@@ -1928,10 +1822,7 @@ class AsyncPlaidClient:
         return model.AssetReportRelayRemoveResponse.parse_raw(text)
 
     async def investments_holdings_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.InvestmentHoldingsGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.InvestmentsHoldingsGetResponse:
         """Get Investment holdings
 
@@ -1943,7 +1834,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InvestmentsHoldingsGetResponse.parse_raw(text)
@@ -2058,31 +1949,26 @@ class AsyncPlaidClient:
         return model.DepositSwitchCreateResponse.parse_raw(text)
 
     async def item_import(
-        self,
-        products: List[str],
-        user_auth: model.ItemImportRequestUserAuth,
-        *,
-        options: Optional[model.ItemImportRequestOptions] = None,
+        self, products: List[str], user_auth: model.ItemImportRequestUserAuth, *, options: Optional[str] = None
     ) -> model.ItemImportResponse:
         """Import Item
 
         `/item/import` creates an Item via your Plaid Exchange Integration and returns an `access_token`. As part of an `/item/import` request, you will include a User ID (`user_auth.user_id`) and Authentication Token (`user_auth.auth_token`) that enable data aggregation through your Plaid Exchange API endpoints. These authentication principals are to be chosen by you.
 
-        Upon creating an Item via `/item/import`, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (`target_account_id`)."""
+        Upon creating an Item via `/item/import`, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (`target_account_id`).
+        """
         url = self.base_url + "/item/import"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "products": products,
             "user_auth": None if user_auth is None else user_auth.dict(),
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemImportResponse.parse_raw(text)
 
-    async def deposit_switch_token_create(
-        self, deposit_switch_id: str
-    ) -> model.DepositSwitchTokenCreateResponse:
+    async def deposit_switch_token_create(self, deposit_switch_id: str) -> model.DepositSwitchTokenCreateResponse:
         """Create a deposit switch token
 
         In order for the end user to take action, you will need to create a public token representing the deposit switch. This token is used to initialize Link. It can be used one time and expires after 30 minutes.
@@ -2112,23 +1998,17 @@ class AsyncPlaidClient:
         link_customization_name: Optional[str] = None,
         redirect_uri: Optional[str] = None,
         android_package_name: Optional[str] = None,
-        institution_data: Optional[model.LinkTokenCreateInstitutionData] = None,
+        institution_data: Optional[str] = None,
         account_filters: Optional[model.LinkTokenAccountFilters] = None,
-        eu_config: Optional[model.LinkTokenEuConfig] = None,
+        eu_config: Optional[bool] = None,
         institution_id: Optional[str] = None,
-        payment_initiation: Optional[
-            model.LinkTokenCreateRequestPaymentInitiation
-        ] = None,
-        deposit_switch: Optional[model.LinkTokenCreateRequestDepositSwitch] = None,
-        income_verification: Optional[
-            model.LinkTokenCreateRequestIncomeVerification
-        ] = None,
+        payment_initiation: Optional[model.LinkTokenCreateRequestPaymentInitiation] = None,
+        deposit_switch: Optional[str] = None,
+        income_verification: Optional[model.LinkTokenCreateRequestIncomeVerification] = None,
         auth: Optional[model.LinkTokenCreateRequestAuth] = None,
         transfer: Optional[model.LinkTokenCreateRequestTransfer] = None,
-        update: Optional[model.LinkTokenCreateRequestUpdate] = None,
-        identity_verification: Optional[
-            model.LinkTokenCreateRequestIdentityVerification
-        ] = None,
+        update: Optional[bool] = None,
+        identity_verification: Optional[model.LinkTokenCreateRequestIdentityVerification] = None,
         user_token: Optional[str] = None,
     ) -> model.LinkTokenCreateResponse:
         """Create Link Token
@@ -2153,27 +2033,17 @@ class AsyncPlaidClient:
             "link_customization_name": link_customization_name,
             "redirect_uri": redirect_uri,
             "android_package_name": android_package_name,
-            "institution_data": None
-            if institution_data is None
-            else institution_data.dict(),
-            "account_filters": None
-            if account_filters is None
-            else account_filters.dict(),
-            "eu_config": None if eu_config is None else eu_config.dict(),
+            "institution_data": institution_data,
+            "account_filters": None if account_filters is None else account_filters.dict(),
+            "eu_config": eu_config,
             "institution_id": institution_id,
-            "payment_initiation": None
-            if payment_initiation is None
-            else payment_initiation.dict(),
-            "deposit_switch": None if deposit_switch is None else deposit_switch.dict(),
-            "income_verification": None
-            if income_verification is None
-            else income_verification.dict(),
+            "payment_initiation": None if payment_initiation is None else payment_initiation.dict(),
+            "deposit_switch": deposit_switch,
+            "income_verification": None if income_verification is None else income_verification.dict(),
             "auth": None if auth is None else auth.dict(),
             "transfer": None if transfer is None else transfer.dict(),
-            "update": None if update is None else update.dict(),
-            "identity_verification": None
-            if identity_verification is None
-            else identity_verification.dict(),
+            "update": update,
+            "identity_verification": None if identity_verification is None else identity_verification.dict(),
             "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
@@ -2195,9 +2065,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.LinkTokenGetResponse.parse_raw(text)
 
-    async def asset_report_audit_copy_get(
-        self, audit_copy_token: str
-    ) -> model.AssetReportGetResponse:
+    async def asset_report_audit_copy_get(self, audit_copy_token: str) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report Audit Copy
 
         `/asset_report/audit_copy/get` allows auditors to get a copy of an Asset Report that was previously shared via the `/asset_report/audit_copy/create` endpoint.  The caller of `/asset_report/audit_copy/create` must provide the `audit_copy_token` to the auditor.  This token can then be used to call `/asset_report/audit_copy/create`.
@@ -2212,9 +2080,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
-    async def deposit_switch_get(
-        self, deposit_switch_id: str
-    ) -> model.DepositSwitchGetResponse:
+    async def deposit_switch_get(self, deposit_switch_id: str) -> model.DepositSwitchGetResponse:
         """Retrieve a deposit switch
 
         This endpoint returns information related to how the user has configured their payroll allocation and the state of the switch. You can use this information to build logic related to the user's direct deposit allocation preferences.
@@ -2244,9 +2110,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransferGetResponse.parse_raw(text)
 
-    async def bank_transfer_get(
-        self, bank_transfer_id: str
-    ) -> model.BankTransferGetResponse:
+    async def bank_transfer_get(self, bank_transfer_id: str) -> model.BankTransferGetResponse:
         """Retrieve a bank transfer
 
         The `/bank_transfer/get` fetches information about the bank transfer corresponding to the given `bank_transfer_id`.
@@ -2477,9 +2341,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransferCancelResponse.parse_raw(text)
 
-    async def bank_transfer_cancel(
-        self, bank_transfer_id: str
-    ) -> model.BankTransferCancelResponse:
+    async def bank_transfer_cancel(self, bank_transfer_id: str) -> model.BankTransferCancelResponse:
         """Cancel a bank transfer
 
         Use the `/bank_transfer/cancel` endpoint to cancel a bank transfer.  A transfer is eligible for cancelation if the `cancellable` property returned by `/bank_transfer/get` is `true`.
@@ -2619,9 +2481,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransferSweepGetResponse.parse_raw(text)
 
-    async def bank_transfer_sweep_get(
-        self, sweep_id: str
-    ) -> model.BankTransferSweepGetResponse:
+    async def bank_transfer_sweep_get(self, sweep_id: str) -> model.BankTransferSweepGetResponse:
         """Retrieve a sweep
 
         The `/bank_transfer/sweep/get` endpoint fetches information about the sweep corresponding to the given `sweep_id`.
@@ -2708,12 +2568,7 @@ class AsyncPlaidClient:
         return model.BankTransferBalanceGetResponse.parse_raw(text)
 
     async def bank_transfer_migrate_account(
-        self,
-        account_number: str,
-        routing_number: str,
-        account_type: str,
-        *,
-        wire_routing_number: Optional[str] = None,
+        self, account_number: str, routing_number: str, account_type: str, *, wire_routing_number: Optional[str] = None
     ) -> model.BankTransferMigrateAccountResponse:
         """Migrate account into Bank Transfers
 
@@ -2733,12 +2588,7 @@ class AsyncPlaidClient:
         return model.BankTransferMigrateAccountResponse.parse_raw(text)
 
     async def transfer_migrate_account(
-        self,
-        account_number: str,
-        routing_number: str,
-        account_type: str,
-        *,
-        wire_routing_number: Optional[str] = None,
+        self, account_number: str, routing_number: str, account_type: str, *, wire_routing_number: Optional[str] = None
     ) -> model.TransferMigrateAccountResponse:
         """Migrate account into Transfers
 
@@ -2794,9 +2644,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransferIntentCreateResponse.parse_raw(text)
 
-    async def transfer_intent_get(
-        self, transfer_intent_id: str
-    ) -> model.TransferIntentGetResponse:
+    async def transfer_intent_get(self, transfer_intent_id: str) -> model.TransferIntentGetResponse:
         """Retrieve more information about a transfer intent
 
         Use the `/transfer/intent/get` endpoint to retrieve more information about a transfer intent.
@@ -2837,11 +2685,7 @@ class AsyncPlaidClient:
         return model.TransferRepaymentListResponse.parse_raw(text)
 
     async def transfer_repayment_return_list(
-        self,
-        repayment_id: str,
-        *,
-        count: Optional[int] = None,
-        offset: Optional[int] = None,
+        self, repayment_id: str, *, count: Optional[int] = None, offset: Optional[int] = None
     ) -> model.TransferRepaymentReturnListResponse:
         """List the returns included in a repayment
 
@@ -2860,11 +2704,7 @@ class AsyncPlaidClient:
         return model.TransferRepaymentReturnListResponse.parse_raw(text)
 
     async def sandbox_bank_transfer_simulate(
-        self,
-        bank_transfer_id: str,
-        event_type: str,
-        *,
-        failure_reason: Optional[model.BankTransferFailure] = None,
+        self, bank_transfer_id: str, event_type: str, *, failure_reason: Optional[model.BankTransferFailure] = None
     ) -> model.SandboxBankTransferSimulateResponse:
         """Simulate a bank transfer event in Sandbox
 
@@ -2882,9 +2722,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxBankTransferSimulateResponse.parse_raw(text)
 
-    async def sandbox_transfer_sweep_simulate(
-        self,
-    ) -> model.SandboxTransferSweepSimulateResponse:
+    async def sandbox_transfer_sweep_simulate(self) -> model.SandboxTransferSweepSimulateResponse:
         """Simulate creating a sweep
 
         Use the `/sandbox/transfer/sweep/simulate` endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all `posted` or `pending` transfers with a sweep status of `unswept` will become `swept`, and all `returned` transfers with a sweep status of `swept` will become `return_swept`.
@@ -2898,11 +2736,7 @@ class AsyncPlaidClient:
         return model.SandboxTransferSweepSimulateResponse.parse_raw(text)
 
     async def sandbox_transfer_simulate(
-        self,
-        transfer_id: str,
-        event_type: str,
-        *,
-        failure_reason: Optional[model.TransferFailure] = None,
+        self, transfer_id: str, event_type: str, *, failure_reason: Optional[model.TransferFailure] = None
     ) -> model.SandboxTransferSimulateResponse:
         """Simulate a transfer event in Sandbox
 
@@ -2920,9 +2754,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferSimulateResponse.parse_raw(text)
 
-    async def sandbox_transfer_repayment_simulate(
-        self,
-    ) -> model.SandboxTransferRepaymentSimulateResponse:
+    async def sandbox_transfer_repayment_simulate(self) -> model.SandboxTransferRepaymentSimulateResponse:
         """Trigger the creation of a repayment
 
         Use the `/sandbox/transfer/repayment/simulate` endpoint to trigger the creation of a repayment. As a side effect of calling this route, a repayment is created that includes all unreimbursed returns of guaranteed transfers. If there are no such returns, an 400 error is returned.
@@ -2935,9 +2767,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferRepaymentSimulateResponse.parse_raw(text)
 
-    async def sandbox_transfer_fire_webhook(
-        self, webhook: str
-    ) -> model.SandboxTransferFireWebhookResponse:
+    async def sandbox_transfer_fire_webhook(self, webhook: str) -> model.SandboxTransferFireWebhookResponse:
         """Manually fire a Transfer webhook
 
         Use the `/sandbox/transfer/fire_webhook` endpoint to manually trigger a Transfer webhook in the Sandbox environment.
@@ -2952,9 +2782,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferFireWebhookResponse.parse_raw(text)
 
-    async def employers_search(
-        self, query: str, products: List[str]
-    ) -> model.EmployersSearchResponse:
+    async def employers_search(self, query: str, products: List[str]) -> model.EmployersSearchResponse:
         """Search employer database
 
         `/employers/search` allows you the ability to search Plaid’s database of known employers, for use with Deposit Switch. You can use this endpoint to look up a user's employer in order to confirm that they are supported. Users with non-supported employers can then be routed out of the Deposit Switch flow.
@@ -2973,11 +2801,7 @@ class AsyncPlaidClient:
         return model.EmployersSearchResponse.parse_raw(text)
 
     async def income_verification_create(
-        self,
-        webhook: str,
-        *,
-        precheck_id: Optional[str] = None,
-        options: Optional[model.IncomeVerificationCreateRequestOptions] = None,
+        self, webhook: str, *, precheck_id: Optional[str] = None, options: Optional[List[str]] = None
     ) -> model.IncomeVerificationCreateResponse:
         """(Deprecated) Create an income verification instance
 
@@ -2990,16 +2814,13 @@ class AsyncPlaidClient:
         data: Dict[str, Any] = {
             "webhook": webhook,
             "precheck_id": precheck_id,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationCreateResponse.parse_raw(text)
 
     async def income_verification_paystubs_get(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationPaystubsGetResponse:
         """(Deprecated) Retrieve information from the paystubs used for income verification
 
@@ -3050,10 +2871,7 @@ class AsyncPlaidClient:
         return None
 
     async def income_verification_refresh(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationRefreshResponse:
         """(Deprecated) Refresh an income verification
 
@@ -3071,10 +2889,7 @@ class AsyncPlaidClient:
         return model.IncomeVerificationRefreshResponse.parse_raw(text)
 
     async def income_verification_taxforms_get(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationTaxformsGetResponse:
         """(Deprecated) Retrieve information from the tax documents used for income verification
 
@@ -3119,16 +2934,12 @@ class AsyncPlaidClient:
             "employer": None if employer is None else employer.dict(),
             "transactions_access_token": transactions_access_token,
             "transactions_access_tokens": transactions_access_tokens,
-            "us_military_info": None
-            if us_military_info is None
-            else us_military_info.dict(),
+            "us_military_info": None if us_military_info is None else us_military_info.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationPrecheckResponse.parse_raw(text)
 
-    async def employment_verification_get(
-        self, access_token: str
-    ) -> model.EmploymentVerificationGetResponse:
+    async def employment_verification_get(self, access_token: str) -> model.EmploymentVerificationGetResponse:
         """(Deprecated) Retrieve a summary of an individual's employment information
 
         `/employment/verification/get` returns a list of employments through a user payroll that was verified by an end user.
@@ -3171,7 +2982,7 @@ class AsyncPlaidClient:
         return model.DepositSwitchAltCreateResponse.parse_raw(text)
 
     async def credit_audit_copy_token_create(
-        self, report_tokens: List[ReportToken], auditor_id: str
+        self, report_tokens: List[model.ReportToken], auditor_id: str
     ) -> model.CreditAuditCopyTokenCreateResponse:
         """Create Asset or Income Report Audit Copy Token
 
@@ -3184,17 +2995,13 @@ class AsyncPlaidClient:
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "report_tokens": None
-            if report_tokens is None
-            else [d.dict() for d in report_tokens],
+            "report_tokens": None if report_tokens is None else [d.dict() for d in report_tokens],
             "auditor_id": auditor_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditAuditCopyTokenCreateResponse.parse_raw(text)
 
-    async def credit_report_audit_copy_remove(
-        self, audit_copy_token: str
-    ) -> model.CreditAuditCopyTokenRemoveResponse:
+    async def credit_report_audit_copy_remove(self, audit_copy_token: str) -> model.CreditAuditCopyTokenRemoveResponse:
         """Remove an Audit Copy token
 
         The `/credit/audit_copy_token/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Report data and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
@@ -3210,10 +3017,7 @@ class AsyncPlaidClient:
         return model.CreditAuditCopyTokenRemoveResponse.parse_raw(text)
 
     async def credit_bank_income_get(
-        self,
-        *,
-        user_token: Optional[str] = None,
-        options: Optional[model.CreditBankIncomeGetRequestOptions] = None,
+        self, *, user_token: Optional[str] = None, options: Optional[int] = None
     ) -> model.CreditBankIncomeGetResponse:
         """Retrieve information from the bank accounts used for income verification
 
@@ -3225,7 +3029,7 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "user_token": user_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditBankIncomeGetResponse.parse_raw(text)
@@ -3246,10 +3050,7 @@ class AsyncPlaidClient:
         return None
 
     async def credit_bank_income_refresh(
-        self,
-        user_token: str,
-        *,
-        options: Optional[model.CreditBankIncomeRefreshRequestOptions] = None,
+        self, user_token: str, *, options: Optional[model.CreditBankIncomeRefreshRequestOptions] = None
     ) -> model.CreditBankIncomeRefreshResponse:
         """Refresh a user's bank income information
 
@@ -3305,16 +3106,12 @@ class AsyncPlaidClient:
             "user_token": user_token,
             "access_tokens": access_tokens,
             "employer": None if employer is None else employer.dict(),
-            "us_military_info": None
-            if us_military_info is None
-            else us_military_info.dict(),
+            "us_military_info": None if us_military_info is None else us_military_info.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditPayrollIncomePrecheckResponse.parse_raw(text)
 
-    async def credit_employment_get(
-        self, user_token: str
-    ) -> model.CreditEmploymentGetResponse:
+    async def credit_employment_get(self, user_token: str) -> model.CreditEmploymentGetResponse:
         """Retrieve a summary of an individual's employment information
 
         `/credit/employment/get` returns a list of items with employment information from a user's payroll provider that was verified by an end user.
@@ -3347,11 +3144,7 @@ class AsyncPlaidClient:
         return model.CreditPayrollIncomeRefreshResponse.parse_raw(text)
 
     async def credit_relay_create(
-        self,
-        report_tokens: List[ReportToken],
-        secondary_client_id: str,
-        *,
-        webhook: Optional[str] = None,
+        self, report_tokens: List[model.ReportToken], secondary_client_id: str, *, webhook: Optional[str] = None
     ) -> model.CreditRelayCreateResponse:
         """Create a `relay_token` to share an Asset Report with a partner client
 
@@ -3364,18 +3157,14 @@ class AsyncPlaidClient:
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "report_tokens": None
-            if report_tokens is None
-            else [d.dict() for d in report_tokens],
+            "report_tokens": None if report_tokens is None else [d.dict() for d in report_tokens],
             "secondary_client_id": secondary_client_id,
             "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayCreateResponse.parse_raw(text)
 
-    async def credit_relay_get(
-        self, relay_token: str, report_type: str
-    ) -> model.AssetReportGetResponse:
+    async def credit_relay_get(self, relay_token: str, report_type: str) -> model.AssetReportGetResponse:
         """Retrieve the reports associated with a Relay token that was shared with you
 
         `/credit/relay/get` allows third parties to get a report that was shared with them, using an `relay_token` that was created by the report owner.
@@ -3410,9 +3199,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayRefreshResponse.parse_raw(text)
 
-    async def credit_relay_remove(
-        self, relay_token: str
-    ) -> model.CreditRelayRemoveResponse:
+    async def credit_relay_remove(self, relay_token: str) -> model.CreditRelayRemoveResponse:
         """Remove Credit Relay Token
 
         The `/credit/relay/remove` endpoint allows you to invalidate a `relay_token`, meaning the third party holding the token will no longer be able to use it to access the reports to which the `relay_token` gives access to. The report, items associated with it, and other Relay tokens that provide access to the same report are not affected and will remain accessible after removing the given `relay_token.
@@ -3427,9 +3214,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayRemoveResponse.parse_raw(text)
 
-    async def sandbox_bank_transfer_fire_webhook(
-        self, webhook: str
-    ) -> model.SandboxBankTransferFireWebhookResponse:
+    async def sandbox_bank_transfer_fire_webhook(self, webhook: str) -> model.SandboxBankTransferFireWebhookResponse:
         """Manually fire a Bank Transfer webhook
 
         Use the `/sandbox/bank_transfer/fire_webhook` endpoint to manually trigger a Bank Transfers webhook in the Sandbox environment.
@@ -3445,12 +3230,7 @@ class AsyncPlaidClient:
         return model.SandboxBankTransferFireWebhookResponse.parse_raw(text)
 
     async def sandbox_income_fire_webhook(
-        self,
-        item_id: str,
-        webhook: str,
-        verification_status: str,
-        *,
-        user_id: Optional[str] = None,
+        self, item_id: str, webhook: str, verification_status: str, *, user_id: Optional[str] = None
     ) -> model.SandboxIncomeFireWebhookResponse:
         """Manually fire an Income webhook
 
@@ -3519,11 +3299,7 @@ class AsyncPlaidClient:
         return model.SignalEvaluateResponse.parse_raw(text)
 
     async def signal_decision_report(
-        self,
-        client_transaction_id: str,
-        initiated: bool,
-        *,
-        days_funds_on_hold: Optional[int] = None,
+        self, client_transaction_id: str, initiated: bool, *, days_funds_on_hold: Optional[int] = None
     ) -> model.SignalDecisionReportResponse:
         """Report whether you initiated an ACH transaction
 
@@ -3605,11 +3381,7 @@ class AsyncPlaidClient:
         return model.WalletGetResponse.parse_raw(text)
 
     async def wallet_list(
-        self,
-        *,
-        iso_currency_code: Optional[str] = None,
-        cursor: Optional[str] = None,
-        count: Optional[int] = None,
+        self, *, iso_currency_code: Optional[str] = None, cursor: Optional[str] = None, count: Optional[int] = None
     ) -> model.WalletListResponse:
         """Fetch a list of e-wallets
 
@@ -3655,9 +3427,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.WalletTransactionExecuteResponse.parse_raw(text)
 
-    async def wallet_transaction_get(
-        self, transaction_id: str
-    ) -> model.WalletTransactionGetResponse:
+    async def wallet_transaction_get(self, transaction_id: str) -> model.WalletTransactionGetResponse:
         """Fetch a specific e-wallet transaction
 
         See endpoint docs at <https://plaid.com/docs/api/products/#wallettransactionget>."""
@@ -3671,11 +3441,7 @@ class AsyncPlaidClient:
         return model.WalletTransactionGetResponse.parse_raw(text)
 
     async def wallet_transactions_list(
-        self,
-        wallet_id: str,
-        *,
-        cursor: Optional[str] = None,
-        count: Optional[int] = None,
+        self, wallet_id: str, *, cursor: Optional[str] = None, count: Optional[int] = None
     ) -> model.WalletTransactionsListResponse:
         """List e-wallet transactions
 
@@ -3694,7 +3460,7 @@ class AsyncPlaidClient:
         return model.WalletTransactionsListResponse.parse_raw(text)
 
     async def transactions_enhance(
-        self, account_type: str, transactions: List[ClientProvidedRawTransaction]
+        self, account_type: str, transactions: List[model.ClientProvidedRawTransaction]
     ) -> model.TransactionsEnhanceGetResponse:
         """enhance locally-held transaction data
 
@@ -3706,18 +3472,13 @@ class AsyncPlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "account_type": account_type,
-            "transactions": None
-            if transactions is None
-            else [d.dict() for d in transactions],
+            "transactions": None if transactions is None else [d.dict() for d in transactions],
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsEnhanceGetResponse.parse_raw(text)
 
     async def transactions_rules_create(
-        self,
-        access_token: str,
-        personal_finance_category: str,
-        rule_details: model.TransactionsRuleDetails,
+        self, access_token: str, personal_finance_category: str, rule_details: model.TransactionsRuleDetails
     ) -> model.TransactionsRulesCreateResponse:
         """Create transaction category rule
 
@@ -3737,12 +3498,11 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRulesCreateResponse.parse_raw(text)
 
-    async def transactions_rules_list(
-        self, access_token: str
-    ) -> model.TransactionsRulesListResponse:
+    async def transactions_rules_list(self, access_token: str) -> model.TransactionsRulesListResponse:
         """Return a list of rules created for the Item associated with the access token.
 
-        The `/transactions/rules/v1/list` returns a list of transaction rules created for the Item associated with the access token."""
+        The `/transactions/rules/v1/list` returns a list of transaction rules created for the Item associated with the access token.
+        """
         url = self.base_url + "/beta/transactions/rules/v1/list"
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -3752,9 +3512,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRulesListResponse.parse_raw(text)
 
-    async def transactions_rules_remove(
-        self, access_token: str, rule_id: str
-    ) -> model.TransactionsRulesRemoveResponse:
+    async def transactions_rules_remove(self, access_token: str, rule_id: str) -> model.TransactionsRulesRemoveResponse:
         """Remove transaction rule
 
         The `/transactions/rules/v1/remove` endpoint is used to remove a transaction rule."""
@@ -3781,9 +3539,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentProfileCreateResponse.parse_raw(text)
 
-    async def payment_profile_get(
-        self, payment_profile_id: str
-    ) -> model.PaymentProfileGetResponse:
+    async def payment_profile_get(self, payment_profile_id: str) -> model.PaymentProfileGetResponse:
         """Get payment profile
 
         Use the `/payment_profile/get` endpoint to get the status of a given Payment Profile.
@@ -3798,9 +3554,7 @@ class AsyncPlaidClient:
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentProfileGetResponse.parse_raw(text)
 
-    async def payment_profile_remove(
-        self, payment_profile_id: str
-    ) -> model.PaymentProfileRemoveResponse:
+    async def payment_profile_remove(self, payment_profile_id: str) -> model.PaymentProfileRemoveResponse:
         """Remove payment profile
 
         Use the `/payment_profile/remove` endpoint to remove a given Payment Profile. Once it’s removed, it can no longer be used to create transfers.

@@ -1,6 +1,15 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+search_terms = WatchlistScreeningRequestSearchTerms(
+    date_of_birth="your date of birth",
+    watchlist_program_id="your watchlist program id",
+    document_number="your document number",
+    country="your country",
+    legal_name="your legal name",
+)
 
 
 def main():
@@ -15,13 +24,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-search_terms = WatchlistScreeningRequestSearchTerms(
-    legal_name="your legal name",
-    country="your country",
-    document_number="your document number",
-    watchlist_program_id="your watchlist program id",
-    date_of_birth="your date of birth",
-)
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

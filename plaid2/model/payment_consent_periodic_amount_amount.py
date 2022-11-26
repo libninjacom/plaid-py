@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 from .payment_amount import PaymentAmount
 
 
 class PaymentConsentPeriodicAmountAmount(BaseModel):
-    """The amount and currency of a payment"""
-
     payment_amount: PaymentAmount
+    """The amount and currency of a payment"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +23,6 @@ class PaymentConsentPeriodicAmountAmount(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentConsentPeriodicAmountAmount":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentConsentPeriodicAmountAmount":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

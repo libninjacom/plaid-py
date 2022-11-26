@@ -4,17 +4,25 @@ from pydantic import BaseModel, Field
 from .signal_address_data import SignalAddressData
 from .signal_person_name import SignalPersonName
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class SignalUser(BaseModel):
-    """Data about the components comprising an address."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
     address: Optional[SignalAddressData] = None
-    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567" """
-    phone_number: Optional[str] = None
+    """Data about the components comprising an address."""
+
+    name_: Optional[SignalPersonName] = None
     """The user's legal name"""
-    name: Optional[SignalPersonName] = None
-    """The user's email address."""
+
     email_address: Optional[str] = None
+    """The user's email address."""
+
+    phone_number: Optional[str] = None
+    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567" """
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

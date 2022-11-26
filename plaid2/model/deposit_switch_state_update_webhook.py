@@ -4,11 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchStateUpdateWebhook(BaseModel):
-    """The ID of the deposit switch."""
-
-    deposit_switch_id: Optional[str] = None
-    """`"SWITCH_STATE_UPDATE"`"""
     webhook_code: Optional[str] = None
+    """`"SWITCH_STATE_UPDATE"`"""
+
+    state: Optional[str] = None
     """
     The state, or status, of the deposit switch.
     
@@ -21,9 +20,12 @@ class DepositSwitchStateUpdateWebhook(BaseModel):
     `error`: There was an error processing the deposit switch request.
     
     For more information, see the [Deposit Switch API reference](/docs/deposit-switch/reference#deposit_switchget)."""
-    state: Optional[str] = None
-    """`"DEPOSIT_SWITCH"`"""
+
+    deposit_switch_id: Optional[str] = None
+    """The ID of the deposit switch."""
+
     webhook_type: Optional[str] = None
+    """`"DEPOSIT_SWITCH"`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -41,8 +43,6 @@ class DepositSwitchStateUpdateWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchStateUpdateWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchStateUpdateWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

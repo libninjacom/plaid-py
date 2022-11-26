@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationRetriedWebhook(BaseModel):
-    """`IDENTITY_VERIFICATION`"""
+    identity_verification_id: Any
+    """The ID of the associated Identity Verification attempt."""
+
+    webhook_code: str
+    """`RETRIED`"""
 
     webhook_type: str
-    """`RETRIED`"""
-    webhook_code: str
-    """The ID of the associated Identity Verification attempt."""
-    identity_verification_id: Any
+    """`IDENTITY_VERIFICATION`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class IdentityVerificationRetriedWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IdentityVerificationRetriedWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IdentityVerificationRetriedWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

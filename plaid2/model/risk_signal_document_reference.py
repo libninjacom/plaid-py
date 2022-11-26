@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class RiskSignalDocumentReference(BaseModel):
-    """An identifier of the document referenced by the document metadata."""
+    document_name: Optional[str] = None
+    """The name of the document"""
 
     document_id: Optional[str] = None
-    """The name of the document"""
-    document_name: Optional[str] = None
+    """An identifier of the document referenced by the document metadata."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class RiskSignalDocumentReference(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "RiskSignalDocumentReference":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "RiskSignalDocumentReference":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -1,6 +1,10 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+transfer_id = "your transfer id"
+event_type = "your event type"
 
 
 def main():
@@ -15,8 +19,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-transfer_id = "your transfer id"
-event_type = "your event type"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

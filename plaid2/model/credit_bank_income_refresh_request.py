@@ -1,17 +1,15 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .credit_bank_income_refresh_request_options import (
-    CreditBankIncomeRefreshRequestOptions,
-)
+from .credit_bank_income_refresh_request_options import CreditBankIncomeRefreshRequestOptions
 
 
 class CreditBankIncomeRefreshRequest(BaseModel):
+    options: Optional[CreditBankIncomeRefreshRequestOptions] = None
     """An optional object for `/credit/bank_income/refresh` request options."""
 
-    options: Optional[CreditBankIncomeRefreshRequestOptions] = None
-    """The user token associated with the User data is being requested for."""
     user_token: str
+    """The user token associated with the User data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -29,8 +27,6 @@ class CreditBankIncomeRefreshRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditBankIncomeRefreshRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditBankIncomeRefreshRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

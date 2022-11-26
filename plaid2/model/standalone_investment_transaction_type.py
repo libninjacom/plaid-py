@@ -4,19 +4,23 @@ from pydantic import BaseModel, Field
 
 
 class StandaloneInvestmentTransactionType(BaseModel):
-    """Activity that modifies a position, but not through buy/sell activity e.g. options exercise, portfolio transfer"""
+    buy: str
+    """Buying an investment"""
+
+    cancel: str
+    """A cancellation of a pending transaction"""
+
+    fee: str
+    """Fees on the account, e.g. commission, bookkeeping, options-related."""
+
+    cash: str
+    """Activity that modifies a cash position"""
+
+    sell: str
+    """Selling an investment"""
 
     transfer: str
-    """Buying an investment"""
-    buy: str
-    """Selling an investment"""
-    sell: str
-    """Activity that modifies a cash position"""
-    cash: str
-    """A cancellation of a pending transaction"""
-    cancel: str
-    """Fees on the account, e.g. commission, bookkeeping, options-related."""
-    fee: str
+    """Activity that modifies a position, but not through buy/sell activity e.g. options exercise, portfolio transfer"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +38,6 @@ class StandaloneInvestmentTransactionType(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "StandaloneInvestmentTransactionType":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "StandaloneInvestmentTransactionType":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

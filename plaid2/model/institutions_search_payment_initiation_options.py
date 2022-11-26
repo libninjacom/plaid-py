@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class InstitutionsSearchPaymentInitiationOptions(BaseModel):
-    """A unique ID identifying the payment"""
+    consent_id: Optional[str] = None
+    """A unique ID identifying the payment consent"""
 
     payment_id: Optional[str] = None
-    """A unique ID identifying the payment consent"""
-    consent_id: Optional[str] = None
+    """A unique ID identifying the payment"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class InstitutionsSearchPaymentInitiationOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InstitutionsSearchPaymentInitiationOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InstitutionsSearchPaymentInitiationOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

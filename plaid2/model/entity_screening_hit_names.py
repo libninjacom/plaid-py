@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class EntityScreeningHitNames(BaseModel):
+    weak_alias_determination: str
     """Names that are explicitly marked as low quality either by their `source` list, or by `plaid` by a series of additional checks done by Plaid. Plaid does not ever surface a hit as a result of a weak name alone. If a name has no quality issues, this value will be `none`."""
 
-    weak_alias_determination: str
-    """The full name of the entity."""
     full: str
-    """Primary names are those most commonly used to refer to this entity. Only one name will ever be marked as primary."""
+    """The full name of the entity."""
+
     is_primary: bool
+    """Primary names are those most commonly used to refer to this entity. Only one name will ever be marked as primary."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class EntityScreeningHitNames(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityScreeningHitNames":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "EntityScreeningHitNames":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

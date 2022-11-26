@@ -4,25 +4,31 @@ from pydantic import BaseModel, Field
 
 
 class PaystubAddress(BaseModel):
+    line_2: Optional[str] = None
+    """Street address line 2."""
+
+    region: Optional[str] = None
     """The region or state
     Example: `"NC"`"""
 
-    region: Optional[str] = None
-    """The full street address."""
+    postal_code: Optional[str] = None
+    """The postal code of the address."""
+
+    city: Optional[str] = None
+    """The full city name."""
+
     street: Optional[str] = None
+    """The full street address."""
+
+    line_1: Optional[str] = None
+    """Street address line 1."""
+
+    country: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code."""
+
+    state_code: Optional[str] = None
     """The region or state
     Example: `"NC"`"""
-    state_code: Optional[str] = None
-    """The ISO 3166-1 alpha-2 country code."""
-    country: Optional[str] = None
-    """The full city name."""
-    city: Optional[str] = None
-    """Street address line 2."""
-    line_2: Optional[str] = None
-    """Street address line 1."""
-    line_1: Optional[str] = None
-    """The postal code of the address."""
-    postal_code: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

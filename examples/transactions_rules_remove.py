@@ -1,6 +1,10 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+access_token = "your access token"
+rule_id = "your rule id"
 
 
 def main():
@@ -15,8 +19,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-access_token = "your access token"
-rule_id = "your rule id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

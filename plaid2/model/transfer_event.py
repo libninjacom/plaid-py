@@ -5,25 +5,16 @@ from .transfer_failure import TransferFailure
 
 
 class TransferEvent(BaseModel):
-    """The ID of the origination account that this balance belongs to."""
-
-    origination_account_id: Optional[str] = None
-    """Plaid’s unique identifier for a transfer."""
-    transfer_id: str
-    """The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise."""
-    failure_reason: Optional[TransferFailure] = None
-    """The account ID associated with the transfer."""
-    account_id: str
-    """Plaid’s unique identifier for a sweep."""
-    sweep_id: Optional[str] = None
-    """Plaid’s unique identifier for this event. IDs are sequential unsigned 64-bit integers."""
-    event_id: int
-    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
     transfer_amount: str
-    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
+    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
+
+    event_id: int
+    """Plaid’s unique identifier for this event. IDs are sequential unsigned 64-bit integers."""
+
     transfer_type: str
-    """A signed amount of how much was `swept` or `return_swept` (decimal string with two digits of precision e.g. "-5.50")."""
-    sweep_amount: Optional[str] = None
+    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
+
+    event_type: str
     """The type of event that this transfer represents.
     
     `pending`: A new transfer was created; it is in the pending state.
@@ -39,9 +30,27 @@ class TransferEvent(BaseModel):
     `swept`: The transfer was swept to / from the sweep account.
     
     `return_swept`: Due to the transfer being returned, funds were pulled from or pushed back to the sweep account."""
-    event_type: str
-    """The datetime when this event occurred. This will be of the form `2006-01-02T15:04:05Z`."""
+
     timestamp: str
+    """The datetime when this event occurred. This will be of the form `2006-01-02T15:04:05Z`."""
+
+    failure_reason: Optional[TransferFailure] = None
+    """The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise."""
+
+    account_id: str
+    """The account ID associated with the transfer."""
+
+    sweep_amount: Optional[str] = None
+    """A signed amount of how much was `swept` or `return_swept` (decimal string with two digits of precision e.g. "-5.50")."""
+
+    sweep_id: Optional[str] = None
+    """Plaid’s unique identifier for a sweep."""
+
+    transfer_id: str
+    """Plaid’s unique identifier for a transfer."""
+
+    origination_account_id: Optional[str] = None
+    """The ID of the origination account that this balance belongs to."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

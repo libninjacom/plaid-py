@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class VerificationExpiredWebhook(BaseModel):
+    webhook_code: str
     """`VERIFICATION_EXPIRED`"""
 
-    webhook_code: str
-    """`AUTH`"""
     webhook_type: str
-    """The `account_id` of the account associated with the webhook"""
-    account_id: str
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """`AUTH`"""
+
     item_id: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+
+    account_id: str
+    """The `account_id` of the account associated with the webhook"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +32,6 @@ class VerificationExpiredWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "VerificationExpiredWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "VerificationExpiredWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

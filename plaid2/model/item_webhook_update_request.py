@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemWebhookUpdateRequest(BaseModel):
-    """The new webhook URL to associate with the Item. To remove a webhook from an Item, set to `null`."""
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     webhook: Optional[str] = None
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
+    """The new webhook URL to associate with the Item. To remove a webhook from an Item, set to `null`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class ItemWebhookUpdateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ItemWebhookUpdateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ItemWebhookUpdateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

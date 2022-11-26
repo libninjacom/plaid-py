@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class CreditRelayRefreshRequest(BaseModel):
+    relay_token: str
     """The `relay_token` granting access to the report you would like to refresh."""
 
-    relay_token: str
-    """The URL registered to receive webhooks when the report of a Relay Token has been refreshed."""
     webhook: Optional[str] = None
-    """The report type. It can be `assets` or `income`."""
+    """The URL registered to receive webhooks when the report of a Relay Token has been refreshed."""
+
     report_type: str
+    """The report type. It can be `assets` or `income`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class CreditRelayRefreshRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditRelayRefreshRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditRelayRefreshRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

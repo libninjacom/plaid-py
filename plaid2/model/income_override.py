@@ -1,13 +1,11 @@
 from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from .paystub_override import PaystubOverride
 
 
 class IncomeOverride(BaseModel):
-    """A list of paystubs associated with the account."""
-
     paystubs: Optional[List[PaystubOverride]] = None
+    """A list of paystubs associated with the account."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

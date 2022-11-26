@@ -4,15 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferSweep(BaseModel):
-    """The datetime when the sweep occurred, in RFC 3339 format."""
+    iso_currency_code: str
+    """The currency of the sweep, e.g. "USD"."""
+
+    id: str
+    """Identifier of the sweep."""
 
     created_at: str
-    """The amount of the sweep."""
+    """The datetime when the sweep occurred, in RFC 3339 format."""
+
     amount: str
-    """The currency of the sweep, e.g. "USD"."""
-    iso_currency_code: str
-    """Identifier of the sweep."""
-    id: str
+    """The amount of the sweep."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,12 +1,10 @@
 from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class IdentityMatchRequestOptions(BaseModel):
-    """An array of `account_ids` to perform fuzzy match"""
-
     account_ids: Optional[List[str]] = None
+    """An array of `account_ids` to perform fuzzy match"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +22,6 @@ class IdentityMatchRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IdentityMatchRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IdentityMatchRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

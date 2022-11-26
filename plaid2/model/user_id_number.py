@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class UserIdNumber(BaseModel):
-    """Value of identity document value typed in by user. Alpha-numeric, with all formatting characters stripped."""
+    type: str
+    """A globally unique and human readable ID type, specific to the country and document category. For more context on this field, see [Hybrid Input Validation](https://cognitohq.com/docs/flow/flow-hybrid-input-validation)"""
 
     value: str
-    """A globally unique and human readable ID type, specific to the country and document category. For more context on this field, see [Hybrid Input Validation](https://cognitohq.com/docs/flow/flow-hybrid-input-validation)"""
-    type: str
+    """Value of identity document value typed in by user. Alpha-numeric, with all formatting characters stripped."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

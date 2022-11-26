@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class BankTransferGetRequest(BaseModel):
-    """Plaid’s unique identifier for a bank transfer."""
-
     bank_transfer_id: str
+    """Plaid’s unique identifier for a bank transfer."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -5,13 +5,14 @@ from .watchlist_screening_review import WatchlistScreeningReview
 
 
 class PaginatedIndividualWatchlistScreeningReviewListResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    watchlist_screening_reviews: List[WatchlistScreeningReview]
+    """List of screening reviews"""
 
     request_id: str
-    """List of screening reviews"""
-    watchlist_screening_reviews: List[WatchlistScreeningReview]
-    """An identifier that determines which page of results you receive."""
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     next_cursor: Optional[str] = None
+    """An identifier that determines which page of results you receive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,9 +25,7 @@ class PaginatedIndividualWatchlistScreeningReviewListResponse(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(
-        cls, data: Any
-    ) -> "PaginatedIndividualWatchlistScreeningReviewListResponse":
+    def parse_obj(cls, data: Any) -> "PaginatedIndividualWatchlistScreeningReviewListResponse":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 

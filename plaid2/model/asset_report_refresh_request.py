@@ -5,13 +5,14 @@ from .asset_report_refresh_request_options import AssetReportRefreshRequestOptio
 
 
 class AssetReportRefreshRequest(BaseModel):
-    """The `asset_report_token` returned by the original call to `/asset_report/create`"""
+    options: Optional[AssetReportRefreshRequestOptions] = None
+    """An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used."""
+
+    days_requested: Optional[int] = None
+    """The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used."""
 
     asset_report_token: str
-    """An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used."""
-    options: Optional[AssetReportRefreshRequestOptions] = None
-    """The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used."""
-    days_requested: Optional[int] = None
+    """The `asset_report_token` returned by the original call to `/asset_report/create`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -29,8 +30,6 @@ class AssetReportRefreshRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportRefreshRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportRefreshRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

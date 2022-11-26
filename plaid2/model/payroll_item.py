@@ -3,18 +3,19 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .payroll_income_account_data import PayrollIncomeAccountData
 from .payroll_income_object import PayrollIncomeObject
-from .payroll_item_status import PayrollItemStatus
 
 
 class PayrollItem(BaseModel):
-    payroll_income: List[PayrollIncomeObject]
-    """Details about the status of the payroll item."""
-    status: Optional[PayrollItemStatus] = None
-    """A reference id to reference what payroll data was returned from this endpoint"""
     pull_id: str
-    accounts: List[PayrollIncomeAccountData]
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """A reference id to reference what payroll data was returned from this endpoint"""
+
     item_id: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+
+    accounts: List[PayrollIncomeAccountData]
+    payroll_income: List[PayrollIncomeObject]
+    status: Optional[str] = None
+    """Details about the status of the payroll item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

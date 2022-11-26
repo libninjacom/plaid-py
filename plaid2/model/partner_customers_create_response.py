@@ -1,15 +1,16 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .partner_end_customer_client import PartnerEndCustomerClient
 
 
 class PartnerCustomersCreateResponse(BaseModel):
-    production_secret: Optional[str] = None
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    end_customer: Optional[str] = None
     """The end customer details for the newly-created customer client."""
-    end_customer: Optional[PartnerEndCustomerClient] = None
+
+    production_secret: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +28,6 @@ class PartnerCustomersCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PartnerCustomersCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PartnerCustomersCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

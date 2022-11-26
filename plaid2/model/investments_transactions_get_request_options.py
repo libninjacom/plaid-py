@@ -4,13 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class InvestmentsTransactionsGetRequestOptions(BaseModel):
-    """The number of transactions to fetch."""
+    offset: Optional[int] = None
+    """The number of transactions to skip when fetching transaction history"""
 
     count: Optional[int] = None
-    """An array of `account_ids` to retrieve for the Item."""
+    """The number of transactions to fetch.
+    """
+
     account_ids: Optional[List[str]] = None
-    """The number of transactions to skip when fetching transaction history"""
-    offset: Optional[int] = None
+    """An array of `account_ids` to retrieve for the Item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +30,6 @@ class InvestmentsTransactionsGetRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "InvestmentsTransactionsGetRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "InvestmentsTransactionsGetRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

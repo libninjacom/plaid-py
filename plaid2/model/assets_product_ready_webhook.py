@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class AssetsProductReadyWebhook(BaseModel):
+    webhook_type: str
     """`ASSETS`"""
 
-    webhook_type: str
-    """`PRODUCT_READY`"""
-    webhook_code: str
-    """The `asset_report_id` that can be provided to `/asset_report/get` to retrieve the Asset Report."""
     asset_report_id: str
+    """The `asset_report_id` that can be provided to `/asset_report/get` to retrieve the Asset Report."""
+
+    webhook_code: str
+    """`PRODUCT_READY`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class AssetsProductReadyWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetsProductReadyWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetsProductReadyWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

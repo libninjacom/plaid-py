@@ -1,6 +1,17 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+account_type = "your account type"
+transactions = [
+    ClientProvidedRawTransaction(
+        description="your description",
+        amount=1.0,
+        id="your id",
+        iso_currency_code="your iso currency code",
+    )
+]
 
 
 def main():
@@ -15,15 +26,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-account_type = "your account type"
-transactions = [
-    ClientProvidedRawTransaction(
-        description="your description",
-        iso_currency_code="your iso currency code",
-        id="your id",
-        amount=1.0,
-    )
-]
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

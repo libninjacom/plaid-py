@@ -8,8 +8,9 @@ from .total import Total
 
 class Deductions(BaseModel):
     totals: Optional[List[Total]] = None
-    """An object representing the total deductions for the pay period"""
     total: DeductionsTotal
+    """An object representing the total deductions for the pay period"""
+
     subtotals: Optional[List[Total]] = None
     breakdown: List[DeductionsBreakdown]
 

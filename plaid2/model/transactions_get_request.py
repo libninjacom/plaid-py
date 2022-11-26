@@ -5,15 +5,17 @@ from .transactions_get_request_options import TransactionsGetRequestOptions
 
 
 class TransactionsGetRequest(BaseModel):
-    """An optional object to be used with the request. If specified, `options` must not be `null`."""
+    start_date: str
+    """The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD."""
 
     options: Optional[TransactionsGetRequestOptions] = None
-    """The access token associated with the Item data is being requested for."""
+    """An optional object to be used with the request. If specified, `options` must not be `null`."""
+
     access_token: str
-    """The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD."""
-    start_date: str
-    """The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD."""
+    """The access token associated with the Item data is being requested for."""
+
     end_date: str
+    """The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

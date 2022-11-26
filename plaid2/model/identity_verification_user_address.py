@@ -5,12 +5,14 @@ from pydantic import BaseModel, Field
 
 class IdentityVerificationUserAddress(BaseModel):
     region: Optional[str] = None
-    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
-    country: str
-    postal_code: Optional[str] = None
     street: Optional[str] = None
-    """Extra street information, like an apartment or suite number."""
+    postal_code: Optional[str] = None
+    country: str
+    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
+
     street_2: Optional[str] = None
+    """Extra street information, like an apartment or suite number."""
+
     city: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
@@ -29,8 +31,6 @@ class IdentityVerificationUserAddress(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IdentityVerificationUserAddress":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IdentityVerificationUserAddress":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

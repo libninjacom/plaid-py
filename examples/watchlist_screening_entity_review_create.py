@@ -1,6 +1,11 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+confirmed_hits = ["your confirmed hits"]
+dismissed_hits = ["your dismissed hits"]
+entity_watchlist_screening_id = "your entity watchlist screening id"
 
 
 def main():
@@ -19,9 +24,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-confirmed_hits = ["your confirmed hits"]
-dismissed_hits = ["your dismissed hits"]
-entity_watchlist_screening_id = "your entity watchlist screening id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

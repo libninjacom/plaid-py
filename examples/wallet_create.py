@@ -1,6 +1,9 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+iso_currency_code = "your iso currency code"
 
 
 def main():
@@ -15,7 +18,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-iso_currency_code = "your iso currency code"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

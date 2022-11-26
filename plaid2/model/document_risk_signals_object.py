@@ -6,13 +6,14 @@ from .single_document_risk_signal import SingleDocumentRiskSignal
 
 
 class DocumentRiskSignalsObject(BaseModel):
-    """ID of the payroll provider account."""
+    multi_document_risk_signals: List[MultiDocumentRiskSignal]
+    """Array of risk signals computed from a set of uploaded documents and the associated documents' metadata"""
 
     account_id: Optional[str] = None
-    """Array of risk signals computed from a set of uploaded documents and the associated documents' metadata"""
-    multi_document_risk_signals: List[MultiDocumentRiskSignal]
-    """Array of document metadata and associated risk signals per document"""
+    """ID of the payroll provider account."""
+
     single_document_risk_signals: List[SingleDocumentRiskSignal]
+    """Array of document metadata and associated risk signals per document"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +31,6 @@ class DocumentRiskSignalsObject(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DocumentRiskSignalsObject":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DocumentRiskSignalsObject":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

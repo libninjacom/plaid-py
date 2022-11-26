@@ -5,17 +5,20 @@ from .link_token_get_metadata_response import LinkTokenGetMetadataResponse
 
 
 class LinkTokenGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    created_at: Optional[str] = None
+    """The creation timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+
+    metadata: LinkTokenGetMetadataResponse
+    """An object specifying the arguments originally provided to the `/link/token/create` call."""
+
+    expiration: Optional[str] = None
+    """The expiration timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+
+    link_token: str
+    """A `link_token`, which can be supplied to Link in order to initialize it and receive a `public_token`, which can be exchanged for an `access_token`."""
 
     request_id: str
-    """The creation timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
-    created_at: Optional[str] = None
-    """A `link_token`, which can be supplied to Link in order to initialize it and receive a `public_token`, which can be exchanged for an `access_token`."""
-    link_token: str
-    """The expiration timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
-    expiration: Optional[str] = None
-    """An object specifying the arguments originally provided to the `/link/token/create` call."""
-    metadata: LinkTokenGetMetadataResponse
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

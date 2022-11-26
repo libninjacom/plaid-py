@@ -6,15 +6,29 @@ from .transfer_user_in_request import TransferUserInRequest
 
 
 class TransferIntentCreateRequest(BaseModel):
-    """The direction of the flow of transfer funds.
+    account_id: Optional[str] = None
+    """The Plaid `account_id` for the account that will be debited or credited."""
 
-    - `PAYMENT` – Transfers funds from an end user's account to your business account.
-
-    - `DISBURSEMENT` – Transfers funds from your business account to an end user's account."""
+    require_guarantee: Optional[bool] = None
+    """When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guaranteed ACH customers only)."""
 
     mode: str
-    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
+    """The direction of the flow of transfer funds.
+    
+    - `PAYMENT` – Transfers funds from an end user's account to your business account.
+    
+    - `DISBURSEMENT` – Transfers funds from your business account to an end user's account."""
+
+    description: str
+    """A description for the underlying transfer. Maximum of 8 characters."""
+
+    origination_account_id: Optional[str] = None
+    """Plaid’s unique identifier for the origination account for the intent. If not provided, the default account will be used."""
+
     amount: str
+    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
+
+    metadata: Optional[TransferMetadata] = None
     """The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply:
     - The JSON values must be Strings (no nested JSON objects allowed)
     - Only ASCII characters may be used
@@ -22,11 +36,14 @@ class TransferIntentCreateRequest(BaseModel):
     - Maximum key length of 40 characters
     - Maximum value length of 500 characters
     """
-    metadata: Optional[TransferMetadata] = None
-    """When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guaranteed ACH customers only)."""
-    require_guarantee: Optional[bool] = None
-    """A description for the underlying transfer. Maximum of 8 characters."""
-    description: str
+
+    iso_currency_code: Optional[str] = None
+    """The currency of the transfer amount, e.g. "USD" """
+
+    user: TransferUserInRequest
+    """The legal name and other information for the account holder."""
+
+    ach_class: str
     """Specifies the use case of the transfer. Required for transfers on an ACH network.
     
     `"ccd"` - Corporate Credit or Debit - fund transfer between two corporate bank accounts
@@ -36,15 +53,6 @@ class TransferIntentCreateRequest(BaseModel):
     `"tel"` - Telephone-Initiated Entry
     
     `"web"` - Internet-Initiated Entry - debits from a consumer’s account where their authorization is obtained over the Internet"""
-    ach_class: str
-    """The Plaid `account_id` for the account that will be debited or credited."""
-    account_id: Optional[str] = None
-    """Plaid’s unique identifier for the origination account for the intent. If not provided, the default account will be used."""
-    origination_account_id: Optional[str] = None
-    """The currency of the transfer amount, e.g. "USD" """
-    iso_currency_code: Optional[str] = None
-    """The legal name and other information for the account holder."""
-    user: TransferUserInRequest
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -62,8 +70,6 @@ class TransferIntentCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransferIntentCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransferIntentCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

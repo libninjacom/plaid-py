@@ -6,13 +6,14 @@ from .processor_number import ProcessorNumber
 
 
 class ProcessorAuthGetResponse(BaseModel):
+    request_id: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
-    request_id: str
-    """An object containing identifying numbers used for making electronic transfers to and from the `account`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by the `account` for which auth data has been requested, a null value will be returned."""
-    numbers: ProcessorNumber
-    """A single account at a financial institution."""
     account: AccountBase
+    """A single account at a financial institution."""
+
+    numbers: ProcessorNumber
+    """An object containing identifying numbers used for making electronic transfers to and from the `account`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by the `account` for which auth data has been requested, a null value will be returned."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -30,8 +31,6 @@ class ProcessorAuthGetResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProcessorAuthGetResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProcessorAuthGetResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

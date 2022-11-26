@@ -4,16 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class TransactionsRuleDetails(BaseModel):
+    field: str
     """Transaction field for which the rule is defined."""
 
-    field: str
+    type: str
     """Transaction rule's match type. For TRANSACTION_ID field, EXACT_MATCH is available.
     Matches are case sensitive.
     """
-    type: str
+
+    query: str
     """For TRANSACTION_ID field, provide transaction_id. For NAME field, provide a string pattern.
     """
-    query: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -31,8 +32,6 @@ class TransactionsRuleDetails(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsRuleDetails":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsRuleDetails":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

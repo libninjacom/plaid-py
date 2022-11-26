@@ -1,12 +1,12 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class UserCreateRequest(BaseModel):
-    """A unique ID representing the end user. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`."""
-
     client_user_id: str
+    """A unique ID representing the end user. Typically this will be a user ID number from your application.
+    Personally identifiable information, such as an email address or phone number, should not be used in the
+    `client_user_id`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

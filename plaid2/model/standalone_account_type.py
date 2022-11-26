@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class StandaloneAccountType(BaseModel):
-    """A loan type account. Supported products for `loan` accounts are: Balance, Liabilities, and Transactions."""
+    depository: str
+    """An account type holding cash, in which funds are deposited. Supported products for `depository` accounts are: Auth (`checking` and `savings` types only), Balance, Transactions, Identity, Payment Initiation, and Assets."""
+
+    investment: str
+    """An investment account. Supported products for `investment` accounts are: Balance and Investments. In API versions 2018-05-22 and earlier, this type is called `brokerage`."""
 
     loan: str
-    """An investment account. Supported products for `investment` accounts are: Balance and Investments. In API versions 2018-05-22 and earlier, this type is called `brokerage`."""
-    investment: str
-    """An account type holding cash, in which funds are deposited. Supported products for `depository` accounts are: Auth (`checking` and `savings` types only), Balance, Transactions, Identity, Payment Initiation, and Assets."""
-    depository: str
-    """Other or unknown account type. Supported products for `other` accounts are: Balance, Transactions, Identity, and Assets."""
-    other: str
-    """A credit card type account. Supported products for `credit` accounts are: Balance, Transactions, Identity, and Liabilities."""
+    """A loan type account. Supported products for `loan` accounts are: Balance, Liabilities, and Transactions."""
+
     credit: str
+    """A credit card type account. Supported products for `credit` accounts are: Balance, Transactions, Identity, and Liabilities."""
+
+    other: str
+    """Other or unknown account type. Supported products for `other` accounts are: Balance, Transactions, Identity, and Assets."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

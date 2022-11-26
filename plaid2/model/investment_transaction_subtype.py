@@ -42,7 +42,7 @@ class InvestmentTransactionSubtype(str, Enum):
     short_term_capital_gain = "short-term capital gain"
     short_term_capital_gain_reinvestment = "short-term capital gain reinvestment"
     spin_off = "spin off"
-    split = "split"
+    split_ = "split"
     stock_distribution = "stock distribution"
     tax = "tax"
     tax_withheld = "tax withheld"

@@ -4,17 +4,25 @@ from pydantic import BaseModel, Field
 from .credit_pay_stub_address import CreditPayStubAddress
 from .pay_stub_taxpayer_id import PayStubTaxpayerId
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class CreditPayStubEmployee(BaseModel):
-    """Marital status of the employee - either `SINGLE` or `MARRIED`."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    address: CreditPayStubAddress
+    """Address on the pay stub."""
+
+    name_: Optional[str] = None
+    """The name of the employee."""
+
+    taxpayer_id: PayStubTaxpayerId
+    """Taxpayer ID of the individual receiving the paystub."""
 
     marital_status: Optional[str] = None
-    """Address on the pay stub."""
-    address: CreditPayStubAddress
-    """Taxpayer ID of the individual receiving the paystub."""
-    taxpayer_id: PayStubTaxpayerId
-    """The name of the employee."""
-    name: Optional[str] = None
+    """Marital status of the employee - either `SINGLE` or `MARRIED`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

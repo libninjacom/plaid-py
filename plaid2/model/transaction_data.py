@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class TransactionData(BaseModel):
-    """The description of the transaction."""
+    date: str
+    """The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd")."""
+
+    account_id: str
+    """A unique identifier for the end user's account."""
+
+    transaction_id: str
+    """A unique identifier for the transaction."""
+
+    amount: float
+    """The amount of the transaction."""
 
     description: str
-    """The amount of the transaction."""
-    amount: float
-    """A unique identifier for the transaction."""
-    transaction_id: str
-    """A unique identifier for the end user's account."""
-    account_id: str
-    """The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd")."""
-    date: str
+    """The description of the transaction."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

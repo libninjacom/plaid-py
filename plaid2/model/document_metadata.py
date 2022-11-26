@@ -2,15 +2,18 @@ from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class DocumentMetadata(BaseModel):
-    """The name of the document."""
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
 
-    name: Optional[str] = None
-    """The processing status of the document."""
     status: Optional[str] = None
-    """An identifier of the document that is also present in the paystub response."""
-    doc_id: Optional[str] = None
+    """The processing status of the document."""
+
+    doc_type: Optional[str] = None
     """The type of document.
     
     `DOCUMENT_TYPE_PAYSTUB`: A paystub.
@@ -30,7 +33,12 @@ class DocumentMetadata(BaseModel):
     `DOCUMENT_TYPE_NONE`: Used to indicate that there is no underlying document for the data.
     
     `UNKNOWN`: Document type could not be determined."""
-    doc_type: Optional[str] = None
+
+    name_: Optional[str] = None
+    """The name of the document."""
+
+    doc_id: Optional[str] = None
+    """An identifier of the document that is also present in the paystub response."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

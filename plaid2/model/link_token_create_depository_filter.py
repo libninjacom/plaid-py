@@ -1,12 +1,12 @@
 from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class LinkTokenCreateDepositoryFilter(BaseModel):
-    """An array of account subtypes to display in Link. If not specified, all account subtypes will be shown. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema)."""
-
     account_subtypes: Optional[List[str]] = None
+    """An array of account subtypes to display in Link. If not specified, all account subtypes will be shown. For
+    a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-
+    schema). """
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -24,8 +24,6 @@ class LinkTokenCreateDepositoryFilter(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateDepositoryFilter":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateDepositoryFilter":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

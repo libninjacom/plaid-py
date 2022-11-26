@@ -4,18 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class IncomeBreakdown(BaseModel):
-    """The total pay for this pay period."""
-
-    total: Optional[float] = None
+    type: Optional[str] = None
     """The type of income. Possible values include:
       `"regular"`: regular income
       `"overtime"`: overtime income
       `"bonus"`: bonus income"""
-    type: Optional[str] = None
-    """The hourly rate at which the income is paid."""
-    rate: Optional[float] = None
-    """The number of hours logged for this income for this pay period."""
+
     hours: Optional[float] = None
+    """The number of hours logged for this income for this pay period."""
+
+    rate: Optional[float] = None
+    """The hourly rate at which the income is paid."""
+
+    total: Optional[float] = None
+    """The total pay for this pay period."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

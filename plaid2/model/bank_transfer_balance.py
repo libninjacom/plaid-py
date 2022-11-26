@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferBalance(BaseModel):
+    available: str
     """The total available balance - the sum of all successful debit transfer amounts minus all credit transfer amounts."""
 
-    available: str
-    """The transactable balance shows the amount in your account that you are able to use for transfers, and is essentially your available balance minus your minimum balance."""
     transactable: str
+    """The transactable balance shows the amount in your account that you are able to use for transfers, and is essentially your available balance minus your minimum balance."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

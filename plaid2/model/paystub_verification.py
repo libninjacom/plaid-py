@@ -5,10 +5,9 @@ from .verification_attribute import VerificationAttribute
 
 
 class PaystubVerification(BaseModel):
-    """Derived verification status."""
-
-    verification_status: Optional[str] = None
     verification_attributes: List[VerificationAttribute]
+    verification_status: Optional[str] = None
+    """Derived verification status."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

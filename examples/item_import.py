@@ -1,6 +1,13 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+products = ["your products"]
+user_auth = ItemImportRequestUserAuth(
+    auth_token="your auth token",
+    user_id="your user id",
+)
 
 
 def main():
@@ -15,11 +22,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-products = ["your products"]
-user_auth = ItemImportRequestUserAuth(
-    user_id="your user id",
-    auth_token="your auth token",
-)
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

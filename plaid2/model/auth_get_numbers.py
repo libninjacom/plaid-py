@@ -8,15 +8,17 @@ from .numbers_international import NumbersInternational
 
 
 class AuthGetNumbers(BaseModel):
-    """An array of BACS numbers identifying accounts."""
+    eft: List[NumbersEft]
+    """An array of EFT numbers identifying accounts."""
 
     bacs: List[NumbersBacs]
-    """An array of IBAN numbers identifying accounts."""
-    international: List[NumbersInternational]
-    """An array of EFT numbers identifying accounts."""
-    eft: List[NumbersEft]
-    """An array of ACH numbers identifying accounts."""
+    """An array of BACS numbers identifying accounts."""
+
     ach: List[NumbersAch]
+    """An array of ACH numbers identifying accounts."""
+
+    international: List[NumbersInternational]
+    """An array of IBAN numbers identifying accounts."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

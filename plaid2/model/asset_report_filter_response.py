@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportFilterResponse(BaseModel):
-    """A unique ID identifying an Asset Report. Like all Plaid identifiers, this ID is case sensitive."""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    asset_report_token: str
+    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
 
     asset_report_id: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
-    asset_report_token: str
+    """A unique ID identifying an Asset Report. Like all Plaid identifiers, this ID is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class AssetReportFilterResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportFilterResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportFilterResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -17,9 +17,7 @@ def raise_for_status(res: requests.Response) -> None:
         raise requests.HTTPError(content, response=res)
 
 
-def log_prepped_request(
-    req: requests.Request, prepped: requests.PreparedRequest
-) -> None:
+def log_prepped_request(req: requests.Request, prepped: requests.PreparedRequest) -> None:
     data = dict(
         method=prepped.method,
         url=prepped.url,
@@ -61,7 +59,7 @@ class PlaidClient:
         headers: Dict[str, Union[str, None]],
         params: Dict[str, Union[str, int, None]],
         data: Dict[str, Any],
-    ) -> requests.Response:
+    ) -> str:
         self.authenticator.authenticate(headers, params, data)
         req = requests.Request(
             method=method,
@@ -80,9 +78,7 @@ class PlaidClient:
         raise_for_status(res)
         return res.text
 
-    def item_application_list(
-        self, *, access_token: Optional[str] = None
-    ) -> model.ItemApplicationListResponse:
+    def item_application_list(self, *, access_token: Optional[str] = None) -> model.ItemApplicationListResponse:
         """List a user’s connected applications"""
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
@@ -90,19 +86,11 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/item/application/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/item/application/list", headers, params, data)
         return model.ItemApplicationListResponse.parse_raw(text)
 
     def item_application_scopes_update(
-        self,
-        access_token: str,
-        application_id: str,
-        scopes: model.Scopes,
-        context: str,
-        *,
-        state: Optional[str] = None,
+        self, access_token: str, application_id: str, scopes: model.Scopes, context: str, *, state: Optional[str] = None
     ) -> model.ItemApplicationScopesUpdateResponse:
         """Update the scopes of access for a particular application
 
@@ -117,28 +105,21 @@ class PlaidClient:
             "context": context,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/item/application/scopes/update",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/item/application/scopes/update", headers, params, data)
         return model.ItemApplicationScopesUpdateResponse.parse_raw(text)
 
     def application_get(self, application_id: str) -> model.ApplicationGetResponse:
         """Retrieve information about a Plaid application
 
-        Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences"""
+        Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "application_id": application_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/application/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/application/get", headers, params, data)
         return model.ApplicationGetResponse.parse_raw(text)
 
     def item_get(self, access_token: str) -> model.ItemGetResponse:
@@ -156,12 +137,7 @@ class PlaidClient:
         text = self.send("POST", self.base_url + "/item/get", headers, params, data)
         return model.ItemGetResponse.parse_raw(text)
 
-    def auth_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AuthGetRequestOptions] = None,
-    ) -> model.AuthGetResponse:
+    def auth_get(self, access_token: str, *, options: Optional[List[str]] = None) -> model.AuthGetResponse:
         """Retrieve auth data
 
         The `/auth/get` endpoint returns the bank account and bank identification numbers (such as routing numbers, for US accounts) associated with an Item's checking and savings accounts, along with high-level account data and balances when available.
@@ -177,7 +153,7 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
         text = self.send("POST", self.base_url + "/auth/get", headers, params, data)
@@ -213,14 +189,10 @@ class PlaidClient:
             "end_date": end_date,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transactions/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transactions/get", headers, params, data)
         return model.TransactionsGetResponse.parse_raw(text)
 
-    def transactions_refresh(
-        self, access_token: str
-    ) -> model.TransactionsRefreshResponse:
+    def transactions_refresh(self, access_token: str) -> model.TransactionsRefreshResponse:
         """Refresh transaction data
 
         `/transactions/refresh` is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling `/transactions/refresh`, Plaid will fire a webhook: [`TRANSACTIONS_REMOVED`](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [`DEFAULT_UPDATE`](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling `/transactions/get`.
@@ -234,17 +206,11 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transactions/refresh", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transactions/refresh", headers, params, data)
         return model.TransactionsRefreshResponse.parse_raw(text)
 
     def transactions_recurring_get(
-        self,
-        access_token: str,
-        account_ids: List[str],
-        *,
-        options: Optional[model.TransactionsRecurringGetRequestOptions] = None,
+        self, access_token: str, account_ids: List[str], *, options: Optional[bool] = None
     ) -> model.TransactionsRecurringGetResponse:
         """Fetch recurring transaction streams
 
@@ -261,13 +227,11 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
             "account_ids": account_ids,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transactions/recurring/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transactions/recurring/get", headers, params, data)
         return model.TransactionsRecurringGetResponse.parse_raw(text)
 
     def transactions_sync(
@@ -308,9 +272,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transactions/sync", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transactions/sync", headers, params, data)
         return model.TransactionsSyncResponse.parse_raw(text)
 
     def institutions_get(
@@ -337,9 +299,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/institutions/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/institutions/get", headers, params, data)
         return model.InstitutionsGetResponse.parse_raw(text)
 
     def institutions_search(
@@ -367,9 +327,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/institutions/search", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/institutions/search", headers, params, data)
         return model.InstitutionsSearchResponse.parse_raw(text)
 
     def institutions_get_by_id(
@@ -395,9 +353,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/institutions/get_by_id", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/institutions/get_by_id", headers, params, data)
         return model.InstitutionsGetByIdResponse.parse_raw(text)
 
     def item_remove(self, access_token: str) -> model.ItemRemoveResponse:
@@ -421,12 +377,7 @@ class PlaidClient:
         text = self.send("POST", self.base_url + "/item/remove", headers, params, data)
         return model.ItemRemoveResponse.parse_raw(text)
 
-    def accounts_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AccountsGetRequestOptions] = None,
-    ) -> model.AccountsGetResponse:
+    def accounts_get(self, access_token: str, *, options: Optional[List[str]] = None) -> model.AccountsGetResponse:
         """Retrieve accounts
 
         The `/accounts/get` endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance.
@@ -439,7 +390,7 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
         text = self.send("POST", self.base_url + "/accounts/get", headers, params, data)
@@ -455,16 +406,11 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
 
-        text = self.send(
-            "POST", self.base_url + "/categories/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/categories/get", headers, params, data)
         return model.CategoriesGetResponse.parse_raw(text)
 
     def sandbox_processor_token_create(
-        self,
-        institution_id: str,
-        *,
-        options: Optional[model.SandboxProcessorTokenCreateRequestOptions] = None,
+        self, institution_id: str, *, options: Optional[model.SandboxProcessorTokenCreateRequestOptions] = None
     ) -> model.SandboxProcessorTokenCreateResponse:
         """Create a test Item and processor token
 
@@ -478,13 +424,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/processor_token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/processor_token/create", headers, params, data)
         return model.SandboxProcessorTokenCreateResponse.parse_raw(text)
 
     def sandbox_public_token_create(
@@ -509,21 +449,11 @@ class PlaidClient:
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/public_token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/public_token/create", headers, params, data)
         return model.SandboxPublicTokenCreateResponse.parse_raw(text)
 
     def sandbox_item_fire_webhook(
-        self,
-        access_token: str,
-        webhook_code: str,
-        *,
-        webhook_type: Optional[str] = None,
+        self, access_token: str, webhook_code: str, *, webhook_type: Optional[str] = None
     ) -> model.SandboxItemFireWebhookResponse:
         """Fire a test webhook
 
@@ -548,16 +478,11 @@ class PlaidClient:
             "webhook_code": webhook_code,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/sandbox/item/fire_webhook", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/sandbox/item/fire_webhook", headers, params, data)
         return model.SandboxItemFireWebhookResponse.parse_raw(text)
 
     def accounts_balance_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.AccountsBalanceGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[model.AccountsBalanceGetRequestOptions] = None
     ) -> model.AccountsGetResponse:
         """Retrieve real-time balance data
 
@@ -571,17 +496,10 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/accounts/balance/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/accounts/balance/get", headers, params, data)
         return model.AccountsGetResponse.parse_raw(text)
 
-    def identity_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.IdentityGetRequestOptions] = None,
-    ) -> model.IdentityGetResponse:
+    def identity_get(self, access_token: str, *, options: Optional[List[str]] = None) -> model.IdentityGetResponse:
         """Retrieve identity data
 
         The `/identity/get` endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.
@@ -595,18 +513,14 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
         text = self.send("POST", self.base_url + "/identity/get", headers, params, data)
         return model.IdentityGetResponse.parse_raw(text)
 
     def identity_match(
-        self,
-        access_token: str,
-        *,
-        user: Optional[model.IdentityMatchUser] = None,
-        options: Optional[model.IdentityMatchRequestOptions] = None,
+        self, access_token: str, *, user: Optional[model.IdentityMatchUser] = None, options: Optional[List[str]] = None
     ) -> model.IdentityMatchResponse:
         """Retrieve identity match score
 
@@ -620,12 +534,10 @@ class PlaidClient:
         data: Dict[str, Any] = {
             "access_token": access_token,
             "user": None if user is None else user.dict(),
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/identity/match", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/identity/match", headers, params, data)
         return model.IdentityMatchResponse.parse_raw(text)
 
     def dashobard_user_get(self, dashboard_user_id: str) -> model.DashboardUserResponse:
@@ -640,14 +552,10 @@ class PlaidClient:
             "dashboard_user_id": dashboard_user_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/dashboard_user/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/dashboard_user/get", headers, params, data)
         return model.DashboardUserResponse.parse_raw(text)
 
-    def dashboard_user_list(
-        self, *, cursor: Optional[str] = None
-    ) -> model.PaginatedDashboardUserListResponse:
+    def dashboard_user_list(self, *, cursor: Optional[str] = None) -> model.PaginatedDashboardUserListResponse:
         """List dashboard users
 
         List all dashboard users associated with your account.
@@ -659,9 +567,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/dashboard_user/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/dashboard_user/list", headers, params, data)
         return model.PaginatedDashboardUserListResponse.parse_raw(text)
 
     def identity_verification_create(
@@ -679,7 +585,8 @@ class PlaidClient:
         If you don't know whether the associated user already has an active Identity Verification, you can specify `"is_idempotent": true` in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated `client_user_id` and `template_id`. If an Identity Verification is found, it will be returned unmodified with an `200 OK` HTTP status code.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationcreate>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -690,18 +597,10 @@ class PlaidClient:
             "is_idempotent": is_idempotent,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/identity_verification/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/identity_verification/create", headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
-    def identity_verification_get(
-        self, identity_verification_id: str
-    ) -> model.IdentityVerificationResponse:
+    def identity_verification_get(self, identity_verification_id: str) -> model.IdentityVerificationResponse:
         """Retrieve Identity Verification
 
         Retrieve a previously created identity verification
@@ -713,9 +612,7 @@ class PlaidClient:
             "identity_verification_id": identity_verification_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/identity_verification/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/identity_verification/get", headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
     def identity_verification_list(
@@ -734,9 +631,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/identity_verification/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/identity_verification/list", headers, params, data)
         return model.PaginatedIdentityVerificationListResponse.parse_raw(text)
 
     def identity_verification_retry(
@@ -761,20 +656,11 @@ class PlaidClient:
             "steps": None if steps is None else steps.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/identity_verification/retry",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/identity_verification/retry", headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
     def watchlist_screening_entity_create(
-        self,
-        search_terms: model.EntityWatchlistSearchTerms,
-        *,
-        client_user_id: Optional[str] = None,
+        self, search_terms: model.EntityWatchlistSearchTerms, *, client_user_id: Optional[str] = None
     ) -> model.EntityWatchlistScreeningResponse:
         """Create a watchlist screening for an entity
 
@@ -788,13 +674,7 @@ class PlaidClient:
             "client_user_id": client_user_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/create", headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     def watchlist_screening_entity_get(
@@ -811,13 +691,7 @@ class PlaidClient:
             "entity_watchlist_screening_id": entity_watchlist_screening_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/get", headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     def watchlist_screening_entity_history_list(
@@ -835,13 +709,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/history/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/history/list", headers, params, data)
         return model.PaginatedEntityWatchlistScreeningListResponse.parse_raw(text)
 
     def watchlist_screening_entity_hits_list(
@@ -859,13 +727,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/hit/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/hit/list", headers, params, data)
         return model.PaginatedEntityWatchlistScreeningHitListResponse.parse_raw(text)
 
     def watchlist_screening_entity_list(
@@ -892,13 +754,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/list", headers, params, data)
         return model.PaginatedEntityWatchlistScreeningListResponse.parse_raw(text)
 
     def watchlist_screening_entity_program_get(
@@ -915,13 +771,7 @@ class PlaidClient:
             "entity_watchlist_program_id": entity_watchlist_program_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/program/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/program/get", headers, params, data)
         return model.EntityWatchlistProgramResponse.parse_raw(text)
 
     def watchlist_screening_entity_program_list(
@@ -938,13 +788,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/program/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/program/list", headers, params, data)
         return model.PaginatedEntityWatchlistProgramListResponse.parse_raw(text)
 
     def watchlist_screening_entity_review_create(
@@ -969,13 +813,7 @@ class PlaidClient:
             "entity_watchlist_screening_id": entity_watchlist_screening_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/review/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/review/create", headers, params, data)
         return model.EntityWatchlistScreeningReviewResponse.parse_raw(text)
 
     def watchlist_screening_entity_review_list(
@@ -993,13 +831,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/review/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/review/list", headers, params, data)
         return model.PaginatedEntityWatchlistScreeningReviewListResponse.parse_raw(text)
 
     def watchlist_screening_entity_update(
@@ -1028,20 +860,11 @@ class PlaidClient:
             "reset_fields": reset_fields,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/entity/update",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/entity/update", headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     def watchlist_screening_individual_create(
-        self,
-        search_terms: model.WatchlistScreeningRequestSearchTerms,
-        *,
-        client_user_id: Optional[str] = None,
+        self, search_terms: model.WatchlistScreeningRequestSearchTerms, *, client_user_id: Optional[str] = None
     ) -> model.WatchlistScreeningIndividualResponse:
         """Create a watchlist screening for a person
 
@@ -1055,13 +878,7 @@ class PlaidClient:
             "client_user_id": client_user_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/create", headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
     def watchlist_screening_individual_get(
@@ -1078,13 +895,7 @@ class PlaidClient:
             "watchlist_screening_id": watchlist_screening_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/get", headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
     def watchlist_screening_individual_history_list(
@@ -1102,13 +913,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/history/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/history/list", headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningListResponse.parse_raw(text)
 
     def watchlist_screening_individual_hit_list(
@@ -1126,16 +931,8 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/hit/list",
-            headers,
-            params,
-            data,
-        )
-        return model.PaginatedIndividualWatchlistScreeningHitListResponse.parse_raw(
-            text
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/hit/list", headers, params, data)
+        return model.PaginatedIndividualWatchlistScreeningHitListResponse.parse_raw(text)
 
     def watchlist_screening_individual_list(
         self,
@@ -1161,13 +958,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/list", headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningListResponse.parse_raw(text)
 
     def watchlist_screening_individual_program_get(
@@ -1184,13 +975,7 @@ class PlaidClient:
             "watchlist_program_id": watchlist_program_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/program/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/program/get", headers, params, data)
         return model.IndividualWatchlistProgramResponse.parse_raw(text)
 
     def watchlist_screening_individual_program_list(
@@ -1207,13 +992,7 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/program/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/program/list", headers, params, data)
         return model.PaginatedIndividualWatchlistProgramListResponse.parse_raw(text)
 
     def watchlist_screening_individual_review_create(
@@ -1228,7 +1007,8 @@ class PlaidClient:
 
         Create a review for the individual watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewcreate>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -1238,13 +1018,7 @@ class PlaidClient:
             "watchlist_screening_id": watchlist_screening_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/review/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/review/create", headers, params, data)
         return model.WatchlistScreeningReviewResponse.parse_raw(text)
 
     def watchlist_screening_individual_reviews_list(
@@ -1262,24 +1036,14 @@ class PlaidClient:
             "cursor": cursor,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/review/list",
-            headers,
-            params,
-            data,
-        )
-        return model.PaginatedIndividualWatchlistScreeningReviewListResponse.parse_raw(
-            text
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/review/list", headers, params, data)
+        return model.PaginatedIndividualWatchlistScreeningReviewListResponse.parse_raw(text)
 
     def watchlist_screening_individual_update(
         self,
         watchlist_screening_id: str,
         *,
-        search_terms: Optional[
-            model.UpdateIndividualScreeningRequestSearchTerms
-        ] = None,
+        search_terms: Optional[model.UpdateIndividualScreeningRequestSearchTerms] = None,
         assignee: Optional[str] = None,
         status: Optional[str] = None,
         client_user_id: Optional[str] = None,
@@ -1301,18 +1065,10 @@ class PlaidClient:
             "reset_fields": reset_fields,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/watchlist_screening/individual/update",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/watchlist_screening/individual/update", headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
-    def processor_auth_get(
-        self, processor_token: str
-    ) -> model.ProcessorAuthGetResponse:
+    def processor_auth_get(self, processor_token: str) -> model.ProcessorAuthGetResponse:
         """Retrieve Auth data
 
         The `/processor/auth/get` endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that''s associated with a given `processor_token`. The endpoint also returns high-level account data and balances when available.
@@ -1327,9 +1083,7 @@ class PlaidClient:
             "processor_token": processor_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/processor/auth/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/processor/auth/get", headers, params, data)
         return model.ProcessorAuthGetResponse.parse_raw(text)
 
     def processor_bank_transfer_create(
@@ -1370,18 +1124,10 @@ class PlaidClient:
             "origination_account_id": origination_account_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/processor/bank_transfer/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/processor/bank_transfer/create", headers, params, data)
         return model.ProcessorBankTransferCreateResponse.parse_raw(text)
 
-    def processor_identity_get(
-        self, processor_token: str
-    ) -> model.ProcessorIdentityGetResponse:
+    def processor_identity_get(self, processor_token: str) -> model.ProcessorIdentityGetResponse:
         """Retrieve Identity data
 
         The `/processor/identity/get` endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses.
@@ -1393,16 +1139,11 @@ class PlaidClient:
             "processor_token": processor_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/processor/identity/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/processor/identity/get", headers, params, data)
         return model.ProcessorIdentityGetResponse.parse_raw(text)
 
     def processor_balance_get(
-        self,
-        processor_token: str,
-        *,
-        options: Optional[model.ProcessorBalanceGetRequestOptions] = None,
+        self, processor_token: str, *, options: Optional[str] = None
     ) -> model.ProcessorBalanceGetResponse:
         """Retrieve Balance data
 
@@ -1413,12 +1154,10 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "processor_token": processor_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/processor/balance/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/processor/balance/get", headers, params, data)
         return model.ProcessorBalanceGetResponse.parse_raw(text)
 
     def item_webhook_update(
@@ -1436,14 +1175,10 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/item/webhook/update", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/item/webhook/update", headers, params, data)
         return model.ItemWebhookUpdateResponse.parse_raw(text)
 
-    def item_access_token_invalidate(
-        self, access_token: str
-    ) -> model.ItemAccessTokenInvalidateResponse:
+    def item_access_token_invalidate(self, access_token: str) -> model.ItemAccessTokenInvalidateResponse:
         """Invalidate access_token
 
         By default, the `access_token` associated with an Item does not expire and should be stored in a persistent, secure manner.
@@ -1458,18 +1193,10 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/item/access_token/invalidate",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/item/access_token/invalidate", headers, params, data)
         return model.ItemAccessTokenInvalidateResponse.parse_raw(text)
 
-    def webhook_verification_key_get(
-        self, key_id: str
-    ) -> model.WebhookVerificationKeyGetResponse:
+    def webhook_verification_key_get(self, key_id: str) -> model.WebhookVerificationKeyGetResponse:
         """Get webhook verification key
 
         Plaid signs all outgoing webhooks and provides JSON Web Tokens (JWTs) so that you can verify the authenticity of any incoming webhooks to your application. A message signature is included in the `Plaid-Verification` header.
@@ -1483,20 +1210,11 @@ class PlaidClient:
             "key_id": key_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/webhook_verification_key/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/webhook_verification_key/get", headers, params, data)
         return model.WebhookVerificationKeyGetResponse.parse_raw(text)
 
     def liabilities_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.LiabilitiesGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.LiabilitiesGetResponse:
         """Retrieve Liabilities data
 
@@ -1511,20 +1229,18 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/liabilities/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/liabilities/get", headers, params, data)
         return model.LiabilitiesGetResponse.parse_raw(text)
 
     def payment_initiation_recipient_create(
         self,
-        name: str,
+        name_: str,
         *,
         iban: Optional[str] = None,
-        bacs: Optional[model.RecipientBacsNullable] = None,
+        bacs: Optional[model.RecipientBacs] = None,
         address: Optional[model.PaymentInitiationAddress] = None,
     ) -> model.PaymentInitiationRecipientCreateResponse:
         """Create payment recipient
@@ -1534,23 +1250,18 @@ class PlaidClient:
         The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same `recipient_id`.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientcreate>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "name": name,
+            "name": name_,
             "iban": iban,
             "bacs": None if bacs is None else bacs.dict(),
             "address": None if address is None else address.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/recipient/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/recipient/create", headers, params, data)
         return model.PaymentInitiationRecipientCreateResponse.parse_raw(text)
 
     def payment_initiation_payment_reverse(
@@ -1563,7 +1274,8 @@ class PlaidClient:
         A payment can only be reversed once and will be refunded to the original sender's account.
 
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentreverse>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentreverse>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -1572,57 +1284,37 @@ class PlaidClient:
             "reference": reference,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/payment/reverse",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/payment/reverse", headers, params, data)
         return model.PaymentInitiationPaymentReverseResponse.parse_raw(text)
 
-    def payment_initiation_recipient_get(
-        self, recipient_id: str
-    ) -> model.PaymentInitiationRecipientGetResponse:
+    def payment_initiation_recipient_get(self, recipient_id: str) -> model.PaymentInitiationRecipientGetResponse:
         """Get payment recipient
 
         Get details about a payment recipient you have previously created.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientget>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "recipient_id": recipient_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/recipient/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/recipient/get", headers, params, data)
         return model.PaymentInitiationRecipientGetResponse.parse_raw(text)
 
-    def payment_initiation_recipient_list(
-        self,
-    ) -> model.PaymentInitiationRecipientListResponse:
+    def payment_initiation_recipient_list(self) -> model.PaymentInitiationRecipientListResponse:
         """List payment recipients
 
         The `/payment_initiation/recipient/list` endpoint list the payment recipients that you have previously created.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientlist>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/recipient/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/recipient/list", headers, params, data)
         return model.PaymentInitiationRecipientListResponse.parse_raw(text)
 
     def payment_initiation_payment_create(
@@ -1631,7 +1323,7 @@ class PlaidClient:
         reference: str,
         amount: model.PaymentAmount,
         *,
-        schedule: Optional[model.ExternalPaymentScheduleRequest] = None,
+        schedule: Optional[model.ExternalPaymentScheduleBase] = None,
         options: Optional[model.ExternalPaymentOptions] = None,
     ) -> model.PaymentInitiationPaymentCreateResponse:
         """Create a payment
@@ -1642,7 +1334,8 @@ class PlaidClient:
 
         In the Development environment, payments must be below 5 GBP / EUR. For details on any payment limits in Production, contact your Plaid Account Manager.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentcreate>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -1653,18 +1346,10 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/payment/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/payment/create", headers, params, data)
         return model.PaymentInitiationPaymentCreateResponse.parse_raw(text)
 
-    def create_payment_token(
-        self, payment_id: str
-    ) -> model.PaymentInitiationPaymentTokenCreateResponse:
+    def create_payment_token(self, payment_id: str) -> model.PaymentInitiationPaymentTokenCreateResponse:
         """Create payment token
 
         The `/payment_initiation/payment/token/create` endpoint has been deprecated. New Plaid customers will be unable to use this endpoint, and existing customers are encouraged to migrate to the newer, `link_token`-based flow. The recommended flow is to provide the `payment_id` to `/link/token/create`, which returns a `link_token` used to initialize Link.
@@ -1678,13 +1363,7 @@ class PlaidClient:
             "payment_id": payment_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/payment/token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/payment/token/create", headers, params, data)
         return model.PaymentInitiationPaymentTokenCreateResponse.parse_raw(text)
 
     def payment_initiation_consent_create(
@@ -1702,7 +1381,8 @@ class PlaidClient:
 
         Consents can be limited in time and scope, and have constraints that describe limitations for payments.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentcreate>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -1713,18 +1393,10 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/consent/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/consent/create", headers, params, data)
         return model.PaymentInitiationConsentCreateResponse.parse_raw(text)
 
-    def payment_initiation_consent_get(
-        self, consent_id: str
-    ) -> model.PaymentInitiationConsentGetResponse:
+    def payment_initiation_consent_get(self, consent_id: str) -> model.PaymentInitiationConsentGetResponse:
         """Get payment consent
 
         The `/payment_initiation/consent/get` endpoint can be used to check the status of a payment consent, as well as to receive basic information such as recipient and constraints.
@@ -1736,36 +1408,23 @@ class PlaidClient:
             "consent_id": consent_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/consent/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/consent/get", headers, params, data)
         return model.PaymentInitiationConsentGetResponse.parse_raw(text)
 
-    def payment_initiation_consent_revoke(
-        self, consent_id: str
-    ) -> model.PaymentInitiationConsentRevokeResponse:
+    def payment_initiation_consent_revoke(self, consent_id: str) -> model.PaymentInitiationConsentRevokeResponse:
         """Revoke payment consent
 
         The `/payment_initiation/consent/revoke` endpoint can be used to revoke the payment consent. Once the consent is revoked, it is not possible to initiate payments using it.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentrevoke>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentrevoke>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "consent_id": consent_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/consent/revoke",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/consent/revoke", headers, params, data)
         return model.PaymentInitiationConsentRevokeResponse.parse_raw(text)
 
     def payment_initiation_consent_payment_execute(
@@ -1775,7 +1434,8 @@ class PlaidClient:
 
         The `/payment_initiation/consent/payment/execute` endpoint can be used to execute payments using payment consent.
 
-        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentpaymentexecute>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentpaymentexecute>.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
@@ -1784,18 +1444,10 @@ class PlaidClient:
             "idempotency_key": idempotency_key,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/consent/payment/execute",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/consent/payment/execute", headers, params, data)
         return model.PaymentInitiationConsentPaymentExecuteResponse.parse_raw(text)
 
-    def sandbox_item_reset_login(
-        self, access_token: str
-    ) -> model.SandboxItemResetLoginResponse:
+    def sandbox_item_reset_login(self, access_token: str) -> model.SandboxItemResetLoginResponse:
         """Force a Sandbox Item into an error state
 
         `/sandbox/item/reset_login/` forces an Item into an `ITEM_LOGIN_REQUIRED` state in order to simulate an Item whose login is no longer valid. This makes it easy to test Link's [update mode](https://plaid.com/docs/link/update-mode) flow in the Sandbox environment.  After calling `/sandbox/item/reset_login`, You can then use Plaid Link update mode to restore the Item to a good state. An `ITEM_LOGIN_REQUIRED` webhook will also be fired after a call to this endpoint, if one is associated with the Item.
@@ -1810,9 +1462,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/sandbox/item/reset_login", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/sandbox/item/reset_login", headers, params, data)
         return model.SandboxItemResetLoginResponse.parse_raw(text)
 
     def sandbox_item_set_verification_status(
@@ -1835,18 +1485,10 @@ class PlaidClient:
             "verification_status": verification_status,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/item/set_verification_status",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/item/set_verification_status", headers, params, data)
         return model.SandboxItemSetVerificationStatusResponse.parse_raw(text)
 
-    def item_public_token_exchange(
-        self, public_token: str
-    ) -> model.ItemPublicTokenExchangeResponse:
+    def item_public_token_exchange(self, public_token: str) -> model.ItemPublicTokenExchangeResponse:
         """Exchange public token for an access token
 
         Exchange a Link `public_token` for an API `access_token`. Link hands off the `public_token` client-side via the `onSuccess` callback once a user has successfully created an Item. The `public_token` is ephemeral and expires after 30 minutes. An `access_token` does not expire, but can be revoked by calling `/item/remove`.
@@ -1860,14 +1502,10 @@ class PlaidClient:
             "public_token": public_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/item/public_token/exchange", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/item/public_token/exchange", headers, params, data)
         return model.ItemPublicTokenExchangeResponse.parse_raw(text)
 
-    def item_create_public_token(
-        self, access_token: str
-    ) -> model.ItemPublicTokenCreateResponse:
+    def item_create_public_token(self, access_token: str) -> model.ItemPublicTokenCreateResponse:
         """Create public token
 
         Note: As of July 2020, the `/item/public_token/create` endpoint is deprecated. Instead, use `/link/token/create` with an `access_token` to create a Link token for use with [update mode](https://plaid.com/docs/link/update-mode).
@@ -1885,9 +1523,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/item/public_token/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/item/public_token/create", headers, params, data)
         return model.ItemPublicTokenCreateResponse.parse_raw(text)
 
     def user_create(self, client_user_id: str) -> model.UserCreateResponse:
@@ -1907,9 +1543,7 @@ class PlaidClient:
         text = self.send("POST", self.base_url + "/user/create", headers, params, data)
         return model.UserCreateResponse.parse_raw(text)
 
-    def payment_initiation_payment_get(
-        self, payment_id: str
-    ) -> model.PaymentInitiationPaymentGetResponse:
+    def payment_initiation_payment_get(self, payment_id: str) -> model.PaymentInitiationPaymentGetResponse:
         """Get payment details
 
         The `/payment_initiation/payment/get` endpoint can be used to check the status of a payment, as well as to receive basic information such as recipient and payment amount. In the case of standing orders, the `/payment_initiation/payment/get` endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.
@@ -1921,21 +1555,11 @@ class PlaidClient:
             "payment_id": payment_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/payment/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/payment/get", headers, params, data)
         return model.PaymentInitiationPaymentGetResponse.parse_raw(text)
 
     def payment_initiation_payment_list(
-        self,
-        *,
-        count: Optional[int] = None,
-        cursor: Optional[str] = None,
-        consent_id: Optional[str] = None,
+        self, *, count: Optional[int] = None, cursor: Optional[str] = None, consent_id: Optional[str] = None
     ) -> model.PaymentInitiationPaymentListResponse:
         """List payments
 
@@ -1950,13 +1574,7 @@ class PlaidClient:
             "consent_id": consent_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/payment_initiation/payment/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/payment_initiation/payment/list", headers, params, data)
         return model.PaymentInitiationPaymentListResponse.parse_raw(text)
 
     def asset_report_create(
@@ -1983,9 +1601,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/create", headers, params, data)
         return model.AssetReportCreateResponse.parse_raw(text)
 
     def asset_report_refresh(
@@ -2010,9 +1626,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/refresh", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/refresh", headers, params, data)
         return model.AssetReportRefreshResponse.parse_raw(text)
 
     def asset_report_relay_refresh(
@@ -2030,14 +1644,10 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/relay/refresh", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/relay/refresh", headers, params, data)
         return model.AssetReportRelayRefreshResponse.parse_raw(text)
 
-    def asset_report_remove(
-        self, asset_report_token: str
-    ) -> model.AssetReportRemoveResponse:
+    def asset_report_remove(self, asset_report_token: str) -> model.AssetReportRemoveResponse:
         """Delete an Asset Report
 
         The `/item/remove` endpoint allows you to invalidate an `access_token`, meaning you will not be able to create new Asset Reports with it. Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove them specifically.
@@ -2051,9 +1661,7 @@ class PlaidClient:
             "asset_report_token": asset_report_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/remove", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/remove", headers, params, data)
         return model.AssetReportRemoveResponse.parse_raw(text)
 
     def asset_report_filter(
@@ -2077,17 +1685,11 @@ class PlaidClient:
             "account_ids_to_exclude": account_ids_to_exclude,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/filter", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/filter", headers, params, data)
         return model.AssetReportFilterResponse.parse_raw(text)
 
     def asset_report_get(
-        self,
-        asset_report_token: str,
-        *,
-        include_insights: Optional[bool] = None,
-        fast_report: Optional[bool] = None,
+        self, asset_report_token: str, *, include_insights: Optional[bool] = None, fast_report: Optional[bool] = None
     ) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report
 
@@ -2106,9 +1708,7 @@ class PlaidClient:
             "fast_report": fast_report,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/get", headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
     def asset_report_pdf_get(self, asset_report_token: str) -> None:
@@ -2127,9 +1727,7 @@ class PlaidClient:
             "asset_report_token": asset_report_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/pdf/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/pdf/get", headers, params, data)
         return None
 
     def asset_report_audit_copy_create(
@@ -2149,18 +1747,10 @@ class PlaidClient:
             "auditor_id": auditor_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/asset_report/audit_copy/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/asset_report/audit_copy/create", headers, params, data)
         return model.AssetReportAuditCopyCreateResponse.parse_raw(text)
 
-    def asset_report_audit_copy_remove(
-        self, audit_copy_token: str
-    ) -> model.AssetReportAuditCopyRemoveResponse:
+    def asset_report_audit_copy_remove(self, audit_copy_token: str) -> model.AssetReportAuditCopyRemoveResponse:
         """Remove Asset Report Audit Copy
 
         The `/asset_report/audit_copy/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Asset Report, the Asset Report itself and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
@@ -2172,21 +1762,11 @@ class PlaidClient:
             "audit_copy_token": audit_copy_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/asset_report/audit_copy/remove",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/asset_report/audit_copy/remove", headers, params, data)
         return model.AssetReportAuditCopyRemoveResponse.parse_raw(text)
 
     def asset_report_relay_create(
-        self,
-        asset_report_token: str,
-        secondary_client_id: str,
-        *,
-        webhook: Optional[str] = None,
+        self, asset_report_token: str, secondary_client_id: str, *, webhook: Optional[str] = None
     ) -> model.AssetReportRelayCreateResponse:
         """Create an `asset_relay_token` to share an Asset Report with a partner client
 
@@ -2203,14 +1783,10 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/relay/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/relay/create", headers, params, data)
         return model.AssetReportRelayCreateResponse.parse_raw(text)
 
-    def asset_report_relay_get(
-        self, asset_relay_token: str
-    ) -> model.AssetReportGetResponse:
+    def asset_report_relay_get(self, asset_relay_token: str) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report that was shared with you
 
         `/asset_report/relay/get` allows third parties to get an Asset Report that was shared with them, using an `asset_relay_token` that was created by the report owner.
@@ -2222,14 +1798,10 @@ class PlaidClient:
             "asset_relay_token": asset_relay_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/relay/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/relay/get", headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
-    def asset_report_relay_remove(
-        self, asset_relay_token: str
-    ) -> model.AssetReportRelayRemoveResponse:
+    def asset_report_relay_remove(self, asset_relay_token: str) -> model.AssetReportRelayRemoveResponse:
         """Remove Asset Report Relay Token
 
         The `/asset_report/relay/remove` endpoint allows you to invalidate an `asset_relay_token`, meaning the third party holding the token will no longer be able to use it to access the Asset Report to which the `asset_relay_token` gives access to. The Asset Report, Items associated with it, and other Asset Relay Tokens that provide access to the same Asset Report are not affected and will remain accessible after removing the given `asset_relay_token.
@@ -2241,16 +1813,11 @@ class PlaidClient:
             "asset_relay_token": asset_relay_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/asset_report/relay/remove", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/asset_report/relay/remove", headers, params, data)
         return model.AssetReportRelayRemoveResponse.parse_raw(text)
 
     def investments_holdings_get(
-        self,
-        access_token: str,
-        *,
-        options: Optional[model.InvestmentHoldingsGetRequestOptions] = None,
+        self, access_token: str, *, options: Optional[List[str]] = None
     ) -> model.InvestmentsHoldingsGetResponse:
         """Get Investment holdings
 
@@ -2261,12 +1828,10 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/investments/holdings/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/investments/holdings/get", headers, params, data)
         return model.InvestmentsHoldingsGetResponse.parse_raw(text)
 
     def investments_transactions_get(
@@ -2295,13 +1860,7 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/investments/transactions/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/investments/transactions/get", headers, params, data)
         return model.InvestmentsTransactionsGetResponse.parse_raw(text)
 
     def processor_token_create(
@@ -2320,9 +1879,7 @@ class PlaidClient:
             "processor": processor,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/processor/token/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/processor/token/create", headers, params, data)
         return model.ProcessorTokenCreateResponse.parse_raw(text)
 
     def processor_stripe_bank_account_token_create(
@@ -2340,13 +1897,7 @@ class PlaidClient:
             "account_id": account_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/processor/stripe/bank_account_token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/processor/stripe/bank_account_token/create", headers, params, data)
         return model.ProcessorStripeBankAccountTokenCreateResponse.parse_raw(text)
 
     def processor_apex_processor_token_create(
@@ -2364,13 +1915,7 @@ class PlaidClient:
             "account_id": account_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/processor/apex/processor_token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/processor/apex/processor_token/create", headers, params, data)
         return model.ProcessorTokenCreateResponse.parse_raw(text)
 
     def deposit_switch_create(
@@ -2395,37 +1940,30 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/deposit_switch/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/deposit_switch/create", headers, params, data)
         return model.DepositSwitchCreateResponse.parse_raw(text)
 
     def item_import(
-        self,
-        products: List[str],
-        user_auth: model.ItemImportRequestUserAuth,
-        *,
-        options: Optional[model.ItemImportRequestOptions] = None,
+        self, products: List[str], user_auth: model.ItemImportRequestUserAuth, *, options: Optional[str] = None
     ) -> model.ItemImportResponse:
         """Import Item
 
         `/item/import` creates an Item via your Plaid Exchange Integration and returns an `access_token`. As part of an `/item/import` request, you will include a User ID (`user_auth.user_id`) and Authentication Token (`user_auth.auth_token`) that enable data aggregation through your Plaid Exchange API endpoints. These authentication principals are to be chosen by you.
 
-        Upon creating an Item via `/item/import`, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (`target_account_id`)."""
+        Upon creating an Item via `/item/import`, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (`target_account_id`).
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "products": products,
             "user_auth": None if user_auth is None else user_auth.dict(),
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
         text = self.send("POST", self.base_url + "/item/import", headers, params, data)
         return model.ItemImportResponse.parse_raw(text)
 
-    def deposit_switch_token_create(
-        self, deposit_switch_id: str
-    ) -> model.DepositSwitchTokenCreateResponse:
+    def deposit_switch_token_create(self, deposit_switch_id: str) -> model.DepositSwitchTokenCreateResponse:
         """Create a deposit switch token
 
         In order for the end user to take action, you will need to create a public token representing the deposit switch. This token is used to initialize Link. It can be used one time and expires after 30 minutes.
@@ -2438,13 +1976,7 @@ class PlaidClient:
             "deposit_switch_id": deposit_switch_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/deposit_switch/token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/deposit_switch/token/create", headers, params, data)
         return model.DepositSwitchTokenCreateResponse.parse_raw(text)
 
     def link_token_create(
@@ -2461,23 +1993,17 @@ class PlaidClient:
         link_customization_name: Optional[str] = None,
         redirect_uri: Optional[str] = None,
         android_package_name: Optional[str] = None,
-        institution_data: Optional[model.LinkTokenCreateInstitutionData] = None,
+        institution_data: Optional[str] = None,
         account_filters: Optional[model.LinkTokenAccountFilters] = None,
-        eu_config: Optional[model.LinkTokenEuConfig] = None,
+        eu_config: Optional[bool] = None,
         institution_id: Optional[str] = None,
-        payment_initiation: Optional[
-            model.LinkTokenCreateRequestPaymentInitiation
-        ] = None,
-        deposit_switch: Optional[model.LinkTokenCreateRequestDepositSwitch] = None,
-        income_verification: Optional[
-            model.LinkTokenCreateRequestIncomeVerification
-        ] = None,
+        payment_initiation: Optional[model.LinkTokenCreateRequestPaymentInitiation] = None,
+        deposit_switch: Optional[str] = None,
+        income_verification: Optional[model.LinkTokenCreateRequestIncomeVerification] = None,
         auth: Optional[model.LinkTokenCreateRequestAuth] = None,
         transfer: Optional[model.LinkTokenCreateRequestTransfer] = None,
-        update: Optional[model.LinkTokenCreateRequestUpdate] = None,
-        identity_verification: Optional[
-            model.LinkTokenCreateRequestIdentityVerification
-        ] = None,
+        update: Optional[bool] = None,
+        identity_verification: Optional[model.LinkTokenCreateRequestIdentityVerification] = None,
         user_token: Optional[str] = None,
     ) -> model.LinkTokenCreateResponse:
         """Create Link Token
@@ -2501,33 +2027,21 @@ class PlaidClient:
             "link_customization_name": link_customization_name,
             "redirect_uri": redirect_uri,
             "android_package_name": android_package_name,
-            "institution_data": None
-            if institution_data is None
-            else institution_data.dict(),
-            "account_filters": None
-            if account_filters is None
-            else account_filters.dict(),
-            "eu_config": None if eu_config is None else eu_config.dict(),
+            "institution_data": institution_data,
+            "account_filters": None if account_filters is None else account_filters.dict(),
+            "eu_config": eu_config,
             "institution_id": institution_id,
-            "payment_initiation": None
-            if payment_initiation is None
-            else payment_initiation.dict(),
-            "deposit_switch": None if deposit_switch is None else deposit_switch.dict(),
-            "income_verification": None
-            if income_verification is None
-            else income_verification.dict(),
+            "payment_initiation": None if payment_initiation is None else payment_initiation.dict(),
+            "deposit_switch": deposit_switch,
+            "income_verification": None if income_verification is None else income_verification.dict(),
             "auth": None if auth is None else auth.dict(),
             "transfer": None if transfer is None else transfer.dict(),
-            "update": None if update is None else update.dict(),
-            "identity_verification": None
-            if identity_verification is None
-            else identity_verification.dict(),
+            "update": update,
+            "identity_verification": None if identity_verification is None else identity_verification.dict(),
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/link/token/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/link/token/create", headers, params, data)
         return model.LinkTokenCreateResponse.parse_raw(text)
 
     def link_token_get(self, link_token: str) -> model.LinkTokenGetResponse:
@@ -2543,14 +2057,10 @@ class PlaidClient:
             "link_token": link_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/link/token/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/link/token/get", headers, params, data)
         return model.LinkTokenGetResponse.parse_raw(text)
 
-    def asset_report_audit_copy_get(
-        self, audit_copy_token: str
-    ) -> model.AssetReportGetResponse:
+    def asset_report_audit_copy_get(self, audit_copy_token: str) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report Audit Copy
 
         `/asset_report/audit_copy/get` allows auditors to get a copy of an Asset Report that was previously shared via the `/asset_report/audit_copy/create` endpoint.  The caller of `/asset_report/audit_copy/create` must provide the `audit_copy_token` to the auditor.  This token can then be used to call `/asset_report/audit_copy/create`.
@@ -2562,18 +2072,10 @@ class PlaidClient:
             "audit_copy_token": audit_copy_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/asset_report/audit_copy/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/asset_report/audit_copy/get", headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
-    def deposit_switch_get(
-        self, deposit_switch_id: str
-    ) -> model.DepositSwitchGetResponse:
+    def deposit_switch_get(self, deposit_switch_id: str) -> model.DepositSwitchGetResponse:
         """Retrieve a deposit switch
 
         This endpoint returns information related to how the user has configured their payroll allocation and the state of the switch. You can use this information to build logic related to the user's direct deposit allocation preferences.
@@ -2585,9 +2087,7 @@ class PlaidClient:
             "deposit_switch_id": deposit_switch_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/deposit_switch/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/deposit_switch/get", headers, params, data)
         return model.DepositSwitchGetResponse.parse_raw(text)
 
     def transfer_get(self, transfer_id: str) -> model.TransferGetResponse:
@@ -2617,9 +2117,7 @@ class PlaidClient:
             "bank_transfer_id": bank_transfer_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/get", headers, params, data)
         return model.BankTransferGetResponse.parse_raw(text)
 
     def transfer_authorization_create(
@@ -2674,13 +2172,7 @@ class PlaidClient:
             "payment_profile_id": payment_profile_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/transfer/authorization/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/transfer/authorization/create", headers, params, data)
         return model.TransferAuthorizationCreateResponse.parse_raw(text)
 
     def transfer_create(
@@ -2725,9 +2217,7 @@ class PlaidClient:
             "payment_profile_id": payment_profile_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/create", headers, params, data)
         return model.TransferCreateResponse.parse_raw(text)
 
     def bank_transfer_create(
@@ -2770,9 +2260,7 @@ class PlaidClient:
             "origination_account_id": origination_account_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/create", headers, params, data)
         return model.BankTransferCreateResponse.parse_raw(text)
 
     def transfer_list(
@@ -2800,9 +2288,7 @@ class PlaidClient:
             "origination_account_id": origination_account_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/list", headers, params, data)
         return model.TransferListResponse.parse_raw(text)
 
     def bank_transfer_list(
@@ -2832,9 +2318,7 @@ class PlaidClient:
             "direction": direction,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/list", headers, params, data)
         return model.BankTransferListResponse.parse_raw(text)
 
     def transfer_cancel(self, transfer_id: str) -> model.TransferCancelResponse:
@@ -2849,14 +2333,10 @@ class PlaidClient:
             "transfer_id": transfer_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/cancel", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/cancel", headers, params, data)
         return model.TransferCancelResponse.parse_raw(text)
 
-    def bank_transfer_cancel(
-        self, bank_transfer_id: str
-    ) -> model.BankTransferCancelResponse:
+    def bank_transfer_cancel(self, bank_transfer_id: str) -> model.BankTransferCancelResponse:
         """Cancel a bank transfer
 
         Use the `/bank_transfer/cancel` endpoint to cancel a bank transfer.  A transfer is eligible for cancelation if the `cancellable` property returned by `/bank_transfer/get` is `true`.
@@ -2868,9 +2348,7 @@ class PlaidClient:
             "bank_transfer_id": bank_transfer_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/cancel", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/cancel", headers, params, data)
         return model.BankTransferCancelResponse.parse_raw(text)
 
     def transfer_event_list(
@@ -2907,9 +2385,7 @@ class PlaidClient:
             "origination_account_id": origination_account_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/event/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/event/list", headers, params, data)
         return model.TransferEventListResponse.parse_raw(text)
 
     def bank_transfer_event_list(
@@ -2946,14 +2422,10 @@ class PlaidClient:
             "direction": direction,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/event/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/event/list", headers, params, data)
         return model.BankTransferEventListResponse.parse_raw(text)
 
-    def transfer_event_sync(
-        self, after_id: int, *, count: Optional[int] = None
-    ) -> model.TransferEventSyncResponse:
+    def transfer_event_sync(self, after_id: int, *, count: Optional[int] = None) -> model.TransferEventSyncResponse:
         """Sync transfer events
 
         `/transfer/event/sync` allows you to request up to the next 25 transfer events that happened after a specific `event_id`. Use the `/transfer/event/sync` endpoint to guarantee you have seen all transfer events.
@@ -2966,9 +2438,7 @@ class PlaidClient:
             "count": count,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/event/sync", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/event/sync", headers, params, data)
         return model.TransferEventSyncResponse.parse_raw(text)
 
     def bank_transfer_event_sync(
@@ -2986,9 +2456,7 @@ class PlaidClient:
             "count": count,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/event/sync", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/event/sync", headers, params, data)
         return model.BankTransferEventSyncResponse.parse_raw(text)
 
     def transfer_sweep_get(self, sweep_id: str) -> model.TransferSweepGetResponse:
@@ -3003,14 +2471,10 @@ class PlaidClient:
             "sweep_id": sweep_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/sweep/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/sweep/get", headers, params, data)
         return model.TransferSweepGetResponse.parse_raw(text)
 
-    def bank_transfer_sweep_get(
-        self, sweep_id: str
-    ) -> model.BankTransferSweepGetResponse:
+    def bank_transfer_sweep_get(self, sweep_id: str) -> model.BankTransferSweepGetResponse:
         """Retrieve a sweep
 
         The `/bank_transfer/sweep/get` endpoint fetches information about the sweep corresponding to the given `sweep_id`.
@@ -3022,9 +2486,7 @@ class PlaidClient:
             "sweep_id": sweep_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/sweep/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/sweep/get", headers, params, data)
         return model.BankTransferSweepGetResponse.parse_raw(text)
 
     def transfer_sweep_list(
@@ -3049,9 +2511,7 @@ class PlaidClient:
             "offset": offset,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/sweep/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/sweep/list", headers, params, data)
         return model.TransferSweepListResponse.parse_raw(text)
 
     def bank_transfer_sweep_list(
@@ -3076,9 +2536,7 @@ class PlaidClient:
             "count": count,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/sweep/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/sweep/list", headers, params, data)
         return model.BankTransferSweepListResponse.parse_raw(text)
 
     def bank_transfer_balance_get(
@@ -3099,18 +2557,11 @@ class PlaidClient:
             "origination_account_id": origination_account_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/bank_transfer/balance/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/balance/get", headers, params, data)
         return model.BankTransferBalanceGetResponse.parse_raw(text)
 
     def bank_transfer_migrate_account(
-        self,
-        account_number: str,
-        routing_number: str,
-        account_type: str,
-        *,
-        wire_routing_number: Optional[str] = None,
+        self, account_number: str, routing_number: str, account_type: str, *, wire_routing_number: Optional[str] = None
     ) -> model.BankTransferMigrateAccountResponse:
         """Migrate account into Bank Transfers
 
@@ -3126,22 +2577,11 @@ class PlaidClient:
             "account_type": account_type,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/bank_transfer/migrate_account",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/bank_transfer/migrate_account", headers, params, data)
         return model.BankTransferMigrateAccountResponse.parse_raw(text)
 
     def transfer_migrate_account(
-        self,
-        account_number: str,
-        routing_number: str,
-        account_type: str,
-        *,
-        wire_routing_number: Optional[str] = None,
+        self, account_number: str, routing_number: str, account_type: str, *, wire_routing_number: Optional[str] = None
     ) -> model.TransferMigrateAccountResponse:
         """Migrate account into Transfers
 
@@ -3157,9 +2597,7 @@ class PlaidClient:
             "account_type": account_type,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/migrate_account", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/migrate_account", headers, params, data)
         return model.TransferMigrateAccountResponse.parse_raw(text)
 
     def transfer_intent_create(
@@ -3196,14 +2634,10 @@ class PlaidClient:
             "require_guarantee": require_guarantee,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/intent/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/intent/create", headers, params, data)
         return model.TransferIntentCreateResponse.parse_raw(text)
 
-    def transfer_intent_get(
-        self, transfer_intent_id: str
-    ) -> model.TransferIntentGetResponse:
+    def transfer_intent_get(self, transfer_intent_id: str) -> model.TransferIntentGetResponse:
         """Retrieve more information about a transfer intent
 
         Use the `/transfer/intent/get` endpoint to retrieve more information about a transfer intent.
@@ -3215,9 +2649,7 @@ class PlaidClient:
             "transfer_intent_id": transfer_intent_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/intent/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/intent/get", headers, params, data)
         return model.TransferIntentGetResponse.parse_raw(text)
 
     def transfer_repayment_list(
@@ -3242,17 +2674,11 @@ class PlaidClient:
             "offset": offset,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/transfer/repayment/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/transfer/repayment/list", headers, params, data)
         return model.TransferRepaymentListResponse.parse_raw(text)
 
     def transfer_repayment_return_list(
-        self,
-        repayment_id: str,
-        *,
-        count: Optional[int] = None,
-        offset: Optional[int] = None,
+        self, repayment_id: str, *, count: Optional[int] = None, offset: Optional[int] = None
     ) -> model.TransferRepaymentReturnListResponse:
         """List the returns included in a repayment
 
@@ -3267,21 +2693,11 @@ class PlaidClient:
             "offset": offset,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/transfer/repayment/return/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/transfer/repayment/return/list", headers, params, data)
         return model.TransferRepaymentReturnListResponse.parse_raw(text)
 
     def sandbox_bank_transfer_simulate(
-        self,
-        bank_transfer_id: str,
-        event_type: str,
-        *,
-        failure_reason: Optional[model.BankTransferFailure] = None,
+        self, bank_transfer_id: str, event_type: str, *, failure_reason: Optional[model.BankTransferFailure] = None
     ) -> model.SandboxBankTransferSimulateResponse:
         """Simulate a bank transfer event in Sandbox
 
@@ -3296,18 +2712,10 @@ class PlaidClient:
             "failure_reason": None if failure_reason is None else failure_reason.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/bank_transfer/simulate",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/bank_transfer/simulate", headers, params, data)
         return model.SandboxBankTransferSimulateResponse.parse_raw(text)
 
-    def sandbox_transfer_sweep_simulate(
-        self,
-    ) -> model.SandboxTransferSweepSimulateResponse:
+    def sandbox_transfer_sweep_simulate(self) -> model.SandboxTransferSweepSimulateResponse:
         """Simulate creating a sweep
 
         Use the `/sandbox/transfer/sweep/simulate` endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all `posted` or `pending` transfers with a sweep status of `unswept` will become `swept`, and all `returned` transfers with a sweep status of `swept` will become `return_swept`.
@@ -3317,21 +2725,11 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/transfer/sweep/simulate",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/transfer/sweep/simulate", headers, params, data)
         return model.SandboxTransferSweepSimulateResponse.parse_raw(text)
 
     def sandbox_transfer_simulate(
-        self,
-        transfer_id: str,
-        event_type: str,
-        *,
-        failure_reason: Optional[model.TransferFailure] = None,
+        self, transfer_id: str, event_type: str, *, failure_reason: Optional[model.TransferFailure] = None
     ) -> model.SandboxTransferSimulateResponse:
         """Simulate a transfer event in Sandbox
 
@@ -3346,14 +2744,10 @@ class PlaidClient:
             "failure_reason": None if failure_reason is None else failure_reason.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/sandbox/transfer/simulate", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/sandbox/transfer/simulate", headers, params, data)
         return model.SandboxTransferSimulateResponse.parse_raw(text)
 
-    def sandbox_transfer_repayment_simulate(
-        self,
-    ) -> model.SandboxTransferRepaymentSimulateResponse:
+    def sandbox_transfer_repayment_simulate(self) -> model.SandboxTransferRepaymentSimulateResponse:
         """Trigger the creation of a repayment
 
         Use the `/sandbox/transfer/repayment/simulate` endpoint to trigger the creation of a repayment. As a side effect of calling this route, a repayment is created that includes all unreimbursed returns of guaranteed transfers. If there are no such returns, an 400 error is returned.
@@ -3363,18 +2757,10 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/transfer/repayment/simulate",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/transfer/repayment/simulate", headers, params, data)
         return model.SandboxTransferRepaymentSimulateResponse.parse_raw(text)
 
-    def sandbox_transfer_fire_webhook(
-        self, webhook: str
-    ) -> model.SandboxTransferFireWebhookResponse:
+    def sandbox_transfer_fire_webhook(self, webhook: str) -> model.SandboxTransferFireWebhookResponse:
         """Manually fire a Transfer webhook
 
         Use the `/sandbox/transfer/fire_webhook` endpoint to manually trigger a Transfer webhook in the Sandbox environment.
@@ -3386,18 +2772,10 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/transfer/fire_webhook",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/transfer/fire_webhook", headers, params, data)
         return model.SandboxTransferFireWebhookResponse.parse_raw(text)
 
-    def employers_search(
-        self, query: str, products: List[str]
-    ) -> model.EmployersSearchResponse:
+    def employers_search(self, query: str, products: List[str]) -> model.EmployersSearchResponse:
         """Search employer database
 
         `/employers/search` allows you the ability to search Plaid’s database of known employers, for use with Deposit Switch. You can use this endpoint to look up a user's employer in order to confirm that they are supported. Users with non-supported employers can then be routed out of the Deposit Switch flow.
@@ -3412,17 +2790,11 @@ class PlaidClient:
             "products": products,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/employers/search", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/employers/search", headers, params, data)
         return model.EmployersSearchResponse.parse_raw(text)
 
     def income_verification_create(
-        self,
-        webhook: str,
-        *,
-        precheck_id: Optional[str] = None,
-        options: Optional[model.IncomeVerificationCreateRequestOptions] = None,
+        self, webhook: str, *, precheck_id: Optional[str] = None, options: Optional[List[str]] = None
     ) -> model.IncomeVerificationCreateResponse:
         """(Deprecated) Create an income verification instance
 
@@ -3434,19 +2806,14 @@ class PlaidClient:
         data: Dict[str, Any] = {
             "webhook": webhook,
             "precheck_id": precheck_id,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/income/verification/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/income/verification/create", headers, params, data)
         return model.IncomeVerificationCreateResponse.parse_raw(text)
 
     def income_verification_paystubs_get(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationPaystubsGetResponse:
         """(Deprecated) Retrieve information from the paystubs used for income verification
 
@@ -3462,13 +2829,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/income/verification/paystubs/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/income/verification/paystubs/get", headers, params, data)
         return model.IncomeVerificationPaystubsGetResponse.parse_raw(text)
 
     def income_verification_documents_download(
@@ -3499,20 +2860,11 @@ class PlaidClient:
             "document_id": document_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/income/verification/documents/download",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/income/verification/documents/download", headers, params, data)
         return None
 
     def income_verification_refresh(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationRefreshResponse:
         """(Deprecated) Refresh an income verification
 
@@ -3526,20 +2878,11 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/income/verification/refresh",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/income/verification/refresh", headers, params, data)
         return model.IncomeVerificationRefreshResponse.parse_raw(text)
 
     def income_verification_taxforms_get(
-        self,
-        *,
-        income_verification_id: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, income_verification_id: Optional[str] = None, access_token: Optional[str] = None
     ) -> model.IncomeVerificationTaxformsGetResponse:
         """(Deprecated) Retrieve information from the tax documents used for income verification
 
@@ -3555,13 +2898,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/income/verification/taxforms/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/income/verification/taxforms/get", headers, params, data)
         return model.IncomeVerificationTaxformsGetResponse.parse_raw(text)
 
     def income_verification_precheck(
@@ -3589,23 +2926,13 @@ class PlaidClient:
             "employer": None if employer is None else employer.dict(),
             "transactions_access_token": transactions_access_token,
             "transactions_access_tokens": transactions_access_tokens,
-            "us_military_info": None
-            if us_military_info is None
-            else us_military_info.dict(),
+            "us_military_info": None if us_military_info is None else us_military_info.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/income/verification/precheck",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/income/verification/precheck", headers, params, data)
         return model.IncomeVerificationPrecheckResponse.parse_raw(text)
 
-    def employment_verification_get(
-        self, access_token: str
-    ) -> model.EmploymentVerificationGetResponse:
+    def employment_verification_get(self, access_token: str) -> model.EmploymentVerificationGetResponse:
         """(Deprecated) Retrieve a summary of an individual's employment information
 
         `/employment/verification/get` returns a list of employments through a user payroll that was verified by an end user.
@@ -3619,13 +2946,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/employment/verification/get",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/employment/verification/get", headers, params, data)
         return model.EmploymentVerificationGetResponse.parse_raw(text)
 
     def deposit_switch_alt_create(
@@ -3650,13 +2971,11 @@ class PlaidClient:
             "country_code": country_code,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/deposit_switch/alt/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/deposit_switch/alt/create", headers, params, data)
         return model.DepositSwitchAltCreateResponse.parse_raw(text)
 
     def credit_audit_copy_token_create(
-        self, report_tokens: List[ReportToken], auditor_id: str
+        self, report_tokens: List[model.ReportToken], auditor_id: str
     ) -> model.CreditAuditCopyTokenCreateResponse:
         """Create Asset or Income Report Audit Copy Token
 
@@ -3668,24 +2987,14 @@ class PlaidClient:
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "report_tokens": None
-            if report_tokens is None
-            else [d.dict() for d in report_tokens],
+            "report_tokens": None if report_tokens is None else [d.dict() for d in report_tokens],
             "auditor_id": auditor_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/credit/audit_copy_token/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/credit/audit_copy_token/create", headers, params, data)
         return model.CreditAuditCopyTokenCreateResponse.parse_raw(text)
 
-    def credit_report_audit_copy_remove(
-        self, audit_copy_token: str
-    ) -> model.CreditAuditCopyTokenRemoveResponse:
+    def credit_report_audit_copy_remove(self, audit_copy_token: str) -> model.CreditAuditCopyTokenRemoveResponse:
         """Remove an Audit Copy token
 
         The `/credit/audit_copy_token/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Report data and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
@@ -3697,20 +3006,11 @@ class PlaidClient:
             "audit_copy_token": audit_copy_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/credit/audit_copy_token/remove",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/credit/audit_copy_token/remove", headers, params, data)
         return model.CreditAuditCopyTokenRemoveResponse.parse_raw(text)
 
     def credit_bank_income_get(
-        self,
-        *,
-        user_token: Optional[str] = None,
-        options: Optional[model.CreditBankIncomeGetRequestOptions] = None,
+        self, *, user_token: Optional[str] = None, options: Optional[int] = None
     ) -> model.CreditBankIncomeGetResponse:
         """Retrieve information from the bank accounts used for income verification
 
@@ -3721,12 +3021,10 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "user_token": user_token,
-            "options": None if options is None else options.dict(),
+            "options": options,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/bank_income/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/bank_income/get", headers, params, data)
         return model.CreditBankIncomeGetResponse.parse_raw(text)
 
     def credit_bank_income_pdf_get(self, user_token: str) -> None:
@@ -3741,16 +3039,11 @@ class PlaidClient:
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/bank_income/pdf/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/bank_income/pdf/get", headers, params, data)
         return None
 
     def credit_bank_income_refresh(
-        self,
-        user_token: str,
-        *,
-        options: Optional[model.CreditBankIncomeRefreshRequestOptions] = None,
+        self, user_token: str, *, options: Optional[model.CreditBankIncomeRefreshRequestOptions] = None
     ) -> model.CreditBankIncomeRefreshResponse:
         """Refresh a user's bank income information
 
@@ -3764,14 +3057,10 @@ class PlaidClient:
             "options": None if options is None else options.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/bank_income/refresh", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/bank_income/refresh", headers, params, data)
         return model.CreditBankIncomeRefreshResponse.parse_raw(text)
 
-    def credit_payroll_income_get(
-        self, *, user_token: Optional[str] = None
-    ) -> model.CreditPayrollIncomeGetResponse:
+    def credit_payroll_income_get(self, *, user_token: Optional[str] = None) -> model.CreditPayrollIncomeGetResponse:
         """Retrieve a user's payroll information
 
         This endpoint gets payroll income information for a specific user, either as a result of the user connecting to their payroll provider or uploading a pay related document.
@@ -3783,9 +3072,7 @@ class PlaidClient:
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/payroll_income/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/payroll_income/get", headers, params, data)
         return model.CreditPayrollIncomeGetResponse.parse_raw(text)
 
     def credit_payroll_income_precheck(
@@ -3809,23 +3096,13 @@ class PlaidClient:
             "user_token": user_token,
             "access_tokens": access_tokens,
             "employer": None if employer is None else employer.dict(),
-            "us_military_info": None
-            if us_military_info is None
-            else us_military_info.dict(),
+            "us_military_info": None if us_military_info is None else us_military_info.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/credit/payroll_income/precheck",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/credit/payroll_income/precheck", headers, params, data)
         return model.CreditPayrollIncomePrecheckResponse.parse_raw(text)
 
-    def credit_employment_get(
-        self, user_token: str
-    ) -> model.CreditEmploymentGetResponse:
+    def credit_employment_get(self, user_token: str) -> model.CreditEmploymentGetResponse:
         """Retrieve a summary of an individual's employment information
 
         `/credit/employment/get` returns a list of items with employment information from a user's payroll provider that was verified by an end user.
@@ -3837,9 +3114,7 @@ class PlaidClient:
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/employment/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/employment/get", headers, params, data)
         return model.CreditEmploymentGetResponse.parse_raw(text)
 
     def credit_payroll_income_refresh(
@@ -3856,21 +3131,11 @@ class PlaidClient:
             "user_token": user_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/credit/payroll_income/refresh",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/credit/payroll_income/refresh", headers, params, data)
         return model.CreditPayrollIncomeRefreshResponse.parse_raw(text)
 
     def credit_relay_create(
-        self,
-        report_tokens: List[ReportToken],
-        secondary_client_id: str,
-        *,
-        webhook: Optional[str] = None,
+        self, report_tokens: List[model.ReportToken], secondary_client_id: str, *, webhook: Optional[str] = None
     ) -> model.CreditRelayCreateResponse:
         """Create a `relay_token` to share an Asset Report with a partner client
 
@@ -3882,21 +3147,15 @@ class PlaidClient:
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            "report_tokens": None
-            if report_tokens is None
-            else [d.dict() for d in report_tokens],
+            "report_tokens": None if report_tokens is None else [d.dict() for d in report_tokens],
             "secondary_client_id": secondary_client_id,
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/relay/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/relay/create", headers, params, data)
         return model.CreditRelayCreateResponse.parse_raw(text)
 
-    def credit_relay_get(
-        self, relay_token: str, report_type: str
-    ) -> model.AssetReportGetResponse:
+    def credit_relay_get(self, relay_token: str, report_type: str) -> model.AssetReportGetResponse:
         """Retrieve the reports associated with a Relay token that was shared with you
 
         `/credit/relay/get` allows third parties to get a report that was shared with them, using an `relay_token` that was created by the report owner.
@@ -3909,9 +3168,7 @@ class PlaidClient:
             "report_type": report_type,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/relay/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/relay/get", headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
     def credit_relay_refresh(
@@ -3930,9 +3187,7 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/relay/refresh", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/relay/refresh", headers, params, data)
         return model.CreditRelayRefreshResponse.parse_raw(text)
 
     def credit_relay_remove(self, relay_token: str) -> model.CreditRelayRemoveResponse:
@@ -3947,14 +3202,10 @@ class PlaidClient:
             "relay_token": relay_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/credit/relay/remove", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/credit/relay/remove", headers, params, data)
         return model.CreditRelayRemoveResponse.parse_raw(text)
 
-    def sandbox_bank_transfer_fire_webhook(
-        self, webhook: str
-    ) -> model.SandboxBankTransferFireWebhookResponse:
+    def sandbox_bank_transfer_fire_webhook(self, webhook: str) -> model.SandboxBankTransferFireWebhookResponse:
         """Manually fire a Bank Transfer webhook
 
         Use the `/sandbox/bank_transfer/fire_webhook` endpoint to manually trigger a Bank Transfers webhook in the Sandbox environment.
@@ -3966,22 +3217,11 @@ class PlaidClient:
             "webhook": webhook,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/bank_transfer/fire_webhook",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/bank_transfer/fire_webhook", headers, params, data)
         return model.SandboxBankTransferFireWebhookResponse.parse_raw(text)
 
     def sandbox_income_fire_webhook(
-        self,
-        item_id: str,
-        webhook: str,
-        verification_status: str,
-        *,
-        user_id: Optional[str] = None,
+        self, item_id: str, webhook: str, verification_status: str, *, user_id: Optional[str] = None
     ) -> model.SandboxIncomeFireWebhookResponse:
         """Manually fire an Income webhook
 
@@ -3997,13 +3237,7 @@ class PlaidClient:
             "verification_status": verification_status,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/income/fire_webhook",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/income/fire_webhook", headers, params, data)
         return model.SandboxIncomeFireWebhookResponse.parse_raw(text)
 
     def sandbox_oauth_select_accounts(
@@ -4017,13 +3251,7 @@ class PlaidClient:
             "accounts": accounts,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/sandbox/oauth/select_accounts",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/sandbox/oauth/select_accounts", headers, params, data)
         return model.SandboxOauthSelectAccountsResponse.parse_raw(text)
 
     def signal_evaluate(
@@ -4058,17 +3286,11 @@ class PlaidClient:
             "device": None if device is None else device.dict(),
         }
 
-        text = self.send(
-            "POST", self.base_url + "/signal/evaluate", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/signal/evaluate", headers, params, data)
         return model.SignalEvaluateResponse.parse_raw(text)
 
     def signal_decision_report(
-        self,
-        client_transaction_id: str,
-        initiated: bool,
-        *,
-        days_funds_on_hold: Optional[int] = None,
+        self, client_transaction_id: str, initiated: bool, *, days_funds_on_hold: Optional[int] = None
     ) -> model.SignalDecisionReportResponse:
         """Report whether you initiated an ACH transaction
 
@@ -4083,14 +3305,10 @@ class PlaidClient:
             "days_funds_on_hold": days_funds_on_hold,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/signal/decision/report", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/signal/decision/report", headers, params, data)
         return model.SignalDecisionReportResponse.parse_raw(text)
 
-    def signal_return_report(
-        self, client_transaction_id: str, return_code: str
-    ) -> model.SignalReturnReportResponse:
+    def signal_return_report(self, client_transaction_id: str, return_code: str) -> model.SignalReturnReportResponse:
         """Report a return for an ACH transaction
 
         Call the `/signal/return/report` endpoint to report a returned transaction that was previously sent to the `/signal/evaluate` endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.
@@ -4103,9 +3321,7 @@ class PlaidClient:
             "return_code": return_code,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/signal/return/report", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/signal/return/report", headers, params, data)
         return model.SignalReturnReportResponse.parse_raw(text)
 
     def signal_prepare(self, access_token: str) -> model.SignalPrepareResponse:
@@ -4120,9 +3336,7 @@ class PlaidClient:
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/signal/prepare", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/signal/prepare", headers, params, data)
         return model.SignalPrepareResponse.parse_raw(text)
 
     def wallet_create(self, iso_currency_code: str) -> model.WalletCreateResponse:
@@ -4137,9 +3351,7 @@ class PlaidClient:
             "iso_currency_code": iso_currency_code,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/wallet/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/wallet/create", headers, params, data)
         return model.WalletCreateResponse.parse_raw(text)
 
     def wallet_get(self, wallet_id: str) -> model.WalletGetResponse:
@@ -4158,11 +3370,7 @@ class PlaidClient:
         return model.WalletGetResponse.parse_raw(text)
 
     def wallet_list(
-        self,
-        *,
-        iso_currency_code: Optional[str] = None,
-        cursor: Optional[str] = None,
-        count: Optional[int] = None,
+        self, *, iso_currency_code: Optional[str] = None, cursor: Optional[str] = None, count: Optional[int] = None
     ) -> model.WalletListResponse:
         """Fetch a list of e-wallets
 
@@ -4205,14 +3413,10 @@ class PlaidClient:
             "reference": reference,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/wallet/transaction/execute", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/wallet/transaction/execute", headers, params, data)
         return model.WalletTransactionExecuteResponse.parse_raw(text)
 
-    def wallet_transaction_get(
-        self, transaction_id: str
-    ) -> model.WalletTransactionGetResponse:
+    def wallet_transaction_get(self, transaction_id: str) -> model.WalletTransactionGetResponse:
         """Fetch a specific e-wallet transaction
 
         See endpoint docs at <https://plaid.com/docs/api/products/#wallettransactionget>."""
@@ -4222,17 +3426,11 @@ class PlaidClient:
             "transaction_id": transaction_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/wallet/transaction/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/wallet/transaction/get", headers, params, data)
         return model.WalletTransactionGetResponse.parse_raw(text)
 
     def wallet_transactions_list(
-        self,
-        wallet_id: str,
-        *,
-        cursor: Optional[str] = None,
-        count: Optional[int] = None,
+        self, wallet_id: str, *, cursor: Optional[str] = None, count: Optional[int] = None
     ) -> model.WalletTransactionsListResponse:
         """List e-wallet transactions
 
@@ -4247,13 +3445,11 @@ class PlaidClient:
             "count": count,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/wallet/transactions/list", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/wallet/transactions/list", headers, params, data)
         return model.WalletTransactionsListResponse.parse_raw(text)
 
     def transactions_enhance(
-        self, account_type: str, transactions: List[ClientProvidedRawTransaction]
+        self, account_type: str, transactions: List[model.ClientProvidedRawTransaction]
     ) -> model.TransactionsEnhanceGetResponse:
         """enhance locally-held transaction data
 
@@ -4264,25 +3460,14 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "account_type": account_type,
-            "transactions": None
-            if transactions is None
-            else [d.dict() for d in transactions],
+            "transactions": None if transactions is None else [d.dict() for d in transactions],
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/beta/transactions/v1/enhance",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/beta/transactions/v1/enhance", headers, params, data)
         return model.TransactionsEnhanceGetResponse.parse_raw(text)
 
     def transactions_rules_create(
-        self,
-        access_token: str,
-        personal_finance_category: str,
-        rule_details: model.TransactionsRuleDetails,
+        self, access_token: str, personal_finance_category: str, rule_details: model.TransactionsRuleDetails
     ) -> model.TransactionsRulesCreateResponse:
         """Create transaction category rule
 
@@ -4299,39 +3484,24 @@ class PlaidClient:
             "rule_details": None if rule_details is None else rule_details.dict(),
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/beta/transactions/rules/v1/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/beta/transactions/rules/v1/create", headers, params, data)
         return model.TransactionsRulesCreateResponse.parse_raw(text)
 
-    def transactions_rules_list(
-        self, access_token: str
-    ) -> model.TransactionsRulesListResponse:
+    def transactions_rules_list(self, access_token: str) -> model.TransactionsRulesListResponse:
         """Return a list of rules created for the Item associated with the access token.
 
-        The `/transactions/rules/v1/list` returns a list of transaction rules created for the Item associated with the access token."""
+        The `/transactions/rules/v1/list` returns a list of transaction rules created for the Item associated with the access token.
+        """
         headers: Dict[str, Union[str, None]] = {}
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
             "access_token": access_token,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/beta/transactions/rules/v1/list",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/beta/transactions/rules/v1/list", headers, params, data)
         return model.TransactionsRulesListResponse.parse_raw(text)
 
-    def transactions_rules_remove(
-        self, access_token: str, rule_id: str
-    ) -> model.TransactionsRulesRemoveResponse:
+    def transactions_rules_remove(self, access_token: str, rule_id: str) -> model.TransactionsRulesRemoveResponse:
         """Remove transaction rule
 
         The `/transactions/rules/v1/remove` endpoint is used to remove a transaction rule."""
@@ -4342,13 +3512,7 @@ class PlaidClient:
             "rule_id": rule_id,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/beta/transactions/rules/v1/remove",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/beta/transactions/rules/v1/remove", headers, params, data)
         return model.TransactionsRulesRemoveResponse.parse_raw(text)
 
     def payment_profile_create(self) -> model.PaymentProfileCreateResponse:
@@ -4361,14 +3525,10 @@ class PlaidClient:
         params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
 
-        text = self.send(
-            "POST", self.base_url + "/payment_profile/create", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/payment_profile/create", headers, params, data)
         return model.PaymentProfileCreateResponse.parse_raw(text)
 
-    def payment_profile_get(
-        self, payment_profile_id: str
-    ) -> model.PaymentProfileGetResponse:
+    def payment_profile_get(self, payment_profile_id: str) -> model.PaymentProfileGetResponse:
         """Get payment profile
 
         Use the `/payment_profile/get` endpoint to get the status of a given Payment Profile.
@@ -4380,14 +3540,10 @@ class PlaidClient:
             "payment_profile_id": payment_profile_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/payment_profile/get", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/payment_profile/get", headers, params, data)
         return model.PaymentProfileGetResponse.parse_raw(text)
 
-    def payment_profile_remove(
-        self, payment_profile_id: str
-    ) -> model.PaymentProfileRemoveResponse:
+    def payment_profile_remove(self, payment_profile_id: str) -> model.PaymentProfileRemoveResponse:
         """Remove payment profile
 
         Use the `/payment_profile/remove` endpoint to remove a given Payment Profile. Once it’s removed, it can no longer be used to create transfers.
@@ -4399,9 +3555,7 @@ class PlaidClient:
             "payment_profile_id": payment_profile_id,
         }
 
-        text = self.send(
-            "POST", self.base_url + "/payment_profile/remove", headers, params, data
-        )
+        text = self.send("POST", self.base_url + "/payment_profile/remove", headers, params, data)
         return model.PaymentProfileRemoveResponse.parse_raw(text)
 
     def partner_customers_create(
@@ -4424,13 +3578,7 @@ class PlaidClient:
             "create_link_customization": create_link_customization,
         }
 
-        text = self.send(
-            "POST",
-            self.base_url + "/beta/partner/v1/customers/create",
-            headers,
-            params,
-            data,
-        )
+        text = self.send("POST", self.base_url + "/beta/partner/v1/customers/create", headers, params, data)
         return model.PartnerCustomersCreateResponse.parse_raw(text)
 
     @classmethod

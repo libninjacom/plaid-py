@@ -4,12 +4,12 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchCreateRequestOptions(BaseModel):
+    transaction_item_access_tokens: Optional[List[str]] = None
     """An array of access tokens corresponding to transaction items to use when attempting to match the user to their Payroll Provider. These tokens must be created by the same client id as the one creating the switch, and have access to the transactions product."""
 
-    transaction_item_access_tokens: Optional[List[str]] = None
+    webhook: Optional[str] = None
     """The URL registered to receive webhooks when the status of a deposit switch request has changed.
     """
-    webhook: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class DepositSwitchCreateRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "DepositSwitchCreateRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "DepositSwitchCreateRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

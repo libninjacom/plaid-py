@@ -20,8 +20,6 @@ class AccountIdsWithUpdatedIdentity(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AccountIdsWithUpdatedIdentity":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AccountIdsWithUpdatedIdentity":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

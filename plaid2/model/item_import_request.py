@@ -1,18 +1,18 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .item_import_request_options import ItemImportRequestOptions
 from .item_import_request_user_auth import ItemImportRequestUserAuth
 
 
 class ItemImportRequest(BaseModel):
+    products: List[str]
     """Array of product strings"""
 
-    products: List[str]
-    """Object of user ID and auth token pair, permitting Plaid to aggregate a user’s accounts"""
     user_auth: ItemImportRequestUserAuth
+    """Object of user ID and auth token pair, permitting Plaid to aggregate a user’s accounts"""
+
+    options: Optional[str] = None
     """An optional object to configure `/item/import` request."""
-    options: Optional[ItemImportRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

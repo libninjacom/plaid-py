@@ -1,6 +1,10 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+template_id = "your template id"
+client_user_id = "your client user id"
 
 
 def main():
@@ -15,8 +19,6 @@ async def async_main():
     print(f"{response!r}")
 
 
-template_id = "your template id"
-client_user_id = "your client user id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

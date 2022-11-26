@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportAuditCopyCreateRequest(BaseModel):
-    """The `auditor_id` of the third party with whom you would like to share the Asset Report."""
+    asset_report_token: str
+    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
 
     auditor_id: str
-    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
-    asset_report_token: str
+    """The `auditor_id` of the third party with whom you would like to share the Asset Report."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class AssetReportAuditCopyCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportAuditCopyCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportAuditCopyCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

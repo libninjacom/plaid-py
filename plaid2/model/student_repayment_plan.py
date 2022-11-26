@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class StudentRepaymentPlan(BaseModel):
-    """The description of the repayment plan as provided by the servicer."""
+    type: Optional[str] = None
+    """The type of the repayment plan."""
 
     description: Optional[str] = None
-    """The type of the repayment plan."""
-    type: Optional[str] = None
+    """The description of the repayment plan as provided by the servicer."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

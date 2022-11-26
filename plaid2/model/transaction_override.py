@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class TransactionOverride(BaseModel):
-    """The ISO-4217 format currency code for the transaction."""
+    amount: float
+    """The transaction amount. Can be negative."""
+
+    description: str
+    """The transaction description."""
+
+    date_transacted: str
+    """The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Transactions in Sandbox will move from pending to posted once their transaction date has been reached. If a `date_transacted` is not provided by the institution, a transaction date may be available in the [`authorized_date`](https://plaid.com/docs/api/products/transactions/#transactions-get-response-transactions-authorized-date) field."""
+
+    date_posted: str
+    """The date the transaction posted, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Posted dates in the past or present will result in posted transactions; posted dates in the future will result in pending transactions."""
 
     currency: Optional[str] = None
-    """The transaction description."""
-    description: str
-    """The transaction amount. Can be negative."""
-    amount: float
-    """The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Transactions in Sandbox will move from pending to posted once their transaction date has been reached. If a `date_transacted` is not provided by the institution, a transaction date may be available in the [`authorized_date`](https://plaid.com/docs/api/products/transactions/#transactions-get-response-transactions-authorized-date) field."""
-    date_transacted: str
-    """The date the transaction posted, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Posted dates in the past or present will result in posted transactions; posted dates in the future will result in pending transactions."""
-    date_posted: str
+    """The ISO-4217 format currency code for the transaction."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

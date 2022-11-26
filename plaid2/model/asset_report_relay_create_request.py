@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportRelayCreateRequest(BaseModel):
-    """URL to which Plaid will send webhooks when the Secondary Client successfully retrieves an Asset Report by calling `asset_report/relay/get`."""
+    asset_report_token: str
+    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
+
+    secondary_client_id: str
+    """The `secondary_client_id` is the client id of the third party with whom you would like to share the Asset Report."""
 
     webhook: Optional[str] = None
-    """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
-    asset_report_token: str
-    """The `secondary_client_id` is the client id of the third party with whom you would like to share the Asset Report."""
-    secondary_client_id: str
+    """URL to which Plaid will send webhooks when the Secondary Client successfully retrieves an Asset Report by calling `asset_report/relay/get`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class AssetReportRelayCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportRelayCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "AssetReportRelayCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

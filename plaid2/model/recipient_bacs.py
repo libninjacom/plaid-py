@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class RecipientBacs(BaseModel):
-    """The account number of the account. Maximum of 10 characters."""
+    sort_code: Optional[str] = None
+    """The 6-character sort code of the account."""
 
     account: Optional[str] = None
-    """The 6-character sort code of the account."""
-    sort_code: Optional[str] = None
+    """The account number of the account. Maximum of 10 characters."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,13 +1,12 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 from .recipient_bacs import RecipientBacs
 
 
 class WalletTransactionCounterpartyBacs(BaseModel):
-    """An object containing a BACS account number and sort code. If an IBAN is not provided or if you need to accept domestic GBP-denominated payments, BACS data is required."""
-
     recipient_bacs: Optional[RecipientBacs] = None
+    """An object containing a BACS account number and sort code. If an IBAN is not provided or if you need to accept
+    domestic GBP-denominated payments, BACS data is required."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +24,6 @@ class WalletTransactionCounterpartyBacs(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WalletTransactionCounterpartyBacs":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WalletTransactionCounterpartyBacs":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

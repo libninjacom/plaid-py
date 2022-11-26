@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ProcessorStripeBankAccountTokenCreateRequest(BaseModel):
+    account_id: str
     """The `account_id` value obtained from the `onSuccess` callback in Link"""
 
-    account_id: str
-    """The access token associated with the Item data is being requested for."""
     access_token: str
+    """The access token associated with the Item data is being requested for."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class ProcessorStripeBankAccountTokenCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProcessorStripeBankAccountTokenCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProcessorStripeBankAccountTokenCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

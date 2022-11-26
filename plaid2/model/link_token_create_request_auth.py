@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class LinkTokenCreateRequestAuth(BaseModel):
-    """Specifies whether the Link session is enabled for the Same Day Micro-deposits flow."""
+    flow_type: Optional[str] = None
+    """This field has been deprecated in favor of `auth_type_select_enabled`."""
+
+    auth_type_select_enabled: Optional[bool] = None
+    """Specifies whether Auth Type Select is enabled for the Link session, allowing the end user to choose between linking instantly or manually prior to selecting their financial institution. Note that this can only be true if `same_day_microdeposits_enabled` is set to true."""
+
+    automated_microdeposits_enabled: Optional[bool] = None
+    """Specifies whether the Link session is enabled for the Automated Micro-deposits flow."""
+
+    instant_match_enabled: Optional[bool] = None
+    """Specifies whether the Link session is enabled for the Instant Match flow."""
 
     same_day_microdeposits_enabled: Optional[bool] = None
-    """Specifies whether the Link session is enabled for the Automated Micro-deposits flow."""
-    automated_microdeposits_enabled: Optional[bool] = None
-    """Specifies whether Auth Type Select is enabled for the Link session, allowing the end user to choose between linking instantly or manually prior to selecting their financial institution. Note that this can only be true if `same_day_microdeposits_enabled` is set to true."""
-    auth_type_select_enabled: Optional[bool] = None
-    """Specifies whether the Link session is enabled for the Instant Match flow."""
-    instant_match_enabled: Optional[bool] = None
-    """This field has been deprecated in favor of `auth_type_select_enabled`."""
-    flow_type: Optional[str] = None
+    """Specifies whether the Link session is enabled for the Same Day Micro-deposits flow."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -32,8 +35,6 @@ class LinkTokenCreateRequestAuth(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateRequestAuth":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateRequestAuth":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class SandboxItemSetVerificationStatusRequest(BaseModel):
+    access_token: str
     """The access token associated with the Item data is being requested for."""
 
-    access_token: str
-    """The verification status to set the account to."""
-    verification_status: str
-    """The `account_id` of the account whose verification status is to be modified"""
     account_id: str
+    """The `account_id` of the account whose verification status is to be modified"""
+
+    verification_status: str
+    """The verification status to set the account to."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class SandboxItemSetVerificationStatusRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SandboxItemSetVerificationStatusRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SandboxItemSetVerificationStatusRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

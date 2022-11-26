@@ -7,15 +7,17 @@ from .item import Item
 
 
 class AuthGetResponse(BaseModel):
-    """Metadata about the Item."""
+    accounts: List[AccountBase]
+    """The `accounts` for which numbers are being retrieved."""
+
+    numbers: AuthGetNumbers
+    """An object containing identifying numbers used for making electronic transfers to and from the `accounts`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any `accounts` for which data has been requested, the array for that type will be empty."""
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     item: Item
-    """An object containing identifying numbers used for making electronic transfers to and from the `accounts`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any `accounts` for which data has been requested, the array for that type will be empty."""
-    numbers: AuthGetNumbers
-    """The `accounts` for which numbers are being retrieved."""
-    accounts: List[AccountBase]
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
+    """Metadata about the Item."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -1,6 +1,5 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
 
 
 class CreditUnofficialCurrencyCode(BaseModel):
@@ -22,8 +21,6 @@ class CreditUnofficialCurrencyCode(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditUnofficialCurrencyCode":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditUnofficialCurrencyCode":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

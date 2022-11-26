@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemImportRequestUserAuth(BaseModel):
+    auth_token: str
     """Authorization token Plaid will use to aggregate this user’s accounts"""
 
-    auth_token: str
-    """Opaque user identifier"""
     user_id: str
+    """Opaque user identifier"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class ItemImportRequestUserAuth(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ItemImportRequestUserAuth":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ItemImportRequestUserAuth":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

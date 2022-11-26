@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class PslfStatus(BaseModel):
-    """The number of qualifying payments that have been made."""
+    payments_remaining: Optional[float] = None
+    """The number of qualifying payments remaining."""
 
     payments_made: Optional[float] = None
-    """The estimated date borrower will have completed 120 qualifying monthly payments. Returned in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
+    """The number of qualifying payments that have been made."""
+
     estimated_eligibility_date: Optional[str] = None
-    """The number of qualifying payments remaining."""
-    payments_remaining: Optional[float] = None
+    """The estimated date borrower will have completed 120 qualifying monthly payments. Returned in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

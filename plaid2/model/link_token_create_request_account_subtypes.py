@@ -1,22 +1,20 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .link_token_create_credit_filter import LinkTokenCreateCreditFilter
-from .link_token_create_depository_filter import LinkTokenCreateDepositoryFilter
-from .link_token_create_investment_filter import LinkTokenCreateInvestmentFilter
-from .link_token_create_loan_filter import LinkTokenCreateLoanFilter
 
 
 class LinkTokenCreateRequestAccountSubtypes(BaseModel):
+    credit: Optional[List[str]] = None
+    """A filter to apply to `credit`-type accounts"""
+
+    investment: Optional[List[str]] = None
     """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
 
-    investment: Optional[LinkTokenCreateInvestmentFilter] = None
-    """A filter to apply to `depository`-type accounts"""
-    depository: Optional[LinkTokenCreateDepositoryFilter] = None
-    """A filter to apply to `credit`-type accounts"""
-    credit: Optional[LinkTokenCreateCreditFilter] = None
+    loan: Optional[List[str]] = None
     """A filter to apply to `loan`-type accounts"""
-    loan: Optional[LinkTokenCreateLoanFilter] = None
+
+    depository: Optional[List[str]] = None
+    """A filter to apply to `depository`-type accounts"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,8 +32,6 @@ class LinkTokenCreateRequestAccountSubtypes(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "LinkTokenCreateRequestAccountSubtypes":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "LinkTokenCreateRequestAccountSubtypes":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

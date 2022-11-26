@@ -1,13 +1,11 @@
 from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class IdentityGetRequestOptions(BaseModel):
+    account_ids: Optional[List[str]] = None
     """A list of `account_ids` to retrieve for the Item.
     Note: An error will be returned if a provided `account_id` is not associated with the Item."""
-
-    account_ids: Optional[List[str]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,8 +23,6 @@ class IdentityGetRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "IdentityGetRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "IdentityGetRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -6,19 +6,23 @@ from .transaction import Transaction
 
 
 class TransactionsSyncResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    has_more: bool
+    """Represents if more than requested count of transaction updates exist. If true, the additional updates can be fetched by making an additional request with `cursor` set to `next_cursor`."""
+
+    removed: List[RemovedTransaction]
+    """Transactions that have been removed from the item since `cursor` ordered by ascending last modified time."""
+
+    modified: List[Transaction]
+    """Transactions that have been modified on the item since `cursor` ordered by ascending last modified time."""
+
+    added: List[Transaction]
+    """Transactions that have been added to the item since `cursor` ordered by ascending last modified time."""
+
+    next_cursor: str
+    """Cursor used for fetching any future updates after the latest update provided in this response."""
 
     request_id: str
-    """Transactions that have been removed from the item since `cursor` ordered by ascending last modified time."""
-    removed: List[RemovedTransaction]
-    """Cursor used for fetching any future updates after the latest update provided in this response."""
-    next_cursor: str
-    """Transactions that have been modified on the item since `cursor` ordered by ascending last modified time."""
-    modified: List[Transaction]
-    """Transactions that have been added to the item since `cursor` ordered by ascending last modified time."""
-    added: List[Transaction]
-    """Represents if more than requested count of transaction updates exist. If true, the additional updates can be fetched by making an additional request with `cursor` set to `next_cursor`."""
-    has_more: bool
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -36,8 +40,6 @@ class TransactionsSyncResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "TransactionsSyncResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "TransactionsSyncResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

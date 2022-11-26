@@ -1,13 +1,11 @@
 from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class AuthGetRequestOptions(BaseModel):
+    account_ids: Optional[List[str]] = None
     """A list of `account_ids` to retrieve for the Item.
     Note: An error will be returned if a provided `account_id` is not associated with the Item."""
-
-    account_ids: Optional[List[str]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

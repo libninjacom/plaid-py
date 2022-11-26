@@ -1,12 +1,10 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 
 
 class LinkTokenGetRequest(BaseModel):
-    """A `link_token` from a previous invocation of `/link/token/create`"""
-
     link_token: str
+    """A `link_token` from a previous invocation of `/link/token/create`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -5,11 +5,11 @@ from .report_token import ReportToken
 
 
 class CreditAuditCopyTokenCreateRequest(BaseModel):
-    """The `auditor_id` of the third party with whom you would like to share the Asset Report and/or Income Report."""
+    report_tokens: List[ReportToken]
+    """List of report tokens; can include both Asset Report tokens and Income Report tokens."""
 
     auditor_id: str
-    """List of report tokens; can include both Asset Report tokens and Income Report tokens."""
-    report_tokens: List[ReportToken]
+    """The `auditor_id` of the third party with whom you would like to share the Asset Report and/or Income Report."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +27,6 @@ class CreditAuditCopyTokenCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditAuditCopyTokenCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "CreditAuditCopyTokenCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

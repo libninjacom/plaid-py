@@ -1,12 +1,12 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, List, Union
+from pydantic import BaseModel
 
 
 class InvestmentFilter(BaseModel):
-    """An array of account subtypes to display in Link. If not specified, all account subtypes will be shown. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema)."""
-
     account_subtypes: List[str]
+    """An array of account subtypes to display in Link. If not specified, all account subtypes will be shown. For
+    a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-
+    schema). """
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

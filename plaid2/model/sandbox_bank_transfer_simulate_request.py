@@ -5,11 +5,7 @@ from .bank_transfer_failure import BankTransferFailure
 
 
 class SandboxBankTransferSimulateRequest(BaseModel):
-    """The failure reason if the type of this transfer is `"failed"` or `"reversed"`. Null value otherwise."""
-
-    failure_reason: Optional[BankTransferFailure] = None
-    """Plaid’s unique identifier for a bank transfer."""
-    bank_transfer_id: str
+    event_type: str
     """The asynchronous event to be simulated. May be: `posted`, `failed`, or `reversed`.
     
     An error will be returned if the event type is incompatible with the current transfer status. Compatible status --> event type transitions include:
@@ -20,7 +16,12 @@ class SandboxBankTransferSimulateRequest(BaseModel):
     
     `posted` --> `reversed`
     """
-    event_type: str
+
+    failure_reason: Optional[BankTransferFailure] = None
+    """The failure reason if the type of this transfer is `"failed"` or `"reversed"`. Null value otherwise."""
+
+    bank_transfer_id: str
+    """Plaid’s unique identifier for a bank transfer."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -38,8 +39,6 @@ class SandboxBankTransferSimulateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SandboxBankTransferSimulateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SandboxBankTransferSimulateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

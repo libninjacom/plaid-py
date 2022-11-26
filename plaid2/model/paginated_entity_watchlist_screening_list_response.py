@@ -5,13 +5,14 @@ from .entity_watchlist_screening import EntityWatchlistScreening
 
 
 class PaginatedEntityWatchlistScreeningListResponse(BaseModel):
-    """An identifier that determines which page of results you receive."""
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
+    entity_watchlist_screenings: List[EntityWatchlistScreening]
+    """List of entity watchlist screening"""
 
     next_cursor: Optional[str] = None
-    """List of entity watchlist screening"""
-    entity_watchlist_screenings: List[EntityWatchlistScreening]
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
+    """An identifier that determines which page of results you receive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -29,8 +30,6 @@ class PaginatedEntityWatchlistScreeningListResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaginatedEntityWatchlistScreeningListResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaginatedEntityWatchlistScreeningListResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

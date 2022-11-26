@@ -3,13 +3,19 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from .paystub_override_employee_address import PaystubOverrideEmployeeAddress
 
+_ALIAS_MAP = {"name_": "name"}
+
 
 class PaystubOverrideEmployee(BaseModel):
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = lambda field: _ALIAS_MAP.get(field, field)
+
+    name_: Optional[str] = None
     """The name of the employee."""
 
-    name: Optional[str] = None
-    """The address of the employee."""
     address: Optional[PaystubOverrideEmployeeAddress] = None
+    """The address of the employee."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -27,8 +33,6 @@ class PaystubOverrideEmployee(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaystubOverrideEmployee":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaystubOverrideEmployee":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

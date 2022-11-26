@@ -1,21 +1,22 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .payment_consent_periodic_amount_amount import PaymentConsentPeriodicAmountAmount
+from .payment_amount import PaymentAmount
 
 
 class PaymentConsentPeriodicAmount(BaseModel):
-    """Where the payment consent period should start.
+    amount: PaymentAmount
+    """Maximum cumulative amount for all payments in the specified interval."""
 
-    `CALENDAR`: line up with a calendar.
-
-    `CONSENT`: on the date of consent creation."""
+    interval: str
+    """Payment consent periodic interval."""
 
     alignment: str
-    """Maximum cumulative amount for all payments in the specified interval."""
-    amount: PaymentConsentPeriodicAmountAmount
-    """Payment consent periodic interval."""
-    interval: str
+    """Where the payment consent period should start.
+    
+    `CALENDAR`: line up with a calendar.
+    
+    `CONSENT`: on the date of consent creation."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +34,6 @@ class PaymentConsentPeriodicAmount(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentConsentPeriodicAmount":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentConsentPeriodicAmount":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

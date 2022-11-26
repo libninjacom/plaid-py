@@ -6,11 +6,12 @@ from .earnings_total import EarningsTotal
 
 
 class Earnings(BaseModel):
-    breakdown: Optional[List[EarningsBreakdown]] = None
     subtotals: Optional[List[EarningsTotal]] = None
-    """An object representing both the current pay period and year to date amount for an earning category."""
     total: Optional[EarningsTotal] = None
+    """An object representing both the current pay period and year to date amount for an earning category."""
+
     totals: Optional[List[EarningsTotal]] = None
+    breakdown: Optional[List[EarningsBreakdown]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

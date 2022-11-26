@@ -8,15 +8,17 @@ from .screening_hit_names_items import ScreeningHitNamesItems
 
 
 class ScreeningHitData(BaseModel):
-    """Locations associated with the watchlist hit"""
+    dates_of_birth: Optional[List[ScreeningHitDateOfBirthItem]] = None
+    """Dates of birth associated with the watchlist hit"""
+
+    names: Optional[List[ScreeningHitNamesItems]] = None
+    """Names associated with the watchlist hit"""
+
+    documents: Optional[List[ScreeningHitDocumentsItems]] = None
+    """Documents associated with the watchlist hit"""
 
     locations: Optional[List[GenericScreeningHitLocationItems]] = None
-    """Documents associated with the watchlist hit"""
-    documents: Optional[List[ScreeningHitDocumentsItems]] = None
-    """Names associated with the watchlist hit"""
-    names: Optional[List[ScreeningHitNamesItems]] = None
-    """Dates of birth associated with the watchlist hit"""
-    dates_of_birth: Optional[List[ScreeningHitDateOfBirthItem]] = None
+    """Locations associated with the watchlist hit"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -5,19 +5,23 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class WatchlistScreeningReviewResponse(BaseModel):
-    """Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once dismissed. In most cases, confirmed hits indicate that the customer should be rejected."""
+    id: str
+    """ID of the associated review."""
+
+    dismissed_hits: List[str]
+    """Hits marked as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
+
+    comment: Optional[str] = None
+    """A comment submitted by a team member as part of reviewing a watchlist screening."""
+
+    audit_trail: WatchlistScreeningAuditTrail
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
 
     confirmed_hits: List[str]
-    """Hits marked as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
-    dismissed_hits: List[str]
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
-    audit_trail: WatchlistScreeningAuditTrail
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    """Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once dismissed. In most cases, confirmed hits indicate that the customer should be rejected."""
+
     request_id: str
-    """A comment submitted by a team member as part of reviewing a watchlist screening."""
-    comment: Optional[str] = None
-    """ID of the associated review."""
-    id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -35,8 +39,6 @@ class WatchlistScreeningReviewResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "WatchlistScreeningReviewResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "WatchlistScreeningReviewResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

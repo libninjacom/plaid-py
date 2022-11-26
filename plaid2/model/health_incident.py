@@ -5,15 +5,17 @@ from .incident_update import IncidentUpdate
 
 
 class HealthIncident(BaseModel):
-    """The start date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
+    incident_updates: List[IncidentUpdate]
+    """Updates on the health incident."""
 
     start_date: str
-    """The title of the incident"""
-    title: str
-    """Updates on the health incident."""
-    incident_updates: List[IncidentUpdate]
-    """The end date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
+    """The start date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
+
     end_date: Optional[str] = None
+    """The end date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
+
+    title: str
+    """The title of the incident"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

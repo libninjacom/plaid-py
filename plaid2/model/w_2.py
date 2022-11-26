@@ -8,47 +8,64 @@ from .w_2_state_and_local_wages import W2StateAndLocalWages
 
 
 class W2(BaseModel):
-    """Allocated tips."""
+    state_and_local_wages: Optional[List[W2StateAndLocalWages]] = None
+    social_security_tips: Optional[str] = None
+    """Tips from social security."""
+
+    box_12: Optional[List[W2Box12]] = None
+    tax_year: Optional[str] = None
+    """The tax year of the W2 document."""
+
+    nonqualified_plans: Optional[str] = None
+    """Nonqualified plans."""
+
+    social_security_wages: Optional[str] = None
+    """Wages from social security."""
+
+    social_security_tax_withheld: Optional[str] = None
+    """Social security tax withheld for the tax year."""
+
+    statutory_employee: Optional[str] = None
+    """Statutory employee."""
+
+    employer_id_number: Optional[str] = None
+    """An employee identification number or EIN."""
+
+    medicare_wages_and_tips: Optional[str] = None
+    """Wages and tips from medicare."""
+
+    employee: Optional[Employee] = None
+    """Data about the employee."""
 
     allocated_tips: Optional[str] = None
-    """Information about the employer on the paystub"""
-    employer: Optional[PaystubEmployer] = None
-    """Tips from social security."""
-    social_security_tips: Optional[str] = None
-    """Data about the employee."""
-    employee: Optional[Employee] = None
-    """Contents from box 9 on the W2."""
-    box_9: Optional[str] = None
-    """Wages from tips and other compensation."""
-    wages_tips_other_comp: Optional[str] = None
-    """An employee identification number or EIN."""
-    employer_id_number: Optional[str] = None
-    """Retirement plan."""
+    """Allocated tips."""
+
     retirement_plan: Optional[str] = None
-    """Third party sick pay."""
-    third_party_sick_pay: Optional[str] = None
-    """The tax year of the W2 document."""
-    tax_year: Optional[str] = None
-    """Social security tax withheld for the tax year."""
-    social_security_tax_withheld: Optional[str] = None
-    """Wages and tips from medicare."""
-    medicare_wages_and_tips: Optional[str] = None
-    """Wages from social security."""
-    social_security_wages: Optional[str] = None
-    """Medicare tax withheld for the tax year."""
+    """Retirement plan."""
+
     medicare_tax_withheld: Optional[str] = None
-    """Other."""
-    other: Optional[str] = None
-    """Statutory employee."""
-    statutory_employee: Optional[str] = None
-    """Dependent care benefits."""
+    """Medicare tax withheld for the tax year."""
+
+    box_9: Optional[str] = None
+    """Contents from box 9 on the W2."""
+
     dependent_care_benefits: Optional[str] = None
-    """Nonqualified plans."""
-    nonqualified_plans: Optional[str] = None
-    state_and_local_wages: Optional[List[W2StateAndLocalWages]] = None
-    box_12: Optional[List[W2Box12]] = None
-    """Federal income tax withheld for the tax year."""
+    """Dependent care benefits."""
+
+    wages_tips_other_comp: Optional[str] = None
+    """Wages from tips and other compensation."""
+
+    third_party_sick_pay: Optional[str] = None
+    """Third party sick pay."""
+
+    employer: Optional[PaystubEmployer] = None
+    """Information about the employer on the paystub"""
+
     federal_income_tax_withheld: Optional[str] = None
+    """Federal income tax withheld for the tax year."""
+
+    other: Optional[str] = None
+    """Other."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

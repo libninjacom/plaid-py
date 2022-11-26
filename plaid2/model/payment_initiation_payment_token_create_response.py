@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationPaymentTokenCreateResponse(BaseModel):
+    payment_token_expiration_time: str
     """The date and time at which the token will expire, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. A `payment_token` expires after 15 minutes."""
 
-    payment_token_expiration_time: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
-    """A `payment_token` that can be provided to Link initialization to enter the payment initiation flow"""
     payment_token: str
+    """A `payment_token` that can be provided to Link initialization to enter the payment initiation flow"""
+
+    request_id: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class PaymentInitiationPaymentTokenCreateResponse(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "PaymentInitiationPaymentTokenCreateResponse":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaymentInitiationPaymentTokenCreateResponse":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

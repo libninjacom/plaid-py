@@ -6,12 +6,12 @@ from .product_access import ProductAccess
 
 
 class Scopes(BaseModel):
+    product_access: Optional[ProductAccess] = None
     """The product access being requested. Used to or disallow product access across all accounts. If unset, defaults to all products allowed."""
 
-    product_access: Optional[ProductAccess] = None
-    """Allow access to newly opened accounts as they are opened. If unset, defaults to `true`."""
-    new_accounts: Optional[bool] = None
     accounts: Optional[List[AccountAccess]] = None
+    new_accounts: Optional[bool] = None
+    """Allow access to newly opened accounts as they are opened. If unset, defaults to `true`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

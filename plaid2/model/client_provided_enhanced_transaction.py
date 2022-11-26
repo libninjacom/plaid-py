@@ -5,17 +5,20 @@ from .enhancements import Enhancements
 
 
 class ClientProvidedEnhancedTransaction(BaseModel):
-    """The value of the transaction, denominated in the account's currency, as stated in `iso_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative."""
+    iso_currency_code: str
+    """The ISO-4217 currency code of the transaction."""
+
+    enhancements: Enhancements
+    """A grouping of the Plaid produced transaction enhancement fields."""
+
+    id: str
+    """Unique transaction identifier to tie transactions back to clients' systems."""
+
+    description: str
+    """The raw description of the transaction."""
 
     amount: float
-    """The ISO-4217 currency code of the transaction."""
-    iso_currency_code: str
-    """Unique transaction identifier to tie transactions back to clients' systems."""
-    id: str
-    """The raw description of the transaction."""
-    description: str
-    """A grouping of the Plaid produced transaction enhancement fields."""
-    enhancements: Enhancements
+    """The value of the transaction, denominated in the account's currency, as stated in `iso_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -33,8 +36,6 @@ class ClientProvidedEnhancedTransaction(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ClientProvidedEnhancedTransaction":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ClientProvidedEnhancedTransaction":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

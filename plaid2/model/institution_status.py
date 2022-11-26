@@ -6,25 +6,32 @@ from .product_status import ProductStatus
 
 
 class InstitutionStatus(BaseModel):
+    health_incidents: Optional[List[HealthIncident]] = None
+    """Details of recent health incidents associated with the institution."""
+
+    item_logins: Optional[ProductStatus] = None
+    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
+
+    auth: Optional[ProductStatus] = None
+    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
+
+    investments: Optional[ProductStatus] = None
+    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
+
+    investments_updates: Optional[ProductStatus] = None
+    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
+
+    liabilities_updates: Optional[ProductStatus] = None
     """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
 
     transactions_updates: Optional[ProductStatus] = None
     """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    liabilities_updates: Optional[ProductStatus] = None
-    """Details of recent health incidents associated with the institution."""
-    health_incidents: Optional[List[HealthIncident]] = None
-    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    item_logins: Optional[ProductStatus] = None
-    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    identity: Optional[ProductStatus] = None
-    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
+
     liabilities: Optional[ProductStatus] = None
     """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    auth: Optional[ProductStatus] = None
+
+    identity: Optional[ProductStatus] = None
     """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    investments_updates: Optional[ProductStatus] = None
-    """A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object."""
-    investments: Optional[ProductStatus] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

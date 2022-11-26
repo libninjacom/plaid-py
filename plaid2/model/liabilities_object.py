@@ -7,13 +7,14 @@ from .student_loan import StudentLoan
 
 
 class LiabilitiesObject(BaseModel):
+    mortgage: Optional[List[MortgageLiability]] = None
     """The mortgage accounts returned."""
 
-    mortgage: Optional[List[MortgageLiability]] = None
-    """The credit accounts returned."""
     credit: Optional[List[CreditCardLiability]] = None
-    """The student loan accounts returned."""
+    """The credit accounts returned."""
+
     student: Optional[List[StudentLoan]] = None
+    """The student loan accounts returned."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

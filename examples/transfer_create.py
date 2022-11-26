@@ -1,6 +1,7 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
 
 
 def main():
@@ -14,15 +15,15 @@ def main():
         ach_class="your ach class",
         user=TransferUserInRequest(
             legal_name="your legal name",
-            email_address="your email address",
-            phone_number="your phone number",
             address=TransferUserAddressInRequest(
+                postal_code="your postal code",
+                region="your region",
                 country="your country",
                 street="your street",
-                postal_code="your postal code",
                 city="your city",
-                region="your region",
             ),
+            email_address="your email address",
+            phone_number="your phone number",
         ),
     )
     print(f"{response!r}")
@@ -39,15 +40,15 @@ async def async_main():
         ach_class="your ach class",
         user=TransferUserInRequest(
             legal_name="your legal name",
-            email_address="your email address",
-            phone_number="your phone number",
             address=TransferUserAddressInRequest(
+                postal_code="your postal code",
+                region="your region",
                 country="your country",
                 street="your street",
-                postal_code="your postal code",
                 city="your city",
-                region="your region",
             ),
+            email_address="your email address",
+            phone_number="your phone number",
         ),
     )
     print(f"{response!r}")

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class MortgageInterestRate(BaseModel):
-    """Percentage value (interest rate of current mortgage, not APR) of interest payable on a loan."""
+    type: Optional[str] = None
+    """The type of interest charged (fixed or variable)."""
 
     percentage: Optional[float] = None
-    """The type of interest charged (fixed or variable)."""
-    type: Optional[str] = None
+    """Percentage value (interest rate of current mortgage, not APR) of interest payable on a loan."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

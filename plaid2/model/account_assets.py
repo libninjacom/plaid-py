@@ -1,13 +1,11 @@
-from typing import Any, Dict, List, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Union
+from pydantic import BaseModel
 from .account_base import AccountBase
 
 
 class AccountAssets(BaseModel):
-    """A single account at a financial institution."""
-
     account_base: AccountBase
+    """A single account at a financial institution."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,17 +4,20 @@ from pydantic import BaseModel, Field
 
 
 class SyncUpdatesAvailableWebhook(BaseModel):
+    initial_update_complete: bool
     """Indicates if initial pull information is available."""
 
-    initial_update_complete: bool
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-    item_id: str
-    """Indicates if historical pull information is available."""
-    historical_update_complete: bool
-    """`SYNC_UPDATES_AVAILABLE`"""
-    webhook_code: str
-    """`TRANSACTIONS`"""
     webhook_type: str
+    """`TRANSACTIONS`"""
+
+    item_id: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+
+    historical_update_complete: bool
+    """Indicates if historical pull information is available."""
+
+    webhook_code: str
+    """`SYNC_UPDATES_AVAILABLE`"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -32,8 +35,6 @@ class SyncUpdatesAvailableWebhook(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SyncUpdatesAvailableWebhook":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SyncUpdatesAvailableWebhook":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

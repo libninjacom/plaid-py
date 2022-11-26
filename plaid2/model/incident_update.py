@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class IncidentUpdate(BaseModel):
-    """The date when the update was published, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
+    description: Optional[str] = None
+    """The content of the update."""
+
+    status: Optional[str] = None
+    """The status of the incident."""
 
     updated_date: Optional[str] = None
-    """The content of the update."""
-    description: Optional[str] = None
-    """The status of the incident."""
-    status: Optional[str] = None
+    """The date when the update was published, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,10 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class UpdateIndividualScreeningRequestSearchTerms(BaseModel):
-    document_number: Optional[str] = None
-    watchlist_program_id: Optional[str] = None
     date_of_birth: Optional[str] = None
     legal_name: Optional[str] = None
+    document_number: Optional[str] = None
+    watchlist_program_id: Optional[str] = None
     country: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
@@ -26,8 +26,6 @@ class UpdateIndividualScreeningRequestSearchTerms(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "UpdateIndividualScreeningRequestSearchTerms":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "UpdateIndividualScreeningRequestSearchTerms":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

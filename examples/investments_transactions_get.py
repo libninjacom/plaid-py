@@ -1,6 +1,11 @@
 import os
 from plaid2 import AsyncPlaidClient
 from plaid2 import PlaidClient
+from plaid2.model import *
+
+access_token = "your access token"
+start_date = "your start date"
+end_date = "your end date"
 
 
 def main():
@@ -11,15 +16,10 @@ def main():
 
 async def async_main():
     client = AsyncPlaidClient.from_env()
-    response = await client.investments_transactions_get(
-        access_token, start_date, end_date
-    )
+    response = await client.investments_transactions_get(access_token, start_date, end_date)
     print(f"{response!r}")
 
 
-access_token = "your access token"
-start_date = "your start date"
-end_date = "your end date"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

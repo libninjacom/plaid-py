@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SandboxProcessorTokenCreateRequestOptions(BaseModel):
+    override_password: Optional[str] = None
     """Test password to use for the creation of the Sandbox Item. Default value is `pass_good`."""
 
-    override_password: Optional[str] = None
-    """Test username to use for the creation of the Sandbox Item. Default value is `user_good`."""
     override_username: Optional[str] = None
+    """Test username to use for the creation of the Sandbox Item. Default value is `user_good`."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -26,8 +26,6 @@ class SandboxProcessorTokenCreateRequestOptions(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "SandboxProcessorTokenCreateRequestOptions":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "SandboxProcessorTokenCreateRequestOptions":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

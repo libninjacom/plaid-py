@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class ProcessorTokenCreateRequest(BaseModel):
-    """The `account_id` value obtained from the `onSuccess` callback in Link"""
+    access_token: str
+    """The access token associated with the Item data is being requested for."""
+
+    processor: str
+    """The processor you are integrating with."""
 
     account_id: str
-    """The processor you are integrating with."""
-    processor: str
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
+    """The `account_id` value obtained from the `onSuccess` callback in Link"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -28,8 +29,6 @@ class ProcessorTokenCreateRequest(BaseModel):
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(
-        cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "ProcessorTokenCreateRequest":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "ProcessorTokenCreateRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

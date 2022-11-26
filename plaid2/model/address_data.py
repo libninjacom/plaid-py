@@ -4,19 +4,22 @@ from pydantic import BaseModel, Field
 
 
 class AddressData(BaseModel):
-    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
-
-    postal_code: Optional[str] = None
-    """The ISO 3166-1 alpha-2 country code"""
-    country: Optional[str] = None
-    """The full city name"""
     city: str
-    """The full street address
-    Example: `"564 Main Street, APT 15"`"""
-    street: str
+    """The full city name"""
+
+    region: Optional[str] = None
     """The region or state. In API versions 2018-05-22 and earlier, this field is called `state`.
     Example: `"NC"`"""
-    region: Optional[str] = None
+
+    street: str
+    """The full street address
+    Example: `"564 Main Street, APT 15"`"""
+
+    postal_code: Optional[str] = None
+    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
+
+    country: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

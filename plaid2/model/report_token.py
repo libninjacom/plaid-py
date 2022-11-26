@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ReportToken(BaseModel):
+    report_type: Optional[str] = None
     """The report type. It can be `assets` or `income`."""
 
-    report_type: Optional[str] = None
-    """The report token. It can be an asset report token or an income report token."""
     token: Optional[str] = None
+    """The report token. It can be an asset report token or an income report token."""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

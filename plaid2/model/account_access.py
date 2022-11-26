@@ -1,17 +1,18 @@
 from typing import Any, Dict, List, Optional, Union
 from enum import Enum
 from pydantic import BaseModel, Field
-from .account_product_access_nullable import AccountProductAccessNullable
+from .account_product_access import AccountProductAccess
 
 
 class AccountAccess(BaseModel):
+    unique_id: str
     """The unique account identifier for this account. This value must match that returned by the data access API for this account."""
 
-    unique_id: str
-    """Allow the application to access specific products on this account"""
-    account_product_access: Optional[AccountProductAccessNullable] = None
-    """Allow the application to see this account (and associated details, including balance) in the list of accounts  If unset, defaults to `true`."""
     authorized: Optional[bool] = None
+    """Allow the application to see this account (and associated details, including balance) in the list of accounts  If unset, defaults to `true`."""
+
+    account_product_access: Optional[AccountProductAccess] = None
+    """Allow the application to access specific products on this account"""
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
