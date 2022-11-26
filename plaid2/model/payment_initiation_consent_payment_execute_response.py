@@ -4,8 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationConsentPaymentExecuteResponse(BaseModel):
-    """A unique ID identifying the payment"""
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
+    request_id: str
+    """A unique ID identifying the payment"""
     payment_id: str
     """The status of the payment.
     
@@ -38,8 +40,6 @@ class PaymentInitiationConsentPaymentExecuteResponse(BaseModel):
     
     `PAYMENT_STATUS_COMPLETED`: Indicates that the standing order has been successfully established. This state is only used for standing orders."""
     status: str
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

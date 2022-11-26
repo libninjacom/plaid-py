@@ -9,10 +9,10 @@ class CreditPayrollIncomeGetResponse(BaseModel):
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     request_id: str
-    """Array of payroll items."""
-    items: List[PayrollItem]
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
+    """Array of payroll items."""
+    items: List[PayrollItem]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

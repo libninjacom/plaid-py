@@ -5,7 +5,9 @@ from .address_data import AddressData
 
 
 class AddressDataNullable(BaseModel):
-    __root__: AddressData
+    """Data about the components comprising an address."""
+
+    address_data: AddressData
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -15,7 +17,7 @@ class AddressDataNullable(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "AddressDataNullable":

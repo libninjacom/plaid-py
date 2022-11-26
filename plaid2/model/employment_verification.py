@@ -6,19 +6,19 @@ from .platform_ids import PlatformIds
 
 
 class EmploymentVerification(BaseModel):
-    """Current employment status."""
-
-    status: Optional[str] = None
-    """Start of employment in ISO 8601 format (YYYY-MM-DD)."""
-    start_date: Optional[str] = None
-    """An object containing employer data."""
-    employer: Optional[EmployerVerification] = None
-    """End of employment, if applicable. Provided in ISO 8601 format (YYY-MM-DD)."""
-    end_date: Optional[str] = None
     """Current title of employee."""
+
     title: Optional[str] = None
     """An object containing a set of ids related to an employee"""
     platform_ids: Optional[PlatformIds] = None
+    """End of employment, if applicable. Provided in ISO 8601 format (YYY-MM-DD)."""
+    end_date: Optional[str] = None
+    """Start of employment in ISO 8601 format (YYYY-MM-DD)."""
+    start_date: Optional[str] = None
+    """Current employment status."""
+    status: Optional[str] = None
+    """An object containing employer data."""
+    employer: Optional[EmployerVerification] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -8,14 +8,14 @@ class WatchlistScreeningReview(BaseModel):
     """Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once dismissed. In most cases, confirmed hits indicate that the customer should be rejected."""
 
     confirmed_hits: List[str]
-    """Hits marked as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
-    dismissed_hits: List[str]
     """ID of the associated review."""
     id: str
     """A comment submitted by a team member as part of reviewing a watchlist screening."""
     comment: Optional[str] = None
     """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
     audit_trail: WatchlistScreeningAuditTrail
+    """Hits marked as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
+    dismissed_hits: List[str]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

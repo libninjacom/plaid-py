@@ -5,19 +5,19 @@ from .payment_initiation_consent_constraints import PaymentInitiationConsentCons
 
 
 class PaymentInitiationConsent(BaseModel):
-    """Limitations that will be applied to payments initiated using the payment consent."""
+    """The ID of the recipient the payment consent is for."""
 
-    constraints: PaymentInitiationConsentConstraints
-    """Consent creation timestamp, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
-    created_at: str
+    recipient_id: str
+    """A reference for the payment consent."""
+    reference: str
     """An array of payment consent scopes."""
     scopes: List[str]
     """The consent ID."""
     consent_id: str
-    """The ID of the recipient the payment consent is for."""
-    recipient_id: str
-    """A reference for the payment consent."""
-    reference: str
+    """Limitations that will be applied to payments initiated using the payment consent."""
+    constraints: PaymentInitiationConsentConstraints
+    """Consent creation timestamp, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+    created_at: str
     """The status of the payment consent.
     
     `UNAUTHORISED`: Consent created, but requires user authorisation.

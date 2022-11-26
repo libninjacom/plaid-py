@@ -5,11 +5,11 @@ from .wallet import Wallet
 
 
 class WalletListResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
     """Cursor used for fetching e-wallets created before the latest e-wallet provided in this response"""
+
     next_cursor: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
     """An array of e-wallets"""
     wallets: List[Wallet]
 

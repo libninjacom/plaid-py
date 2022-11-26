@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationStatusUpdatedWebhook(BaseModel):
-    """The ID of the associated Identity Verification attempt."""
+    """`IDENTITY_VERIFICATION`"""
 
-    identity_verification_id: Any
+    webhook_type: str
     """`STATUS_UPDATED`"""
     webhook_code: str
-    """`IDENTITY_VERIFICATION`"""
-    webhook_type: str
+    """The ID of the associated Identity Verification attempt."""
+    identity_verification_id: Any
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -19,7 +19,6 @@ async def async_main():
 
 asset_report_token = "your asset report token"
 account_ids_to_exclude = ["your account ids to exclude"]
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

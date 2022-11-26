@@ -8,16 +8,16 @@ class Credit1099Recipient(BaseModel):
     """Checked if 2nd TIN exists."""
 
     second_tin_exists: Optional[str] = None
-    """Tax identification number of recipient."""
-    tin: Optional[str] = None
+    """Checked if FACTA is a filing requirement."""
+    facta_filing_requirement: Optional[str] = None
     """Name of recipient."""
     name: Optional[str] = None
+    """Tax identification number of recipient."""
+    tin: Optional[str] = None
     """Address on the pay stub."""
     address: Optional[CreditPayStubAddress] = None
     """Account number number of recipient."""
     account_number: Optional[str] = None
-    """Checked if FACTA is a filing requirement."""
-    facta_filing_requirement: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -7,9 +7,9 @@ from .earnings_total import EarningsTotal
 
 class Earnings(BaseModel):
     breakdown: Optional[List[EarningsBreakdown]] = None
+    subtotals: Optional[List[EarningsTotal]] = None
     """An object representing both the current pay period and year to date amount for an earning category."""
     total: Optional[EarningsTotal] = None
-    subtotals: Optional[List[EarningsTotal]] = None
     totals: Optional[List[EarningsTotal]] = None
 
     def json(self, **kwargs: Any) -> str:

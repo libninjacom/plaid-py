@@ -16,7 +16,6 @@ async def async_main():
 
 
 name = "your name"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

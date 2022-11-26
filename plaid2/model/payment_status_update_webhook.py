@@ -8,8 +8,12 @@ class PaymentStatusUpdateWebhook(BaseModel):
     """The original value of the reference when creating the payment."""
 
     original_reference: Optional[str] = None
-    """`PAYMENT_STATUS_UPDATE`"""
-    webhook_code: str
+    """The start date sent to the bank after adjusting for holidays or weekends.  Will be provided in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). If the start date did not require adjustment, or if the payment is not a standing order, this field will be `null`."""
+    adjusted_start_date: Optional[str] = None
+    """The `payment_id` for the payment being updated"""
+    payment_id: str
+    """The value of the reference sent to the bank after adjustment to pass bank validation rules."""
+    adjusted_reference: Optional[str] = None
     """The status of the payment.
     
     `PAYMENT_STATUS_INPUT_NEEDED`: This is the initial state of all payments. It indicates that the payment is waiting on user input to continue processing. A payment may re-enter this state later on if further input is needed.
@@ -41,10 +45,12 @@ class PaymentStatusUpdateWebhook(BaseModel):
     
     `PAYMENT_STATUS_COMPLETED`: Indicates that the standing order has been successfully established. This state is only used for standing orders."""
     old_payment_status: str
-    """The value of the reference sent to the bank after adjustment to pass bank validation rules."""
-    adjusted_reference: Optional[str] = None
     """The original value of the `start_date` provided during the creation of a standing order. If the payment is not a standing order, this field will be `null`."""
     original_start_date: Optional[str] = None
+    """`PAYMENT_INITIATION`"""
+    webhook_type: str
+    """The timestamp of the update, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2017-09-14T14:42:19.350Z"`"""
+    timestamp: str
     """The status of the payment.
     
     `PAYMENT_STATUS_INPUT_NEEDED`: This is the initial state of all payments. It indicates that the payment is waiting on user input to continue processing. A payment may re-enter this state later on if further input is needed.
@@ -76,16 +82,10 @@ class PaymentStatusUpdateWebhook(BaseModel):
     
     `PAYMENT_STATUS_COMPLETED`: Indicates that the standing order has been successfully established. This state is only used for standing orders."""
     new_payment_status: str
-    """The `payment_id` for the payment being updated"""
-    payment_id: str
-    """The start date sent to the bank after adjusting for holidays or weekends.  Will be provided in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). If the start date did not require adjustment, or if the payment is not a standing order, this field will be `null`."""
-    adjusted_start_date: Optional[str] = None
-    """The timestamp of the update, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2017-09-14T14:42:19.350Z"`"""
-    timestamp: str
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
-    """`PAYMENT_INITIATION`"""
-    webhook_type: str
+    """`PAYMENT_STATUS_UPDATE`"""
+    webhook_code: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

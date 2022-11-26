@@ -4,15 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class TransferMigrateAccountRequest(BaseModel):
-    """The user's routing number."""
-
-    routing_number: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """The user's account number."""
+
     account_number: str
+    """The user's routing number."""
+    routing_number: str
     """The user's wire transfer routing number. This is the ABA number; for some institutions, this may differ from the ACH number used in `routing_number`."""
     wire_routing_number: Optional[str] = None
     """The type of the bank account (`checking` or `savings`)."""

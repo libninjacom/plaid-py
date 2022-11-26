@@ -4,10 +4,8 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationPrecheckResponse(BaseModel):
-    """ID of the precheck. Provide this value when calling `/link/token/create` in order to optimize Link conversion."""
-
-    precheck_id: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
     """The confidence that Plaid can support the user in the digital income verification flow instead of requiring a manual paystub upload. One of the following:
     
@@ -17,6 +15,8 @@ class IncomeVerificationPrecheckResponse(BaseModel):
     
     `"UNKNOWN"`: It was not possible to determine if the user is supportable with the information passed."""
     confidence: str
+    """ID of the precheck. Provide this value when calling `/link/token/create` in order to optimize Link conversion."""
+    precheck_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

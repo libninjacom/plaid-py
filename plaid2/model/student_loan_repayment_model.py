@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class StudentLoanRepaymentModel(BaseModel):
-    """The only currently supported value for this field is `standard`."""
-
-    type: str
     """Configures the number of months before repayment starts."""
+
     non_repayment_months: float
     """Configures the number of months of repayments before the loan is paid off."""
     repayment_months: float
+    """The only currently supported value for this field is `standard`."""
+    type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

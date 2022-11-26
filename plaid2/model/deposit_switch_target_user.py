@@ -5,17 +5,17 @@ from .deposit_switch_address_data import DepositSwitchAddressData
 
 
 class DepositSwitchTargetUser(BaseModel):
-    """The family name (last name) of the user."""
+    """The given name (first name) of the user."""
 
+    given_name: str
+    """The email address of the user."""
+    email: str
+    """The phone number of the user. The endpoint can accept a variety of phone number formats, including E.164."""
+    phone: str
+    """The family name (last name) of the user."""
     family_name: str
     """The user's address."""
     address: Optional[DepositSwitchAddressData] = None
-    """The email address of the user."""
-    email: str
-    """The given name (first name) of the user."""
-    given_name: str
-    """The phone number of the user. The endpoint can accept a variety of phone number formats, including E.164."""
-    phone: str
     """The taxpayer ID of the user, generally their SSN, EIN, or TIN."""
     tax_payer_id: Optional[str] = None
 

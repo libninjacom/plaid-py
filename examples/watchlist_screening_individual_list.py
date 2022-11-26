@@ -16,7 +16,6 @@ async def async_main():
 
 
 watchlist_program_id = "your watchlist program id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

@@ -7,13 +7,13 @@ from .item_status_transactions import ItemStatusTransactions
 
 
 class ItemStatus(BaseModel):
-    """Information about the last webhook fired for the Item."""
+    """Information about the last successful and failed transactions update for the Item."""
 
+    transactions: Optional[ItemStatusTransactions] = None
+    """Information about the last webhook fired for the Item."""
     last_webhook: Optional[ItemStatusLastWebhook] = None
     """Information about the last successful and failed investments update for the Item."""
     investments: Optional[ItemStatusInvestments] = None
-    """Information about the last successful and failed transactions update for the Item."""
-    transactions: Optional[ItemStatusTransactions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

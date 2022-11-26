@@ -16,26 +16,25 @@ async def async_main():
 
 
 target_account = DepositSwitchTargetAccount(
-    account_subtype="your account subtype",
-    account_name="your account name",
-    routing_number="your routing number",
     account_number="your account number",
+    account_subtype="your account subtype",
+    routing_number="your routing number",
+    account_name="your account name",
 )
 target_user = DepositSwitchTargetUser(
-    tax_payer_id="your tax payer id",
-    given_name="your given name",
     family_name="your family name",
-    phone="your phone",
-    email="your email",
     address=DepositSwitchAddressData(
-        street="your street",
-        country="your country",
         city="your city",
         region="your region",
+        street="your street",
         postal_code="your postal code",
+        country="your country",
     ),
+    given_name="your given name",
+    phone="your phone",
+    email="your email",
+    tax_payer_id="your tax payer id",
 )
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

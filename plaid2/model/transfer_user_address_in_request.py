@@ -4,17 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class TransferUserAddressInRequest(BaseModel):
-    """The state or province (e.g., "CA")."""
-
-    region: Optional[str] = None
-    """Ex. "San Francisco" """
-    city: Optional[str] = None
-    """The postal code (e.g., "94103")."""
-    postal_code: Optional[str] = None
     """A two-letter country code (e.g., "US")."""
+
     country: Optional[str] = None
     """The street number and name (i.e., "100 Market St.")."""
     street: Optional[str] = None
+    """Ex. "San Francisco" """
+    city: Optional[str] = None
+    """The state or province (e.g., "CA")."""
+    region: Optional[str] = None
+    """The postal code (e.g., "94103")."""
+    postal_code: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

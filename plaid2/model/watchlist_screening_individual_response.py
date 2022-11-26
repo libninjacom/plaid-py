@@ -6,19 +6,19 @@ from .watchlist_screening_search_terms import WatchlistScreeningSearchTerms
 
 
 class WatchlistScreeningIndividualResponse(BaseModel):
-    """Search terms for creating an individual watchlist screening"""
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
 
-    search_terms: WatchlistScreeningSearchTerms
+    audit_trail: WatchlistScreeningAuditTrail
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
     """ID of the associated screening."""
     id: str
+    """Search terms for creating an individual watchlist screening"""
+    search_terms: WatchlistScreeningSearchTerms
     assignee: Optional[str] = None
     """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
     status: str
     client_user_id: Optional[str] = None
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
-    audit_trail: WatchlistScreeningAuditTrail
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

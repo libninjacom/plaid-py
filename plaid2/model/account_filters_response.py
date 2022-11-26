@@ -11,12 +11,12 @@ class AccountFiltersResponse(BaseModel):
     """A filter to apply to `loan`-type accounts"""
 
     loan: Optional[LoanFilter] = None
-    """A filter to apply to `depository`-type accounts"""
-    depository: Optional[DepositoryFilter] = None
-    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
-    investment: Optional[InvestmentFilter] = None
     """A filter to apply to `credit`-type accounts"""
     credit: Optional[CreditFilter] = None
+    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
+    investment: Optional[InvestmentFilter] = None
+    """A filter to apply to `depository`-type accounts"""
+    depository: Optional[DepositoryFilter] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

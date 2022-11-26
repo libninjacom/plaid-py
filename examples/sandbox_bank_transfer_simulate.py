@@ -17,7 +17,6 @@ async def async_main():
 
 bank_transfer_id = "your bank transfer id"
 event_type = "your event type"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

@@ -4,12 +4,12 @@ from pydantic import BaseModel, Field
 
 
 class IncomeVerificationPrecheckMilitaryInfo(BaseModel):
+    """Is the user currently active duty in the US military"""
+
+    is_active_duty: Optional[bool] = None
     """If the user is currently serving in the US military, the branch of the military in which they are serving
     Valid values: 'AIR FORCE', 'ARMY', 'COAST GUARD', 'MARINES', 'NAVY', 'UNKNOWN'"""
-
     branch: Optional[str] = None
-    """Is the user currently active duty in the US military"""
-    is_active_duty: Optional[bool] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

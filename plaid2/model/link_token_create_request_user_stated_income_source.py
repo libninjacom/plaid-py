@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class LinkTokenCreateRequestUserStatedIncomeSource(BaseModel):
-    """The income category for a specified income source"""
+    """The employer corresponding to an income source specified by the user"""
 
-    category: Optional[str] = None
+    employer: Optional[str] = None
     """The income amount paid annually for a specified income source"""
     pay_annual: Optional[float] = None
-    """The employer corresponding to an income source specified by the user"""
-    employer: Optional[str] = None
     """The pay type - `GROSS`, `NET`, or `UNKNOWN` for a specified income source"""
     pay_type: Optional[str] = None
     """The income amount paid per cycle for a specified income source"""
     pay_per_cycle: Optional[float] = None
     """The pay frequency of a specified income source"""
     pay_frequency: Optional[str] = None
+    """The income category for a specified income source"""
+    category: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

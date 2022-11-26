@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class TransactionData(BaseModel):
-    """The amount of the transaction."""
-
-    amount: float
     """The description of the transaction."""
+
     description: str
-    """A unique identifier for the end user's account."""
-    account_id: str
+    """The amount of the transaction."""
+    amount: float
     """A unique identifier for the transaction."""
     transaction_id: str
+    """A unique identifier for the end user's account."""
+    account_id: str
     """The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd")."""
     date: str
 

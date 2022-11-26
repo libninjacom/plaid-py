@@ -4,17 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class AssetsRelayWebhook(BaseModel):
-    """The `asset_relay_token` that was created by calling `/asset_report/relay/create."""
-
-    asset_relay_token: str
-    """The `asset_report_id` that can be provided to `/asset_report/relay/get` to retrieve the Asset Report."""
-    asset_report_id: str
     """`ASSETS`"""
+
     webhook_type: str
     """`RELAY_EVENT`"""
     webhook_code: str
+    """The `asset_report_id` that can be provided to `/asset_report/relay/get` to retrieve the Asset Report."""
+    asset_report_id: str
     """The webhook code indicating which endpoint was called. It can be one of `GET_CALLED`, `REFRESH_CALLED` or `AUDIT_COPY_CREATE_CALLED`."""
     relay_event: str
+    """The `asset_relay_token` that was created by calling `/asset_report/relay/create."""
+    asset_relay_token: str
     """The id of the client with whom the Asset Report is being shared."""
     secondary_client_id: str
 

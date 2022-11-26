@@ -7,15 +7,15 @@ class CreditBankIncomeCause(BaseModel):
     """A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use."""
 
     error_message: Optional[str] = None
-    """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be `null` if no error has occurred."""
-    error_code: Optional[str] = None
-    """The `item_id` of the Item associated with this warning."""
-    item_id: Optional[str] = None
     """A broad categorization of the error. Safe for programmatic use."""
     error_type: Optional[str] = None
     """A user-friendly representation of the error code. null if the error is not related to user action.
     This may change over time and is not safe for programmatic use."""
     display_message: Optional[str] = None
+    """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be `null` if no error has occurred."""
+    error_code: Optional[str] = None
+    """The `item_id` of the Item associated with this warning."""
+    item_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

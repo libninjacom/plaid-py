@@ -7,21 +7,17 @@ from .payment_amount import PaymentAmount
 
 
 class PaymentInitiationPaymentCreateRequest(BaseModel):
-    """The ID of the recipient the payment is for."""
-
-    recipient_id: str
     """The schedule that the payment will be executed on. If a schedule is provided, the payment is automatically set up as a standing order. If no schedule is specified, the payment will be executed only once."""
+
     schedule: Optional[ExternalPaymentScheduleRequest] = None
     """Additional payment options"""
     options: Optional[ExternalPaymentOptions] = None
-    """The amount and currency of a payment"""
-    amount: PaymentAmount
+    """The ID of the recipient the payment is for."""
+    recipient_id: str
     """A reference for the payment. This must be an alphanumeric string with at most 18 characters and must not contain any special characters (since not all institutions support them)."""
     reference: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    """The amount and currency of a payment"""
+    amount: PaymentAmount
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

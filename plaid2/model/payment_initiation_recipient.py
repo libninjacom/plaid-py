@@ -6,17 +6,17 @@ from .recipient_bacs_nullable import RecipientBacsNullable
 
 
 class PaymentInitiationRecipient(BaseModel):
-    """The International Bank Account Number (IBAN) for the recipient."""
+    """The optional address of the payment recipient."""
 
-    iban: Optional[str] = None
+    address: Optional[PaymentInitiationAddress] = None
     """The name of the recipient."""
     name: str
-    """The optional address of the payment recipient."""
-    address: Optional[PaymentInitiationAddress] = None
     """An object containing a BACS account number and sort code. If an IBAN is not provided or if this recipient needs to accept domestic GBP-denominated payments, BACS data is required."""
     bacs: Optional[RecipientBacsNullable] = None
     """The ID of the recipient."""
     recipient_id: str
+    """The International Bank Account Number (IBAN) for the recipient."""
+    iban: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -6,11 +6,11 @@ from .risk_signal_document_reference import RiskSignalDocumentReference
 
 
 class SingleDocumentRiskSignal(BaseModel):
-    """Object containing metadata for the document"""
-
-    document_reference: RiskSignalDocumentReference
     """Array of attributes that indicate whether or not there is fraud risk with a document"""
+
     risk_signals: List[DocumentRiskSignal]
+    """Object containing metadata for the document"""
+    document_reference: RiskSignalDocumentReference
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

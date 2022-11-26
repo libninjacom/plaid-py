@@ -6,19 +6,11 @@ from .personal_finance_category import PersonalFinanceCategory
 
 
 class Enhancements(BaseModel):
-    """The merchant name, as extracted by Plaid from the raw description."""
-
-    merchant_name: Optional[str] = None
-    """A link to the logo associated with this transaction. The logo will always be 100x100 resolution."""
-    logo_url: Optional[str] = None
-    """A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget)."""
-    category: List[str]
     """Information describing the intent of the transaction. Most relevant for personal finance use cases, but not limited to such use cases.
-    
+
     See the [`taxonomy csv file`](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) for a full list of personal finance categories."""
+
     personal_finance_category: Optional[PersonalFinanceCategory] = None
-    """The check number of the transaction. This field is only populated for check transactions."""
-    check_number: Optional[str] = None
     """The website associated with this transaction."""
     website: Optional[str] = None
     """The channel used to make a payment.
@@ -30,10 +22,18 @@ class Enhancements(BaseModel):
     payment_channel: str
     """A representation of where a transaction took place"""
     location: Location
-    """A link to the icon associated with the primary personal finance category. The logo will always be 100x100 resolution."""
-    personal_finance_category_icon_url: Optional[str] = None
+    """A link to the logo associated with this transaction. The logo will always be 100x100 resolution."""
+    logo_url: Optional[str] = None
+    """A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget)."""
+    category: List[str]
     """The ID of the category to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget)."""
     category_id: Optional[str] = None
+    """A link to the icon associated with the primary personal finance category. The logo will always be 100x100 resolution."""
+    personal_finance_category_icon_url: Optional[str] = None
+    """The merchant name, as extracted by Plaid from the raw description."""
+    merchant_name: Optional[str] = None
+    """The check number of the transaction. This field is only populated for check transactions."""
+    check_number: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

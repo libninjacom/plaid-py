@@ -5,26 +5,18 @@ from plaid2 import PlaidClient
 
 def main():
     client = PlaidClient.from_env()
-    response = client.transactions_rules_remove(
-        client_id="your client id",
-        access_token="your access token",
-        secret="your secret",
-        rule_id="your rule id",
-    )
+    response = client.transactions_rules_remove(access_token, rule_id)
     print(f"{response!r}")
 
 
 async def async_main():
     client = AsyncPlaidClient.from_env()
-    response = await client.transactions_rules_remove(
-        client_id="your client id",
-        access_token="your access token",
-        secret="your secret",
-        rule_id="your rule id",
-    )
+    response = await client.transactions_rules_remove(access_token, rule_id)
     print(f"{response!r}")
 
 
+access_token = "your access token"
+rule_id = "your rule id"
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

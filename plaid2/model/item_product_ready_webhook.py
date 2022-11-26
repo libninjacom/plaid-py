@@ -5,15 +5,15 @@ from .plaid_error import PlaidError
 
 
 class ItemProductReadyWebhook(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-
-    item_id: str
     """`INCOME`"""
+
     webhook_type: str
-    """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
-    error: Optional[PlaidError] = None
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
     """`PRODUCT_READY`"""
     webhook_code: str
+    """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
+    error: Optional[PlaidError] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

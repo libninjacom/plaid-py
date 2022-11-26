@@ -9,12 +9,12 @@ class LinkTokenCreateRequestAuth(BaseModel):
     same_day_microdeposits_enabled: Optional[bool] = None
     """Specifies whether the Link session is enabled for the Automated Micro-deposits flow."""
     automated_microdeposits_enabled: Optional[bool] = None
-    """This field has been deprecated in favor of `auth_type_select_enabled`."""
-    flow_type: Optional[str] = None
     """Specifies whether Auth Type Select is enabled for the Link session, allowing the end user to choose between linking instantly or manually prior to selecting their financial institution. Note that this can only be true if `same_day_microdeposits_enabled` is set to true."""
     auth_type_select_enabled: Optional[bool] = None
     """Specifies whether the Link session is enabled for the Instant Match flow."""
     instant_match_enabled: Optional[bool] = None
+    """This field has been deprecated in favor of `auth_type_select_enabled`."""
+    flow_type: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

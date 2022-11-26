@@ -21,11 +21,10 @@ async def async_main():
 
 consent_id = "your consent id"
 amount = PaymentAmount(
-    currency="your currency",
     value=1.0,
+    currency="your currency",
 )
 idempotency_key = "your idempotency key"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

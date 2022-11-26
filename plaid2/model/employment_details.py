@@ -5,11 +5,11 @@ from .pay import Pay
 
 
 class EmploymentDetails(BaseModel):
-    """Date on which the employee was hired, in the YYYY-MM-DD format."""
-
-    hire_date: Optional[str] = None
     """An object representing a monetary amount."""
+
     annual_salary: Optional[Pay] = None
+    """Date on which the employee was hired, in the YYYY-MM-DD format."""
+    hire_date: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

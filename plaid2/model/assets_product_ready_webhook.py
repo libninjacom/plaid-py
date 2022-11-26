@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class AssetsProductReadyWebhook(BaseModel):
-    """The `asset_report_id` that can be provided to `/asset_report/get` to retrieve the Asset Report."""
-
-    asset_report_id: str
     """`ASSETS`"""
+
     webhook_type: str
     """`PRODUCT_READY`"""
     webhook_code: str
+    """The `asset_report_id` that can be provided to `/asset_report/get` to retrieve the Asset Report."""
+    asset_report_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

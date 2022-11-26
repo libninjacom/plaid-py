@@ -5,17 +5,13 @@ from .asset_report_refresh_request_options import AssetReportRefreshRequestOptio
 
 
 class AssetReportRefreshRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """The `asset_report_token` returned by the original call to `/asset_report/create`"""
+
     asset_report_token: str
-    """The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used."""
-    days_requested: Optional[int] = None
     """An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used."""
     options: Optional[AssetReportRefreshRequestOptions] = None
+    """The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used."""
+    days_requested: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

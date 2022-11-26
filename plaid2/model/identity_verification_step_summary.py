@@ -6,19 +6,19 @@ from pydantic import BaseModel, Field
 class IdentityVerificationStepSummary(BaseModel):
     """The status of a step in the identity verification process."""
 
-    kyc_check: str
-    """The status of a step in the identity verification process."""
-    verify_sms: str
-    """The status of a step in the identity verification process."""
-    risk_check: str
-    """The status of a step in the identity verification process."""
     accept_tos: str
     """The status of a step in the identity verification process."""
     documentary_verification: str
     """The status of a step in the identity verification process."""
+    kyc_check: str
+    """The status of a step in the identity verification process."""
     selfie_check: str
     """The status of a step in the identity verification process."""
+    risk_check: str
+    """The status of a step in the identity verification process."""
     watchlist_screening: str
+    """The status of a step in the identity verification process."""
+    verify_sms: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

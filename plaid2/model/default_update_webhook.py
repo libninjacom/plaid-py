@@ -5,15 +5,15 @@ from .plaid_error import PlaidError
 
 
 class DefaultUpdateWebhook(BaseModel):
-    """`DEFAULT_UPDATE`"""
+    """`TRANSACTIONS`"""
 
-    webhook_code: str
+    webhook_type: str
     """The number of new transactions detected since the last time this webhook was fired."""
     new_transactions: float
+    """`DEFAULT_UPDATE`"""
+    webhook_code: str
     """The `item_id` of the Item the webhook relates to."""
     item_id: str
-    """`TRANSACTIONS`"""
-    webhook_type: str
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
 

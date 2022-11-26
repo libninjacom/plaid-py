@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PayStubTaxpayerId(BaseModel):
-    """ID mask; i.e. last 4 digits of the taxpayer ID."""
-
-    id_mask: Optional[str] = None
     """Type of ID, e.g. 'SSN'."""
+
     id_type: Optional[str] = None
+    """ID mask; i.e. last 4 digits of the taxpayer ID."""
+    id_mask: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -21,11 +21,11 @@ class PayStubTaxpayerId(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "PayStubTaxpayerID":
+    def parse_obj(cls, data: Any) -> "PayStubTaxpayerId":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PayStubTaxpayerID":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PayStubTaxpayerId":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

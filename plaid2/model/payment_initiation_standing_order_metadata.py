@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationStandingOrderMetadata(BaseModel):
-    """This is only applicable to `MONTHLY` standing orders. Indicates whether the institution supports negative integers (-1 to -5) for setting up a `MONTHLY` standing order relative to the end of the month."""
+    """Indicates whether the institution supports closed-ended standing orders by providing an end date."""
 
+    supports_standing_order_end_date: bool
+    """This is only applicable to `MONTHLY` standing orders. Indicates whether the institution supports negative integers (-1 to -5) for setting up a `MONTHLY` standing order relative to the end of the month."""
     supports_standing_order_negative_execution_days: bool
     """A list of the valid standing order intervals supported by the institution."""
     valid_standing_order_intervals: List[str]
-    """Indicates whether the institution supports closed-ended standing orders by providing an end date."""
-    supports_standing_order_end_date: bool
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

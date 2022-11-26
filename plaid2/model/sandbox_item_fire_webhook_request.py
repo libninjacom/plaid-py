@@ -4,17 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class SandboxItemFireWebhookRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """The webhook codes that can be fired by this test endpoint."""
 
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
+    webhook_code: str
     """The access token associated with the Item data is being requested for."""
     access_token: str
     """The webhook types that can be fired by this test endpoint."""
     webhook_type: Optional[str] = None
-    """The webhook codes that can be fired by this test endpoint."""
-    webhook_code: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

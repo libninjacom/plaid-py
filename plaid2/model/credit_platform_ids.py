@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class CreditPlatformIds(BaseModel):
-    """The ID of the position of the employee."""
-
-    position_id: Optional[str] = None
     """The ID of an employee as given by their employer."""
+
     employee_id: Optional[str] = None
+    """The ID of the position of the employee."""
+    position_id: Optional[str] = None
     """The ID of an employee as given by their payroll."""
     payroll_id: Optional[str] = None
 

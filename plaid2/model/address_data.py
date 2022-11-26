@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class AddressData(BaseModel):
-    """The ISO 3166-1 alpha-2 country code"""
+    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
 
+    postal_code: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code"""
     country: Optional[str] = None
     """The full city name"""
     city: str
-    """The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`."""
-    postal_code: Optional[str] = None
     """The full street address
     Example: `"564 Main Street, APT 15"`"""
     street: str

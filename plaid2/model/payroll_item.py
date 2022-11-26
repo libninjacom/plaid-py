@@ -7,15 +7,14 @@ from .payroll_item_status import PayrollItemStatus
 
 
 class PayrollItem(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-
-    item_id: str
     payroll_income: List[PayrollIncomeObject]
-    """A reference id to reference what payroll data was returned from this endpoint"""
-    pull_id: str
     """Details about the status of the payroll item."""
     status: Optional[PayrollItemStatus] = None
+    """A reference id to reference what payroll data was returned from this endpoint"""
+    pull_id: str
     accounts: List[PayrollIncomeAccountData]
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

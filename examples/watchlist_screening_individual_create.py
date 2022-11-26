@@ -16,13 +16,12 @@ async def async_main():
 
 
 search_terms = WatchlistScreeningRequestSearchTerms(
-    country="your country",
-    watchlist_program_id="your watchlist program id",
-    document_number="your document number",
     legal_name="your legal name",
+    country="your country",
+    document_number="your document number",
+    watchlist_program_id="your watchlist program id",
     date_of_birth="your date of birth",
 )
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

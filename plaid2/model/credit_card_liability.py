@@ -8,22 +8,22 @@ class CreditCardLiability(BaseModel):
     """true if a payment is currently overdue. Availability for this field is limited."""
 
     is_overdue: Optional[bool] = None
-    """The due date for the next payment. The due date is `null` if a payment is not expected. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
-    next_payment_due_date: Optional[str] = None
-    """The amount of the last payment."""
-    last_payment_amount: Optional[float] = None
-    """The ID of the account that this liability belongs to."""
-    account_id: Optional[str] = None
     """The date of the last statement. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
     last_statement_issue_date: Optional[str] = None
-    """The minimum payment due for the next billing cycle."""
-    minimum_payment_amount: Optional[float] = None
+    """The due date for the next payment. The due date is `null` if a payment is not expected. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
+    next_payment_due_date: Optional[str] = None
     """The various interest rates that apply to the account. APR information is not provided by all card issuers; if APR data is not available, this array will be empty."""
     aprs: List[Apr]
-    """The date of the last payment. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). Availability for this field is limited."""
-    last_payment_date: Optional[str] = None
+    """The minimum payment due for the next billing cycle."""
+    minimum_payment_amount: Optional[float] = None
+    """The amount of the last payment."""
+    last_payment_amount: Optional[float] = None
     """The total amount owed as of the last statement issued"""
     last_statement_balance: Optional[float] = None
+    """The ID of the account that this liability belongs to."""
+    account_id: Optional[str] = None
+    """The date of the last payment. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). Availability for this field is limited."""
+    last_payment_date: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

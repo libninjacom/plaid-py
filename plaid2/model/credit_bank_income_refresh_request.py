@@ -7,15 +7,11 @@ from .credit_bank_income_refresh_request_options import (
 
 
 class CreditBankIncomeRefreshRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """An optional object for `/credit/bank_income/refresh` request options."""
 
-    secret: str
+    options: Optional[CreditBankIncomeRefreshRequestOptions] = None
     """The user token associated with the User data is being requested for."""
     user_token: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: str
-    """An optional object for `/credit/bank_income/refresh` request options."""
-    options: Optional[CreditBankIncomeRefreshRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

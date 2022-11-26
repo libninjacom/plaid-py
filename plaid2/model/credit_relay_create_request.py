@@ -5,15 +5,11 @@ from .report_token import ReportToken
 
 
 class CreditRelayCreateRequest(BaseModel):
-    """URL to which Plaid will send webhooks when the Secondary Client successfully retrieves an Asset Report by calling `/credit/relay/get`."""
-
-    webhook: Optional[str] = None
     """List of report tokens, with at most one token of each report type. Currently only Asset Report token is supported."""
+
     report_tokens: List[ReportToken]
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    """URL to which Plaid will send webhooks when the Secondary Client successfully retrieves an Asset Report by calling `/credit/relay/get`."""
+    webhook: Optional[str] = None
     """The `secondary_client_id` is the client id of the third party with whom you would like to share the Relay Token."""
     secondary_client_id: str
 

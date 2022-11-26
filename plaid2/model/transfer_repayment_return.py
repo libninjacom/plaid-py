@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class TransferRepaymentReturn(BaseModel):
-    """The currency of the repayment, e.g. "USD"."""
+    """The unique identifier of the guaranteed transfer that was returned."""
 
+    transfer_id: str
+    """The currency of the repayment, e.g. "USD"."""
     iso_currency_code: str
-    """The value of the returned transfer."""
-    amount: str
     """The unique identifier of the corresponding `returned` transfer event."""
     event_id: int
-    """The unique identifier of the guaranteed transfer that was returned."""
-    transfer_id: str
+    """The value of the returned transfer."""
+    amount: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

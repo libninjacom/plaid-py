@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class Apr(BaseModel):
-    """The type of balance to which the APR applies."""
-
-    apr_type: str
     """Amount of money charged due to interest from last statement."""
+
     interest_charge_amount: Optional[float] = None
+    """The type of balance to which the APR applies."""
+    apr_type: str
     """Amount of money that is subjected to the APR if a balance was carried beyond payment due date. How it is calculated can vary by card issuer. It is often calculated as an average daily balance."""
     balance_subject_to_apr: Optional[float] = None
     """Annual Percentage Rate applied.
@@ -26,11 +26,11 @@ class Apr(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "APR":
+    def parse_obj(cls, data: Any) -> "Apr":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "APR":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "Apr":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -5,11 +5,11 @@ from .w_2 import W2
 
 
 class Taxform(BaseModel):
-    """The type of tax document. Currently, the only supported value is `w2`."""
-
-    document_type: str
     """W2 is an object that represents income data taken from a W2 tax document."""
+
     w_2: Optional[W2] = None
+    """The type of tax document. Currently, the only supported value is `w2`."""
+    document_type: str
     """An identifier of the document referenced by the document metadata."""
     doc_id: Optional[str] = None
 

@@ -16,7 +16,6 @@ async def async_main():
 
 
 client_user_id = "your client user id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

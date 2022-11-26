@@ -10,14 +10,10 @@ class IncomeVerificationCreateRequest(BaseModel):
     """The ID of a precheck created with `/income/verification/precheck`. Will be used to improve conversion of the income verification flow."""
 
     precheck_id: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """Optional arguments for `/income/verification/create`"""
-    options: Optional[IncomeVerificationCreateRequestOptions] = None
     """The URL endpoint to which Plaid should send webhooks related to the progress of the income verification process."""
     webhook: str
+    """Optional arguments for `/income/verification/create`"""
+    options: Optional[IncomeVerificationCreateRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

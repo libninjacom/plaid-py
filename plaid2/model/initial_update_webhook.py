@@ -4,17 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class InitialUpdateWebhook(BaseModel):
-    """The number of new, unfetched transactions available."""
-
-    new_transactions: float
     """`INITIAL_UPDATE`"""
+
     webhook_code: str
-    """`TRANSACTIONS`"""
-    webhook_type: str
     """The error code associated with the webhook."""
     error: Optional[str] = None
     """The `item_id` of the Item associated with this webhook, warning, or error"""
     item_id: str
+    """The number of new, unfetched transactions available."""
+    new_transactions: float
+    """`TRANSACTIONS`"""
+    webhook_type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

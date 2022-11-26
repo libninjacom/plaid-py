@@ -11,10 +11,10 @@ class ScreeningHitData(BaseModel):
     """Locations associated with the watchlist hit"""
 
     locations: Optional[List[GenericScreeningHitLocationItems]] = None
-    """Names associated with the watchlist hit"""
-    names: Optional[List[ScreeningHitNamesItems]] = None
     """Documents associated with the watchlist hit"""
     documents: Optional[List[ScreeningHitDocumentsItems]] = None
+    """Names associated with the watchlist hit"""
+    names: Optional[List[ScreeningHitNamesItems]] = None
     """Dates of birth associated with the watchlist hit"""
     dates_of_birth: Optional[List[ScreeningHitDateOfBirthItem]] = None
 

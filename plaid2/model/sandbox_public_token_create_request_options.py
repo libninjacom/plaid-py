@@ -7,15 +7,15 @@ from .sandbox_public_token_create_request_options_transactions import (
 
 
 class SandboxPublicTokenCreateRequestOptions(BaseModel):
-    """An optional set of parameters corresponding to transactions options."""
+    """Specify a webhook to associate with the new Item."""
 
-    transactions: Optional[SandboxPublicTokenCreateRequestOptionsTransactions] = None
+    webhook: Optional[str] = None
     """Test username to use for the creation of the Sandbox Item. Default value is `user_good`."""
     override_username: Optional[str] = None
+    """An optional set of parameters corresponding to transactions options."""
+    transactions: Optional[SandboxPublicTokenCreateRequestOptionsTransactions] = None
     """Test password to use for the creation of the Sandbox Item. Default value is `pass_good`."""
     override_password: Optional[str] = None
-    """Specify a webhook to associate with the new Item."""
-    webhook: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

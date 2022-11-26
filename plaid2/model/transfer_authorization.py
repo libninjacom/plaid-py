@@ -13,16 +13,8 @@ from .transfer_authorization_proposed_transfer import (
 
 
 class TransferAuthorization(BaseModel):
-    """The rationale for Plaid's decision regarding a proposed transfer. It is always set for `declined` decisions, and may or may not be null for `approved` decisions."""
-
-    decision_rationale: Optional[TransferAuthorizationDecisionRationale] = None
-    """Details regarding the proposed transfer."""
-    proposed_transfer: TransferAuthorizationProposedTransfer
-    """Plaid’s unique identifier for a transfer authorization."""
-    id: str
-    """The datetime representing when the authorization was created, in the format `2006-01-02T15:04:05Z`."""
-    created: str
     """Indicates whether the transfer is guaranteed by Plaid (Guaranteed ACH customers only). This field will contain either `GUARANTEED` or `NOT_GUARANTEED` indicating whether Plaid will guarantee the transfer. If the transfer is not guaranteed, additional information will be provided in the `guarantee_decision_rationale` field. Refer to the `code` field in `guarantee_decision_rationale` for details."""
+
     guarantee_decision: Optional[str] = None
     """
     A decision regarding the proposed transfer.
@@ -31,10 +23,18 @@ class TransferAuthorization(BaseModel):
     
     `declined` – Plaid reviewed the proposed transfer and declined processing. Refer to the `code` field in the `decision_rationale` object for details."""
     decision: str
+    """Details regarding the proposed transfer."""
+    proposed_transfer: TransferAuthorizationProposedTransfer
     """The rationale for Plaid's decision to not guarantee a transfer. Will be `null` unless `guarantee_decision` is `NOT_GUARANTEED`."""
     guarantee_decision_rationale: Optional[
         TransferAuthorizationGuaranteeDecisionRationale
     ] = None
+    """Plaid’s unique identifier for a transfer authorization."""
+    id: str
+    """The rationale for Plaid's decision regarding a proposed transfer. It is always set for `declined` decisions, and may or may not be null for `approved` decisions."""
+    decision_rationale: Optional[TransferAuthorizationDecisionRationale] = None
+    """The datetime representing when the authorization was created, in the format `2006-01-02T15:04:05Z`."""
+    created: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

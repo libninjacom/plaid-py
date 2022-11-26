@@ -5,13 +5,13 @@ from .transfer_user_address_in_request import TransferUserAddressInRequest
 
 
 class TransferUserInRequest(BaseModel):
-    """The address associated with the account holder. Providing this data will improve the likelihood that Plaid will be able to guarantee the transfer, if applicable."""
+    """The user's phone number."""
 
+    phone_number: Optional[str] = None
+    """The address associated with the account holder. Providing this data will improve the likelihood that Plaid will be able to guarantee the transfer, if applicable."""
     address: Optional[TransferUserAddressInRequest] = None
     """The user's email address."""
     email_address: Optional[str] = None
-    """The user's phone number."""
-    phone_number: Optional[str] = None
     """The user's legal name."""
     legal_name: str
 

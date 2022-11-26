@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SandboxPublicTokenCreateRequestOptionsTransactions(BaseModel):
-    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
-
-    start_date: Optional[str] = None
     """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+
     end_date: Optional[str] = None
+    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+    start_date: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

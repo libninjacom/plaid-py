@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class AuthSupportedMethods(BaseModel):
-    """Indicates if automated microdeposits are supported."""
-
-    automated_micro_deposits: bool
     """Indicates if instant auth is supported."""
+
     instant_auth: bool
     """Indicates if instant match is supported."""
     instant_match: bool
+    """Indicates if automated microdeposits are supported."""
+    automated_micro_deposits: bool
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

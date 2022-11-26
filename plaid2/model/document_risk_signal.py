@@ -7,19 +7,19 @@ from .document_risk_signal_institution_metadata import (
 
 
 class DocumentRiskSignal(BaseModel):
-    """A human-readable explanation providing more detail into the particular risk signal"""
+    """An object which contains additional metadata about the institution used to compute the verification attribute"""
 
+    institution_metadata: Optional[DocumentRiskSignalInstitutionMetadata] = None
+    """A human-readable explanation providing more detail into the particular risk signal"""
     signal_description: Optional[str] = None
     """A flag used to quickly identify if the signal indicates that this field is authentic or fraudulent"""
     has_fraud_risk: Optional[bool] = None
-    """The field which the risk signal was computed for"""
-    field: Optional[str] = None
-    """An object which contains additional metadata about the institution used to compute the verification attribute"""
-    institution_metadata: Optional[DocumentRiskSignalInstitutionMetadata] = None
-    """The expected value of the field, as seen on the document"""
-    expected_value: Optional[str] = None
     """The result from the risk signal check."""
     type: Optional[str] = None
+    """The field which the risk signal was computed for"""
+    field: Optional[str] = None
+    """The expected value of the field, as seen on the document"""
+    expected_value: Optional[str] = None
     """The derived value obtained in the risk signal calculation process for this field"""
     actual_value: Optional[str] = None
 

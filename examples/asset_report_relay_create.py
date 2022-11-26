@@ -19,7 +19,6 @@ async def async_main():
 
 asset_report_token = "your asset report token"
 secondary_client_id = "your secondary client id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

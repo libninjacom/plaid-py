@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportUser(BaseModel):
-    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567". Phone numbers provided in other formats will be parsed on a best-effort basis."""
+    """The user's email address."""
 
-    phone_number: Optional[str] = None
-    """The user's middle name"""
-    middle_name: Optional[str] = None
+    email: Optional[str] = None
     """An identifier you determine and submit for the user."""
     client_user_id: Optional[str] = None
+    """The user's middle name"""
+    middle_name: Optional[str] = None
+    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567". Phone numbers provided in other formats will be parsed on a best-effort basis."""
+    phone_number: Optional[str] = None
     """The user's Social Security Number. Required for the Fannie Mae Day 1 Certainty™ program.
     
     Format: "ddd-dd-dddd" """
     ssn: Optional[str] = None
-    """The user's email address."""
-    email: Optional[str] = None
     """The user's first name. Required for the Fannie Mae Day 1 Certainty™ program."""
     first_name: Optional[str] = None
     """The user's last name.  Required for the Fannie Mae Day 1 Certainty™ program."""

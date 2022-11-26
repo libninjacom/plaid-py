@@ -7,10 +7,10 @@ class TransferRepayment(BaseModel):
     """The currency of the repayment, e.g. "USD"."""
 
     iso_currency_code: str
-    """The datetime when the repayment occurred, in RFC 3339 format."""
-    created: str
     """Identifier of the repayment."""
     repayment_id: str
+    """The datetime when the repayment occurred, in RFC 3339 format."""
+    created: str
     """Decimal amount of the repayment as it appears on your account ledger."""
     amount: str
 

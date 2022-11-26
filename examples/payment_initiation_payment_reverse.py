@@ -22,7 +22,6 @@ async def async_main():
 payment_id = "your payment id"
 idempotency_key = "your idempotency key"
 reference = "your reference"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

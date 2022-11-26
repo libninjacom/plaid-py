@@ -4,16 +4,16 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningSearchTerms(BaseModel):
-    """The legal name of the individual being screened."""
+    """The current version of the search terms. Starts at `1` and increments with each edit to `search_terms`."""
 
-    legal_name: str
+    version: float
     """ID of the associated program."""
     watchlist_program_id: str
+    """The legal name of the individual being screened."""
+    legal_name: str
     date_of_birth: Optional[str] = None
     document_number: Optional[str] = None
     country: Optional[str] = None
-    """The current version of the search terms. Starts at `1` and increments with each edit to `search_terms`."""
-    version: float
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

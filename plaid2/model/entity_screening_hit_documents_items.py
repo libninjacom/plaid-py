@@ -6,11 +6,11 @@ from .match_summary import MatchSummary
 
 
 class EntityScreeningHitDocumentsItems(BaseModel):
-    """An official document, usually issued by a governing body or institution, with an associated identifier."""
-
-    data: Optional[EntityDocument] = None
     """Summary object reflecting the match result of the associated data"""
+
     analysis: Optional[MatchSummary] = None
+    """An official document, usually issued by a governing body or institution, with an associated identifier."""
+    data: Optional[EntityDocument] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

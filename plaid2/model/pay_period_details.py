@@ -5,22 +5,22 @@ from .distribution_breakdown import DistributionBreakdown
 
 
 class PayPeriodDetails(BaseModel):
-    """The pay period start date, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format: "yyyy-mm-dd"."""
+    """The pay period end date, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format: "yyyy-mm-dd"."""
 
-    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    """Total earnings before tax/deductions."""
+    gross_earnings: Optional[float] = None
     """The frequency at which an individual is paid."""
     pay_frequency: Optional[str] = None
-    distribution_breakdown: Optional[List[DistributionBreakdown]] = None
     """The date on which the paystub was issued, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd")."""
     pay_date: Optional[str] = None
     """The amount of the paycheck."""
     check_amount: Optional[float] = None
     """The date on which the paystub was issued, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd")."""
     pay_day: Optional[str] = None
-    """The pay period end date, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format: "yyyy-mm-dd"."""
-    end_date: Optional[str] = None
-    """Total earnings before tax/deductions."""
-    gross_earnings: Optional[float] = None
+    """The pay period start date, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format: "yyyy-mm-dd"."""
+    start_date: Optional[str] = None
+    distribution_breakdown: Optional[List[DistributionBreakdown]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

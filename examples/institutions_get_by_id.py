@@ -17,7 +17,6 @@ async def async_main():
 
 institution_id = "your institution id"
 country_codes = ["your country codes"]
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

@@ -17,7 +17,6 @@ async def async_main():
 
 client_transaction_id = "your client transaction id"
 initiated = True
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

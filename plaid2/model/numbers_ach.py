@@ -7,12 +7,12 @@ class NumbersAch(BaseModel):
     """The Plaid account ID associated with the account numbers"""
 
     account_id: str
+    """The ACH routing number for the account. If the institution is `ins_56`, this may be a tokenized routing number. For more information, see the description of the `account` field."""
+    routing: str
     """The ACH account number for the account.
     
     Note that when using OAuth with Chase Bank (`ins_56`), Chase will issue "tokenized" routing and account numbers, which are not the user's actual account and routing numbers. These tokenized numbers should work identically to normal account and routing numbers. The digits returned in the `mask` field will continue to reflect the actual account number, rather than the tokenized account number; for this reason, when displaying account numbers to the user to help them identify their account in your UI, always use the `mask` rather than truncating the `account` number. If a user revokes their permissions to your app, the tokenized numbers will continue to work for ACH deposits, but not withdrawals."""
     account: str
-    """The ACH routing number for the account. If the institution is `ins_56`, this may be a tokenized routing number. For more information, see the description of the `account` field."""
-    routing: str
     """The wire transfer routing number for the account, if available"""
     wire_routing: Optional[str] = None
 
@@ -27,11 +27,11 @@ class NumbersAch(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "NumbersACH":
+    def parse_obj(cls, data: Any) -> "NumbersAch":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersACH":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersAch":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

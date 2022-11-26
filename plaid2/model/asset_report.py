@@ -9,16 +9,16 @@ class AssetReport(BaseModel):
     """An identifier you determine and submit for the Asset Report."""
 
     client_report_id: Optional[str] = None
-    """The user object allows you to provide additional information about the user to be appended to the Asset Report. All fields are optional. The `first_name`, `last_name`, and `ssn` fields are required if you would like the Report to be eligible for Fannie Mae’s Day 1 Certainty™ program."""
-    user: AssetReportUser
-    """The duration of transaction history you requested"""
-    days_requested: float
-    """Data returned by Plaid about each of the Items included in the Asset Report."""
-    items: List[AssetReportItem]
-    """A unique ID identifying an Asset Report. Like all Plaid identifiers, this ID is case sensitive."""
-    asset_report_id: str
     """The date and time when the Asset Report was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. "2018-04-12T03:32:11Z")."""
     date_generated: str
+    """Data returned by Plaid about each of the Items included in the Asset Report."""
+    items: List[AssetReportItem]
+    """The user object allows you to provide additional information about the user to be appended to the Asset Report. All fields are optional. The `first_name`, `last_name`, and `ssn` fields are required if you would like the Report to be eligible for Fannie Mae’s Day 1 Certainty™ program."""
+    user: AssetReportUser
+    """A unique ID identifying an Asset Report. Like all Plaid identifiers, this ID is case sensitive."""
+    asset_report_id: str
+    """The duration of transaction history you requested"""
+    days_requested: float
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

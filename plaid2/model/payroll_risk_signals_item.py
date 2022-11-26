@@ -5,11 +5,11 @@ from .document_risk_signals_object import DocumentRiskSignalsObject
 
 
 class PayrollRiskSignalsItem(BaseModel):
-    """Array of payroll income document authenticity data retrieved for each of the user's accounts"""
-
-    verification_risk_signals: List[DocumentRiskSignalsObject]
     """The `item_id` of the Item associated with this webhook, warning, or error"""
+
     item_id: str
+    """Array of payroll income document authenticity data retrieved for each of the user's accounts"""
+    verification_risk_signals: List[DocumentRiskSignalsObject]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

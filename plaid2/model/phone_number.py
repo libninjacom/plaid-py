@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PhoneNumber(BaseModel):
-    """The type of phone number."""
-
-    type: str
     """The phone number."""
+
     data: str
+    """The type of phone number."""
+    type: str
     """When `true`, identifies the phone number as the primary number on an account."""
     primary: bool
 

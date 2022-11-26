@@ -4,17 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationPaymentListRequest(BaseModel):
-    """The maximum number of payments to return. If `count` is not specified, a maximum of 10 payments will be returned, beginning with the most recent payment before the cursor (if specified)."""
+    """A string in RFC 3339 format (i.e. "2019-12-06T22:35:49Z"). Only payments created before the cursor will be returned."""
 
-    count: Optional[int] = None
+    cursor: Optional[str] = None
     """The consent ID. If specified, only payments, executed using this consent, will be returned."""
     consent_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """A string in RFC 3339 format (i.e. "2019-12-06T22:35:49Z"). Only payments created before the cursor will be returned."""
-    cursor: Optional[str] = None
+    """The maximum number of payments to return. If `count` is not specified, a maximum of 10 payments will be returned, beginning with the most recent payment before the cursor (if specified)."""
+    count: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -9,19 +9,19 @@ from .kyc_check_phone_summary import KycCheckPhoneSummary
 
 
 class KycCheckDetails(BaseModel):
-    """The outcome status for the associated Identity Verification attempt's `kyc_check` step. This field will always have the same value as `steps.kyc_check`."""
-
-    status: str
-    """Result summary object specifying how the `address` field matched."""
-    address: KycCheckAddressSummary
-    """Result summary object specifying how the `id_number` field matched."""
-    id_number: KycCheckIdNumberSummary
     """Result summary object specifying how the `name` field matched."""
+
     name: KycCheckNameSummary
     """Result summary object specifying how the `phone` field matched."""
     phone_number: KycCheckPhoneSummary
+    """The outcome status for the associated Identity Verification attempt's `kyc_check` step. This field will always have the same value as `steps.kyc_check`."""
+    status: str
+    """Result summary object specifying how the `address` field matched."""
+    address: KycCheckAddressSummary
     """Result summary object specifying how the `date_of_birth` field matched."""
     date_of_birth: KycCheckDateOfBirthSummary
+    """Result summary object specifying how the `id_number` field matched."""
+    id_number: KycCheckIdNumberSummary
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -34,11 +34,11 @@ class KycCheckDetails(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "KYCCheckDetails":
+    def parse_obj(cls, data: Any) -> "KycCheckDetails":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "KYCCheckDetails":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "KycCheckDetails":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

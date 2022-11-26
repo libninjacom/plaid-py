@@ -5,13 +5,13 @@ from .plaid_error import PlaidError
 
 
 class NewAccountsAvailableWebhook(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    """`NEW_ACCOUNTS_AVAILABLE`"""
 
+    webhook_code: Optional[str] = None
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
     item_id: Optional[str] = None
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
-    """`NEW_ACCOUNTS_AVAILABLE`"""
-    webhook_code: Optional[str] = None
     """`ITEM`"""
     webhook_type: Optional[str] = None
 

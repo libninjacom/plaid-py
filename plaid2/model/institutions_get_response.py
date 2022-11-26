@@ -5,13 +5,13 @@ from .institution import Institution
 
 
 class InstitutionsGetResponse(BaseModel):
-    """A list of Plaid institutions"""
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
+    request_id: str
+    """A list of Plaid institutions"""
     institutions: List[Institution]
     """The total number of institutions available via this endpoint"""
     total: int
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

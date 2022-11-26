@@ -7,14 +7,14 @@ class MortgagePropertyAddress(BaseModel):
     """The city name."""
 
     city: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code."""
+    country: Optional[str] = None
     """The region or state (example "NC")."""
     region: Optional[str] = None
     """The full street address (example "564 Main Street, Apt 15")."""
     street: Optional[str] = None
     """The five or nine digit postal code."""
     postal_code: Optional[str] = None
-    """The ISO 3166-1 alpha-2 country code."""
-    country: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class ItemPublicTokenExchangeResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    """The access token associated with the Item data is being requested for."""
 
+    access_token: str
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
     """The `item_id` value of the Item associated with the returned `access_token`"""
     item_id: str
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

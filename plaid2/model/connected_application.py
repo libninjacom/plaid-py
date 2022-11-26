@@ -5,21 +5,21 @@ from .scopes_nullable import ScopesNullable
 
 
 class ConnectedApplication(BaseModel):
-    """The date this application was linked in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format in UTC."""
+    """A URL that links to the application logo image."""
 
-    created_at: str
+    logo_url: Optional[str] = None
     """The scopes object"""
     scopes: Optional[ScopesNullable] = None
+    """The date this application was linked in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format in UTC."""
+    created_at: str
     """A string provided by the connected app stating why they use their respective enabled products."""
     reason_for_access: Optional[str] = None
-    """A human-readable name of the application for display purposes"""
-    display_name: Optional[str] = None
     """The name of the application"""
     name: str
+    """A human-readable name of the application for display purposes"""
+    display_name: Optional[str] = None
     """The URL for the application's website"""
     application_url: Optional[str] = None
-    """A URL that links to the application logo image."""
-    logo_url: Optional[str] = None
     """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
     application_id: str
 

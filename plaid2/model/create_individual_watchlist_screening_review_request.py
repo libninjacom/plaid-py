@@ -4,17 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class CreateIndividualWatchlistScreeningReviewRequest(BaseModel):
-    """A comment submitted by a team member as part of reviewing a watchlist screening."""
+    """ID of the associated screening."""
 
-    comment: Optional[str] = None
+    watchlist_screening_id: str
     """Hits to mark as a true positive after thorough manual review. These hits will never recur or be updated once dismissed. In most cases, confirmed hits indicate that the customer should be rejected."""
     confirmed_hits: List[str]
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """ID of the associated screening."""
-    watchlist_screening_id: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    """A comment submitted by a team member as part of reviewing a watchlist screening."""
+    comment: Optional[str] = None
     """Hits to mark as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
     dismissed_hits: List[str]
 

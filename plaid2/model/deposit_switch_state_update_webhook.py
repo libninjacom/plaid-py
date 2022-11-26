@@ -9,8 +9,6 @@ class DepositSwitchStateUpdateWebhook(BaseModel):
     deposit_switch_id: Optional[str] = None
     """`"SWITCH_STATE_UPDATE"`"""
     webhook_code: Optional[str] = None
-    """`"DEPOSIT_SWITCH"`"""
-    webhook_type: Optional[str] = None
     """
     The state, or status, of the deposit switch.
     
@@ -24,6 +22,8 @@ class DepositSwitchStateUpdateWebhook(BaseModel):
     
     For more information, see the [Deposit Switch API reference](/docs/deposit-switch/reference#deposit_switchget)."""
     state: Optional[str] = None
+    """`"DEPOSIT_SWITCH"`"""
+    webhook_type: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

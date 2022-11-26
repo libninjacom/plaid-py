@@ -7,14 +7,13 @@ from .plaid_error import PlaidError
 
 
 class IncomeVerificationPaystubsGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
-    """Metadata for an income document."""
-    document_metadata: Optional[List[DocumentMetadata]] = None
     paystubs: List[Paystub]
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
+    """Metadata for an income document."""
+    document_metadata: Optional[List[DocumentMetadata]] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

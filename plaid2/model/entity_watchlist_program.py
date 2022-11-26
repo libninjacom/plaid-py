@@ -5,11 +5,17 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class EntityWatchlistProgram(BaseModel):
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    """A name for the entity program to define its purpose. For example, "High Risk Organizations" or "Applicants"."""
 
-    audit_trail: WatchlistScreeningAuditTrail
+    name: str
+    """ID of the associated entity program."""
+    id: str
     """Indicator specifying whether the program is enabled and will perform daily rescans."""
     is_rescanning_enabled: bool
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    audit_trail: WatchlistScreeningAuditTrail
+    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
+    is_archived: bool
     """Watchlists enabled for the associated program"""
     lists_enabled: List[str]
     """The valid name matching sensitivity configurations for a screening program. Note that while certain matching techniques may be more prevalent on less strict settings, all matching algorithms are enabled for every sensitivity.
@@ -22,14 +28,8 @@ class EntityWatchlistProgram(BaseModel):
     
     `exact` - Matches must be nearly exact. This sensitivity will only show hits with exact or nearly exact name matches with only basic correction such as extraneous symbols and capitalization. This setting is generally not recommended unless you have a very specific use case."""
     name_sensitivity: str
-    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
-    is_archived: bool
     """An ISO8601 formatted timestamp."""
     created_at: str
-    """A name for the entity program to define its purpose. For example, "High Risk Organizations" or "Applicants"."""
-    name: str
-    """ID of the associated entity program."""
-    id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

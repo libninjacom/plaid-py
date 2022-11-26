@@ -22,7 +22,6 @@ async def async_main():
 account_number = "your account number"
 routing_number = "your routing number"
 account_type = "your account type"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

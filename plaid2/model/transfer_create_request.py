@@ -6,31 +6,41 @@ from .transfer_user_in_request import TransferUserInRequest
 
 
 class TransferCreateRequest(BaseModel):
-    """The Plaid `account_id` for the account that will be debited or credited."""
+    """The Plaid `access_token` for the account that will be debited or credited."""
 
-    account_id: Optional[str] = None
+    access_token: Optional[str] = None
     """The transfer description. Maximum of 10 characters."""
     description: str
-    """The Plaid `access_token` for the account that will be debited or credited."""
-    access_token: Optional[str] = None
-    """The network or rails used for the transfer. Valid options are `ach` or `same-day-ach`. The cutoff for same-day transfers is 7:45 AM Pacific Time and the cutoff for next-day transfers is 5:45 PM Pacific Time. It is recommended to submit a transfer at least 15 minutes before the cutoff time in order to ensure that it will be processed before the cutoff. Any transfer that is indicated as `same-day-ach` and that misses the same-day cutoff, but is submitted in time for the next-day cutoff, will be sent over next-day rails and will not incur same-day charges. Note that both legs of the transfer will be downgraded if applicable."""
-    network: str
+    """The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply:
+    - The JSON values must be Strings (no nested JSON objects allowed)
+    - Only ASCII characters may be used
+    - Maximum of 50 key/value pairs
+    - Maximum key length of 40 characters
+    - Maximum value length of 500 characters
+    """
+    metadata: Optional[TransferMetadata] = None
+    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
+    amount: str
+    """Plaid’s unique identifier for a payment profile."""
+    payment_profile_id: Optional[str] = None
+    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
+    type: str
+    """The Plaid `account_id` for the account that will be debited or credited."""
+    account_id: Optional[str] = None
+    """Plaid’s unique identifier for the origination account for this transfer. If you have more than one origination account, this value must be specified. Otherwise, this field should be left blank."""
+    origination_account_id: Optional[str] = None
+    """The currency of the transfer amount. The default value is "USD"."""
+    iso_currency_code: Optional[str] = None
     """Deprecated. `authorization_id` is now used as idempotency instead.
     
     A random key provided by the client, per unique transfer. Maximum of 50 characters.
     
     The API supports idempotency for safely retrying requests without accidentally performing the same operation twice. For example, if a request to create a transfer fails due to a network connection error, you can retry the request with the same idempotency key to guarantee that only a single transfer is created."""
     idempotency_key: Optional[str] = None
-    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
-    amount: str
-    """Plaid’s unique identifier for a payment profile."""
-    payment_profile_id: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """Plaid’s unique identifier for a transfer authorization. This parameter also serves the purpose of acting as an idempotency identifier."""
     authorization_id: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    """The network or rails used for the transfer. Valid options are `ach` or `same-day-ach`. The cutoff for same-day transfers is 7:45 AM Pacific Time and the cutoff for next-day transfers is 5:45 PM Pacific Time. It is recommended to submit a transfer at least 15 minutes before the cutoff time in order to ensure that it will be processed before the cutoff. Any transfer that is indicated as `same-day-ach` and that misses the same-day cutoff, but is submitted in time for the next-day cutoff, will be sent over next-day rails and will not incur same-day charges. Note that both legs of the transfer will be downgraded if applicable."""
+    network: str
     """Specifies the use case of the transfer. Required for transfers on an ACH network.
     
     `"ccd"` - Corporate Credit or Debit - fund transfer between two corporate bank accounts
@@ -43,20 +53,6 @@ class TransferCreateRequest(BaseModel):
     ach_class: str
     """The legal name and other information for the account holder."""
     user: TransferUserInRequest
-    """Plaid’s unique identifier for the origination account for this transfer. If you have more than one origination account, this value must be specified. Otherwise, this field should be left blank."""
-    origination_account_id: Optional[str] = None
-    """The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply:
-    - The JSON values must be Strings (no nested JSON objects allowed)
-    - Only ASCII characters may be used
-    - Maximum of 50 key/value pairs
-    - Maximum key length of 40 characters
-    - Maximum value length of 500 characters
-    """
-    metadata: Optional[TransferMetadata] = None
-    """The currency of the transfer amount. The default value is "USD"."""
-    iso_currency_code: Optional[str] = None
-    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
-    type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

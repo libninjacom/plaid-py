@@ -4,15 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ListIdentityVerificationRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """ID of the associated Identity Verification template."""
 
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
+    template_id: str
     """An identifier that determines which page of results you receive."""
     cursor: Optional[str] = None
-    """ID of the associated Identity Verification template."""
-    template_id: str
     """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
     client_user_id: str
 

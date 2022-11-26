@@ -20,7 +20,6 @@ user_auth = ItemImportRequestUserAuth(
     user_id="your user id",
     auth_token="your auth token",
 )
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

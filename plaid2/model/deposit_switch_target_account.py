@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchTargetAccount(BaseModel):
-    """Routing number for deposit switch destination"""
+    """The account subtype of the account, either `checking` or `savings`."""
 
+    account_subtype: str
+    """Routing number for deposit switch destination"""
     routing_number: str
     """The name of the deposit switch destination account, as it will be displayed to the end user in the Deposit Switch interface. It is not required to match the name used in online banking."""
     account_name: str
-    """The account subtype of the account, either `checking` or `savings`."""
-    account_subtype: str
     """Account number for deposit switch destination"""
     account_number: str
 

@@ -6,11 +6,11 @@ from .match_summary import MatchSummary
 
 
 class ScreeningHitNamesItems(BaseModel):
-    """Name information for the associated individual watchlist hit"""
-
-    data: Optional[IndividualScreeningHitNames] = None
     """Summary object reflecting the match result of the associated data"""
+
     analysis: Optional[MatchSummary] = None
+    """Name information for the associated individual watchlist hit"""
+    data: Optional[IndividualScreeningHitNames] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

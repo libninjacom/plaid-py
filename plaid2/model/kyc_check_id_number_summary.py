@@ -30,13 +30,13 @@ class KycCheckIdNumberSummary(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "KYCCheckIDNumberSummary":
+    def parse_obj(cls, data: Any) -> "KycCheckIdNumberSummary":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
     def parse_raw(
         cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "KYCCheckIDNumberSummary":
+    ) -> "KycCheckIdNumberSummary":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

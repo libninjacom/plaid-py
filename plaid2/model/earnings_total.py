@@ -10,16 +10,16 @@ class EarningsTotal(BaseModel):
     See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s."""
 
     unofficial_currency_code: Optional[str] = None
-    """An object representing a monetary amount."""
-    ytd_pay: Optional[Pay] = None
-    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
-    iso_currency_code: Optional[str] = None
     """Total amount of the earnings for this pay period"""
     current_amount: Optional[float] = None
-    """Total number of hours worked for this pay period"""
-    hours: Optional[float] = None
     """An object representing a monetary amount."""
     current_pay: Optional[Pay] = None
+    """An object representing a monetary amount."""
+    ytd_pay: Optional[Pay] = None
+    """Total number of hours worked for this pay period"""
+    hours: Optional[float] = None
+    """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
+    iso_currency_code: Optional[str] = None
     """The total year-to-date amount of the earnings"""
     ytd_amount: Optional[float] = None
 

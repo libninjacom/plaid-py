@@ -17,7 +17,6 @@ async def async_main():
 
 relay_token = "your relay token"
 report_type = "your report type"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

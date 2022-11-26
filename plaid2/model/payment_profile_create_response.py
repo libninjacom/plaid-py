@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PaymentProfileCreateResponse(BaseModel):
-    """Plaid’s unique identifier for a payment profile."""
-
-    payment_profile_id: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
+    """Plaid’s unique identifier for a payment profile."""
+    payment_profile_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -16,7 +16,6 @@ async def async_main():
 
 
 iso_currency_code = "your iso currency code"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

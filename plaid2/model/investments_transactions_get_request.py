@@ -7,19 +7,15 @@ from .investments_transactions_get_request_options import (
 
 
 class InvestmentsTransactionsGetRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
+    """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
 
-    client_id: Optional[str] = None
-    """An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`."""
-    options: Optional[InvestmentsTransactionsGetRequestOptions] = None
-    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
-    start_date: str
+    end_date: str
     """The access token associated with the Item data is being requested for."""
     access_token: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
-    end_date: str
+    """The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD."""
+    start_date: str
+    """An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`."""
+    options: Optional[InvestmentsTransactionsGetRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

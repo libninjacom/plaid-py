@@ -5,11 +5,11 @@ from .account_identity import AccountIdentity
 
 
 class ProcessorIdentityGetResponse(BaseModel):
-    """Identity information about an account"""
-
-    account: AccountIdentity
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
+    """Identity information about an account"""
+    account: AccountIdentity
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

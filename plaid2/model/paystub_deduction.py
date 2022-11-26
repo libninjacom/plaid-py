@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PaystubDeduction(BaseModel):
-    """`true` if the deduction is pre-tax; `false` otherwise."""
-
-    is_pretax: Optional[bool] = None
     """The description of the deduction, as provided on the paystub. For example: `"401(k)"`, `"FICA MED TAX"`."""
+
     type: Optional[str] = None
+    """`true` if the deduction is pre-tax; `false` otherwise."""
+    is_pretax: Optional[bool] = None
     """The amount of the deduction."""
     total: Optional[float] = None
 

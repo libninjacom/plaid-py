@@ -22,7 +22,6 @@ report_tokens = [
     )
 ]
 auditor_id = "your auditor id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

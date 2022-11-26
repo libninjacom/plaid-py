@@ -17,11 +17,11 @@ class Url(BaseModel):
         return super().dict(**kwargs)["__root__"]
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "URL":
+    def parse_obj(cls, data: Any) -> "Url":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "URL":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "Url":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

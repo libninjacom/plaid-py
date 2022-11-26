@@ -7,10 +7,10 @@ class Meta(BaseModel):
     """The account's official name"""
 
     official_name: str
-    """The account's name"""
-    name: str
     """The account's limit"""
     limit: float
+    """The account's name"""
+    name: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

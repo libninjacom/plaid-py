@@ -7,10 +7,8 @@ from .payment_initiation_optional_restriction_bacs import (
 
 
 class ExternalPaymentOptions(BaseModel):
-    """An optional object used to restrict the accounts used for payments. If provided, the end user will be able to send payments only from the specified bank account."""
-
-    bacs: Optional[PaymentInitiationOptionalRestrictionBacs] = None
     """The EMI (E-Money Institution) wallet that this payment is associated with, if any. This wallet is used as an intermediary account to enable Plaid to reconcile the settlement of funds for Payment Initiation requests."""
+
     wallet_id: Optional[str] = None
     """Payment scheme. If not specified - the default in the region will be used (e.g. `SEPA_CREDIT_TRANSFER` for EU). Using unsupported values will result in a failed payment.
     
@@ -20,6 +18,8 @@ class ExternalPaymentOptions(BaseModel):
     
     `SEPA_CREDIT_TRANSFER_INSTANT`: Instant payment within the SEPA area. May involve additional fees and may not be available at some banks."""
     scheme: Optional[str] = None
+    """An optional object used to restrict the accounts used for payments. If provided, the end user will be able to send payments only from the specified bank account."""
+    bacs: Optional[PaymentInitiationOptionalRestrictionBacs] = None
     """When `true`, Plaid will attempt to request refund details from the payee's financial institution.  Support varies between financial institutions and will not always be available.  If refund details could be retrieved, they will be available in the `/payment_initiation/payment/get` response."""
     request_refund_details: Optional[bool] = None
     """The International Bank Account Number (IBAN) for the payer's account. If provided, the end user will be able to send payments only from the specified bank account."""

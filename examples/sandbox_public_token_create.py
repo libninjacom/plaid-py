@@ -19,7 +19,6 @@ async def async_main():
 
 institution_id = "your institution id"
 initial_products = ["your initial products"]
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

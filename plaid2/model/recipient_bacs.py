@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class RecipientBacs(BaseModel):
-    """The 6-character sort code of the account."""
-
-    sort_code: Optional[str] = None
     """The account number of the account. Maximum of 10 characters."""
+
     account: Optional[str] = None
+    """The 6-character sort code of the account."""
+    sort_code: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -21,11 +21,11 @@ class RecipientBacs(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "RecipientBACS":
+    def parse_obj(cls, data: Any) -> "RecipientBacs":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "RecipientBACS":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "RecipientBacs":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

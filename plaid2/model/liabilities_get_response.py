@@ -10,10 +10,10 @@ class LiabilitiesGetResponse(BaseModel):
     """An object containing liability accounts"""
 
     liabilities: LiabilitiesObject
-    """An array of accounts associated with the Item"""
-    accounts: List[AccountBase]
     """Metadata about the Item."""
     item: Item
+    """An array of accounts associated with the Item"""
+    accounts: List[AccountBase]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
 

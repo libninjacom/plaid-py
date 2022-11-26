@@ -6,11 +6,11 @@ from .watchlist_screening_document import WatchlistScreeningDocument
 
 
 class ScreeningHitDocumentsItems(BaseModel):
-    """An official document, usually issued by a governing body or institution, with an associated identifier."""
-
-    data: Optional[WatchlistScreeningDocument] = None
     """Summary object reflecting the match result of the associated data"""
+
     analysis: Optional[MatchSummary] = None
+    """An official document, usually issued by a governing body or institution, with an associated identifier."""
+    data: Optional[WatchlistScreeningDocument] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -17,7 +17,6 @@ async def async_main():
 
 access_tokens = ["your access tokens"]
 days_requested = 1
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

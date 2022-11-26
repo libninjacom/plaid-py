@@ -11,21 +11,21 @@ from .ytd_net_income_summary_field_number import YtdNetIncomeSummaryFieldNumber
 
 
 class IncomeSummary(BaseModel):
-    """Year-to-date earnings after any tax withholdings, benefit payments or deductions, as reported on the paystub."""
-
-    ytd_net_income: YtdNetIncomeSummaryFieldNumber
     """The frequency of the pay period."""
+
     pay_frequency: Optional[PayFrequency] = None
-    """The name of the employer, as reported on the paystub."""
-    employer_name: EmployerIncomeSummaryFieldString
     """Year-to-date pre-tax earnings, as reported on the paystub."""
     ytd_gross_income: YtdGrossIncomeSummaryFieldNumber
+    """Year-to-date earnings after any tax withholdings, benefit payments or deductions, as reported on the paystub."""
+    ytd_net_income: YtdNetIncomeSummaryFieldNumber
     """The employee's estimated annual salary, as derived from information reported on the paystub."""
     projected_wage: ProjectedIncomeSummaryFieldNumber
-    """The name of the employee, as reported on the paystub."""
-    employee_name: EmployeeIncomeSummaryFieldString
     """Information about the matched direct deposit transaction used to verify a user's payroll information."""
     verified_transaction: Optional[TransactionData] = None
+    """The name of the employer, as reported on the paystub."""
+    employer_name: EmployerIncomeSummaryFieldString
+    """The name of the employee, as reported on the paystub."""
+    employee_name: EmployeeIncomeSummaryFieldString
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,19 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class TransferSweepListRequest(BaseModel):
-    """The maximum number of sweeps to return."""
+    """The start datetime of sweeps to return (RFC 3339 format)."""
 
+    start_date: Optional[str] = None
+    """The maximum number of sweeps to return."""
     count: Optional[int] = None
-    """The number of sweeps to skip before returning results."""
-    offset: Optional[int] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """The end datetime of sweeps to return (RFC 3339 format)."""
     end_date: Optional[str] = None
-    """The start datetime of sweeps to return (RFC 3339 format)."""
-    start_date: Optional[str] = None
+    """The number of sweeps to skip before returning results."""
+    offset: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

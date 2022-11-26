@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class SyncUpdatesAvailableWebhook(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-
-    item_id: str
     """Indicates if initial pull information is available."""
+
     initial_update_complete: bool
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
     """Indicates if historical pull information is available."""
     historical_update_complete: bool
     """`SYNC_UPDATES_AVAILABLE`"""

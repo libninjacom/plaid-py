@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class PhysicalDocumentExtractedDataAnalysis(BaseModel):
-    """A match summary describing the cross comparison between the subject's date of birth, extracted from the document image, and the date of birth they separately provided to the identity verification attempt."""
+    """A description of whether the associated document was expired when the verification was performed.
 
-    date_of_birth: str
+    Note: In the case where an expiration date is not present on the document or failed to be extracted, this value will be `no_data`."""
+
+    expiration_date: str
     """A binary match indicator specifying whether the country that issued the provided document matches the country that the user separately provided to Plaid.
     
     Note: You can configure whether a `no_match` on `issuing_country` fails the `documentary_verification` by editing your Plaid Template."""
     issuing_country: str
     """A match summary describing the cross comparison between the subject's name, extracted from the document image, and the name they separately provided to identity verification attempt."""
     name: str
-    """A description of whether the associated document was expired when the verification was performed.
-    
-    Note: In the case where an expiration date is not present on the document or failed to be extracted, this value will be `no_data`."""
-    expiration_date: str
+    """A match summary describing the cross comparison between the subject's date of birth, extracted from the document image, and the date of birth they separately provided to the identity verification attempt."""
+    date_of_birth: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

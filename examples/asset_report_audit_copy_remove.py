@@ -16,7 +16,6 @@ async def async_main():
 
 
 audit_copy_token = "your audit copy token"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

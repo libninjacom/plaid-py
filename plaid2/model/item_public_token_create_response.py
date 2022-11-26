@@ -4,12 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemPublicTokenCreateResponse(BaseModel):
+    expiration: Optional[str] = None
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
     request_id: str
     """A `public_token` for the particular Item corresponding to the specified `access_token`"""
     public_token: str
-    expiration: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

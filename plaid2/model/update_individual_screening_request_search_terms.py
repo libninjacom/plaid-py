@@ -4,10 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class UpdateIndividualScreeningRequestSearchTerms(BaseModel):
-    legal_name: Optional[str] = None
-    date_of_birth: Optional[str] = None
-    watchlist_program_id: Optional[str] = None
     document_number: Optional[str] = None
+    watchlist_program_id: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    legal_name: Optional[str] = None
     country: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:

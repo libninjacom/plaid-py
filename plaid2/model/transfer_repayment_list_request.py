@@ -9,14 +9,10 @@ class TransferRepaymentListRequest(BaseModel):
     end_date: Optional[str] = None
     """The start datetime of repayments to return (RFC 3339 format)."""
     start_date: Optional[str] = None
-    """The number of repayments to skip before returning results."""
-    offset: Optional[int] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """The maximum number of repayments to return."""
     count: Optional[int] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    """The number of repayments to skip before returning results."""
+    offset: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -20,10 +20,9 @@ async def async_main():
 recipient_id = "your recipient id"
 reference = "your reference"
 amount = PaymentAmount(
-    currency="your currency",
     value=1.0,
+    currency="your currency",
 )
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

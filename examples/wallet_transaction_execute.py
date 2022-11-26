@@ -9,19 +9,18 @@ def main():
         idempotency_key="your idempotency key",
         wallet_id="your wallet id",
         counterparty=WalletTransactionCounterparty(
+            name="your name",
             numbers=WalletTransactionCounterpartyNumbers(
-                bacs=WalletTransactionCounterpartyBacs(
-                    RecipientBacs(
-                        account="your account",
-                        sort_code="your sort code",
-                    ),
-                    {},
-                ),
                 international=WalletTransactionCounterpartyInternational(
                     iban="your iban",
                 ),
+                bacs=WalletTransactionCounterpartyBacs(
+                    recipient_bacs=RecipientBacs(
+                        sort_code="your sort code",
+                        account="your account",
+                    ),
+                ),
             ),
-            name="your name",
         ),
         amount=WalletTransactionAmount(
             value=1.0,
@@ -38,19 +37,18 @@ async def async_main():
         idempotency_key="your idempotency key",
         wallet_id="your wallet id",
         counterparty=WalletTransactionCounterparty(
+            name="your name",
             numbers=WalletTransactionCounterpartyNumbers(
-                bacs=WalletTransactionCounterpartyBacs(
-                    RecipientBacs(
-                        account="your account",
-                        sort_code="your sort code",
-                    ),
-                    {},
-                ),
                 international=WalletTransactionCounterpartyInternational(
                     iban="your iban",
                 ),
+                bacs=WalletTransactionCounterpartyBacs(
+                    recipient_bacs=RecipientBacs(
+                        sort_code="your sort code",
+                        account="your account",
+                    ),
+                ),
             ),
-            name="your name",
         ),
         amount=WalletTransactionAmount(
             value=1.0,

@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferUser(BaseModel):
-    """The account holder’s email."""
-
-    email_address: Optional[str] = None
     """The account holder’s full legal name. If the transfer `ach_class` is `ccd`, this should be the business name of the account holder."""
+
     legal_name: str
+    """The account holder’s email."""
+    email_address: Optional[str] = None
     """The account holder's routing number. This field is only used in response data. Do not provide this field when making requests."""
     routing_number: Optional[str] = None
 

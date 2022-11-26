@@ -5,13 +5,13 @@ from .payroll_income_rate_of_pay import PayrollIncomeRateOfPay
 
 
 class PayrollIncomeAccountData(BaseModel):
-    """ID of the payroll provider account."""
-
-    account_id: Optional[str] = None
     """The frequency at which an individual is paid."""
+
     pay_frequency: Optional[str] = None
     """An object representing the rate at which an individual is paid."""
     rate_of_pay: PayrollIncomeRateOfPay
+    """ID of the payroll provider account."""
+    account_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

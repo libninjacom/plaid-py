@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class LinkTokenCreateRequestPaymentInitiation(BaseModel):
-    """The `payment_id` provided by the `/payment_initiation/payment/create` endpoint."""
-
-    payment_id: str
     """The `consent_id` provided by the `/payment_initiation/consent/create` endpoint."""
+
     consent_id: Optional[str] = None
+    """The `payment_id` provided by the `/payment_initiation/payment/create` endpoint."""
+    payment_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -12,10 +12,10 @@ class PaymentConsentPeriodicAmount(BaseModel):
     `CONSENT`: on the date of consent creation."""
 
     alignment: str
-    """Payment consent periodic interval."""
-    interval: str
     """Maximum cumulative amount for all payments in the specified interval."""
     amount: PaymentConsentPeriodicAmountAmount
+    """Payment consent periodic interval."""
+    interval: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

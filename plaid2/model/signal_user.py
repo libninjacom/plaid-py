@@ -6,15 +6,15 @@ from .signal_person_name import SignalPersonName
 
 
 class SignalUser(BaseModel):
-    """The user's legal name"""
+    """Data about the components comprising an address."""
 
+    address: Optional[SignalAddressData] = None
+    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567" """
+    phone_number: Optional[str] = None
+    """The user's legal name"""
     name: Optional[SignalPersonName] = None
     """The user's email address."""
     email_address: Optional[str] = None
-    """The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567" """
-    phone_number: Optional[str] = None
-    """Data about the components comprising an address."""
-    address: Optional[SignalAddressData] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

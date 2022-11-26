@@ -23,11 +23,11 @@ class NumbersBacs(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "NumbersBACS":
+    def parse_obj(cls, data: Any) -> "NumbersBacs":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersBACS":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersBacs":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

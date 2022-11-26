@@ -5,15 +5,11 @@ from .client_provided_raw_transaction import ClientProvidedRawTransaction
 
 
 class TransactionsEnhanceGetRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-
-    client_id: Optional[str] = None
     """The type of account for the requested transactions (`depository` or `credit`)."""
+
     account_type: str
     """An array of raw transactions to be enhanced."""
     transactions: List[ClientProvidedRawTransaction]
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

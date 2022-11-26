@@ -7,8 +7,6 @@ class WalletTransactionExecuteResponse(BaseModel):
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
 
     request_id: str
-    """A unique ID identifying the transaction"""
-    transaction_id: str
     """The status of the transaction.
     
     `INITIATED`: This is the initial state of all transactions. It indicates that the transaction has been initiated and is currently being processed.
@@ -19,6 +17,8 @@ class WalletTransactionExecuteResponse(BaseModel):
     
     `BLOCKED`: The transaction has been blocked for violating compliance rules. This is a terminal status."""
     status: str
+    """A unique ID identifying the transaction"""
+    transaction_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

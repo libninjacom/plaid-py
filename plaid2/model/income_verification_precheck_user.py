@@ -8,12 +8,12 @@ class IncomeVerificationPrecheckUser(BaseModel):
     """The user's first name"""
 
     first_name: Optional[str] = None
-    """The user's email address"""
-    email_address: Optional[str] = None
-    """The user's last name"""
-    last_name: Optional[str] = None
     """Data about the components comprising an address."""
     home_address: Optional[SignalAddressData] = None
+    """The user's last name"""
+    last_name: Optional[str] = None
+    """The user's email address"""
+    email_address: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

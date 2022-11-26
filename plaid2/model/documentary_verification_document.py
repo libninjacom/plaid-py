@@ -7,17 +7,17 @@ from .physical_document_images import PhysicalDocumentImages
 
 
 class DocumentaryVerificationDocument(BaseModel):
-    """High level descriptions of how the associated document was processed. If a document fails verification, the details in the `analysis` object should help clarify why the document was rejected."""
-
-    analysis: DocumentAnalysis
-    """URLs for downloading original and cropped images for this document submission. The URLs are designed to only allow downloading, not hot linking, so the URL will only serve the document image for 60 seconds before expiring. The expiration time is 60 seconds after the `GET` request for the associated Identity Verification attempt. A new expiring URL is generated with each request, so you can always rerequest the Identity Verification attempt if one of your URLs expires."""
-    images: PhysicalDocumentImages
     """The `attempt` field begins with 1 and increments with each subsequent document upload."""
+
     attempt: float
+    """High level descriptions of how the associated document was processed. If a document fails verification, the details in the `analysis` object should help clarify why the document was rejected."""
+    analysis: DocumentAnalysis
     """Data extracted from a user-submitted document."""
     extracted_data: Optional[PhysicalDocumentExtractedData] = None
     """An outcome status for this specific document submission. Distinct from the overall `documentary_verification.status` that summarizes the verification outcome from one or more documents."""
     status: str
+    """URLs for downloading original and cropped images for this document submission. The URLs are designed to only allow downloading, not hot linking, so the URL will only serve the document image for 60 seconds before expiring. The expiration time is 60 seconds after the `GET` request for the associated Identity Verification attempt. A new expiring URL is generated with each request, so you can always rerequest the Identity Verification attempt if one of your URLs expires."""
+    images: PhysicalDocumentImages
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

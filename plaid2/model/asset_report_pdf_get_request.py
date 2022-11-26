@@ -4,13 +4,9 @@ from pydantic import BaseModel, Field
 
 
 class AssetReportPdfGetRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-
-    secret: Optional[str] = None
     """A token that can be provided to endpoints such as `/asset_report/get` or `/asset_report/pdf/get` to fetch or update an Asset Report."""
+
     asset_report_token: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -23,13 +19,13 @@ class AssetReportPdfGetRequest(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "AssetReportPDFGetRequest":
+    def parse_obj(cls, data: Any) -> "AssetReportPdfGetRequest":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
     def parse_raw(
         cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "AssetReportPDFGetRequest":
+    ) -> "AssetReportPdfGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

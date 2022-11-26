@@ -18,7 +18,6 @@ async def async_main():
 access_token = "your access token"
 start_date = "your start date"
 end_date = "your end date"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

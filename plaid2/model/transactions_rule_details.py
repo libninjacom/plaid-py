@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class TransactionsRuleDetails(BaseModel):
+    """Transaction field for which the rule is defined."""
+
+    field: str
     """Transaction rule's match type. For TRANSACTION_ID field, EXACT_MATCH is available.
     Matches are case sensitive.
     """
-
     type: str
-    """Transaction field for which the rule is defined."""
-    field: str
     """For TRANSACTION_ID field, provide transaction_id. For NAME field, provide a string pattern.
     """
     query: str

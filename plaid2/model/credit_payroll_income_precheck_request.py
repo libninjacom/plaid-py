@@ -8,19 +8,15 @@ from .income_verification_precheck_military_info import (
 
 
 class CreditPayrollIncomePrecheckRequest(BaseModel):
-    """Information about the end user's employer"""
-
-    employer: Optional[IncomeVerificationPrecheckEmployer] = None
     """The user token associated with the User data is being requested for."""
+
     user_token: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Data about military info in the income verification precheck."""
-    us_military_info: Optional[IncomeVerificationPrecheckMilitaryInfo] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """An array of access tokens corresponding to Items belonging to the user whose eligibility is being checked. Note that if the Items specified here are not already initialized with `transactions`, providing them in this field will cause these Items to be initialized with (and billed for) the Transactions product."""
     access_tokens: Optional[List[str]] = None
+    """Data about military info in the income verification precheck."""
+    us_military_info: Optional[IncomeVerificationPrecheckMilitaryInfo] = None
+    """Information about the end user's employer"""
+    employer: Optional[IncomeVerificationPrecheckEmployer] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

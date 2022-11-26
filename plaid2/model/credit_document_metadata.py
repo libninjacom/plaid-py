@@ -4,8 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class CreditDocumentMetadata(BaseModel):
-    """The name of the document."""
+    """Signed URL to retrieve the underlying file."""
 
+    download_url: Optional[str] = None
+    """The name of the document."""
     name: str
     """The type of document.
     
@@ -29,8 +31,6 @@ class CreditDocumentMetadata(BaseModel):
     document_type: Optional[str] = None
     """The processing status of the document."""
     status: Optional[str] = None
-    """Signed URL to retrieve the underlying file."""
-    download_url: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

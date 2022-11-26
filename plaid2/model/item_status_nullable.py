@@ -5,7 +5,9 @@ from .item_status import ItemStatus
 
 
 class ItemStatusNullable(BaseModel):
-    __root__: Optional[ItemStatus] = None
+    """An object with information about the status of the Item."""
+
+    item_status: Optional[ItemStatus] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -15,7 +17,7 @@ class ItemStatusNullable(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "ItemStatusNullable":

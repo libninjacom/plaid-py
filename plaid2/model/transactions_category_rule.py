@@ -5,12 +5,9 @@ from .transactions_rule_details import TransactionsRuleDetails
 
 
 class TransactionsCategoryRule(BaseModel):
-    """A unique identifier of the item the rule was created for"""
+    """A unique identifier of the rule created"""
 
-    item_id: Optional[str] = None
-    """Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ).
-    """
-    created_at: Optional[str] = None
+    id: Optional[str] = None
     """Personal finance category unique identifier.
     
     In the personal finance category taxonomy, this field is represented by the detailed category field.
@@ -18,8 +15,11 @@ class TransactionsCategoryRule(BaseModel):
     personal_finance_category: Optional[str] = None
     """A representation of transactions rule details."""
     rule_details: Optional[TransactionsRuleDetails] = None
-    """A unique identifier of the rule created"""
-    id: Optional[str] = None
+    """A unique identifier of the item the rule was created for"""
+    item_id: Optional[str] = None
+    """Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ).
+    """
+    created_at: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

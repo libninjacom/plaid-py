@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class AutomaticallyVerifiedWebhook(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-
-    item_id: str
     """`AUTH`"""
+
     webhook_type: str
-    """`AUTOMATICALLY_VERIFIED`"""
-    webhook_code: str
     """The `account_id` of the account associated with the webhook"""
     account_id: str
+    """`AUTOMATICALLY_VERIFIED`"""
+    webhook_code: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

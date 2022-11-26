@@ -7,12 +7,12 @@ class NumbersEft(BaseModel):
     """The EFT institution number for the account"""
 
     institution: str
-    """The EFT account number for the account"""
-    account: str
     """The EFT branch number for the account"""
     branch: str
     """The Plaid account ID associated with the account numbers"""
     account_id: str
+    """The EFT account number for the account"""
+    account: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -25,11 +25,11 @@ class NumbersEft(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "NumbersEFT":
+    def parse_obj(cls, data: Any) -> "NumbersEft":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersEFT":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "NumbersEft":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

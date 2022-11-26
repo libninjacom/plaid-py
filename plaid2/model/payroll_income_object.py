@@ -7,15 +7,15 @@ from .credit_w_2 import CreditW2
 
 
 class PayrollIncomeObject(BaseModel):
-    """ID of the payroll provider account."""
-
-    account_id: Optional[str] = None
     """Array of tax form 1099s."""
+
     form_1099_s: List[Credit1099]
-    """Array of tax form W-2s."""
-    w_2_s: List[CreditW2]
+    """ID of the payroll provider account."""
+    account_id: Optional[str] = None
     """Array of pay stubs for the user."""
     pay_stubs: List[CreditPayStub]
+    """Array of tax form W-2s."""
+    w_2_s: List[CreditW2]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

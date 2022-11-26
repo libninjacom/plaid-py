@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PslfStatus(BaseModel):
-    """The estimated date borrower will have completed 120 qualifying monthly payments. Returned in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
-
-    estimated_eligibility_date: Optional[str] = None
     """The number of qualifying payments that have been made."""
+
     payments_made: Optional[float] = None
+    """The estimated date borrower will have completed 120 qualifying monthly payments. Returned in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)."""
+    estimated_eligibility_date: Optional[str] = None
     """The number of qualifying payments remaining."""
     payments_remaining: Optional[float] = None
 
@@ -23,11 +23,11 @@ class PslfStatus(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "PSLFStatus":
+    def parse_obj(cls, data: Any) -> "PslfStatus":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PSLFStatus":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PslfStatus":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

@@ -5,13 +5,13 @@ from .bank_transfer_balance import BankTransferBalance
 
 
 class BankTransferBalanceGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
     """Information about the balance of a bank transfer"""
+
     balance: BankTransferBalance
     """The ID of the origination account that this balance belongs to."""
     origination_account_id: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

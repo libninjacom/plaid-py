@@ -17,7 +17,6 @@ async def async_main():
 
 oauth_state_id = "your oauth state id"
 accounts = ["your accounts"]
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

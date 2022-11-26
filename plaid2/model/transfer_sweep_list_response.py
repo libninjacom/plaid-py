@@ -5,9 +5,10 @@ from .transfer_sweep import TransferSweep
 
 
 class TransferSweepListResponse(BaseModel):
-    sweeps: List[TransferSweep]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
+    sweeps: List[TransferSweep]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

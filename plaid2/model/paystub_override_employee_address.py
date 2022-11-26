@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class PaystubOverrideEmployeeAddress(BaseModel):
+    """5 digit postal code."""
+
+    postal_code: Optional[str] = None
+    """The full city name."""
+    city: Optional[str] = None
     """The region or state
     Example: `"NC"`"""
-
     region: Optional[str] = None
     """The full street address
     Example: `"564 Main Street, APT 15"`"""
     street: Optional[str] = None
-    """5 digit postal code."""
-    postal_code: Optional[str] = None
     """The country of the address."""
     country: Optional[str] = None
-    """The full city name."""
-    city: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -16,7 +16,6 @@ async def async_main():
 
 
 processor_token = "your processor token"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

@@ -5,7 +5,9 @@ from .payment_amount import PaymentAmount
 
 
 class PaymentConsentPeriodicAmountAmount(BaseModel):
-    __root__: PaymentAmount
+    """The amount and currency of a payment"""
+
+    payment_amount: PaymentAmount
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -15,7 +17,7 @@ class PaymentConsentPeriodicAmountAmount(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "PaymentConsentPeriodicAmountAmount":

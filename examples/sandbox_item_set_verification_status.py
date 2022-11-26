@@ -22,7 +22,6 @@ async def async_main():
 access_token = "your access token"
 account_id = "your account id"
 verification_status = "your verification status"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

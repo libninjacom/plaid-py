@@ -5,15 +5,15 @@ from .transfer_user_address_in_request import TransferUserAddressInRequest
 
 
 class TransferAuthorizationUserInRequest(BaseModel):
-    """The user's legal name."""
-
-    legal_name: str
-    """The address associated with the account holder. Providing this data will improve the likelihood that Plaid will be able to guarantee the transfer, if applicable."""
-    address: Optional[TransferUserAddressInRequest] = None
     """The user's phone number. In order to qualify for a guaranteed transfer, at least one of `phone_number` or `email_address` must be provided."""
+
     phone_number: Optional[str] = None
     """The user's email address. In order to qualify for a guaranteed transfer, at least one of `phone_number` or `email_address` must be provided."""
     email_address: Optional[str] = None
+    """The user's legal name."""
+    legal_name: str
+    """The address associated with the account holder. Providing this data will improve the likelihood that Plaid will be able to guarantee the transfer, if applicable."""
+    address: Optional[TransferUserAddressInRequest] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

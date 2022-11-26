@@ -7,19 +7,19 @@ from .credit_bank_income_warning import CreditBankIncomeWarning
 
 
 class CreditBankIncome(BaseModel):
-    """If data from the Bank Income report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete."""
-
-    warnings: Optional[List[CreditBankIncomeWarning]] = None
-    """The time when the Bank Income Report was generated."""
-    generated_time: Optional[str] = None
-    """The unique identifier associated with the Bank Income Report."""
-    bank_income_id: Optional[str] = None
-    """The number of days requested by the customer for the Bank Income Report."""
-    days_requested: Optional[int] = None
     """The list of Items in the report along with the associated metadata about the Item."""
+
     items: Optional[List[CreditBankIncomeItem]] = None
+    """If data from the Bank Income report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete."""
+    warnings: Optional[List[CreditBankIncomeWarning]] = None
     """Summary for bank income across all income sources and items (max history of 730 days)."""
     bank_income_summary: Optional[CreditBankIncomeSummary] = None
+    """The unique identifier associated with the Bank Income Report."""
+    bank_income_id: Optional[str] = None
+    """The time when the Bank Income Report was generated."""
+    generated_time: Optional[str] = None
+    """The number of days requested by the customer for the Bank Income Report."""
+    days_requested: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

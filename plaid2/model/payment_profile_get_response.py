@@ -9,8 +9,6 @@ class PaymentProfileGetResponse(BaseModel):
     request_id: str
     """Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the time the given Payment Profile was created at"""
     created_at: str
-    """Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time the given Payment Profile was updated at"""
-    updated_at: str
     """The status of the given Payment Profile.
     
     `READY`: This Payment Profile is ready to be used to create transfers using `/transfer/authorization/create` and /transfer/create`.
@@ -19,6 +17,8 @@ class PaymentProfileGetResponse(BaseModel):
     
     `REMOVED`: This Payment Profile has been removed."""
     status: str
+    """Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time the given Payment Profile was updated at"""
+    updated_at: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

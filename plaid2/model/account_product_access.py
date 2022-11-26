@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class AccountProductAccess(BaseModel):
-    """Allow the application to access bank statements. Only used by certain partners. If relevant to the partner and unset, defaults to `true`."""
-
-    statements: Optional[bool] = None
     """Allow the application to access account data. Only used by certain partners. If relevant to the partner and unset, defaults to `true`."""
+
     account_data: Optional[bool] = None
     """Allow the application to access tax documents. Only used by certain partners. If relevant to the partner and unset, defaults to `true`."""
     tax_documents: Optional[bool] = None
+    """Allow the application to access bank statements. Only used by certain partners. If relevant to the partner and unset, defaults to `true`."""
+    statements: Optional[bool] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

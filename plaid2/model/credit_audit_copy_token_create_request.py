@@ -5,15 +5,11 @@ from .report_token import ReportToken
 
 
 class CreditAuditCopyTokenCreateRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """The `auditor_id` of the third party with whom you would like to share the Asset Report and/or Income Report."""
 
-    secret: Optional[str] = None
+    auditor_id: str
     """List of report tokens; can include both Asset Report tokens and Income Report tokens."""
     report_tokens: List[ReportToken]
-    """The `auditor_id` of the third party with whom you would like to share the Asset Report and/or Income Report."""
-    auditor_id: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

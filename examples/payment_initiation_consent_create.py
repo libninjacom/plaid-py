@@ -10,27 +10,27 @@ def main():
         reference="your reference",
         scopes=["your scopes"],
         constraints=PaymentInitiationConsentConstraints(
-            valid_date_time=PaymentConsentValidDateTime(
-                from_="your from",
-                to="your to",
+            max_payment_amount=PaymentConsentMaxPaymentAmount(
+                payment_amount=PaymentAmount(
+                    value=1.0,
+                    currency="your currency",
+                ),
             ),
             periodic_amounts=[
                 PaymentConsentPeriodicAmount(
                     interval="your interval",
                     amount=PaymentConsentPeriodicAmountAmount(
-                        PaymentAmount(
-                            currency="your currency",
+                        payment_amount=PaymentAmount(
                             value=1.0,
-                        )
+                            currency="your currency",
+                        ),
                     ),
                     alignment="your alignment",
                 )
             ],
-            max_payment_amount=PaymentConsentMaxPaymentAmount(
-                PaymentAmount(
-                    currency="your currency",
-                    value=1.0,
-                )
+            valid_date_time=PaymentConsentValidDateTime(
+                to="your to",
+                from_="your from",
             ),
         ),
     )
@@ -44,27 +44,27 @@ async def async_main():
         reference="your reference",
         scopes=["your scopes"],
         constraints=PaymentInitiationConsentConstraints(
-            valid_date_time=PaymentConsentValidDateTime(
-                from_="your from",
-                to="your to",
+            max_payment_amount=PaymentConsentMaxPaymentAmount(
+                payment_amount=PaymentAmount(
+                    value=1.0,
+                    currency="your currency",
+                ),
             ),
             periodic_amounts=[
                 PaymentConsentPeriodicAmount(
                     interval="your interval",
                     amount=PaymentConsentPeriodicAmountAmount(
-                        PaymentAmount(
-                            currency="your currency",
+                        payment_amount=PaymentAmount(
                             value=1.0,
-                        )
+                            currency="your currency",
+                        ),
                     ),
                     alignment="your alignment",
                 )
             ],
-            max_payment_amount=PaymentConsentMaxPaymentAmount(
-                PaymentAmount(
-                    currency="your currency",
-                    value=1.0,
-                )
+            valid_date_time=PaymentConsentValidDateTime(
+                to="your to",
+                from_="your from",
             ),
         ),
     )

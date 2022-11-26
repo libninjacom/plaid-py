@@ -20,7 +20,6 @@ async def async_main():
 client_user_id = "your client user id"
 template_id = "your template id"
 strategy = "your strategy"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

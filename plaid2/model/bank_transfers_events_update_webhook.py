@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class BankTransfersEventsUpdateWebhook(BaseModel):
-    """`BANK_TRANSFERS`"""
-
-    webhook_type: str
     """`BANK_TRANSFERS_EVENTS_UPDATE`"""
+
     webhook_code: str
+    """`BANK_TRANSFERS`"""
+    webhook_type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,19 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class BankTransferSweepListRequest(BaseModel):
-    """If multiple origination accounts are available, `origination_account_id` must be used to specify the account that the sweeps belong to."""
-
-    origination_account_id: Optional[str] = None
-    """The end datetime of sweeps to return (RFC 3339 format)."""
-    end_time: Optional[str] = None
     """The maximum number of sweeps to return."""
+
     count: Optional[int] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """The start datetime of sweeps to return (RFC 3339 format)."""
     start_time: Optional[str] = None
+    """The end datetime of sweeps to return (RFC 3339 format)."""
+    end_time: Optional[str] = None
+    """If multiple origination accounts are available, `origination_account_id` must be used to specify the account that the sweeps belong to."""
+    origination_account_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

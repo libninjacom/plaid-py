@@ -13,35 +13,37 @@ from .transfer_user_in_response import TransferUserInResponse
 
 
 class TransferIntentGet(BaseModel):
-    """The legal name and other information for the account holder."""
+    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
 
+    amount: str
+    """The currency of the transfer amount, e.g. "USD" """
+    iso_currency_code: str
+    """Plaid’s unique identifier for the origination account used for the transfer."""
+    origination_account_id: str
+    """When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guaranteed ACH customers only)."""
+    require_guarantee: Optional[bool] = None
+    """Indicates whether the transfer is guaranteed by Plaid (Guaranteed ACH customers only). This field will contain either `GUARANTEED` or `NOT_GUARANTEED` indicating whether Plaid will guarantee the transfer. If the transfer is not guaranteed, additional information will be provided in the `guarantee_decision_rationale` field. Refer to the `code` field in `guarantee_decision_rationale` for details."""
+    guarantee_decision: Optional[str] = None
+    """Plaid's unique identifier for the transfer created through the UI. Returned only if the transfer was successfully created. Null value otherwise."""
+    transfer_id: Optional[str] = None
+    """The legal name and other information for the account holder."""
     user: TransferUserInResponse
-    """Plaid's unique identifier for a transfer intent object."""
-    id: str
-    """The reason for a failed transfer intent. Returned only if the transfer intent status is `failed`. Null otherwise."""
-    failure_reason: Optional[TransferIntentGetFailureReason] = None
-    """The rationale for Plaid's decision regarding a proposed transfer. It is always set for `declined` decisions, and may or may not be null for `approved` decisions."""
-    authorization_decision_rationale: Optional[
-        TransferAuthorizationDecisionRationale
-    ] = None
     """The direction of the flow of transfer funds.
     
     - `PAYMENT` – Transfers funds from an end user's account to your business account.
     
     - `DISBURSEMENT` – Transfers funds from your business account to an end user's account."""
     mode: str
-    """The datetime the transfer was created. This will be of the form `2006-01-02T15:04:05Z`."""
-    created: str
-    """The Plaid `account_id` for the account that will be debited or credited. Returned only if `account_id` was set on intent creation."""
-    account_id: Optional[str] = None
     """A description for the underlying transfer. Maximum of 8 characters."""
     description: str
-    """The currency of the transfer amount, e.g. "USD" """
-    iso_currency_code: str
-    """When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guaranteed ACH customers only)."""
-    require_guarantee: Optional[bool] = None
-    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
-    amount: str
+    """The rationale for Plaid's decision to not guarantee a transfer. Will be `null` unless `guarantee_decision` is `NOT_GUARANTEED`."""
+    guarantee_decision_rationale: Optional[
+        TransferAuthorizationGuaranteeDecisionRationale
+    ] = None
+    """The Plaid `account_id` for the account that will be debited or credited. Returned only if `account_id` was set on intent creation."""
+    account_id: Optional[str] = None
+    """Plaid's unique identifier for a transfer intent object."""
+    id: str
     """Specifies the use case of the transfer. Required for transfers on an ACH network.
     
     `"ccd"` - Corporate Credit or Debit - fund transfer between two corporate bank accounts
@@ -52,12 +54,15 @@ class TransferIntentGet(BaseModel):
     
     `"web"` - Internet-Initiated Entry - debits from a consumer’s account where their authorization is obtained over the Internet"""
     ach_class: str
-    """The rationale for Plaid's decision to not guarantee a transfer. Will be `null` unless `guarantee_decision` is `NOT_GUARANTEED`."""
-    guarantee_decision_rationale: Optional[
-        TransferAuthorizationGuaranteeDecisionRationale
-    ] = None
-    """Plaid’s unique identifier for the origination account used for the transfer."""
-    origination_account_id: str
+    """
+    A decision regarding the proposed transfer.
+    
+    `APPROVED` – The proposed transfer has received the end user's consent and has been approved for processing by Plaid. The `decision_rationale` field is set if Plaid was unable to fetch the account information. You may proceed with the transfer, but further review is recommended (i.e., use Link in update to re-authenticate your user when `decision_rationale.code` is `LOGIN_REQUIRED`). Refer to the `code` field in the `decision_rationale` object for details.
+    
+    `DECLINED` – Plaid reviewed the proposed transfer and declined processing. Refer to the `code` field in the `decision_rationale` object for details."""
+    authorization_decision: Optional[str] = None
+    """The datetime the transfer was created. This will be of the form `2006-01-02T15:04:05Z`."""
+    created: str
     """The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply:
     - The JSON values must be Strings (no nested JSON objects allowed)
     - Only ASCII characters may be used
@@ -66,23 +71,18 @@ class TransferIntentGet(BaseModel):
     - Maximum value length of 500 characters
     """
     metadata: Optional[TransferMetadata] = None
+    """The rationale for Plaid's decision regarding a proposed transfer. It is always set for `declined` decisions, and may or may not be null for `approved` decisions."""
+    authorization_decision_rationale: Optional[
+        TransferAuthorizationDecisionRationale
+    ] = None
     """The status of the transfer intent.
     
     - `PENDING` – The transfer intent is pending.
     - `SUCCEEDED` – The transfer intent was successfully created.
     - `FAILED` – The transfer intent was unable to be created."""
     status: str
-    """Indicates whether the transfer is guaranteed by Plaid (Guaranteed ACH customers only). This field will contain either `GUARANTEED` or `NOT_GUARANTEED` indicating whether Plaid will guarantee the transfer. If the transfer is not guaranteed, additional information will be provided in the `guarantee_decision_rationale` field. Refer to the `code` field in `guarantee_decision_rationale` for details."""
-    guarantee_decision: Optional[str] = None
-    """Plaid's unique identifier for the transfer created through the UI. Returned only if the transfer was successfully created. Null value otherwise."""
-    transfer_id: Optional[str] = None
-    """
-    A decision regarding the proposed transfer.
-    
-    `APPROVED` – The proposed transfer has received the end user's consent and has been approved for processing by Plaid. The `decision_rationale` field is set if Plaid was unable to fetch the account information. You may proceed with the transfer, but further review is recommended (i.e., use Link in update to re-authenticate your user when `decision_rationale.code` is `LOGIN_REQUIRED`). Refer to the `code` field in the `decision_rationale` object for details.
-    
-    `DECLINED` – Plaid reviewed the proposed transfer and declined processing. Refer to the `code` field in the `decision_rationale` object for details."""
-    authorization_decision: Optional[str] = None
+    """The reason for a failed transfer intent. Returned only if the transfer intent status is `failed`. Null otherwise."""
+    failure_reason: Optional[TransferIntentGetFailureReason] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

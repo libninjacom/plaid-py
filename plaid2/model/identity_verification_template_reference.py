@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationTemplateReference(BaseModel):
-    """ID of the associated Identity Verification template."""
-
-    id: str
     """Version of the associated Identity Verification template."""
+
     version: float
+    """ID of the associated Identity Verification template."""
+    id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

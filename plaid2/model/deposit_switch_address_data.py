@@ -7,16 +7,16 @@ class DepositSwitchAddressData(BaseModel):
     """The full city name"""
 
     city: str
-    """The region or state
-    Example: `"NC"`"""
-    region: str
-    """The postal code"""
-    postal_code: str
     """The full street address
     Example: `"564 Main Street, APT 15"`"""
     street: str
+    """The postal code"""
+    postal_code: str
     """The ISO 3166-1 alpha-2 country code"""
     country: str
+    """The region or state
+    Example: `"NC"`"""
+    region: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

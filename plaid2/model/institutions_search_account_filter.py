@@ -4,9 +4,9 @@ from pydantic import BaseModel, Field
 
 
 class InstitutionsSearchAccountFilter(BaseModel):
-    credit: Optional[List[str]] = None
-    depository: Optional[List[str]] = None
     loan: Optional[List[str]] = None
+    depository: Optional[List[str]] = None
+    credit: Optional[List[str]] = None
     investment: Optional[List[str]] = None
 
     def json(self, **kwargs: Any) -> str:

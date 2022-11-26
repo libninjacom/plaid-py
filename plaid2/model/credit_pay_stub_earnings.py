@@ -6,10 +6,9 @@ from .pay_stub_earnings_total import PayStubEarningsTotal
 
 
 class CreditPayStubEarnings(BaseModel):
-    """An object representing both the current pay period and year to date amount for an earning category."""
-
-    total: PayStubEarningsTotal
     breakdown: List[PayStubEarningsBreakdown]
+    """An object representing both the current pay period and year to date amount for an earning category."""
+    total: PayStubEarningsTotal
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

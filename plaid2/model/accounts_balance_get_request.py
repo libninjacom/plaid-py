@@ -5,15 +5,11 @@ from .accounts_balance_get_request_options import AccountsBalanceGetRequestOptio
 
 
 class AccountsBalanceGetRequest(BaseModel):
-    """An optional object to filter `/accounts/balance/get` results."""
-
-    options: Optional[AccountsBalanceGetRequestOptions] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """The access token associated with the Item data is being requested for."""
+
     access_token: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
+    """An optional object to filter `/accounts/balance/get` results."""
+    options: Optional[AccountsBalanceGetRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

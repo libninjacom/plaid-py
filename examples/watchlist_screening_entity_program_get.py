@@ -20,7 +20,6 @@ async def async_main():
 
 
 entity_watchlist_program_id = "your entity watchlist program id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

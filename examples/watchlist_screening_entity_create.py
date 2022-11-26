@@ -16,15 +16,14 @@ async def async_main():
 
 
 search_terms = EntityWatchlistSearchTerms(
-    phone_number="your phone number",
-    email_address="your email address",
-    url="your url",
     entity_watchlist_program_id="your entity watchlist program id",
-    document_number="your document number",
+    url="your url",
     legal_name="your legal name",
+    email_address="your email address",
     country="your country",
+    document_number="your document number",
+    phone_number="your phone number",
 )
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

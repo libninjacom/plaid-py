@@ -4,12 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemStatusLastWebhook(BaseModel):
-    """The last webhook code sent."""
+    """[ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of when the webhook was fired."""
 
-    code_sent: Optional[str] = None
-    """[ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of when the webhook was fired.
-    """
     sent_at: Optional[str] = None
+    """The last webhook code sent."""
+    code_sent: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

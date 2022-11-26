@@ -17,13 +17,13 @@ class EntityWatchlistScreeningReviewId(BaseModel):
         return super().dict(**kwargs)["__root__"]
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "EntityWatchlistScreeningReviewID":
+    def parse_obj(cls, data: Any) -> "EntityWatchlistScreeningReviewId":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
     def parse_raw(
         cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "EntityWatchlistScreeningReviewID":
+    ) -> "EntityWatchlistScreeningReviewId":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

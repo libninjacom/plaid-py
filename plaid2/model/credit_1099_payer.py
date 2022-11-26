@@ -5,15 +5,15 @@ from .credit_pay_stub_address import CreditPayStubAddress
 
 
 class Credit1099Payer(BaseModel):
-    """Telephone number of payer."""
+    """Address on the pay stub."""
 
-    telephone_number: Optional[str] = None
+    address: Optional[CreditPayStubAddress] = None
     """Name of payer."""
     name: Optional[str] = None
     """Tax identification number of payer."""
     tin: Optional[str] = None
-    """Address on the pay stub."""
-    address: Optional[CreditPayStubAddress] = None
+    """Telephone number of payer."""
+    telephone_number: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

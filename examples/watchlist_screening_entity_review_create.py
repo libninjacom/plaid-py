@@ -22,7 +22,6 @@ async def async_main():
 confirmed_hits = ["your confirmed hits"]
 dismissed_hits = ["your dismissed hits"]
 entity_watchlist_screening_id = "your entity watchlist screening id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

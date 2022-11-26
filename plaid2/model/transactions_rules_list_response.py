@@ -5,11 +5,11 @@ from .transactions_category_rule import TransactionsCategoryRule
 
 
 class TransactionsRulesListResponse(BaseModel):
-    """A list of the Item's transaction rules"""
-
-    rules: List[TransactionsCategoryRule]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
+    """A list of the Item's transaction rules"""
+    rules: List[TransactionsCategoryRule]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

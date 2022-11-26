@@ -5,20 +5,17 @@ from plaid2 import PlaidClient
 
 def main():
     client = PlaidClient.from_env()
-    response = client.application_get(client_id, secret, application_id)
+    response = client.application_get(application_id)
     print(f"{response!r}")
 
 
 async def async_main():
     client = AsyncPlaidClient.from_env()
-    response = await client.application_get(client_id, secret, application_id)
+    response = await client.application_get(application_id)
     print(f"{response!r}")
 
 
-client_id = "your client id"
-secret = "your secret"
 application_id = "your application id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

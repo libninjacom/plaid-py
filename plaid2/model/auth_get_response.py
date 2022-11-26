@@ -7,11 +7,11 @@ from .item import Item
 
 
 class AuthGetResponse(BaseModel):
-    """An object containing identifying numbers used for making electronic transfers to and from the `accounts`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any `accounts` for which data has been requested, the array for that type will be empty."""
-
-    numbers: AuthGetNumbers
     """Metadata about the Item."""
+
     item: Item
+    """An object containing identifying numbers used for making electronic transfers to and from the `accounts`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any `accounts` for which data has been requested, the array for that type will be empty."""
+    numbers: AuthGetNumbers
     """The `accounts` for which numbers are being retrieved."""
     accounts: List[AccountBase]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""

@@ -7,18 +7,13 @@ from .update_entity_screening_request_search_terms import (
 
 
 class UpdateEntityScreeningRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     assignee: Optional[str] = None
-    client_user_id: Optional[str] = None
-    status: Optional[str] = None
-    """ID of the associated entity screening."""
-    entity_watchlist_screening_id: str
     """Search terms for editing an entity watchlist screening"""
     search_terms: Optional[UpdateEntityScreeningRequestSearchTerms] = None
+    """ID of the associated entity screening."""
+    entity_watchlist_screening_id: str
+    client_user_id: Optional[str] = None
+    status: Optional[str] = None
     """A list of fields to reset back to null"""
     reset_fields: Optional[List[str]] = None
 

@@ -5,15 +5,15 @@ from .address_data_nullable import AddressDataNullable
 
 
 class Employer(BaseModel):
-    """The name of the employer"""
+    """Plaid's unique identifier for the employer."""
 
-    name: str
+    employer_id: str
     """Data about the components comprising an address."""
     address: Optional[AddressDataNullable] = None
-    """Plaid's unique identifier for the employer."""
-    employer_id: str
     """A number from 0 to 1 indicating Plaid's level of confidence in the pairing between the employer and the institution (not yet implemented)."""
     confidence_score: float
+    """The name of the employer"""
+    name: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

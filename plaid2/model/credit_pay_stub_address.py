@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class CreditPayStubAddress(BaseModel):
-    """The full city name."""
+    """The full street address."""
 
+    street: Optional[str] = None
+    """The full city name."""
     city: Optional[str] = None
-    """The ISO 3166-1 alpha-2 country code."""
-    country: Optional[str] = None
     """The postal code of the address."""
     postal_code: Optional[str] = None
-    """The full street address."""
-    street: Optional[str] = None
+    """The ISO 3166-1 alpha-2 country code."""
+    country: Optional[str] = None
     """The region or state.
     Example: `"NC"`"""
     region: Optional[str] = None

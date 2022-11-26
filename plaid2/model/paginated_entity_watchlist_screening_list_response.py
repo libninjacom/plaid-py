@@ -5,11 +5,11 @@ from .entity_watchlist_screening import EntityWatchlistScreening
 
 
 class PaginatedEntityWatchlistScreeningListResponse(BaseModel):
-    """List of entity watchlist screening"""
-
-    entity_watchlist_screenings: List[EntityWatchlistScreening]
     """An identifier that determines which page of results you receive."""
+
     next_cursor: Optional[str] = None
+    """List of entity watchlist screening"""
+    entity_watchlist_screenings: List[EntityWatchlistScreening]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
 

@@ -15,30 +15,30 @@ from .paystub_ytd_details import PaystubYtdDetails
 
 
 class Paystub(BaseModel):
-    """Details about the pay period."""
+    """An object representing details that can be found on the paystub."""
 
-    pay_period_details: PayPeriodDetails
-    """Information about the employer on the paystub"""
-    employer: PaystubEmployer
-    """An object representing employment details found on a paystub."""
-    employment_details: Optional[EmploymentDetails] = None
+    paystub_details: Optional[PaystubDetails] = None
+    """The amount of income earned year to date, as based on paystub data."""
+    ytd_earnings: Optional[PaystubYtdDetails] = None
+    """An object representing both a breakdown of earnings on a paystub and the total earnings."""
+    earnings: Earnings
+    income_breakdown: Optional[List[IncomeBreakdown]] = None
     """An object with the deduction information found on a paystub."""
     deductions: Deductions
+    """An object representing information about the net pay amount on the paystub."""
+    net_pay: NetPay
+    """An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
+    verification: Optional[PaystubVerification] = None
+    """An object representing employment details found on a paystub."""
+    employment_details: Optional[EmploymentDetails] = None
+    """Information about the employer on the paystub"""
+    employer: PaystubEmployer
     """An identifier of the document referenced by the document metadata."""
     doc_id: str
     """Data about the employee."""
     employee: Employee
-    """An object representing details that can be found on the paystub."""
-    paystub_details: Optional[PaystubDetails] = None
-    """The amount of income earned year to date, as based on paystub data."""
-    ytd_earnings: Optional[PaystubYtdDetails] = None
-    """An object representing information about the net pay amount on the paystub."""
-    net_pay: NetPay
-    """An object representing both a breakdown of earnings on a paystub and the total earnings."""
-    earnings: Earnings
-    """An object containing details on the paystub's verification status. This object will only be populated if the [`income_verification.access_tokens`](/docs/api/tokens/#link-token-create-request-income-verification-access-tokens) parameter was provided during the `/link/token/create` call or if a problem was detected with the information supplied by the user; otherwise it will be `null`."""
-    verification: Optional[PaystubVerification] = None
-    income_breakdown: Optional[List[IncomeBreakdown]] = None
+    """Details about the pay period."""
+    pay_period_details: PayPeriodDetails
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

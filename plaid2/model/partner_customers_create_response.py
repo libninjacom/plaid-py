@@ -5,12 +5,11 @@ from .partner_end_customer_client import PartnerEndCustomerClient
 
 
 class PartnerCustomersCreateResponse(BaseModel):
-    """The end customer details for the newly-created customer client."""
-
-    end_customer: Optional[PartnerEndCustomerClient] = None
     production_secret: Optional[str] = None
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: Optional[str] = None
+    """The end customer details for the newly-created customer client."""
+    end_customer: Optional[PartnerEndCustomerClient] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

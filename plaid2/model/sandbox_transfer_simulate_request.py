@@ -5,13 +5,11 @@ from .transfer_failure import TransferFailure
 
 
 class SandboxTransferSimulateRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
+    """The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise."""
 
-    client_id: Optional[str] = None
+    failure_reason: Optional[TransferFailure] = None
     """Plaid’s unique identifier for a transfer."""
     transfer_id: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """The asynchronous event to be simulated. May be: `posted`, `failed`, or `returned`.
     
     An error will be returned if the event type is incompatible with the current transfer status. Compatible status --> event type transitions include:
@@ -23,8 +21,6 @@ class SandboxTransferSimulateRequest(BaseModel):
     `posted` --> `returned`
     """
     event_type: str
-    """The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise."""
-    failure_reason: Optional[TransferFailure] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

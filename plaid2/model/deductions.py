@@ -7,11 +7,11 @@ from .total import Total
 
 
 class Deductions(BaseModel):
-    breakdown: List[DeductionsBreakdown]
     totals: Optional[List[Total]] = None
     """An object representing the total deductions for the pay period"""
     total: DeductionsTotal
     subtotals: Optional[List[Total]] = None
+    breakdown: List[DeductionsBreakdown]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

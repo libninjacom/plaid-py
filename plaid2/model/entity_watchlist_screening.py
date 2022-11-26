@@ -6,15 +6,16 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class EntityWatchlistScreening(BaseModel):
-    client_user_id: Optional[str] = None
+    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
+
+    status: str
     """Search terms associated with an entity used for searching against watchlists"""
     search_terms: EntityWatchlistScreeningSearchTerms
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
-    audit_trail: WatchlistScreeningAuditTrail
-    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
-    status: str
+    client_user_id: Optional[str] = None
     """ID of the associated entity screening."""
     id: str
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    audit_trail: WatchlistScreeningAuditTrail
     assignee: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:

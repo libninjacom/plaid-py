@@ -7,10 +7,10 @@ class ScreeningStatusUpdatedWebhook(BaseModel):
     """`SCREENING`"""
 
     webhook_type: str
-    """`STATUS_UPDATED`"""
-    webhook_code: str
     """The ID of the associated screening."""
     screening_id: Any
+    """`STATUS_UPDATED`"""
+    webhook_code: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -2,7 +2,7 @@ import os
 from typing import Dict, Any
 
 
-class PlaidAuthenticator:
+class PlaidAuthentication:
     def __init__(self, client_id: str, secret: str, plaid_version: str):
         self.client_id = client_id
         self.secret = secret
@@ -16,7 +16,7 @@ class PlaidAuthenticator:
         headers["Plaid-Version"] = self.plaid_version
 
     @classmethod
-    def from_env(cls) -> "PlaidAuthenticator":
+    def from_env(cls) -> "PlaidAuthentication":
         client_id = os.environ["PLAID_CLIENT_ID"]
         secret = os.environ["PLAID_SECRET"]
         plaid_version = os.environ["PLAID_VERSION"]

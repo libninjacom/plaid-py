@@ -5,19 +5,25 @@ from .transfer_failure import TransferFailure
 
 
 class TransferEvent(BaseModel):
-    """Plaid’s unique identifier for this event. IDs are sequential unsigned 64-bit integers."""
+    """The ID of the origination account that this balance belongs to."""
 
-    event_id: int
-    """The datetime when this event occurred. This will be of the form `2006-01-02T15:04:05Z`."""
-    timestamp: str
-    """The account ID associated with the transfer."""
-    account_id: str
+    origination_account_id: Optional[str] = None
     """Plaid’s unique identifier for a transfer."""
     transfer_id: str
     """The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise."""
     failure_reason: Optional[TransferFailure] = None
+    """The account ID associated with the transfer."""
+    account_id: str
     """Plaid’s unique identifier for a sweep."""
     sweep_id: Optional[str] = None
+    """Plaid’s unique identifier for this event. IDs are sequential unsigned 64-bit integers."""
+    event_id: int
+    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
+    transfer_amount: str
+    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
+    transfer_type: str
+    """A signed amount of how much was `swept` or `return_swept` (decimal string with two digits of precision e.g. "-5.50")."""
+    sweep_amount: Optional[str] = None
     """The type of event that this transfer represents.
     
     `pending`: A new transfer was created; it is in the pending state.
@@ -34,14 +40,8 @@ class TransferEvent(BaseModel):
     
     `return_swept`: Due to the transfer being returned, funds were pulled from or pushed back to the sweep account."""
     event_type: str
-    """The ID of the origination account that this balance belongs to."""
-    origination_account_id: Optional[str] = None
-    """A signed amount of how much was `swept` or `return_swept` (decimal string with two digits of precision e.g. "-5.50")."""
-    sweep_amount: Optional[str] = None
-    """The type of transfer. This will be either `debit` or `credit`.  A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account."""
-    transfer_type: str
-    """The amount of the transfer (decimal string with two digits of precision e.g. "10.00")."""
-    transfer_amount: str
+    """The datetime when this event occurred. This will be of the form `2006-01-02T15:04:05Z`."""
+    timestamp: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

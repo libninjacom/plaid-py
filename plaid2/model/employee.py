@@ -6,15 +6,15 @@ from .taxpayer_id import TaxpayerId
 
 
 class Employee(BaseModel):
-    """Marital status of the employee - either `single` or `married`."""
-
-    marital_status: Optional[str] = None
     """The name of the employee."""
+
     name: Optional[str] = None
     """Address on the paystub"""
     address: PaystubAddress
     """Taxpayer ID of the individual receiving the paystub."""
     taxpayer_id: Optional[TaxpayerId] = None
+    """Marital status of the employee - either `single` or `married`."""
+    marital_status: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

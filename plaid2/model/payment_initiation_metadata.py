@@ -10,20 +10,20 @@ from .payment_initiation_standing_order_metadata import (
 
 
 class PaymentInitiationMetadata(BaseModel):
-    """Indicates whether the institution supports returning refund details when initiating a payment."""
+    """Metadata specifically related to valid Payment Initiation standing order configurations for the institution."""
 
+    standing_order_metadata: Optional[PaymentInitiationStandingOrderMetadata] = None
+    """Indicates whether the institution supports returning refund details when initiating a payment."""
     supports_refund_details: bool
+    """Indicates whether the institution supports SEPA Instant payments."""
+    supports_sepa_instant: bool
     """A mapping of currency to maximum payment amount (denominated in the smallest unit of currency) supported by the institution.
     
     Example: `{"GBP": "10000"}`
     """
     maximum_payment_amount: PaymentInitiationMaximumPaymentAmount
-    """Metadata specifically related to valid Payment Initiation standing order configurations for the institution."""
-    standing_order_metadata: Optional[PaymentInitiationStandingOrderMetadata] = None
     """Indicates whether the institution supports payments from a different country."""
     supports_international_payments: bool
-    """Indicates whether the institution supports SEPA Instant payments."""
-    supports_sepa_instant: bool
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

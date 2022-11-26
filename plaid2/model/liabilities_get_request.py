@@ -5,15 +5,11 @@ from .liabilities_get_request_options import LiabilitiesGetRequestOptions
 
 
 class LiabilitiesGetRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
+    """An optional object to filter `/liabilities/get` results. If provided, `options` cannot be null."""
 
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    options: Optional[LiabilitiesGetRequestOptions] = None
     """The access token associated with the Item data is being requested for."""
     access_token: str
-    """An optional object to filter `/liabilities/get` results. If provided, `options` cannot be null."""
-    options: Optional[LiabilitiesGetRequestOptions] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

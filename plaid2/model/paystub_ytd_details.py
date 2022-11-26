@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PaystubYtdDetails(BaseModel):
-    """Year-to-date gross earnings."""
-
-    gross_earnings: Optional[float] = None
     """Year-to-date net (take home) earnings."""
+
     net_earnings: Optional[float] = None
+    """Year-to-date gross earnings."""
+    gross_earnings: Optional[float] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -21,11 +21,11 @@ class PaystubYtdDetails(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "PaystubYTDDetails":
+    def parse_obj(cls, data: Any) -> "PaystubYtdDetails":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaystubYTDDetails":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "PaystubYtdDetails":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

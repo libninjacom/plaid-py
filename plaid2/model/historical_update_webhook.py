@@ -5,17 +5,17 @@ from .plaid_error import PlaidError
 
 
 class HistoricalUpdateWebhook(BaseModel):
-    """`TRANSACTIONS`"""
-
-    webhook_type: str
     """`HISTORICAL_UPDATE`"""
+
     webhook_code: str
-    """The number of new, unfetched transactions available"""
-    new_transactions: float
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-    item_id: str
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
+    """The number of new, unfetched transactions available"""
+    new_transactions: float
+    """`TRANSACTIONS`"""
+    webhook_type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,23 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class SandboxIncomeFireWebhookRequest(BaseModel):
-    """The Plaid `user_id` of the User associated with this webhook, warning, or error."""
+    """The URL to which the webhook should be sent."""
 
-    user_id: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    """The Item ID associated with the verification."""
-    item_id: str
+    webhook: str
     """`VERIFICATION_STATUS_PROCESSING_COMPLETE`: The income verification status processing has completed. If the user uploaded multiple documents, this webhook will fire when all documents have finished processing. Call the `/income/verification/paystubs/get` endpoint and check the document metadata to see which documents were successfully parsed.
     
     `VERIFICATION_STATUS_PROCESSING_FAILED`: A failure occurred when attempting to process the verification documentation.
     
     `VERIFICATION_STATUS_PENDING_APPROVAL`: The income verification has been sent to the user for review."""
     verification_status: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """The URL to which the webhook should be sent."""
-    webhook: str
+    """The Plaid `user_id` of the User associated with this webhook, warning, or error."""
+    user_id: Optional[str] = None
+    """The Item ID associated with the verification."""
+    item_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

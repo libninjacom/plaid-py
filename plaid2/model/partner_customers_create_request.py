@@ -4,6 +4,16 @@ from pydantic import BaseModel, Field
 
 
 class PartnerCustomersCreateRequest(BaseModel):
+    """Denotes whether or not the partner has completed attestation of diligence for the end customer to be created."""
+
+    is_diligence_attested: bool
+    """If true, sets end customer's link customization to match partner's link customization."""
+    create_link_customization: Optional[bool] = None
+    """The company name of the end customer being created."""
+    company_name: str
+    """The products to be enabled on for the end customer."""
+    products: List[str]
+
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
         kwargs.setdefault("by_alias", True)
@@ -12,7 +22,7 @@ class PartnerCustomersCreateRequest(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "PartnerCustomersCreateRequest":

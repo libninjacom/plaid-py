@@ -16,7 +16,6 @@ async def async_main():
 
 
 wallet_id = "your wallet id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

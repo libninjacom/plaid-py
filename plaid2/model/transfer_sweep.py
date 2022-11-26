@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class TransferSweep(BaseModel):
-    """Identifier of the sweep."""
+    """Signed decimal amount of the sweep as it appears on your sweep account ledger (e.g. "-10.00")
 
+    If amount is not present, the sweep was net-settled to zero and outstanding debits and credits between the sweep account and Plaid are balanced."""
+
+    amount: str
+    """Identifier of the sweep."""
     id: str
     """The datetime when the sweep occurred, in RFC 3339 format."""
     created: str
-    """Signed decimal amount of the sweep as it appears on your sweep account ledger (e.g. "-10.00")
-    
-    If amount is not present, the sweep was net-settled to zero and outstanding debits and credits between the sweep account and Plaid are balanced."""
-    amount: str
     """The currency of the sweep, e.g. "USD"."""
     iso_currency_code: str
 

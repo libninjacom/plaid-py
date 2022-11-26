@@ -5,17 +5,17 @@ from .owner import Owner
 
 
 class CreditBankIncomeAccount(BaseModel):
-    """Valid account subtypes for depository accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-depository)."""
-
-    subtype: Optional[str] = None
-    owners: Optional[List[Owner]] = None
-    """The account type. This will always be `depository`."""
-    type: Optional[str] = None
-    """Plaid's unique identifier for the account."""
-    account_id: Optional[str] = None
     """The last 2-4 alphanumeric characters of an account's official account number.
     Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user."""
+
     mask: Optional[str] = None
+    """Valid account subtypes for depository accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-depository)."""
+    subtype: Optional[str] = None
+    """The account type. This will always be `depository`."""
+    type: Optional[str] = None
+    owners: Optional[List[Owner]] = None
+    """Plaid's unique identifier for the account."""
+    account_id: Optional[str] = None
     """The name of the bank account."""
     name: Optional[str] = None
     """The official name of the bank account."""

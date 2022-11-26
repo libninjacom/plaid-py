@@ -5,17 +5,13 @@ from .deposit_switch_create_request_options import DepositSwitchCreateRequestOpt
 
 
 class DepositSwitchCreateRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """ISO-3166-1 alpha-2 country code standard."""
 
-    secret: Optional[str] = None
+    country_code: Optional[str] = None
     """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
     options: Optional[DepositSwitchCreateRequestOptions] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """Plaid Account ID that specifies the target bank account. This account will become the recipient for a user's direct deposit."""
     target_account_id: str
-    """ISO-3166-1 alpha-2 country code standard."""
-    country_code: Optional[str] = None
     """Access token for the target Item, typically provided in the Import Item response. """
     target_access_token: str
 

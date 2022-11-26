@@ -19,7 +19,6 @@ async def async_main():
 
 target_access_token = "your target access token"
 target_account_id = "your target account id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

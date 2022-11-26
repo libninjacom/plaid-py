@@ -5,13 +5,13 @@ from .account_product_access_nullable import AccountProductAccessNullable
 
 
 class AccountAccess(BaseModel):
-    """Allow the application to see this account (and associated details, including balance) in the list of accounts  If unset, defaults to `true`."""
+    """The unique account identifier for this account. This value must match that returned by the data access API for this account."""
 
-    authorized: Optional[bool] = None
+    unique_id: str
     """Allow the application to access specific products on this account"""
     account_product_access: Optional[AccountProductAccessNullable] = None
-    """The unique account identifier for this account. This value must match that returned by the data access API for this account."""
-    unique_id: str
+    """Allow the application to see this account (and associated details, including balance) in the list of accounts  If unset, defaults to `true`."""
+    authorized: Optional[bool] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

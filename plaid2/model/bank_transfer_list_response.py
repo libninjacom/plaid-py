@@ -5,9 +5,10 @@ from .bank_transfer import BankTransfer
 
 
 class BankTransferListResponse(BaseModel):
-    bank_transfers: List[BankTransfer]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+
     request_id: str
+    bank_transfers: List[BankTransfer]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

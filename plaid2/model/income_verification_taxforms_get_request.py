@@ -7,10 +7,6 @@ class IncomeVerificationTaxformsGetRequest(BaseModel):
     """The ID of the verification."""
 
     income_verification_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """The access token associated with the Item data is being requested for."""
     access_token: Optional[str] = None
 

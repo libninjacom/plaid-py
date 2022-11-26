@@ -5,15 +5,15 @@ from .account_assets import AccountAssets
 
 
 class AssetReportItem(BaseModel):
-    """The `item_id` of the Item associated with this webhook, warning, or error"""
-
-    item_id: str
-    """The full financial institution name associated with the Item."""
-    institution_name: str
     """Data about each of the accounts open on the Item."""
+
     accounts: List[AccountAssets]
     """The id of the financial institution associated with the Item."""
     institution_id: str
+    """The `item_id` of the Item associated with this webhook, warning, or error"""
+    item_id: str
+    """The full financial institution name associated with the Item."""
+    institution_name: str
     """The date and time when this Item’s data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
     date_last_updated: str
 

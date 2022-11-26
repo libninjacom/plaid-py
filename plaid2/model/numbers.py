@@ -4,23 +4,23 @@ from pydantic import BaseModel, Field
 
 
 class Numbers(BaseModel):
-    """EFT branch number. Must be specified alongside `eft_institution`."""
-
-    eft_branch: Optional[str] = None
     """Must be a valid wire transfer routing number."""
+
     ach_wire_routing: Optional[str] = None
-    """Will be used for the account number."""
-    account: Optional[str] = None
-    """Must be a valid ACH routing number."""
-    ach_routing: Optional[str] = None
+    """EFT branch number. Must be specified alongside `eft_institution`."""
+    eft_branch: Optional[str] = None
     """Bank identifier code (BIC). Must be specified alongside `international_iban`."""
     international_bic: Optional[str] = None
-    """BACS sort code"""
-    bacs_sort_code: Optional[str] = None
     """EFT institution number. Must be specified alongside `eft_branch`."""
     eft_institution: Optional[str] = None
     """International bank account number (IBAN). If no account number is specified via `account`, will also be used as the account number by default. Must be specified alongside `international_bic`."""
     international_iban: Optional[str] = None
+    """BACS sort code"""
+    bacs_sort_code: Optional[str] = None
+    """Will be used for the account number."""
+    account: Optional[str] = None
+    """Must be a valid ACH routing number."""
+    ach_routing: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

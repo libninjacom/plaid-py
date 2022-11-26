@@ -9,10 +9,10 @@ class DocumentRiskSignalsObject(BaseModel):
     """ID of the payroll provider account."""
 
     account_id: Optional[str] = None
-    """Array of document metadata and associated risk signals per document"""
-    single_document_risk_signals: List[SingleDocumentRiskSignal]
     """Array of risk signals computed from a set of uploaded documents and the associated documents' metadata"""
     multi_document_risk_signals: List[MultiDocumentRiskSignal]
+    """Array of document metadata and associated risk signals per document"""
+    single_document_risk_signals: List[SingleDocumentRiskSignal]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

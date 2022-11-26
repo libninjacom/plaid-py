@@ -4,18 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class EntityWatchlistScreeningSearchTerms(BaseModel):
-    """The name of the organization being screened."""
-
-    legal_name: str
+    country: Optional[str] = None
     email_address: Optional[str] = None
-    url: Optional[str] = None
+    document_number: Optional[str] = None
     """ID of the associated entity program."""
     entity_watchlist_program_id: str
-    document_number: Optional[str] = None
     """The current version of the search terms. Starts at `1` and increments with each edit to `search_terms`."""
     version: float
+    url: Optional[str] = None
+    """The name of the organization being screened."""
+    legal_name: str
     phone_number: Optional[str] = None
-    country: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

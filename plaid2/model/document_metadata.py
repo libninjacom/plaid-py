@@ -4,33 +4,33 @@ from pydantic import BaseModel, Field
 
 
 class DocumentMetadata(BaseModel):
-    """The type of document.
-
-    `DOCUMENT_TYPE_PAYSTUB`: A paystub.
-
-    `DOCUMENT_TYPE_BANK_STATEMENT`: A bank statement.
-
-    `DOCUMENT_TYPE_US_TAX_W2`: A W-2 wage and tax statement provided by a US employer reflecting wages earned by the employee.
-
-    `DOCUMENT_TYPE_US_MILITARY_ERAS`: An electronic Retirement Account Statement (eRAS) issued by the US military.
-
-    `DOCUMENT_TYPE_US_MILITARY_LES`: A Leave and Earnings Statement (LES) issued by the US military.
-
-    `DOCUMENT_TYPE_US_MILITARY_CLES`: A Civilian Leave and Earnings Statment (CLES) issued by the US military.
-
-    `DOCUMENT_TYPE_GIG`: Used to indicate that the income is related to gig work. Does not necessarily correspond to a specific document type.
-
-    `DOCUMENT_TYPE_NONE`: Used to indicate that there is no underlying document for the data.
-
-    `UNKNOWN`: Document type could not be determined."""
-
-    doc_type: Optional[str] = None
-    """An identifier of the document that is also present in the paystub response."""
-    doc_id: Optional[str] = None
     """The name of the document."""
+
     name: Optional[str] = None
     """The processing status of the document."""
     status: Optional[str] = None
+    """An identifier of the document that is also present in the paystub response."""
+    doc_id: Optional[str] = None
+    """The type of document.
+    
+    `DOCUMENT_TYPE_PAYSTUB`: A paystub.
+    
+    `DOCUMENT_TYPE_BANK_STATEMENT`: A bank statement.
+    
+    `DOCUMENT_TYPE_US_TAX_W2`: A W-2 wage and tax statement provided by a US employer reflecting wages earned by the employee.
+    
+    `DOCUMENT_TYPE_US_MILITARY_ERAS`: An electronic Retirement Account Statement (eRAS) issued by the US military.
+    
+    `DOCUMENT_TYPE_US_MILITARY_LES`: A Leave and Earnings Statement (LES) issued by the US military.
+    
+    `DOCUMENT_TYPE_US_MILITARY_CLES`: A Civilian Leave and Earnings Statment (CLES) issued by the US military.
+    
+    `DOCUMENT_TYPE_GIG`: Used to indicate that the income is related to gig work. Does not necessarily correspond to a specific document type.
+    
+    `DOCUMENT_TYPE_NONE`: Used to indicate that there is no underlying document for the data.
+    
+    `UNKNOWN`: Document type could not be determined."""
+    doc_type: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

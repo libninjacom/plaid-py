@@ -5,19 +5,19 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class EntityWatchlistScreeningReviewResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
     """Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once dismissed. In most cases, confirmed hits indicate that the customer should be rejected."""
+
     confirmed_hits: List[str]
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
-    audit_trail: WatchlistScreeningAuditTrail
     """Hits marked as a false positive after thorough manual review. These hits will never recur or be updated once dismissed."""
     dismissed_hits: List[str]
-    """ID of the associated entity review."""
-    id: str
     """A comment submitted by a team member as part of reviewing a watchlist screening."""
     comment: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
+    """ID of the associated entity review."""
+    id: str
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    audit_trail: WatchlistScreeningAuditTrail
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

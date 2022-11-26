@@ -4,15 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ItemWebhookUpdateRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
+    """The new webhook URL to associate with the Item. To remove a webhook from an Item, set to `null`."""
 
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
+    webhook: Optional[str] = None
     """The access token associated with the Item data is being requested for."""
     access_token: str
-    """The new webhook URL to associate with the Item. To remove a webhook from an Item, set to `null`."""
-    webhook: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

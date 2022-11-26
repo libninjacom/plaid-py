@@ -6,11 +6,11 @@ from .wallet_transaction_counterparty import WalletTransactionCounterparty
 
 
 class WalletTransaction(BaseModel):
-    """A reference for the transaction"""
+    """An object representing the e-wallet transaction's counterparty"""
 
-    reference: str
-    """Timestamp when the transaction was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
-    created_at: str
+    counterparty: WalletTransactionCounterparty
+    """A unique ID identifying the transaction"""
+    transaction_id: str
     """The type of the transaction. The supported transaction types that are returned are:
     `BANK_TRANSFER:` a transaction which credits an e-wallet through an external bank transfer.
     
@@ -22,8 +22,8 @@ class WalletTransaction(BaseModel):
     type: str
     """The amount and currency of a transaction"""
     amount: WalletTransactionAmount
-    """An object representing the e-wallet transaction's counterparty"""
-    counterparty: WalletTransactionCounterparty
+    """Timestamp when the transaction was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format."""
+    created_at: str
     """The status of the transaction.
     
     `INITIATED`: This is the initial state of all transactions. It indicates that the transaction has been initiated and is currently being processed.
@@ -34,8 +34,8 @@ class WalletTransaction(BaseModel):
     
     `BLOCKED`: The transaction has been blocked for violating compliance rules. This is a terminal status."""
     status: str
-    """A unique ID identifying the transaction"""
-    transaction_id: str
+    """A reference for the transaction"""
+    reference: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

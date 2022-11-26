@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class DepositSwitchTokenCreateResponse(BaseModel):
-    """Deposit switch token, used to initialize Link for the Deposit Switch product"""
+    """Expiration time of the token, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format"""
 
-    deposit_switch_token: str
+    deposit_switch_token_expiration_time: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
-    """Expiration time of the token, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format"""
-    deposit_switch_token_expiration_time: str
+    """Deposit switch token, used to initialize Link for the Deposit Switch product"""
+    deposit_switch_token: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

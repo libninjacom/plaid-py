@@ -4,13 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class EntityScreeningStatusUpdatedWebhook(BaseModel):
-    """`STATUS_UPDATED`"""
+    """The ID of the associated screening."""
 
-    webhook_code: str
+    screening_id: Any
     """`ENTITY_SCREENING`"""
     webhook_type: str
-    """The ID of the associated screening."""
-    screening_id: Any
+    """`STATUS_UPDATED`"""
+    webhook_code: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

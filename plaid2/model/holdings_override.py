@@ -8,10 +8,10 @@ class HoldingsOverride(BaseModel):
     """Specify the security associated with the holding or investment transaction. When inputting custom security data to the Sandbox, Plaid will perform post-data-retrieval normalization and enrichment. These processes may cause the data returned by the Sandbox to be slightly different from the data you input. An ISO-4217 currency code and a security identifier (`ticker_symbol`, `cusip`, `isin`, or `sedol`) are required."""
 
     security: SecurityOverride
-    """The total quantity of the asset held, as reported by the financial institution."""
-    quantity: float
     """Either a valid `iso_currency_code` or `unofficial_currency_code`"""
     currency: str
+    """The total quantity of the asset held, as reported by the financial institution."""
+    quantity: float
     """The last price given by the institution for this security"""
     institution_price: float
     """The date at which `institution_price` was current. Must be formatted as an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) date."""

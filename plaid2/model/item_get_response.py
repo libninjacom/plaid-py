@@ -6,11 +6,11 @@ from .item_status_nullable import ItemStatusNullable
 
 
 class ItemGetResponse(BaseModel):
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-
-    request_id: str
     """Information about the last successful and failed transactions update for the Item."""
+
     status: Optional[ItemStatusNullable] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
     """Metadata about the Item."""
     item: Item
 

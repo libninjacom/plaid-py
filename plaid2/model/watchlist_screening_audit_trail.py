@@ -4,10 +4,9 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningAuditTrail(BaseModel):
-    """An ISO8601 formatted timestamp."""
-
-    timestamp: str
     dashboard_user_id: Optional[str] = None
+    """An ISO8601 formatted timestamp."""
+    timestamp: str
     """A type indicating whether a dashboard user, an API-based user, or Plaid last touched this object."""
     source: str
 

@@ -4,13 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class WatchlistScreeningRequestSearchTerms(BaseModel):
-    country: Optional[str] = None
-    """ID of the associated program."""
-    watchlist_program_id: str
     """The legal name of the individual being screened."""
+
     legal_name: str
     date_of_birth: Optional[str] = None
     document_number: Optional[str] = None
+    country: Optional[str] = None
+    """ID of the associated program."""
+    watchlist_program_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

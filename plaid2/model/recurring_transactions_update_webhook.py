@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class RecurringTransactionsUpdateWebhook(BaseModel):
-    """`RECURRING_TRANSACTIONS_UPDATE`"""
+    """A list of `account_ids` for accounts that have new or updated recurring transactions data."""
 
-    webhook_code: str
+    account_ids: List[str]
     """The `item_id` of the Item associated with this webhook, warning, or error"""
     item_id: str
+    """`RECURRING_TRANSACTIONS_UPDATE`"""
+    webhook_code: str
     """`TRANSACTIONS`"""
     webhook_type: str
-    """A list of `account_ids` for accounts that have new or updated recurring transactions data."""
-    account_ids: List[str]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

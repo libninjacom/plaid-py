@@ -7,19 +7,20 @@ from .user_name import UserName
 
 
 class IdentityVerificationRequestUser(BaseModel):
-    email_address: Optional[str] = None
     """A phone number in E.164 format."""
+
     phone_number: Optional[str] = None
-    """The full name provided by the user. If the user has not submitted their name, this field will be null. Otherwise, both fields are guaranteed to be filled."""
-    name: Optional[UserName] = None
     """Home address for the user."""
     address: Optional[UserAddress] = None
     """ID number submitted by the user, currently used only for the Identity Verification product. If the user has not submitted this data yet, this field will be `null`. Otherwise, both fields are guaranteed to be filled."""
     id_number: Optional[UserIdNumber] = None
     """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
     client_user_id: str
+    email_address: Optional[str] = None
     """A date in the format YYYY-MM-DD (RFC 3339 Section 5.6)."""
     date_of_birth: Optional[str] = None
+    """The full name provided by the user. If the user has not submitted their name, this field will be null. Otherwise, both fields are guaranteed to be filled."""
+    name: Optional[UserName] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -6,19 +6,18 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class EntityWatchlistScreeningResponse(BaseModel):
-    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
-
-    status: str
     assignee: Optional[str] = None
+    """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
+    status: str
+    """ID of the associated entity screening."""
+    id: str
     client_user_id: Optional[str] = None
-    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
-    audit_trail: WatchlistScreeningAuditTrail
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
     """Search terms associated with an entity used for searching against watchlists"""
     search_terms: EntityWatchlistScreeningSearchTerms
-    """ID of the associated entity screening."""
-    id: str
+    """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
+    audit_trail: WatchlistScreeningAuditTrail
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

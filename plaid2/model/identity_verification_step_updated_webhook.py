@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationStepUpdatedWebhook(BaseModel):
-    """`IDENTITY_VERIFCATION`"""
-
-    webhook_type: str
     """`STEP_UPDATED`"""
+
     webhook_code: str
+    """`IDENTITY_VERIFCATION`"""
+    webhook_type: str
     """The ID of the associated Identity Verification attempt."""
     identity_verification_id: Any
 

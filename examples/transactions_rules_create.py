@@ -6,15 +6,7 @@ from plaid2 import PlaidClient
 def main():
     client = PlaidClient.from_env()
     response = client.transactions_rules_create(
-        client_id="your client id",
-        access_token="your access token",
-        secret="your secret",
-        personal_finance_category="your personal finance category",
-        rule_details=TransactionsRuleDetails(
-            query="your query",
-            type="your type",
-            field="your field",
-        ),
+        access_token, personal_finance_category, rule_details
     )
     print(f"{response!r}")
 
@@ -22,19 +14,18 @@ def main():
 async def async_main():
     client = AsyncPlaidClient.from_env()
     response = await client.transactions_rules_create(
-        client_id="your client id",
-        access_token="your access token",
-        secret="your secret",
-        personal_finance_category="your personal finance category",
-        rule_details=TransactionsRuleDetails(
-            query="your query",
-            type="your type",
-            field="your field",
-        ),
+        access_token, personal_finance_category, rule_details
     )
     print(f"{response!r}")
 
 
+access_token = "your access token"
+personal_finance_category = "your personal finance category"
+rule_details = TransactionsRuleDetails(
+    query="your query",
+    field="your field",
+    type="your type",
+)
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

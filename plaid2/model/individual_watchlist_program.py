@@ -5,13 +5,21 @@ from .watchlist_screening_audit_trail import WatchlistScreeningAuditTrail
 
 
 class IndividualWatchlistProgram(BaseModel):
-    """Watchlists enabled for the associated program"""
+    """Indicator specifying whether the program is enabled and will perform daily rescans."""
 
+    is_rescanning_enabled: bool
+    """A name for the program to define its purpose. For example, "High Risk Individuals", "US Cardholders", or "Applicants"."""
+    name: str
+    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
+    is_archived: bool
+    """Watchlists enabled for the associated program"""
     lists_enabled: List[str]
     """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
     audit_trail: WatchlistScreeningAuditTrail
-    """Archived programs are read-only and cannot screen new customers nor participate in ongoing monitoring."""
-    is_archived: bool
+    """ID of the associated program."""
+    id: str
+    """An ISO8601 formatted timestamp."""
+    created_at: str
     """The valid name matching sensitivity configurations for a screening program. Note that while certain matching techniques may be more prevalent on less strict settings, all matching algorithms are enabled for every sensitivity.
     
     `coarse` - See more potential matches. This sensitivity will see more broad phonetic matches across alphabets that make missing a potential hit very unlikely. This setting is noisier and will require more manual review.
@@ -22,14 +30,6 @@ class IndividualWatchlistProgram(BaseModel):
     
     `exact` - Matches must be nearly exact. This sensitivity will only show hits with exact or nearly exact name matches with only basic correction such as extraneous symbols and capitalization. This setting is generally not recommended unless you have a very specific use case."""
     name_sensitivity: str
-    """ID of the associated program."""
-    id: str
-    """Indicator specifying whether the program is enabled and will perform daily rescans."""
-    is_rescanning_enabled: bool
-    """An ISO8601 formatted timestamp."""
-    created_at: str
-    """A name for the program to define its purpose. For example, "High Risk Individuals", "US Cardholders", or "Applicants"."""
-    name: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

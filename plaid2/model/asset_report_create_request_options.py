@@ -5,10 +5,8 @@ from .asset_report_user import AssetReportUser
 
 
 class AssetReportCreateRequestOptions(BaseModel):
-    """true to return balance and identity earlier as a fast report. Defaults to false if omitted."""
-
-    include_fast_report: Optional[bool] = None
     """The user object allows you to provide additional information about the user to be appended to the Asset Report. All fields are optional. The `first_name`, `last_name`, and `ssn` fields are required if you would like the Report to be eligible for Fannie Mae’s Day 1 Certainty™ program."""
+
     user: Optional[AssetReportUser] = None
     """URL to which Plaid will send Assets webhooks, for example when the requested Asset Report is ready."""
     webhook: Optional[str] = None
@@ -16,6 +14,8 @@ class AssetReportCreateRequestOptions(BaseModel):
     client_report_id: Optional[str] = None
     """Additional information that can be included in the asset report. Possible values: `"investments"`"""
     products: Optional[List[str]] = None
+    """true to return balance and identity earlier as a fast report. Defaults to false if omitted."""
+    include_fast_report: Optional[bool] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

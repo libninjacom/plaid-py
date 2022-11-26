@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class UserAddress(BaseModel):
-    """An ISO 3166-2 subdivision code. Related terms would be "state", "province", "prefecture", "zone", "subdivision", etc."""
-
-    region: str
     """The primary street portion of an address. If the user has submitted their address, this field will always be filled."""
+
     street: str
-    """The postal code for the associated address. Between 2 and 10 alphanumeric characters."""
-    postal_code: str
-    """City from the end user's address"""
-    city: str
-    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
-    country: str
     """Extra street information, like an apartment or suite number."""
     street_2: Optional[str] = None
+    """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
+    country: str
+    """An ISO 3166-2 subdivision code. Related terms would be "state", "province", "prefecture", "zone", "subdivision", etc."""
+    region: str
+    """City from the end user's address"""
+    city: str
+    """The postal code for the associated address. Between 2 and 10 alphanumeric characters."""
+    postal_code: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

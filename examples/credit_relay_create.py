@@ -22,7 +22,6 @@ report_tokens = [
     )
 ]
 secondary_client_id = "your secondary client id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

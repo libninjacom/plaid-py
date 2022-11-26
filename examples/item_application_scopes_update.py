@@ -9,32 +9,31 @@ def main():
         access_token="your access token",
         application_id="your application id",
         scopes=Scopes(
-            product_access=ProductAccess(
-                statements=True,
-                accounts_routing_number=True,
-                accounts_statements=True,
-                auth=True,
-                accounts_details_transactions=True,
-                customers_profiles=True,
-                transactions=True,
-                identity=True,
-                accounts_tax_statements=True,
-            ),
             accounts=[
                 AccountAccess(
                     unique_id="your unique id",
-                    account_product_access=AccountProductAccessNullable(
-                        AccountProductAccess(
-                            account_data=True,
-                            tax_documents=True,
-                            statements=True,
-                        ),
-                        {},
-                    ),
                     authorized=True,
+                    account_product_access=AccountProductAccessNullable(
+                        account_product_access=AccountProductAccess(
+                            statements=True,
+                            tax_documents=True,
+                            account_data=True,
+                        ),
+                    ),
                 )
             ],
             new_accounts=True,
+            product_access=ProductAccess(
+                transactions=True,
+                auth=True,
+                accounts_tax_statements=True,
+                accounts_details_transactions=True,
+                statements=True,
+                identity=True,
+                accounts_statements=True,
+                customers_profiles=True,
+                accounts_routing_number=True,
+            ),
         ),
         context="your context",
     )
@@ -47,32 +46,31 @@ async def async_main():
         access_token="your access token",
         application_id="your application id",
         scopes=Scopes(
-            product_access=ProductAccess(
-                statements=True,
-                accounts_routing_number=True,
-                accounts_statements=True,
-                auth=True,
-                accounts_details_transactions=True,
-                customers_profiles=True,
-                transactions=True,
-                identity=True,
-                accounts_tax_statements=True,
-            ),
             accounts=[
                 AccountAccess(
                     unique_id="your unique id",
-                    account_product_access=AccountProductAccessNullable(
-                        AccountProductAccess(
-                            account_data=True,
-                            tax_documents=True,
-                            statements=True,
-                        ),
-                        {},
-                    ),
                     authorized=True,
+                    account_product_access=AccountProductAccessNullable(
+                        account_product_access=AccountProductAccess(
+                            statements=True,
+                            tax_documents=True,
+                            account_data=True,
+                        ),
+                    ),
                 )
             ],
             new_accounts=True,
+            product_access=ProductAccess(
+                transactions=True,
+                auth=True,
+                accounts_tax_statements=True,
+                accounts_details_transactions=True,
+                statements=True,
+                identity=True,
+                accounts_statements=True,
+                customers_profiles=True,
+                accounts_routing_number=True,
+            ),
         ),
         context="your context",
     )

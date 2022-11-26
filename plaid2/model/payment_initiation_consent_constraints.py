@@ -7,13 +7,13 @@ from .payment_consent_valid_date_time import PaymentConsentValidDateTime
 
 
 class PaymentInitiationConsentConstraints(BaseModel):
-    """Life span for the payment consent. After the `to` date the payment consent expires and can no longer be used for payment initiation."""
+    """A list of amount limitations per period of time."""
 
+    periodic_amounts: List[PaymentConsentPeriodicAmount]
+    """Life span for the payment consent. After the `to` date the payment consent expires and can no longer be used for payment initiation."""
     valid_date_time: Optional[PaymentConsentValidDateTime] = None
     """Maximum amount of a single payment initiated using the payment consent."""
     max_payment_amount: PaymentConsentMaxPaymentAmount
-    """A list of amount limitations per period of time."""
-    periodic_amounts: List[PaymentConsentPeriodicAmount]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

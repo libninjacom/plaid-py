@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationRetryRequestStepsObject(BaseModel):
-    """A boolean field specifying whether the new session should require or skip the `selfie_check` step."""
-
-    selfie_check: bool
     """A boolean field specifying whether the new session should require or skip the `verify_sms` step."""
+
     verify_sms: bool
     """A boolean field specifying whether the new session should require or skip the `documentary_verification` step."""
     documentary_verification: bool
     """A boolean field specifying whether the new session should require or skip the `kyc_check` step."""
     kyc_check: bool
+    """A boolean field specifying whether the new session should require or skip the `selfie_check` step."""
+    selfie_check: bool
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

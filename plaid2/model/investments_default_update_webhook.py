@@ -5,19 +5,19 @@ from .plaid_error import PlaidError
 
 
 class InvestmentsDefaultUpdateWebhook(BaseModel):
-    """`INVESTMENTS_TRANSACTIONS`"""
-
-    webhook_type: str
-    """`DEFAULT_UPDATE`"""
-    webhook_code: str
     """The `item_id` of the Item associated with this webhook, warning, or error"""
+
     item_id: str
     """We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues.  Error fields will be `null` if no error has occurred."""
     error: Optional[PlaidError] = None
-    """The number of canceled transactions reported since the last time this webhook was fired."""
-    canceled_investments_transactions: float
     """The number of new transactions reported since the last time this webhook was fired."""
     new_investments_transactions: float
+    """The number of canceled transactions reported since the last time this webhook was fired."""
+    canceled_investments_transactions: float
+    """`DEFAULT_UPDATE`"""
+    webhook_code: str
+    """`INVESTMENTS_TRANSACTIONS`"""
+    webhook_type: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

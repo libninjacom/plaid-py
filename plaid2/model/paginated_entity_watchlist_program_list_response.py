@@ -8,10 +8,10 @@ class PaginatedEntityWatchlistProgramListResponse(BaseModel):
     """List of entity watchlist screening programs"""
 
     entity_watchlist_programs: List[EntityWatchlistProgram]
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
     """An identifier that determines which page of results you receive."""
     next_cursor: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

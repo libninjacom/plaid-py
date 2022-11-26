@@ -4,14 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class IdentityVerificationUserAddress(BaseModel):
-    postal_code: Optional[str] = None
+    region: Optional[str] = None
     """Valid, capitalized, two-letter ISO code representing the country of this object. Must be in ISO 3166-1 alpha-2 form."""
     country: str
-    city: Optional[str] = None
-    region: Optional[str] = None
+    postal_code: Optional[str] = None
     street: Optional[str] = None
     """Extra street information, like an apartment or suite number."""
     street_2: Optional[str] = None
+    city: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

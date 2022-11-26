@@ -4,17 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class SignalPersonName(BaseModel):
-    """The user's given name. If the user has a one-word name, it should be provided in this field."""
-
-    given_name: Optional[str] = None
-    """The user's name suffix (e.g. "II")"""
-    suffix: Optional[str] = None
     """The user's name prefix (e.g. "Mr.")"""
+
     prefix: Optional[str] = None
+    """The user's given name. If the user has a one-word name, it should be provided in this field."""
+    given_name: Optional[str] = None
     """The user's middle name"""
     middle_name: Optional[str] = None
     """The user's family name / surname"""
     family_name: Optional[str] = None
+    """The user's name suffix (e.g. "II")"""
+    suffix: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

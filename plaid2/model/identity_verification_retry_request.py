@@ -7,9 +7,26 @@ from .identity_verification_retry_request_steps_object import (
 
 
 class IdentityVerificationRetryRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
+    """An instruction specifying what steps the new Identity Verification attempt should require the user to complete:
 
-    client_id: Optional[str] = None
+
+    `reset` - Restart the user at the beginning of the session, regardless of whether they successfully completed part of their previous session.
+
+    `incomplete` - Start the new session at the step that the user failed in the previous session, skipping steps that have already been successfully completed.
+
+    `infer` - If the most recent Identity Verification attempt associated with the given `client_user_id` has a status of `failed` or `expired`, retry using the `incomplete` strategy. Otherwise, use the `reset` strategy.
+
+    `custom` - Start the new session with a custom configuration, specified by the value of the `steps` field
+
+    Note:
+
+    The `incomplete` strategy cannot be applied if the session's failing step is `screening` or `risk_check`.
+
+    The `infer` strategy cannot be applied if the session's status is still `active`"""
+
+    strategy: str
+    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
+    client_user_id: str
     """Instructions for the `custom` retry strategy specifying which steps should be required or skipped.
     
     
@@ -24,27 +41,6 @@ class IdentityVerificationRetryRequest(BaseModel):
     steps: Optional[IdentityVerificationRetryRequestStepsObject] = None
     """ID of the associated Identity Verification template."""
     template_id: str
-    """An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object."""
-    client_user_id: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """An instruction specifying what steps the new Identity Verification attempt should require the user to complete:
-    
-    
-    `reset` - Restart the user at the beginning of the session, regardless of whether they successfully completed part of their previous session.
-    
-    `incomplete` - Start the new session at the step that the user failed in the previous session, skipping steps that have already been successfully completed.
-    
-    `infer` - If the most recent Identity Verification attempt associated with the given `client_user_id` has a status of `failed` or `expired`, retry using the `incomplete` strategy. Otherwise, use the `reset` strategy.
-    
-    `custom` - Start the new session with a custom configuration, specified by the value of the `steps` field
-    
-    Note:
-    
-    The `incomplete` strategy cannot be applied if the session's failing step is `screening` or `risk_check`.
-    
-    The `infer` strategy cannot be applied if the session's status is still `active`"""
-    strategy: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

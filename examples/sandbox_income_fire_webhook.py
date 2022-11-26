@@ -20,7 +20,6 @@ async def async_main():
 item_id = "your item id"
 webhook = "your webhook"
 verification_status = "your verification status"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

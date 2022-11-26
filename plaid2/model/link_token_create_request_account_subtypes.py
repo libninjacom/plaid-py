@@ -8,15 +8,15 @@ from .link_token_create_loan_filter import LinkTokenCreateLoanFilter
 
 
 class LinkTokenCreateRequestAccountSubtypes(BaseModel):
-    """A filter to apply to `loan`-type accounts"""
+    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
 
-    loan: Optional[LinkTokenCreateLoanFilter] = None
-    """A filter to apply to `credit`-type accounts"""
-    credit: Optional[LinkTokenCreateCreditFilter] = None
+    investment: Optional[LinkTokenCreateInvestmentFilter] = None
     """A filter to apply to `depository`-type accounts"""
     depository: Optional[LinkTokenCreateDepositoryFilter] = None
-    """A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier)."""
-    investment: Optional[LinkTokenCreateInvestmentFilter] = None
+    """A filter to apply to `credit`-type accounts"""
+    credit: Optional[LinkTokenCreateCreditFilter] = None
+    """A filter to apply to `loan`-type accounts"""
+    loan: Optional[LinkTokenCreateLoanFilter] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

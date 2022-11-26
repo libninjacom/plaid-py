@@ -18,12 +18,12 @@ class KycCheckAddressSummary(BaseModel):
     `no_input` indicates that Plaid was unable to perform a check because no information was provided for this field by the end user."""
 
     summary: str
+    """Field describing whether the associated address is a post office box. Will be `yes` when a P.O. box is detected, `no` when Plaid confirmed the address is not a P.O. box, and `no_data` when Plaid was not able to determine if the address is a P.O. box."""
+    po_box: str
     """Field describing whether the associated address is being used for commercial or residential purposes.
     
     Note: This value will be `no_data` when Plaid does not have sufficient data to determine the address's use."""
     type: str
-    """Field describing whether the associated address is a post office box. Will be `yes` when a P.O. box is detected, `no` when Plaid confirmed the address is not a P.O. box, and `no_data` when Plaid was not able to determine if the address is a P.O. box."""
-    po_box: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -36,11 +36,11 @@ class KycCheckAddressSummary(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "KYCCheckAddressSummary":
+    def parse_obj(cls, data: Any) -> "KycCheckAddressSummary":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
-    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "KYCCheckAddressSummary":
+    def parse_raw(cls, b: Union[bytes, str], **kwargs: Any) -> "KycCheckAddressSummary":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

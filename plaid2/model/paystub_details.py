@@ -4,10 +4,8 @@ from pydantic import BaseModel, Field
 
 
 class PaystubDetails(BaseModel):
-    """The name of the payroll provider that generated the paystub, e.g. ADP"""
-
-    paystub_provider: Optional[str] = None
     """The frequency at which the employee is paid. Possible values: `MONTHLY`, `BI-WEEKLY`, `WEEKLY`, `SEMI-MONTHLY`."""
+
     pay_frequency: Optional[str] = None
     """Ending date of the pay period on the paystub in the 'YYYY-MM-DD' format."""
     pay_period_end_date: Optional[str] = None
@@ -15,6 +13,8 @@ class PaystubDetails(BaseModel):
     pay_date: Optional[str] = None
     """Beginning date of the pay period on the paystub in the 'YYYY-MM-DD' format."""
     pay_period_start_date: Optional[str] = None
+    """The name of the payroll provider that generated the paystub, e.g. ADP"""
+    paystub_provider: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

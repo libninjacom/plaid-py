@@ -4,13 +4,9 @@ from pydantic import BaseModel, Field
 
 
 class CreditBankIncomePdfGetRequest(BaseModel):
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-
-    secret: Optional[str] = None
     """The user token associated with the User data is being requested for."""
+
     user_token: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -23,13 +19,13 @@ class CreditBankIncomePdfGetRequest(BaseModel):
         return super().dict(**kwargs)
 
     @classmethod
-    def parse_obj(cls, data: Any) -> "CreditBankIncomePDFGetRequest":
+    def parse_obj(cls, data: Any) -> "CreditBankIncomePdfGetRequest":
         """Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj"""
         return super().parse_obj(data)
 
     @classmethod
     def parse_raw(
         cls, b: Union[bytes, str], **kwargs: Any
-    ) -> "CreditBankIncomePDFGetRequest":
+    ) -> "CreditBankIncomePdfGetRequest":
         """Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw"""
         return super().parse_raw(b, **kwargs)

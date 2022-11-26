@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class PaymentInitiationPaymentReverseResponse(BaseModel):
-    """A unique ID identifying the refund"""
-
-    refund_id: str
     """The status of the refund.
-    
+
     `PROCESSING`: The refund is currently being processed. The refund will automatically exit this state when processing is complete.
-    
+
     `INITIATED`: The refund has been successfully initiated.
-    
+
     `EXECUTED`: Indicates that the refund has been successfully executed.
-    
+
     `FAILED`: The refund has failed to be executed. This error is retryable once the root cause is resolved."""
+
     status: str
+    """A unique ID identifying the refund"""
+    refund_id: str
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
 

@@ -7,15 +7,15 @@ from .watchlist_screening_search_terms import WatchlistScreeningSearchTerms
 
 class WatchlistScreeningIndividual(BaseModel):
     assignee: Optional[str] = None
-    """Search terms for creating an individual watchlist screening"""
-    search_terms: WatchlistScreeningSearchTerms
-    client_user_id: Optional[str] = None
+    """ID of the associated screening."""
+    id: str
     """Information about the last change made to the parent object specifying what caused the change as well as when it occurred."""
     audit_trail: WatchlistScreeningAuditTrail
     """A status enum indicating whether a screening is still pending review, has been rejected, or has been cleared."""
     status: str
-    """ID of the associated screening."""
-    id: str
+    """Search terms for creating an individual watchlist screening"""
+    search_terms: WatchlistScreeningSearchTerms
+    client_user_id: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

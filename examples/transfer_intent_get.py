@@ -16,7 +16,6 @@ async def async_main():
 
 
 transfer_intent_id = "your transfer intent id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

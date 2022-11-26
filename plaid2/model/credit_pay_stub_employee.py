@@ -6,13 +6,13 @@ from .pay_stub_taxpayer_id import PayStubTaxpayerId
 
 
 class CreditPayStubEmployee(BaseModel):
-    """Taxpayer ID of the individual receiving the paystub."""
-
-    taxpayer_id: PayStubTaxpayerId
     """Marital status of the employee - either `SINGLE` or `MARRIED`."""
+
     marital_status: Optional[str] = None
     """Address on the pay stub."""
     address: CreditPayStubAddress
+    """Taxpayer ID of the individual receiving the paystub."""
+    taxpayer_id: PayStubTaxpayerId
     """The name of the employee."""
     name: Optional[str] = None
 

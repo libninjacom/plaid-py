@@ -8,17 +8,17 @@ from .security import Security
 
 
 class InvestmentsHoldingsGetResponse(BaseModel):
-    """Metadata about the Item."""
+    """Objects describing the securities held in the accounts associated with the Item."""
 
-    item: Item
+    securities: List[Security]
     """The accounts associated with the Item"""
     accounts: List[AccountBase]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
     """The holdings belonging to investment accounts associated with the Item. Details of the securities in the holdings are provided in the `securities` field. """
     holdings: List[Holding]
-    """Objects describing the securities held in the accounts associated with the Item. """
-    securities: List[Security]
+    """Metadata about the Item."""
+    item: Item
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

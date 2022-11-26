@@ -5,11 +5,11 @@ from .dashboard_user import DashboardUser
 
 
 class PaginatedDashboardUserListResponse(BaseModel):
-    """List of dashboard users"""
-
-    dashboard_users: List[DashboardUser]
     """An identifier that determines which page of results you receive."""
+
     next_cursor: Optional[str] = None
+    """List of dashboard users"""
+    dashboard_users: List[DashboardUser]
     """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
     request_id: str
 

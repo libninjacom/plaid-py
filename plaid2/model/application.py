@@ -7,30 +7,30 @@ class Application(BaseModel):
     """A string representing the country code of the client’s headquarters."""
 
     country_code: Optional[str] = None
-    """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
-    application_id: str
-    """A human-readable name of the application for display purposes"""
-    display_name: Optional[str] = None
-    """The URL for the application's website"""
-    application_url: Optional[str] = None
     """A string representing client’s broad use case as assessed by Plaid."""
     use_case: Optional[str] = None
-    """The name of the application"""
-    name: str
-    """The date this application was granted production access at Plaid in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format in UTC."""
-    join_date: str
-    """A string representing the name of client’s legal entity."""
-    company_legal_name: Optional[str] = None
-    """A string representing the city of the client’s headquarters."""
-    city: Optional[str] = None
     """A string representing the region of the client’s headquarters."""
     region: Optional[str] = None
-    """A string provided by the connected app stating why they use their respective enabled products."""
-    reason_for_access: Optional[str] = None
-    """A string representing the postal code of the client’s headquarters."""
-    postal_code: Optional[str] = None
+    """A human-readable name of the application for display purposes"""
+    display_name: Optional[str] = None
+    """A string representing the name of client’s legal entity."""
+    company_legal_name: Optional[str] = None
+    """The name of the application"""
+    name: str
+    """This field will map to the application ID that is returned from /item/applications/list, or provided to the institution in an oauth redirect."""
+    application_id: str
+    """The URL for the application's website"""
+    application_url: Optional[str] = None
     """A URL that links to the application logo image."""
     logo_url: Optional[str] = None
+    """A string provided by the connected app stating why they use their respective enabled products."""
+    reason_for_access: Optional[str] = None
+    """A string representing the city of the client’s headquarters."""
+    city: Optional[str] = None
+    """A string representing the postal code of the client’s headquarters."""
+    postal_code: Optional[str] = None
+    """The date this application was granted production access at Plaid in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format in UTC."""
+    join_date: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

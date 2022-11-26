@@ -7,17 +7,13 @@ from .deposit_switch_target_user import DepositSwitchTargetUser
 
 
 class DepositSwitchAltCreateRequest(BaseModel):
-    """ISO-3166-1 alpha-2 country code standard."""
-
-    country_code: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
     """The deposit switch destination account"""
+
     target_account: DepositSwitchTargetAccount
     """The deposit switch target user"""
     target_user: DepositSwitchTargetUser
+    """ISO-3166-1 alpha-2 country code standard."""
+    country_code: Optional[str] = None
     """Options to configure the `/deposit_switch/create` request. If provided, cannot be `null`."""
     options: Optional[DepositSwitchCreateRequestOptions] = None
 

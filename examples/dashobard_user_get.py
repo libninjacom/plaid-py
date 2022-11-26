@@ -16,7 +16,6 @@ async def async_main():
 
 
 dashboard_user_id = "your dashboard user id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

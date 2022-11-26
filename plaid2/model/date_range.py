@@ -6,9 +6,9 @@ from pydantic import BaseModel, Field
 class DateRange(BaseModel):
     """A date in the format YYYY-MM-DD (RFC 3339 Section 5.6)."""
 
-    ending: str
-    """A date in the format YYYY-MM-DD (RFC 3339 Section 5.6)."""
     beginning: str
+    """A date in the format YYYY-MM-DD (RFC 3339 Section 5.6)."""
+    ending: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

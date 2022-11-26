@@ -19,10 +19,10 @@ class EntityScreeningHitData(BaseModel):
     locations: Optional[List[GenericScreeningHitLocationItems]] = None
     """Names associated with the watchlist hit"""
     names: Optional[List[EntityScreeningHitNamesItems]] = None
-    """Email addresses associated with the watchlist hit"""
-    email_addresses: Optional[List[EntityScreeningHitEmailsItems]] = None
     """Phone numbers associated with the watchlist hit"""
     phone_numbers: Optional[List[EntityScreeningHitsPhoneNumberItems]] = None
+    """Email addresses associated with the watchlist hit"""
+    email_addresses: Optional[List[EntityScreeningHitEmailsItems]] = None
     """URLs associated with the watchlist hit"""
     urls: Optional[List[EntityScreeningHitUrlsItems]] = None
 

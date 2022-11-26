@@ -8,11 +8,11 @@ from .sender_bacs_nullable import SenderBacsNullable
 
 
 class PaymentInitiationPayment(BaseModel):
-    """The value of the reference sent to the bank after adjustment to pass bank validation rules."""
+    """The ID of the recipient"""
 
-    adjusted_reference: Optional[str] = None
-    """The schedule that the payment will be executed on. If a schedule is provided, the payment is automatically set up as a standing order. If no schedule is specified, the payment will be executed only once."""
-    schedule: Optional[ExternalPaymentScheduleGet] = None
+    recipient_id: str
+    """The EMI (E-Money Institution) wallet that this payment is associated with, if any. This wallet is used as an intermediary account to enable Plaid to reconcile the settlement of funds for Payment Initiation requests."""
+    wallet_id: Optional[str] = None
     """The status of the payment.
     
     `PAYMENT_STATUS_INPUT_NEEDED`: This is the initial state of all payments. It indicates that the payment is waiting on user input to continue processing. A payment may re-enter this state later on if further input is needed.
@@ -44,22 +44,16 @@ class PaymentInitiationPayment(BaseModel):
     
     `PAYMENT_STATUS_COMPLETED`: Indicates that the standing order has been successfully established. This state is only used for standing orders."""
     status: str
-    """The EMI (E-Money Institution) wallet that this payment is associated with, if any. This wallet is used as an intermediary account to enable Plaid to reconcile the settlement of funds for Payment Initiation requests."""
-    wallet_id: Optional[str] = None
-    """A reference for the payment."""
-    reference: str
-    """The ID of the recipient"""
-    recipient_id: str
-    """The payment consent ID that this payment was initiated with. Is present only when payment was initiated using the payment consent."""
-    consent_id: Optional[str] = None
-    """The ID of the payment. Like all Plaid identifiers, the `payment_id` is case sensitive."""
-    payment_id: str
-    """The date and time of the last time the `status` was updated, in IS0 8601 format"""
-    last_status_update: str
+    """The value of the reference sent to the bank after adjustment to pass bank validation rules."""
+    adjusted_reference: Optional[str] = None
+    """An object containing a BACS account number and sort code. If an IBAN is not provided or if this recipient needs to accept domestic GBP-denominated payments, BACS data is required."""
+    bacs: Optional[SenderBacsNullable] = None
     """The International Bank Account Number (IBAN) for the sender, if specified in the `/payment_initiation/payment/create` call."""
     iban: Optional[str] = None
     """Refund IDs associated with the payment."""
     refund_ids: Optional[List[str]] = None
+    """The ID of the payment. Like all Plaid identifiers, the `payment_id` is case sensitive."""
+    payment_id: str
     """Payment scheme. If not specified - the default in the region will be used (e.g. `SEPA_CREDIT_TRANSFER` for EU). Using unsupported values will result in a failed payment.
     
     `FASTER_PAYMENTS`: Enables payments to move quickly between UK bank accounts. Default value in the UK.
@@ -76,12 +70,18 @@ class PaymentInitiationPayment(BaseModel):
     
     `SEPA_CREDIT_TRANSFER_INSTANT`: Instant payment within the SEPA area. May involve additional fees and may not be available at some banks."""
     adjusted_scheme: Optional[str] = None
-    """Details about external payment refund"""
-    refund_details: Optional[ExternalPaymentRefundDetails] = None
-    """An object containing a BACS account number and sort code. If an IBAN is not provided or if this recipient needs to accept domestic GBP-denominated payments, BACS data is required."""
-    bacs: Optional[SenderBacsNullable] = None
+    """The date and time of the last time the `status` was updated, in IS0 8601 format"""
+    last_status_update: str
+    """A reference for the payment."""
+    reference: str
+    """The payment consent ID that this payment was initiated with. Is present only when payment was initiated using the payment consent."""
+    consent_id: Optional[str] = None
     """The amount and currency of a payment"""
     amount: PaymentAmount
+    """The schedule that the payment will be executed on. If a schedule is provided, the payment is automatically set up as a standing order. If no schedule is specified, the payment will be executed only once."""
+    schedule: Optional[ExternalPaymentScheduleGet] = None
+    """Details about external payment refund"""
+    refund_details: Optional[ExternalPaymentRefundDetails] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

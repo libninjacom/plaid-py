@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class PayStubDeductionsBreakdown(BaseModel):
-    """The year-to-date amount of the deduction"""
+    """Raw amount of the deduction"""
 
-    ytd_amount: Optional[float] = None
-    """The unofficial currency code associated with the line item. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-    
-    See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s."""
-    unofficial_currency_code: Optional[str] = None
+    current_amount: Optional[float] = None
     """Description of the deduction line item"""
     description: Optional[str] = None
     """The ISO-4217 currency code of the line item. Always `null` if `unofficial_currency_code` is non-null."""
     iso_currency_code: Optional[str] = None
-    """Raw amount of the deduction"""
-    current_amount: Optional[float] = None
+    """The unofficial currency code associated with the line item. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
+    
+    See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s."""
+    unofficial_currency_code: Optional[str] = None
+    """The year-to-date amount of the deduction"""
+    ytd_amount: Optional[float] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -4,14 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class InvestmentsTransactionsGetRequestOptions(BaseModel):
-    """An array of `account_ids` to retrieve for the Item."""
+    """The number of transactions to fetch."""
 
+    count: Optional[int] = None
+    """An array of `account_ids` to retrieve for the Item."""
     account_ids: Optional[List[str]] = None
     """The number of transactions to skip when fetching transaction history"""
     offset: Optional[int] = None
-    """The number of transactions to fetch.
-    """
-    count: Optional[int] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

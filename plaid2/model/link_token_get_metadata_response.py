@@ -6,24 +6,23 @@ from .link_token_create_institution_data import LinkTokenCreateInstitutionData
 
 
 class LinkTokenGetMetadataResponse(BaseModel):
-    """The `language` specified in the `/link/token/create` call."""
+    """The `account_filters` specified in the original call to `/link/token/create`."""
 
-    language: Optional[str] = None
-    """The `client_name` specified in the `/link/token/create` call."""
-    client_name: Optional[str] = None
+    account_filters: Optional[AccountFiltersResponse] = None
     """The `products` specified in the `/link/token/create` call."""
     initial_products: List[str]
-    """The `country_codes` specified in the `/link/token/create` call."""
-    country_codes: List[str]
-    """The `webhook` specified in the `/link/token/create` call."""
-    webhook: Optional[str] = None
     """A map containing data used to highlight institutions in Link."""
     institution_data: Optional[LinkTokenCreateInstitutionData] = None
     """The `redirect_uri` specified in the `/link/token/create` call."""
     redirect_uri: Optional[str] = None
-    """The `account_filters` specified in the original call to `/link/token/create`.
-    """
-    account_filters: Optional[AccountFiltersResponse] = None
+    """The `webhook` specified in the `/link/token/create` call."""
+    webhook: Optional[str] = None
+    """The `client_name` specified in the `/link/token/create` call."""
+    client_name: Optional[str] = None
+    """The `language` specified in the `/link/token/create` call."""
+    language: Optional[str] = None
+    """The `country_codes` specified in the `/link/token/create` call."""
+    country_codes: List[str]
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

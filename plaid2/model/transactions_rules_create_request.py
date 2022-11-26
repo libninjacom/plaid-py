@@ -5,20 +5,16 @@ from .transactions_rule_details import TransactionsRuleDetails
 
 
 class TransactionsRulesCreateRequest(BaseModel):
-    """Personal finance detailed category.
+    """The access token associated with the Item data is being requested for."""
 
+    access_token: str
+    """Personal finance detailed category.
+    
     See the [`taxonomy csv file`](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) for a full list of personal finance categories.
     """
-
     personal_finance_category: str
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: str
     """A representation of transactions rule details."""
     rule_details: TransactionsRuleDetails
-    """The access token associated with the Item data is being requested for."""
-    access_token: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

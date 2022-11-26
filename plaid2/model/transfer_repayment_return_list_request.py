@@ -4,17 +4,13 @@ from pydantic import BaseModel, Field
 
 
 class TransferRepaymentReturnListRequest(BaseModel):
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-
-    client_id: Optional[str] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
     """The maximum number of repayments to return."""
+
     count: Optional[int] = None
-    """Identifier of the repayment to query."""
-    repayment_id: str
     """The number of repayments to skip before returning results."""
     offset: Optional[int] = None
+    """Identifier of the repayment to query."""
+    repayment_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

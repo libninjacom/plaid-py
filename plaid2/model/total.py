@@ -5,15 +5,15 @@ from .pay import Pay
 
 
 class Total(BaseModel):
-    """Commonly used term to describe the line item."""
+    """An object representing a monetary amount."""
 
-    canonical_description: Optional[str] = None
+    current_pay: Optional[Pay] = None
     """An object representing a monetary amount."""
     ytd_pay: Optional[Pay] = None
     """Text of the line item as printed on the paystub."""
     description: Optional[str] = None
-    """An object representing a monetary amount."""
-    current_pay: Optional[Pay] = None
+    """Commonly used term to describe the line item."""
+    canonical_description: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

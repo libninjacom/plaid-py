@@ -5,11 +5,11 @@ from .paystub_override_employee_address import PaystubOverrideEmployeeAddress
 
 
 class PaystubOverrideEmployee(BaseModel):
-    """The address of the employee."""
-
-    address: Optional[PaystubOverrideEmployeeAddress] = None
     """The name of the employee."""
+
     name: Optional[str] = None
+    """The address of the employee."""
+    address: Optional[PaystubOverrideEmployeeAddress] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

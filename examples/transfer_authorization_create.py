@@ -11,16 +11,16 @@ def main():
         amount="your amount",
         ach_class="your ach class",
         user=TransferAuthorizationUserInRequest(
+            email_address="your email address",
+            phone_number="your phone number",
             address=TransferUserAddressInRequest(
-                region="your region",
                 country="your country",
+                street="your street",
                 postal_code="your postal code",
                 city="your city",
-                street="your street",
+                region="your region",
             ),
-            phone_number="your phone number",
             legal_name="your legal name",
-            email_address="your email address",
         ),
     )
     print(f"{response!r}")
@@ -34,16 +34,16 @@ async def async_main():
         amount="your amount",
         ach_class="your ach class",
         user=TransferAuthorizationUserInRequest(
+            email_address="your email address",
+            phone_number="your phone number",
             address=TransferUserAddressInRequest(
-                region="your region",
                 country="your country",
+                street="your street",
                 postal_code="your postal code",
                 city="your city",
-                street="your street",
+                region="your region",
             ),
-            phone_number="your phone number",
             legal_name="your legal name",
-            email_address="your email address",
         ),
     )
     print(f"{response!r}")

@@ -5,7 +5,9 @@ from .income_summary_field_string import IncomeSummaryFieldString
 
 
 class EmployeeIncomeSummaryFieldString(BaseModel):
-    __root__: Optional[IncomeSummaryFieldString] = None
+    """Data about the income summary"""
+
+    income_summary_field_string: Optional[IncomeSummaryFieldString] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -15,7 +17,7 @@ class EmployeeIncomeSummaryFieldString(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "EmployeeIncomeSummaryFieldString":

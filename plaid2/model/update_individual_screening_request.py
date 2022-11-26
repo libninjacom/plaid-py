@@ -7,19 +7,15 @@ from .update_individual_screening_request_search_terms import (
 
 
 class UpdateIndividualScreeningRequest(BaseModel):
-    """Search terms for editing an individual watchlist screening"""
+    """ID of the associated screening."""
 
+    watchlist_screening_id: str
+    client_user_id: Optional[str] = None
+    """Search terms for editing an individual watchlist screening"""
     search_terms: Optional[UpdateIndividualScreeningRequestSearchTerms] = None
-    """Your Plaid API `secret`. The `secret` is required and may be provided either in the `PLAID-SECRET` header or as part of a request body."""
-    secret: Optional[str] = None
+    assignee: Optional[str] = None
     """A list of fields to reset back to null"""
     reset_fields: Optional[List[str]] = None
-    """ID of the associated screening."""
-    watchlist_screening_id: str
-    """Your Plaid API `client_id`. The `client_id` is required and may be provided either in the `PLAID-CLIENT-ID` header or as part of a request body."""
-    client_id: Optional[str] = None
-    client_user_id: Optional[str] = None
-    assignee: Optional[str] = None
     status: Optional[str] = None
 
     def json(self, **kwargs: Any) -> str:

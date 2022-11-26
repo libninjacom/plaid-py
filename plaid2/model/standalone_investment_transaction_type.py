@@ -4,19 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class StandaloneInvestmentTransactionType(BaseModel):
-    """Fees on the account, e.g. commission, bookkeeping, options-related."""
-
-    fee: str
     """Activity that modifies a position, but not through buy/sell activity e.g. options exercise, portfolio transfer"""
+
     transfer: str
-    """A cancellation of a pending transaction"""
-    cancel: str
-    """Activity that modifies a cash position"""
-    cash: str
     """Buying an investment"""
     buy: str
     """Selling an investment"""
     sell: str
+    """Activity that modifies a cash position"""
+    cash: str
+    """A cancellation of a pending transaction"""
+    cancel: str
+    """Fees on the account, e.g. commission, bookkeeping, options-related."""
+    fee: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

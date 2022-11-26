@@ -4,8 +4,8 @@ import asyncio
 import json
 import logging
 from .logger import logger
-from .authenticator import PlaidAuthenticator
-from typing import Optional, List, Any, Dict
+from .authenticator import PlaidAuthentication
+from typing import Optional, List, Any, Dict, Union
 from . import model
 
 
@@ -42,7 +42,7 @@ def log_response(text: str, res: aiohttp.ClientResponse) -> None:
 
 
 class AsyncPlaidClient:
-    def __init__(self, base_url: str, authenticator: PlaidAuthenticator):
+    def __init__(self, base_url: str, authenticator: PlaidAuthentication):
         self.authenticator = authenticator
         self.base_url = base_url
         self.session = aiohttp.ClientSession(
@@ -56,8 +56,8 @@ class AsyncPlaidClient:
         self,
         method: str,
         url: str,
-        headers: Dict[str, str | None],
-        params: Dict[str, str | int | None],
+        headers: Dict[str, Union[str, None]],
+        params: Dict[str, Union[str, int, None]],
         data: Any,
     ) -> str:
         self.authenticator.authenticate(headers, params, data)
@@ -86,19 +86,14 @@ class AsyncPlaidClient:
             return text
 
     async def item_application_list(
-        self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        access_token: Optional[str] = None,
+        self, *, access_token: Optional[str] = None
     ) -> model.ItemApplicationListResponse:
         """List a user’s connected applications"""
         url = self.base_url + "/item/application/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemApplicationListResponse.parse_raw(text)
@@ -109,63 +104,51 @@ class AsyncPlaidClient:
         application_id: str,
         scopes: model.Scopes,
         context: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         state: Optional[str] = None,
     ) -> model.ItemApplicationScopesUpdateResponse:
         """Update the scopes of access for a particular application
 
         Enable consumers to update product access on selected accounts for an application."""
         url = self.base_url + "/item/application/scopes/update"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("application_id"): application_id,
-            Ident("scopes"): None if scopes is None else scopes.dict(),
-            Ident("state"): state,
-            Ident("context"): context,
+            "access_token": access_token,
+            "application_id": application_id,
+            "scopes": None if scopes is None else scopes.dict(),
+            "state": state,
+            "context": context,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemApplicationScopesUpdateResponse.parse_raw(text)
 
     async def application_get(
-        self, client_id: str, secret: str, application_id: str
+        self, application_id: str
     ) -> model.ApplicationGetResponse:
         """Retrieve information about a Plaid application
 
         Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences"""
         url = self.base_url + "/application/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("application_id"): application_id,
+            "application_id": application_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ApplicationGetResponse.parse_raw(text)
 
-    async def item_get(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.ItemGetResponse:
+    async def item_get(self, access_token: str) -> model.ItemGetResponse:
         """Retrieve an Item
 
         Returns information about the status of an Item.
 
-        See endpoint docs at </api/items/#itemget>."""
+        See endpoint docs at <https://plaid.com/docs/api/items/#itemget>."""
         url = self.base_url + "/item/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemGetResponse.parse_raw(text)
@@ -173,8 +156,7 @@ class AsyncPlaidClient:
     async def auth_get(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.AuthGetRequestOptions] = None,
     ) -> model.AuthGetResponse:
         """Retrieve auth data
@@ -187,15 +169,13 @@ class AsyncPlaidClient:
 
         Versioning note: In API version 2017-03-08, the schema of the `numbers` object returned by this endpoint is substantially different. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2018-05-22).
 
-        See endpoint docs at </api/products/auth/#authget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/auth/#authget>."""
         url = self.base_url + "/auth/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AuthGetResponse.parse_raw(text)
@@ -205,9 +185,8 @@ class AsyncPlaidClient:
         access_token: str,
         start_date: str,
         end_date: str,
-        client_id: Optional[str] = None,
+        *,
         options: Optional[model.TransactionsGetRequestOptions] = None,
-        secret: Optional[str] = None,
     ) -> model.TransactionsGetResponse:
         """Get transaction data
 
@@ -221,26 +200,21 @@ class AsyncPlaidClient:
 
         Note that data may not be immediately available to `/transactions/get`. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with `transactions`, or upon the first call to `/transactions/get`, if it wasn't. To be alerted when transaction data is ready to be fetched, listen for the [`INITIAL_UPDATE`](https://plaid.com/docs/api/products/transactions/#initial_update) and [`HISTORICAL_UPDATE`](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when `/transactions/get` is called, it will return a `PRODUCT_NOT_READY` error.
 
-        See endpoint docs at </api/products/transactions/#transactionsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transactions/#transactionsget>."""
         url = self.base_url + "/transactions/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("options"): None if options is None else options.dict(),
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
+            "options": None if options is None else options.dict(),
+            "access_token": access_token,
+            "start_date": start_date,
+            "end_date": end_date,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsGetResponse.parse_raw(text)
 
     async def transactions_refresh(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str
     ) -> model.TransactionsRefreshResponse:
         """Refresh transaction data
 
@@ -248,14 +222,12 @@ class AsyncPlaidClient:
 
         Access to `/transactions/refresh` in Production is specific to certain pricing plans. If you cannot access `/transactions/refresh` in Production, [contact Sales](https://www.plaid.com/contact) for assistance.
 
-        See endpoint docs at </api/products/transactions/#transactionsrefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transactions/#transactionsrefresh>."""
         url = self.base_url + "/transactions/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRefreshResponse.parse_raw(text)
@@ -263,9 +235,8 @@ class AsyncPlaidClient:
     async def transactions_recurring_get(
         self,
         access_token: str,
-        account_ids: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        account_ids: List[str],
+        *,
         options: Optional[model.TransactionsRecurringGetRequestOptions] = None,
     ) -> model.TransactionsRecurringGetResponse:
         """Fetch recurring transaction streams
@@ -278,16 +249,14 @@ class AsyncPlaidClient:
 
         After the initial call, you can call `/transactions/recurring/get` endpoint at any point in the future to retrieve the latest summary of recurring streams. Since recurring streams do not change often, it will typically not be necessary to call this endpoint more than once per day.
 
-        See endpoint docs at </api/products/transactions/#transactionsrecurringget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transactions/#transactionsrecurringget>."""
         url = self.base_url + "/transactions/recurring/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("options"): None if options is None else options.dict(),
-            Ident("account_ids"): account_ids,
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
+            "account_ids": account_ids,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRecurringGetResponse.parse_raw(text)
@@ -295,8 +264,7 @@ class AsyncPlaidClient:
     async def transactions_sync(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         cursor: Optional[str] = None,
         count: Optional[int] = None,
         options: Optional[model.TransactionsSyncRequestOptions] = None,
@@ -321,17 +289,15 @@ class AsyncPlaidClient:
 
         To be alerted when new data is available, listen for the [`SYNC_UPDATES_AVAILABLE`](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
 
-        See endpoint docs at </api/products/transactions/#transactionssync>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transactions/#transactionssync>."""
         url = self.base_url + "/transactions/sync"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("cursor"): cursor,
-            Ident("count"): count,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "cursor": cursor,
+            "count": count,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsSyncResponse.parse_raw(text)
@@ -340,9 +306,8 @@ class AsyncPlaidClient:
         self,
         count: int,
         offset: int,
-        country_codes: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        country_codes: List[str],
+        *,
         options: Optional[model.InstitutionsGetRequestOptions] = None,
     ) -> model.InstitutionsGetResponse:
         """Get details of all supported institutions
@@ -351,17 +316,15 @@ class AsyncPlaidClient:
 
         If there is no overlap between an institution’s enabled products and a client’s enabled products, then the institution will be filtered out from the response. As a result, the number of institutions returned may not match the count specified in the call.
 
-        See endpoint docs at </api/institutions/#institutionsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/institutions/#institutionsget>."""
         url = self.base_url + "/institutions/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("count"): count,
-            Ident("offset"): offset,
-            Ident("country_codes"): country_codes,
-            Ident("options"): None if options is None else options.dict(),
+            "count": count,
+            "offset": offset,
+            "country_codes": country_codes,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InstitutionsGetResponse.parse_raw(text)
@@ -369,10 +332,9 @@ class AsyncPlaidClient:
     async def institutions_search(
         self,
         query: str,
-        country_codes: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        products: Optional[model.List[str]] = None,
+        country_codes: List[str],
+        *,
+        products: Optional[List[str]] = None,
         options: Optional[model.InstitutionsSearchRequestOptions] = None,
     ) -> model.InstitutionsSearchResponse:
         """Search institutions
@@ -382,17 +344,15 @@ class AsyncPlaidClient:
         Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` parameters to authenticate to this endpoint. The `public_key` parameter has since been deprecated; all customers are encouraged to use `client_id` and `secret` instead.
 
 
-        See endpoint docs at </api/institutions/#institutionssearch>."""
+        See endpoint docs at <https://plaid.com/docs/api/institutions/#institutionssearch>."""
         url = self.base_url + "/institutions/search"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("query"): query,
-            Ident("products"): products,
-            Ident("country_codes"): country_codes,
-            Ident("options"): None if options is None else options.dict(),
+            "query": query,
+            "products": products,
+            "country_codes": country_codes,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InstitutionsSearchResponse.parse_raw(text)
@@ -400,9 +360,8 @@ class AsyncPlaidClient:
     async def institutions_get_by_id(
         self,
         institution_id: str,
-        country_codes: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        country_codes: List[str],
+        *,
         options: Optional[model.InstitutionsGetByIdRequestOptions] = None,
     ) -> model.InstitutionsGetByIdResponse:
         """Get details of an institution
@@ -412,26 +371,19 @@ class AsyncPlaidClient:
         Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` to authenticate to this endpoint. The `public_key` has been deprecated; all customers are encouraged to use `client_id` and `secret` instead.
 
 
-        See endpoint docs at </api/institutions/#institutionsget_by_id>."""
+        See endpoint docs at <https://plaid.com/docs/api/institutions/#institutionsget_by_id>."""
         url = self.base_url + "/institutions/get_by_id"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("institution_id"): institution_id,
-            Ident("country_codes"): country_codes,
-            Ident("options"): None if options is None else options.dict(),
+            "institution_id": institution_id,
+            "country_codes": country_codes,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InstitutionsGetByIdResponse.parse_raw(text)
 
-    async def item_remove(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.ItemRemoveResponse:
+    async def item_remove(self, access_token: str) -> model.ItemRemoveResponse:
         """Remove an Item
 
         The `/item/remove` endpoint allows you to remove an Item. Once removed, the `access_token`, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.
@@ -442,14 +394,12 @@ class AsyncPlaidClient:
 
         API versions 2019-05-29 and earlier return a `removed` boolean as part of the response.
 
-        See endpoint docs at </api/items/#itemremove>."""
+        See endpoint docs at <https://plaid.com/docs/api/items/#itemremove>."""
         url = self.base_url + "/item/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemRemoveResponse.parse_raw(text)
@@ -457,8 +407,7 @@ class AsyncPlaidClient:
     async def accounts_get(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.AccountsGetRequestOptions] = None,
     ) -> model.AccountsGetResponse:
         """Retrieve accounts
@@ -468,15 +417,13 @@ class AsyncPlaidClient:
 
         This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use `/accounts/balance/get` instead. Note that some information is nullable.
 
-        See endpoint docs at </api/accounts/#accountsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/accounts/#accountsget>."""
         url = self.base_url + "/accounts/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AccountsGetResponse.parse_raw(text)
@@ -486,10 +433,10 @@ class AsyncPlaidClient:
 
         Send a request to the `/categories/get` endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.
 
-        See endpoint docs at </api/products/transactions/#categoriesget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transactions/#categoriesget>."""
         url = self.base_url + "/categories/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {}
         text = await self.send("POST", url, headers, params, data)
         return model.CategoriesGetResponse.parse_raw(text)
@@ -497,23 +444,20 @@ class AsyncPlaidClient:
     async def sandbox_processor_token_create(
         self,
         institution_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.SandboxProcessorTokenCreateRequestOptions] = None,
     ) -> model.SandboxProcessorTokenCreateResponse:
         """Create a test Item and processor token
 
         Use the `/sandbox/processor_token/create` endpoint to create a valid `processor_token` for an arbitrary institution ID and test credentials. The created `processor_token` corresponds to a new Sandbox Item. You can then use this `processor_token` with the `/processor/` API endpoints in Sandbox. You can also use `/sandbox/processor_token/create` with the [`user_custom` test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data.
 
-        See endpoint docs at </api/sandbox/#sandboxprocessor_tokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxprocessor_tokencreate>."""
         url = self.base_url + "/sandbox/processor_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("institution_id"): institution_id,
-            Ident("options"): None if options is None else options.dict(),
+            "institution_id": institution_id,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxProcessorTokenCreateResponse.parse_raw(text)
@@ -521,9 +465,8 @@ class AsyncPlaidClient:
     async def sandbox_public_token_create(
         self,
         institution_id: str,
-        initial_products: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        initial_products: List[str],
+        *,
         options: Optional[model.SandboxPublicTokenCreateRequestOptions] = None,
         user_token: Optional[str] = None,
     ) -> model.SandboxPublicTokenCreateResponse:
@@ -531,17 +474,15 @@ class AsyncPlaidClient:
 
         Use the `/sandbox/public_token/create` endpoint to create a valid `public_token`  for an arbitrary institution ID, initial products, and test credentials. The created `public_token` maps to a new Sandbox Item. You can then call `/item/public_token/exchange` to exchange the `public_token` for an `access_token` and perform all API actions. `/sandbox/public_token/create` can also be used with the [`user_custom` test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data. `/sandbox/public_token/create` cannot be used with OAuth institutions.
 
-        See endpoint docs at </api/sandbox/#sandboxpublic_tokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxpublic_tokencreate>."""
         url = self.base_url + "/sandbox/public_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("institution_id"): institution_id,
-            Ident("initial_products"): initial_products,
-            Ident("options"): None if options is None else options.dict(),
-            Ident("user_token"): user_token,
+            "institution_id": institution_id,
+            "initial_products": initial_products,
+            "options": None if options is None else options.dict(),
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxPublicTokenCreateResponse.parse_raw(text)
@@ -550,8 +491,7 @@ class AsyncPlaidClient:
         self,
         access_token: str,
         webhook_code: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         webhook_type: Optional[str] = None,
     ) -> model.SandboxItemFireWebhookResponse:
         """Fire a test webhook
@@ -568,16 +508,14 @@ class AsyncPlaidClient:
 
         Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
 
-        See endpoint docs at </api/sandbox/#sandboxitemfire_webhook>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxitemfire_webhook>."""
         url = self.base_url + "/sandbox/item/fire_webhook"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("webhook_type"): webhook_type,
-            Ident("webhook_code"): webhook_code,
+            "access_token": access_token,
+            "webhook_type": webhook_type,
+            "webhook_code": webhook_code,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxItemFireWebhookResponse.parse_raw(text)
@@ -585,23 +523,20 @@ class AsyncPlaidClient:
     async def accounts_balance_get(
         self,
         access_token: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        *,
         options: Optional[model.AccountsBalanceGetRequestOptions] = None,
     ) -> model.AccountsGetResponse:
         """Retrieve real-time balance data
 
         The `/accounts/balance/get` endpoint returns the real-time balance for each of an Item's accounts. While other endpoints may return a balance object, only `/accounts/balance/get` forces the available and current balance fields to be refreshed rather than cached. This endpoint can be used for existing Items that were added via any of Plaid’s other products. This endpoint can be used as long as Link has been initialized with any other product, `balance` itself is not a product that can be used to initialize Link.
 
-        See endpoint docs at </api/products/balance/#accountsbalanceget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/balance/#accountsbalanceget>."""
         url = self.base_url + "/accounts/balance/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AccountsGetResponse.parse_raw(text)
@@ -609,8 +544,7 @@ class AsyncPlaidClient:
     async def identity_get(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.IdentityGetRequestOptions] = None,
     ) -> model.IdentityGetResponse:
         """Retrieve identity data
@@ -621,15 +555,13 @@ class AsyncPlaidClient:
 
         Note: In API versions 2018-05-22 and earlier, the `owners` object is not returned, and instead identity information is returned in the top level `identity` object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29).
 
-        See endpoint docs at </api/products/identity/#identityget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity/#identityget>."""
         url = self.base_url + "/identity/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityGetResponse.parse_raw(text)
@@ -637,8 +569,7 @@ class AsyncPlaidClient:
     async def identity_match(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user: Optional[model.IdentityMatchUser] = None,
         options: Optional[model.IdentityMatchRequestOptions] = None,
     ) -> model.IdentityMatchResponse:
@@ -648,60 +579,48 @@ class AsyncPlaidClient:
 
         This request may take some time to complete if Identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.
 
-        See endpoint docs at </api/products/identity/#identitymatch>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity/#identitymatch>."""
         url = self.base_url + "/identity/match"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "user": None if user is None else user.dict(),
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityMatchResponse.parse_raw(text)
 
     async def dashobard_user_get(
-        self,
-        dashboard_user_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, dashboard_user_id: str
     ) -> model.DashboardUserResponse:
         """Retrieve a dashboard user
 
         Retrieve information about a dashboard user.
 
-        See endpoint docs at </api/products/monitor/#dashboard_userget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#dashboard_userget>."""
         url = self.base_url + "/dashboard_user/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("dashboard_user_id"): dashboard_user_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "dashboard_user_id": dashboard_user_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.DashboardUserResponse.parse_raw(text)
 
     async def dashboard_user_list(
-        self,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, *, cursor: Optional[str] = None
     ) -> model.PaginatedDashboardUserListResponse:
         """List dashboard users
 
         List all dashboard users associated with your account.
 
-        See endpoint docs at </api/products/monitor/#dashboard_userlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#dashboard_userlist>."""
         url = self.base_url + "/dashboard_user/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("cursor"): cursor,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedDashboardUserListResponse.parse_raw(text)
@@ -712,8 +631,7 @@ class AsyncPlaidClient:
         template_id: str,
         gave_consent: bool,
         user: model.IdentityVerificationRequestUser,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         is_idempotent: Optional[bool] = None,
     ) -> model.IdentityVerificationResponse:
         """Create a new identity verification
@@ -722,66 +640,52 @@ class AsyncPlaidClient:
         If you don't know whether the associated user already has an active Identity Verification, you can specify `"is_idempotent": true` in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated `client_user_id` and `template_id`. If an Identity Verification is found, it will be returned unmodified with an `200 OK` HTTP status code.
 
 
-        See endpoint docs at </api/products/identity-verification/#identity_verificationcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationcreate>."""
         url = self.base_url + "/identity_verification/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("is_shareable"): is_shareable,
-            Ident("template_id"): template_id,
-            Ident("gave_consent"): gave_consent,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("is_idempotent"): is_idempotent,
+            "is_shareable": is_shareable,
+            "template_id": template_id,
+            "gave_consent": gave_consent,
+            "user": None if user is None else user.dict(),
+            "is_idempotent": is_idempotent,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
     async def identity_verification_get(
-        self,
-        identity_verification_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, identity_verification_id: str
     ) -> model.IdentityVerificationResponse:
         """Retrieve Identity Verification
 
         Retrieve a previously created identity verification
 
-        See endpoint docs at </api/products/identity-verification/#identity_verificationget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationget>."""
         url = self.base_url + "/identity_verification/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("identity_verification_id"): identity_verification_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "identity_verification_id": identity_verification_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
 
     async def identity_verification_list(
-        self,
-        template_id: str,
-        client_user_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, template_id: str, client_user_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedIdentityVerificationListResponse:
         """List Identity Verifications
 
         Filter and list Identity Verifications created by your account
 
-        See endpoint docs at </api/products/identity-verification/#identity_verificationlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationlist>."""
         url = self.base_url + "/identity_verification/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("template_id"): template_id,
-            Ident("client_user_id"): client_user_id,
-            Ident("cursor"): cursor,
+            "template_id": template_id,
+            "client_user_id": client_user_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIdentityVerificationListResponse.parse_raw(text)
@@ -791,25 +695,22 @@ class AsyncPlaidClient:
         client_user_id: str,
         template_id: str,
         strategy: str,
+        *,
         steps: Optional[model.IdentityVerificationRetryRequestStepsObject] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.IdentityVerificationResponse:
         """Retry an Identity Verification
 
         Allow a customer to retry their identity verification
 
-        See endpoint docs at </api/products/identity-verification/#identity_verificationretry>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/identity-verification/#identity_verificationretry>."""
         url = self.base_url + "/identity_verification/retry"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_user_id"): client_user_id,
-            Ident("template_id"): template_id,
-            Ident("strategy"): strategy,
-            Ident("steps"): None if steps is None else steps.dict(),
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
+            "client_user_id": client_user_id,
+            "template_id": template_id,
+            "strategy": strategy,
+            "steps": None if steps is None else steps.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IdentityVerificationResponse.parse_raw(text)
@@ -817,95 +718,73 @@ class AsyncPlaidClient:
     async def watchlist_screening_entity_create(
         self,
         search_terms: model.EntityWatchlistSearchTerms,
+        *,
         client_user_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.EntityWatchlistScreeningResponse:
         """Create a watchlist screening for an entity
 
         Create a new entity watchlist screening to check your customer against watchlists defined in the associated entity watchlist program. If your associated program has ongoing screening enabled, this is the profile information that will be used to monitor your customer over time.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentitycreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentitycreate>."""
         url = self.base_url + "/watchlist_screening/entity/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("search_terms"): None
-            if search_terms is None
-            else search_terms.dict(),
-            Ident("client_user_id"): client_user_id,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
+            "search_terms": None if search_terms is None else search_terms.dict(),
+            "client_user_id": client_user_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     async def watchlist_screening_entity_get(
-        self,
-        entity_watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, entity_watchlist_screening_id: str
     ) -> model.EntityWatchlistScreeningResponse:
         """Get an entity screening
 
         Retrieve an entity watchlist screening.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityget>."""
         url = self.base_url + "/watchlist_screening/entity/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
 
     async def watchlist_screening_entity_history_list(
-        self,
-        entity_watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, entity_watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedEntityWatchlistScreeningListResponse:
         """List history for entity watchlist screenings
 
         List all changes to the entity watchlist screening in reverse-chronological order. If the watchlist screening has not been edited, no history will be returned.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityhistorylist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityhistorylist>."""
         url = self.base_url + "/watchlist_screening/entity/history/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedEntityWatchlistScreeningListResponse.parse_raw(text)
 
     async def watchlist_screening_entity_hits_list(
-        self,
-        entity_watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, entity_watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedEntityWatchlistScreeningHitListResponse:
         """List hits for entity watchlist screenings
 
         List all hits for the entity watchlist screening.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityhitlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityhitlist>."""
         url = self.base_url + "/watchlist_screening/entity/hit/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedEntityWatchlistScreeningHitListResponse.parse_raw(text)
@@ -913,8 +792,7 @@ class AsyncPlaidClient:
     async def watchlist_screening_entity_list(
         self,
         entity_watchlist_program_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        *,
         client_user_id: Optional[str] = None,
         status: Optional[str] = None,
         assignee: Optional[str] = None,
@@ -924,114 +802,93 @@ class AsyncPlaidClient:
 
         List all entity screenings.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentitylist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentitylist>."""
         url = self.base_url + "/watchlist_screening/entity/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("entity_watchlist_program_id"): entity_watchlist_program_id,
-            Ident("client_user_id"): client_user_id,
-            Ident("status"): status,
-            Ident("assignee"): assignee,
-            Ident("cursor"): cursor,
+            "entity_watchlist_program_id": entity_watchlist_program_id,
+            "client_user_id": client_user_id,
+            "status": status,
+            "assignee": assignee,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedEntityWatchlistScreeningListResponse.parse_raw(text)
 
     async def watchlist_screening_entity_program_get(
-        self,
-        entity_watchlist_program_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, entity_watchlist_program_id: str
     ) -> model.EntityWatchlistProgramResponse:
         """Get entity watchlist screening program
 
         Get an entity watchlist screening program
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityprogramget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityprogramget>."""
         url = self.base_url + "/watchlist_screening/entity/program/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("entity_watchlist_program_id"): entity_watchlist_program_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "entity_watchlist_program_id": entity_watchlist_program_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EntityWatchlistProgramResponse.parse_raw(text)
 
     async def watchlist_screening_entity_program_list(
-        self,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, *, cursor: Optional[str] = None
     ) -> model.PaginatedEntityWatchlistProgramListResponse:
         """List entity watchlist screening programs
 
         List all entity watchlist screening programs
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityprogramlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityprogramlist>."""
         url = self.base_url + "/watchlist_screening/entity/program/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("cursor"): cursor,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedEntityWatchlistProgramListResponse.parse_raw(text)
 
     async def watchlist_screening_entity_review_create(
         self,
-        confirmed_hits: model.List[str],
-        dismissed_hits: model.List[str],
+        confirmed_hits: List[str],
+        dismissed_hits: List[str],
         entity_watchlist_screening_id: str,
+        *,
         comment: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.EntityWatchlistScreeningReviewResponse:
         """Create a review for an entity watchlist screening
 
         Create a review for an entity watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityreviewcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityreviewcreate>."""
         url = self.base_url + "/watchlist_screening/entity/review/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("confirmed_hits"): confirmed_hits,
-            Ident("dismissed_hits"): dismissed_hits,
-            Ident("comment"): comment,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
+            "confirmed_hits": confirmed_hits,
+            "dismissed_hits": dismissed_hits,
+            "comment": comment,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EntityWatchlistScreeningReviewResponse.parse_raw(text)
 
     async def watchlist_screening_entity_review_list(
-        self,
-        entity_watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, entity_watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedEntityWatchlistScreeningReviewListResponse:
         """List reviews for entity watchlist screenings
 
         List all reviews for a particular entity watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityreviewlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityreviewlist>."""
         url = self.base_url + "/watchlist_screening/entity/review/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedEntityWatchlistScreeningReviewListResponse.parse_raw(text)
@@ -1039,33 +896,28 @@ class AsyncPlaidClient:
     async def watchlist_screening_entity_update(
         self,
         entity_watchlist_screening_id: str,
+        *,
         search_terms: Optional[model.UpdateEntityScreeningRequestSearchTerms] = None,
         assignee: Optional[str] = None,
         status: Optional[str] = None,
         client_user_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        reset_fields: Optional[model.List[str]] = None,
+        reset_fields: Optional[List[str]] = None,
     ) -> model.EntityWatchlistScreeningResponse:
         """Update an entity screening
 
         Update an entity watchlist screening.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningentityupdate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningentityupdate>."""
         url = self.base_url + "/watchlist_screening/entity/update"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("entity_watchlist_screening_id"): entity_watchlist_screening_id,
-            Ident("search_terms"): None
-            if search_terms is None
-            else search_terms.dict(),
-            Ident("assignee"): assignee,
-            Ident("status"): status,
-            Ident("client_user_id"): client_user_id,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("reset_fields"): reset_fields,
+            "entity_watchlist_screening_id": entity_watchlist_screening_id,
+            "search_terms": None if search_terms is None else search_terms.dict(),
+            "assignee": assignee,
+            "status": status,
+            "client_user_id": client_user_id,
+            "reset_fields": reset_fields,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EntityWatchlistScreeningResponse.parse_raw(text)
@@ -1073,95 +925,73 @@ class AsyncPlaidClient:
     async def watchlist_screening_individual_create(
         self,
         search_terms: model.WatchlistScreeningRequestSearchTerms,
+        *,
         client_user_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.WatchlistScreeningIndividualResponse:
         """Create a watchlist screening for a person
 
         Create a new Watchlist Screening to check your customer against watchlists defined in the associated Watchlist Program. If your associated program has ongoing screening enabled, this is the profile information that will be used to monitor your customer over time.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualcreate>."""
         url = self.base_url + "/watchlist_screening/individual/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("search_terms"): None
-            if search_terms is None
-            else search_terms.dict(),
-            Ident("client_user_id"): client_user_id,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
+            "search_terms": None if search_terms is None else search_terms.dict(),
+            "client_user_id": client_user_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
     async def watchlist_screening_individual_get(
-        self,
-        watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, watchlist_screening_id: str
     ) -> model.WatchlistScreeningIndividualResponse:
         """Retrieve an individual watchlist screening
 
         Retrieve a previously created individual watchlist screening
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualget>."""
         url = self.base_url + "/watchlist_screening/individual/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("watchlist_screening_id"): watchlist_screening_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "watchlist_screening_id": watchlist_screening_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
     async def watchlist_screening_individual_history_list(
-        self,
-        watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedIndividualWatchlistScreeningListResponse:
         """List history for individual watchlist screenings
 
         List all changes to the individual watchlist screening in reverse-chronological order. If the watchlist screening has not been edited, no history will be returned.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualhistorylist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualhistorylist>."""
         url = self.base_url + "/watchlist_screening/individual/history/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("watchlist_screening_id"): watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "watchlist_screening_id": watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningListResponse.parse_raw(text)
 
     async def watchlist_screening_individual_hit_list(
-        self,
-        watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedIndividualWatchlistScreeningHitListResponse:
         """List hits for individual watchlist screening
 
         List all hits found by Plaid for a particular individual watchlist screening.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualhitlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualhitlist>."""
         url = self.base_url + "/watchlist_screening/individual/hit/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("watchlist_screening_id"): watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "watchlist_screening_id": watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningHitListResponse.parse_raw(
@@ -1171,8 +1001,7 @@ class AsyncPlaidClient:
     async def watchlist_screening_individual_list(
         self,
         watchlist_program_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        *,
         client_user_id: Optional[str] = None,
         status: Optional[str] = None,
         assignee: Optional[str] = None,
@@ -1182,114 +1011,93 @@ class AsyncPlaidClient:
 
         List previously created watchlist screenings for individuals
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividuallist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividuallist>."""
         url = self.base_url + "/watchlist_screening/individual/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("watchlist_program_id"): watchlist_program_id,
-            Ident("client_user_id"): client_user_id,
-            Ident("status"): status,
-            Ident("assignee"): assignee,
-            Ident("cursor"): cursor,
+            "watchlist_program_id": watchlist_program_id,
+            "client_user_id": client_user_id,
+            "status": status,
+            "assignee": assignee,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningListResponse.parse_raw(text)
 
     async def watchlist_screening_individual_program_get(
-        self,
-        watchlist_program_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
+        self, watchlist_program_id: str
     ) -> model.IndividualWatchlistProgramResponse:
         """Get individual watchlist screening program
 
         Get an individual watchlist screening program
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualprogramget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualprogramget>."""
         url = self.base_url + "/watchlist_screening/individual/program/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("watchlist_program_id"): watchlist_program_id,
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
+            "watchlist_program_id": watchlist_program_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IndividualWatchlistProgramResponse.parse_raw(text)
 
     async def watchlist_screening_individual_program_list(
-        self,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, *, cursor: Optional[str] = None
     ) -> model.PaginatedIndividualWatchlistProgramListResponse:
         """List individual watchlist screening programs
 
         List all individual watchlist screening programs
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualprogramlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualprogramlist>."""
         url = self.base_url + "/watchlist_screening/individual/program/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("cursor"): cursor,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIndividualWatchlistProgramListResponse.parse_raw(text)
 
     async def watchlist_screening_individual_review_create(
         self,
-        confirmed_hits: model.List[str],
-        dismissed_hits: model.List[str],
+        confirmed_hits: List[str],
+        dismissed_hits: List[str],
         watchlist_screening_id: str,
+        *,
         comment: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.WatchlistScreeningReviewResponse:
         """Create a review for an individual watchlist screening
 
         Create a review for the individual watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualreviewcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewcreate>."""
         url = self.base_url + "/watchlist_screening/individual/review/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("confirmed_hits"): confirmed_hits,
-            Ident("dismissed_hits"): dismissed_hits,
-            Ident("comment"): comment,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("watchlist_screening_id"): watchlist_screening_id,
+            "confirmed_hits": confirmed_hits,
+            "dismissed_hits": dismissed_hits,
+            "comment": comment,
+            "watchlist_screening_id": watchlist_screening_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WatchlistScreeningReviewResponse.parse_raw(text)
 
     async def watchlist_screening_individual_reviews_list(
-        self,
-        watchlist_screening_id: str,
-        secret: Optional[str] = None,
-        client_id: Optional[str] = None,
-        cursor: Optional[str] = None,
+        self, watchlist_screening_id: str, *, cursor: Optional[str] = None
     ) -> model.PaginatedIndividualWatchlistScreeningReviewListResponse:
         """List reviews for individual watchlist screenings
 
         List all reviews for the individual watchlist screening.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualreviewlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualreviewlist>."""
         url = self.base_url + "/watchlist_screening/individual/review/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("secret"): secret,
-            Ident("client_id"): client_id,
-            Ident("watchlist_screening_id"): watchlist_screening_id,
-            Ident("cursor"): cursor,
+            "watchlist_screening_id": watchlist_screening_id,
+            "cursor": cursor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaginatedIndividualWatchlistScreeningReviewListResponse.parse_raw(
@@ -1299,44 +1107,36 @@ class AsyncPlaidClient:
     async def watchlist_screening_individual_update(
         self,
         watchlist_screening_id: str,
+        *,
         search_terms: Optional[
             model.UpdateIndividualScreeningRequestSearchTerms
         ] = None,
         assignee: Optional[str] = None,
         status: Optional[str] = None,
         client_user_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        reset_fields: Optional[model.List[str]] = None,
+        reset_fields: Optional[List[str]] = None,
     ) -> model.WatchlistScreeningIndividualResponse:
         """Update individual watchlist screening
 
         Update a specific individual watchlist screening. This endpoint can be used to add additional customer information, correct outdated information, add a reference id, assign the individual to a reviewer, and update which program it is associated with. Please note that you may not update `search_terms` and `status` at the same time since editing `search_terms` may trigger an automatic `status` change.
 
-        See endpoint docs at </api/products/monitor/#watchlist_screeningindividualupdate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/monitor/#watchlist_screeningindividualupdate>."""
         url = self.base_url + "/watchlist_screening/individual/update"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("watchlist_screening_id"): watchlist_screening_id,
-            Ident("search_terms"): None
-            if search_terms is None
-            else search_terms.dict(),
-            Ident("assignee"): assignee,
-            Ident("status"): status,
-            Ident("client_user_id"): client_user_id,
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("reset_fields"): reset_fields,
+            "watchlist_screening_id": watchlist_screening_id,
+            "search_terms": None if search_terms is None else search_terms.dict(),
+            "assignee": assignee,
+            "status": status,
+            "client_user_id": client_user_id,
+            "reset_fields": reset_fields,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WatchlistScreeningIndividualResponse.parse_raw(text)
 
     async def processor_auth_get(
-        self,
-        processor_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, processor_token: str
     ) -> model.ProcessorAuthGetResponse:
         """Retrieve Auth data
 
@@ -1345,14 +1145,12 @@ class AsyncPlaidClient:
         Versioning note: API versions 2019-05-29 and earlier use a different schema for the `numbers` object returned by this endpoint. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2020-09-14).
 
 
-        See endpoint docs at </api/processors/#processorauthget>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#processorauthget>."""
         url = self.base_url + "/processor/auth/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("processor_token"): processor_token,
+            "processor_token": processor_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorAuthGetResponse.parse_raw(text)
@@ -1367,8 +1165,7 @@ class AsyncPlaidClient:
         iso_currency_code: str,
         description: str,
         user: model.BankTransferUser,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         ach_class: Optional[str] = None,
         custom_tag: Optional[str] = None,
         metadata: Optional[model.BankTransferMetadata] = None,
@@ -1378,47 +1175,40 @@ class AsyncPlaidClient:
 
         Use the `/processor/bank_transfer/create` endpoint to initiate a new bank transfer as a processor
 
-        See endpoint docs at </api/processors/#bank_transfercreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#bank_transfercreate>."""
         url = self.base_url + "/processor/bank_transfer/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("idempotency_key"): idempotency_key,
-            Ident("processor_token"): processor_token,
-            Ident("type"): type,
-            Ident("network"): network,
-            Ident("amount"): amount,
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("description"): description,
-            Ident("ach_class"): ach_class,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("custom_tag"): custom_tag,
-            Ident("metadata"): None if metadata is None else metadata.dict(),
-            Ident("origination_account_id"): origination_account_id,
+            "idempotency_key": idempotency_key,
+            "processor_token": processor_token,
+            "type": type,
+            "network": network,
+            "amount": amount,
+            "iso_currency_code": iso_currency_code,
+            "description": description,
+            "ach_class": ach_class,
+            "user": None if user is None else user.dict(),
+            "custom_tag": custom_tag,
+            "metadata": None if metadata is None else metadata.dict(),
+            "origination_account_id": origination_account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorBankTransferCreateResponse.parse_raw(text)
 
     async def processor_identity_get(
-        self,
-        processor_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, processor_token: str
     ) -> model.ProcessorIdentityGetResponse:
         """Retrieve Identity data
 
         The `/processor/identity/get` endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses.
 
-        See endpoint docs at </api/processors/#processoridentityget>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#processoridentityget>."""
         url = self.base_url + "/processor/identity/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("processor_token"): processor_token,
+            "processor_token": processor_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorIdentityGetResponse.parse_raw(text)
@@ -1426,56 +1216,44 @@ class AsyncPlaidClient:
     async def processor_balance_get(
         self,
         processor_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.ProcessorBalanceGetRequestOptions] = None,
     ) -> model.ProcessorBalanceGetResponse:
         """Retrieve Balance data
 
         The `/processor/balance/get` endpoint returns the real-time balance for each of an Item's accounts. While other endpoints may return a balance object, only `/processor/balance/get` forces the available and current balance fields to be refreshed rather than cached.
 
-        See endpoint docs at </api/processors/#processorbalanceget>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#processorbalanceget>."""
         url = self.base_url + "/processor/balance/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("processor_token"): processor_token,
-            Ident("options"): None if options is None else options.dict(),
+            "processor_token": processor_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorBalanceGetResponse.parse_raw(text)
 
     async def item_webhook_update(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        webhook: Optional[str] = None,
+        self, access_token: str, *, webhook: Optional[str] = None
     ) -> model.ItemWebhookUpdateResponse:
         """Update Webhook URL
 
         The POST `/item/webhook/update` allows you to update the webhook URL associated with an Item. This request triggers a [`WEBHOOK_UPDATE_ACKNOWLEDGED`](https://plaid.com/docs/api/items/#webhook_update_acknowledged) webhook to the newly specified webhook URL.
 
-        See endpoint docs at </api/items/#itemwebhookupdate>."""
+        See endpoint docs at <https://plaid.com/docs/api/items/#itemwebhookupdate>."""
         url = self.base_url + "/item/webhook/update"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("webhook"): webhook,
+            "access_token": access_token,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemWebhookUpdateResponse.parse_raw(text)
 
     async def item_access_token_invalidate(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str
     ) -> model.ItemAccessTokenInvalidateResponse:
         """Invalidate access_token
 
@@ -1484,20 +1262,18 @@ class AsyncPlaidClient:
         You can use the `/item/access_token/invalidate` endpoint to rotate the `access_token` associated with an Item. The endpoint returns a new `access_token` and immediately invalidates the previous `access_token`.
 
 
-        See endpoint docs at </api/tokens/#itemaccess_tokeninvalidate>."""
+        See endpoint docs at <https://plaid.com/docs/api/tokens/#itemaccess_tokeninvalidate>."""
         url = self.base_url + "/item/access_token/invalidate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemAccessTokenInvalidateResponse.parse_raw(text)
 
     async def webhook_verification_key_get(
-        self, key_id: str, client_id: Optional[str] = None, secret: Optional[str] = None
+        self, key_id: str
     ) -> model.WebhookVerificationKeyGetResponse:
         """Get webhook verification key
 
@@ -1505,14 +1281,12 @@ class AsyncPlaidClient:
 
         The `/webhook_verification_key/get` endpoint provides a JSON Web Key (JWK) that can be used to verify a JWT.
 
-        See endpoint docs at </api/webhooks/webhook-verification/#webhook_verification_keyget>."""
+        See endpoint docs at <https://plaid.com/docs/api/webhooks/webhook-verification/#webhook_verification_keyget>."""
         url = self.base_url + "/webhook_verification_key/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("key_id"): key_id,
+            "key_id": key_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WebhookVerificationKeyGetResponse.parse_raw(text)
@@ -1520,8 +1294,7 @@ class AsyncPlaidClient:
     async def liabilities_get(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.LiabilitiesGetRequestOptions] = None,
     ) -> model.LiabilitiesGetResponse:
         """Retrieve Liabilities data
@@ -1532,15 +1305,13 @@ class AsyncPlaidClient:
 
         Note: This request may take some time to complete if `liabilities` was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the additional data.
 
-        See endpoint docs at </api/products/liabilities/#liabilitiesget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/liabilities/#liabilitiesget>."""
         url = self.base_url + "/liabilities/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.LiabilitiesGetResponse.parse_raw(text)
@@ -1548,8 +1319,7 @@ class AsyncPlaidClient:
     async def payment_initiation_recipient_create(
         self,
         name: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         iban: Optional[str] = None,
         bacs: Optional[model.RecipientBacsNullable] = None,
         address: Optional[model.PaymentInitiationAddress] = None,
@@ -1561,28 +1331,21 @@ class AsyncPlaidClient:
         The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same `recipient_id`.
 
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationrecipientcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientcreate>."""
         url = self.base_url + "/payment_initiation/recipient/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("name"): name,
-            Ident("iban"): iban,
-            Ident("bacs"): None if bacs is None else bacs.dict(),
-            Ident("address"): None if address is None else address.dict(),
+            "name": name,
+            "iban": iban,
+            "bacs": None if bacs is None else bacs.dict(),
+            "address": None if address is None else address.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationRecipientCreateResponse.parse_raw(text)
 
     async def payment_initiation_payment_reverse(
-        self,
-        payment_id: str,
-        idempotency_key: str,
-        reference: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, payment_id: str, idempotency_key: str, reference: str
     ) -> model.PaymentInitiationPaymentReverseResponse:
         """Reverse an existing payment
 
@@ -1591,57 +1354,47 @@ class AsyncPlaidClient:
         A payment can only be reversed once and will be refunded to the original sender's account.
 
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationpaymentreverse>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentreverse>."""
         url = self.base_url + "/payment_initiation/payment/reverse"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("payment_id"): payment_id,
-            Ident("idempotency_key"): idempotency_key,
-            Ident("reference"): reference,
+            "payment_id": payment_id,
+            "idempotency_key": idempotency_key,
+            "reference": reference,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentReverseResponse.parse_raw(text)
 
     async def payment_initiation_recipient_get(
-        self,
-        recipient_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, recipient_id: str
     ) -> model.PaymentInitiationRecipientGetResponse:
         """Get payment recipient
 
         Get details about a payment recipient you have previously created.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationrecipientget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientget>."""
         url = self.base_url + "/payment_initiation/recipient/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("recipient_id"): recipient_id,
+            "recipient_id": recipient_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationRecipientGetResponse.parse_raw(text)
 
     async def payment_initiation_recipient_list(
-        self, client_id: Optional[str] = None, secret: Optional[str] = None
+        self,
     ) -> model.PaymentInitiationRecipientListResponse:
         """List payment recipients
 
         The `/payment_initiation/recipient/list` endpoint list the payment recipients that you have previously created.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationrecipientlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationrecipientlist>."""
         url = self.base_url + "/payment_initiation/recipient/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
-        data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-        }
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
+        data: Dict[str, Any] = {}
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationRecipientListResponse.parse_raw(text)
 
@@ -1650,8 +1403,7 @@ class AsyncPlaidClient:
         recipient_id: str,
         reference: str,
         amount: model.PaymentAmount,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         schedule: Optional[model.ExternalPaymentScheduleRequest] = None,
         options: Optional[model.ExternalPaymentOptions] = None,
     ) -> model.PaymentInitiationPaymentCreateResponse:
@@ -1663,27 +1415,22 @@ class AsyncPlaidClient:
 
         In the Development environment, payments must be below 5 GBP / EUR. For details on any payment limits in Production, contact your Plaid Account Manager.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationpaymentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentcreate>."""
         url = self.base_url + "/payment_initiation/payment/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("recipient_id"): recipient_id,
-            Ident("reference"): reference,
-            Ident("amount"): None if amount is None else amount.dict(),
-            Ident("schedule"): None if schedule is None else schedule.dict(),
-            Ident("options"): None if options is None else options.dict(),
+            "recipient_id": recipient_id,
+            "reference": reference,
+            "amount": None if amount is None else amount.dict(),
+            "schedule": None if schedule is None else schedule.dict(),
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentCreateResponse.parse_raw(text)
 
     async def create_payment_token(
-        self,
-        payment_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, payment_id: str
     ) -> model.PaymentInitiationPaymentTokenCreateResponse:
         """Create payment token
 
@@ -1691,14 +1438,12 @@ class AsyncPlaidClient:
 
         The `/payment_initiation/payment/token/create` is used to create a `payment_token`, which can then be used in Link initialization to enter a payment initiation flow. You can only use a `payment_token` once. If this attempt fails, the end user aborts the flow, or the token expires, you will need to create a new payment token. Creating a new payment token does not require end user input.
 
-        See endpoint docs at </link/maintain-legacy-integration/#creating-a-payment-token>."""
+        See endpoint docs at <https://plaid.com/docs/link/maintain-legacy-integration/#creating-a-payment-token>."""
         url = self.base_url + "/payment_initiation/payment/token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("payment_id"): payment_id,
+            "payment_id": payment_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentTokenCreateResponse.parse_raw(text)
@@ -1707,10 +1452,9 @@ class AsyncPlaidClient:
         self,
         recipient_id: str,
         reference: str,
-        scopes: model.List[str],
+        scopes: List[str],
         constraints: model.PaymentInitiationConsentConstraints,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.ExternalPaymentInitiationConsentOptions] = None,
     ) -> model.PaymentInitiationConsentCreateResponse:
         """Create payment consent
@@ -1719,97 +1463,75 @@ class AsyncPlaidClient:
 
         Consents can be limited in time and scope, and have constraints that describe limitations for payments.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationconsentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentcreate>."""
         url = self.base_url + "/payment_initiation/consent/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("recipient_id"): recipient_id,
-            Ident("reference"): reference,
-            Ident("scopes"): scopes,
-            Ident("constraints"): None if constraints is None else constraints.dict(),
-            Ident("options"): None if options is None else options.dict(),
+            "recipient_id": recipient_id,
+            "reference": reference,
+            "scopes": scopes,
+            "constraints": None if constraints is None else constraints.dict(),
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentCreateResponse.parse_raw(text)
 
     async def payment_initiation_consent_get(
-        self,
-        consent_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, consent_id: str
     ) -> model.PaymentInitiationConsentGetResponse:
         """Get payment consent
 
         The `/payment_initiation/consent/get` endpoint can be used to check the status of a payment consent, as well as to receive basic information such as recipient and constraints.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationconsentget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentget>."""
         url = self.base_url + "/payment_initiation/consent/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("consent_id"): consent_id,
+            "consent_id": consent_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentGetResponse.parse_raw(text)
 
     async def payment_initiation_consent_revoke(
-        self,
-        consent_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, consent_id: str
     ) -> model.PaymentInitiationConsentRevokeResponse:
         """Revoke payment consent
 
         The `/payment_initiation/consent/revoke` endpoint can be used to revoke the payment consent. Once the consent is revoked, it is not possible to initiate payments using it.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationconsentrevoke>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentrevoke>."""
         url = self.base_url + "/payment_initiation/consent/revoke"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("consent_id"): consent_id,
+            "consent_id": consent_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentRevokeResponse.parse_raw(text)
 
     async def payment_initiation_consent_payment_execute(
-        self,
-        consent_id: str,
-        amount: model.PaymentAmount,
-        idempotency_key: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, consent_id: str, amount: model.PaymentAmount, idempotency_key: str
     ) -> model.PaymentInitiationConsentPaymentExecuteResponse:
         """Execute a single payment using consent
 
         The `/payment_initiation/consent/payment/execute` endpoint can be used to execute payments using payment consent.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationconsentpaymentexecute>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationconsentpaymentexecute>."""
         url = self.base_url + "/payment_initiation/consent/payment/execute"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("consent_id"): consent_id,
-            Ident("amount"): None if amount is None else amount.dict(),
-            Ident("idempotency_key"): idempotency_key,
+            "consent_id": consent_id,
+            "amount": None if amount is None else amount.dict(),
+            "idempotency_key": idempotency_key,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationConsentPaymentExecuteResponse.parse_raw(text)
 
     async def sandbox_item_reset_login(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str
     ) -> model.SandboxItemResetLoginResponse:
         """Force a Sandbox Item into an error state
 
@@ -1818,25 +1540,18 @@ class AsyncPlaidClient:
 
         In the Sandbox, Items will transition to an `ITEM_LOGIN_REQUIRED` error state automatically after 30 days, even if this endpoint is not called.
 
-        See endpoint docs at </api/sandbox/#sandboxitemreset_login>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxitemreset_login>."""
         url = self.base_url + "/sandbox/item/reset_login"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxItemResetLoginResponse.parse_raw(text)
 
     async def sandbox_item_set_verification_status(
-        self,
-        access_token: str,
-        account_id: str,
-        verification_status: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str, account_id: str, verification_status: str
     ) -> model.SandboxItemSetVerificationStatusResponse:
         """Set verification status for Sandbox account
 
@@ -1846,25 +1561,20 @@ class AsyncPlaidClient:
 
         For more information on testing Automated Micro-deposits in Sandbox, see [Auth full coverage testing](https://plaid.com/docs/auth/coverage/testing#).
 
-        See endpoint docs at </api/sandbox/#sandboxitemset_verification_status>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxitemset_verification_status>."""
         url = self.base_url + "/sandbox/item/set_verification_status"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("verification_status"): verification_status,
+            "access_token": access_token,
+            "account_id": account_id,
+            "verification_status": verification_status,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxItemSetVerificationStatusResponse.parse_raw(text)
 
     async def item_public_token_exchange(
-        self,
-        public_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, public_token: str
     ) -> model.ItemPublicTokenExchangeResponse:
         """Exchange public token for an access token
 
@@ -1872,23 +1582,18 @@ class AsyncPlaidClient:
 
         The response also includes an `item_id` that should be stored with the `access_token`. The `item_id` is used to identify an Item in a webhook. The `item_id` can also be retrieved by making an `/item/get` request.
 
-        See endpoint docs at </api/tokens/#itempublic_tokenexchange>."""
+        See endpoint docs at <https://plaid.com/docs/api/tokens/#itempublic_tokenexchange>."""
         url = self.base_url + "/item/public_token/exchange"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("public_token"): public_token,
+            "public_token": public_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemPublicTokenExchangeResponse.parse_raw(text)
 
     async def item_create_public_token(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str
     ) -> model.ItemPublicTokenCreateResponse:
         """Create public token
 
@@ -1900,68 +1605,53 @@ class AsyncPlaidClient:
 
         The `/item/public_token/create` endpoint is **not** used to create your initial `public_token`. If you have not already received an `access_token` for a specific Item, use Link to obtain your `public_token` instead. See the [Quickstart](https://plaid.com/docs/quickstart) for more information.
 
-        See endpoint docs at </api/tokens/#itempublic_tokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/tokens/#itempublic_tokencreate>."""
         url = self.base_url + "/item/public_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemPublicTokenCreateResponse.parse_raw(text)
 
-    async def user_create(
-        self,
-        client_user_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.UserCreateResponse:
+    async def user_create(self, client_user_id: str) -> model.UserCreateResponse:
         """Create user
 
         This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.
 
         If you call the endpoint multiple times with the same `client_user_id`, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given `client_user_id`.
 
-        See endpoint docs at </api/products/income/#usercreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#usercreate>."""
         url = self.base_url + "/user/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("client_user_id"): client_user_id,
+            "client_user_id": client_user_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.UserCreateResponse.parse_raw(text)
 
     async def payment_initiation_payment_get(
-        self,
-        payment_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, payment_id: str
     ) -> model.PaymentInitiationPaymentGetResponse:
         """Get payment details
 
         The `/payment_initiation/payment/get` endpoint can be used to check the status of a payment, as well as to receive basic information such as recipient and payment amount. In the case of standing orders, the `/payment_initiation/payment/get` endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationpaymentget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentget>."""
         url = self.base_url + "/payment_initiation/payment/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("payment_id"): payment_id,
+            "payment_id": payment_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentGetResponse.parse_raw(text)
 
     async def payment_initiation_payment_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         count: Optional[int] = None,
         cursor: Optional[str] = None,
         consent_id: Optional[str] = None,
@@ -1970,26 +1660,23 @@ class AsyncPlaidClient:
 
         The `/payment_initiation/payment/list` endpoint can be used to retrieve all created payments. By default, the 10 most recent payments are returned. You can request more payments and paginate through the results using the optional `count` and `cursor` parameters.
 
-        See endpoint docs at </api/products/payment-initiation/#payment_initiationpaymentlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/payment-initiation/#payment_initiationpaymentlist>."""
         url = self.base_url + "/payment_initiation/payment/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("count"): count,
-            Ident("cursor"): cursor,
-            Ident("consent_id"): consent_id,
+            "count": count,
+            "cursor": cursor,
+            "consent_id": consent_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentInitiationPaymentListResponse.parse_raw(text)
 
     async def asset_report_create(
         self,
-        access_tokens: model.List[str],
+        access_tokens: List[str],
         days_requested: int,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.AssetReportCreateRequestOptions] = None,
     ) -> model.AssetReportCreateResponse:
         """Create an Asset Report
@@ -2000,16 +1687,14 @@ class AsyncPlaidClient:
 
         The `/asset_report/create` endpoint creates an Asset Report at a moment in time. Asset Reports are immutable. To get an updated Asset Report, use the `/asset_report/refresh` endpoint.
 
-        See endpoint docs at </api/products/assets/#asset_reportcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportcreate>."""
         url = self.base_url + "/asset_report/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_tokens"): access_tokens,
-            Ident("days_requested"): days_requested,
-            Ident("options"): None if options is None else options.dict(),
+            "access_tokens": access_tokens,
+            "days_requested": days_requested,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportCreateResponse.parse_raw(text)
@@ -2017,8 +1702,7 @@ class AsyncPlaidClient:
     async def asset_report_refresh(
         self,
         asset_report_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         days_requested: Optional[int] = None,
         options: Optional[model.AssetReportRefreshRequestOptions] = None,
     ) -> model.AssetReportRefreshResponse:
@@ -2028,49 +1712,38 @@ class AsyncPlaidClient:
 
         The new Asset Report will contain the same Items as the original Report, as well as the same filters applied by any call to `/asset_report/filter`. By default, the new Asset Report will also use the same parameters you submitted with your original `/asset_report/create` request, but the original `days_requested` value and the values of any parameters in the `options` object can be overridden with new values. To change these arguments, simply supply new values for them in your request to `/asset_report/refresh`. Submit an empty string ("") for any previously-populated fields you would like set as empty.
 
-        See endpoint docs at </api/products/assets/#asset_reportrefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportrefresh>."""
         url = self.base_url + "/asset_report/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
-            Ident("days_requested"): days_requested,
-            Ident("options"): None if options is None else options.dict(),
+            "asset_report_token": asset_report_token,
+            "days_requested": days_requested,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRefreshResponse.parse_raw(text)
 
     async def asset_report_relay_refresh(
-        self,
-        asset_relay_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        webhook: Optional[str] = None,
+        self, asset_relay_token: str, *, webhook: Optional[str] = None
     ) -> model.AssetReportRelayRefreshResponse:
         """Refresh a Relay Token's Asset Report
 
         The `/asset_report/relay/refresh` endpoint allows third parties to refresh an Asset Report that was relayed to them, using an `asset_relay_token` that was created by the report owner. A new Asset Report will be created based on the old one, but with the most recent data available.
 
-        See endpoint docs at </api/products/#asset_reportrelayrefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#asset_reportrelayrefresh>."""
         url = self.base_url + "/asset_report/relay/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_relay_token"): asset_relay_token,
-            Ident("webhook"): webhook,
+            "asset_relay_token": asset_relay_token,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRelayRefreshResponse.parse_raw(text)
 
     async def asset_report_remove(
-        self,
-        asset_report_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, asset_report_token: str
     ) -> model.AssetReportRemoveResponse:
         """Delete an Asset Report
 
@@ -2078,24 +1751,18 @@ class AsyncPlaidClient:
 
         The `/asset_report/remove` endpoint allows you to remove an Asset Report. Removing an Asset Report invalidates its `asset_report_token`, meaning you will no longer be able to use it to access Report data or create new Audit Copies. Removing an Asset Report does not affect the underlying Items, but does invalidate any `audit_copy_tokens` associated with the Asset Report.
 
-        See endpoint docs at </api/products/assets/#asset_reportremove>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportremove>."""
         url = self.base_url + "/asset_report/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
+            "asset_report_token": asset_report_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRemoveResponse.parse_raw(text)
 
     async def asset_report_filter(
-        self,
-        asset_report_token: str,
-        account_ids_to_exclude: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, asset_report_token: str, account_ids_to_exclude: List[str]
     ) -> model.AssetReportFilterResponse:
         """Filter Asset Report
 
@@ -2107,15 +1774,13 @@ class AsyncPlaidClient:
 
         Plaid will fire a [`PRODUCT_READY`](https://plaid.com/docs/api/products/assets/#product_ready) webhook once generation of the filtered Asset Report has completed.
 
-        See endpoint docs at </api/products/assets/#asset_reportfilter>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportfilter>."""
         url = self.base_url + "/asset_report/filter"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
-            Ident("account_ids_to_exclude"): account_ids_to_exclude,
+            "asset_report_token": asset_report_token,
+            "account_ids_to_exclude": account_ids_to_exclude,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportFilterResponse.parse_raw(text)
@@ -2123,8 +1788,7 @@ class AsyncPlaidClient:
     async def asset_report_get(
         self,
         asset_report_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         include_insights: Optional[bool] = None,
         fast_report: Optional[bool] = None,
     ) -> model.AssetReportGetResponse:
@@ -2136,26 +1800,19 @@ class AsyncPlaidClient:
 
         To retrieve an Asset Report with Insights, call the `/asset_report/get` endpoint with `include_insights` set to `true`.
 
-        See endpoint docs at </api/products/assets/#asset_reportget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportget>."""
         url = self.base_url + "/asset_report/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
-            Ident("include_insights"): include_insights,
-            Ident("fast_report"): fast_report,
+            "asset_report_token": asset_report_token,
+            "include_insights": include_insights,
+            "fast_report": fast_report,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
-    async def asset_report_pdf_get(
-        self,
-        asset_report_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> None:
+    async def asset_report_pdf_get(self, asset_report_token: str) -> None:
         """Retrieve a PDF Asset Report
 
         The `/asset_report/pdf/get` endpoint retrieves the Asset Report in PDF format. Before calling `/asset_report/pdf/get`, you must first create the Asset Report using `/asset_report/create` (or filter an Asset Report using `/asset_report/filter`) and then wait for the [`PRODUCT_READY`](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.
@@ -2164,24 +1821,18 @@ class AsyncPlaidClient:
 
         [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
 
-        See endpoint docs at </api/products/assets/#asset_reportpdfget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportpdfget>."""
         url = self.base_url + "/asset_report/pdf/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
+            "asset_report_token": asset_report_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return None
 
     async def asset_report_audit_copy_create(
-        self,
-        asset_report_token: str,
-        auditor_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, asset_report_token: str, auditor_id: str
     ) -> model.AssetReportAuditCopyCreateResponse:
         """Create Asset Report Audit Copy
 
@@ -2189,37 +1840,30 @@ class AsyncPlaidClient:
 
         To grant access to an Audit Copy, use the `/asset_report/audit_copy/create` endpoint to create an `audit_copy_token` and then pass that token to the third party who needs access. Each third party has its own `auditor_id`, for example `fannie_mae`. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
 
-        See endpoint docs at </api/products/assets/#asset_reportaudit_copycreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportaudit_copycreate>."""
         url = self.base_url + "/asset_report/audit_copy/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
-            Ident("auditor_id"): auditor_id,
+            "asset_report_token": asset_report_token,
+            "auditor_id": auditor_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportAuditCopyCreateResponse.parse_raw(text)
 
     async def asset_report_audit_copy_remove(
-        self,
-        audit_copy_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, audit_copy_token: str
     ) -> model.AssetReportAuditCopyRemoveResponse:
         """Remove Asset Report Audit Copy
 
         The `/asset_report/audit_copy/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Asset Report, the Asset Report itself and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
 
-        See endpoint docs at </api/products/assets/#asset_reportaudit_copyremove>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/assets/#asset_reportaudit_copyremove>."""
         url = self.base_url + "/asset_report/audit_copy/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("audit_copy_token"): audit_copy_token,
+            "audit_copy_token": audit_copy_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportAuditCopyRemoveResponse.parse_raw(text)
@@ -2228,8 +1872,7 @@ class AsyncPlaidClient:
         self,
         asset_report_token: str,
         secondary_client_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         webhook: Optional[str] = None,
     ) -> model.AssetReportRelayCreateResponse:
         """Create an `asset_relay_token` to share an Asset Report with a partner client
@@ -2238,60 +1881,48 @@ class AsyncPlaidClient:
 
         To grant access to an Asset Report to a third party, use the `/asset_report/relay/create` endpoint to create an `asset_relay_token` and then pass that token to the third party who needs access. Each third party has its own `secondary_client_id`, for example `ce5bd328dcd34123456`. You'll need to create a separate `asset_relay_token` for each third party to whom you want to grant access to the Report.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/asset_report/relay/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_report_token"): asset_report_token,
-            Ident("secondary_client_id"): secondary_client_id,
-            Ident("webhook"): webhook,
+            "asset_report_token": asset_report_token,
+            "secondary_client_id": secondary_client_id,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRelayCreateResponse.parse_raw(text)
 
     async def asset_report_relay_get(
-        self,
-        asset_relay_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, asset_relay_token: str
     ) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report that was shared with you
 
         `/asset_report/relay/get` allows third parties to get an Asset Report that was shared with them, using an `asset_relay_token` that was created by the report owner.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/asset_report/relay/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_relay_token"): asset_relay_token,
+            "asset_relay_token": asset_relay_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
     async def asset_report_relay_remove(
-        self,
-        asset_relay_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, asset_relay_token: str
     ) -> model.AssetReportRelayRemoveResponse:
         """Remove Asset Report Relay Token
 
         The `/asset_report/relay/remove` endpoint allows you to invalidate an `asset_relay_token`, meaning the third party holding the token will no longer be able to use it to access the Asset Report to which the `asset_relay_token` gives access to. The Asset Report, Items associated with it, and other Asset Relay Tokens that provide access to the same Asset Report are not affected and will remain accessible after removing the given `asset_relay_token.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/asset_report/relay/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("asset_relay_token"): asset_relay_token,
+            "asset_relay_token": asset_relay_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportRelayRemoveResponse.parse_raw(text)
@@ -2299,23 +1930,20 @@ class AsyncPlaidClient:
     async def investments_holdings_get(
         self,
         access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.InvestmentHoldingsGetRequestOptions] = None,
     ) -> model.InvestmentsHoldingsGetResponse:
         """Get Investment holdings
 
         The `/investments/holdings/get` endpoint allows developers to receive user-authorized stock position data for `investment`-type accounts.
 
-        See endpoint docs at </api/products/investments/#investmentsholdingsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/investments/#investmentsholdingsget>."""
         url = self.base_url + "/investments/holdings/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InvestmentsHoldingsGetResponse.parse_raw(text)
@@ -2325,8 +1953,7 @@ class AsyncPlaidClient:
         access_token: str,
         start_date: str,
         end_date: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.InvestmentsTransactionsGetRequestOptions] = None,
     ) -> model.InvestmentsTransactionsGetResponse:
         """Get investment transactions
@@ -2337,91 +1964,70 @@ class AsyncPlaidClient:
 
         Due to the potentially large number of investment transactions associated with an Item, results are paginated. Manipulate the count and offset parameters in conjunction with the `total_investment_transactions` response body field to fetch all available investment transactions.
 
-        See endpoint docs at </api/products/investments/#investmentstransactionsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/investments/#investmentstransactionsget>."""
         url = self.base_url + "/investments/transactions/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("options"): None if options is None else options.dict(),
+            "access_token": access_token,
+            "start_date": start_date,
+            "end_date": end_date,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.InvestmentsTransactionsGetResponse.parse_raw(text)
 
     async def processor_token_create(
-        self,
-        access_token: str,
-        account_id: str,
-        processor: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str, account_id: str, processor: str
     ) -> model.ProcessorTokenCreateResponse:
         """Create processor token
 
         Used to create a token suitable for sending to one of Plaid's partners to enable integrations. Note that Stripe partnerships use bank account tokens instead; see `/processor/stripe/bank_account_token/create` for creating tokens for use with Stripe integrations. Processor tokens can also be revoked, using `/item/remove`.
 
-        See endpoint docs at </api/processors/#processortokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#processortokencreate>."""
         url = self.base_url + "/processor/token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("processor"): processor,
+            "access_token": access_token,
+            "account_id": account_id,
+            "processor": processor,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorTokenCreateResponse.parse_raw(text)
 
     async def processor_stripe_bank_account_token_create(
-        self,
-        access_token: str,
-        account_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str, account_id: str
     ) -> model.ProcessorStripeBankAccountTokenCreateResponse:
         """Create Stripe bank account token
 
         Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/). Bank account tokens can also be revoked, using `/item/remove`.
 
-        See endpoint docs at </api/processors/#processorstripebank_account_tokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/processors/#processorstripebank_account_tokencreate>."""
         url = self.base_url + "/processor/stripe/bank_account_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
+            "access_token": access_token,
+            "account_id": account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorStripeBankAccountTokenCreateResponse.parse_raw(text)
 
     async def processor_apex_processor_token_create(
-        self,
-        access_token: str,
-        account_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str, account_id: str
     ) -> model.ProcessorTokenCreateResponse:
         """Create Apex bank account token
 
         Used to create a token suitable for sending to Apex to enable Plaid-Apex integrations.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/processor/apex/processor_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
+            "access_token": access_token,
+            "account_id": account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ProcessorTokenCreateResponse.parse_raw(text)
@@ -2430,8 +2036,7 @@ class AsyncPlaidClient:
         self,
         target_access_token: str,
         target_account_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         country_code: Optional[str] = None,
         options: Optional[model.DepositSwitchCreateRequestOptions] = None,
     ) -> model.DepositSwitchCreateResponse:
@@ -2439,27 +2044,24 @@ class AsyncPlaidClient:
 
         This endpoint creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
 
-        See endpoint docs at </deposit-switch/reference#deposit_switchcreate>."""
+        See endpoint docs at <https://plaid.com/docs/deposit-switch/reference#deposit_switchcreate>."""
         url = self.base_url + "/deposit_switch/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("target_access_token"): target_access_token,
-            Ident("target_account_id"): target_account_id,
-            Ident("country_code"): country_code,
-            Ident("options"): None if options is None else options.dict(),
+            "target_access_token": target_access_token,
+            "target_account_id": target_account_id,
+            "country_code": country_code,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.DepositSwitchCreateResponse.parse_raw(text)
 
     async def item_import(
         self,
-        products: model.List[str],
+        products: List[str],
         user_auth: model.ItemImportRequestUserAuth,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.ItemImportRequestOptions] = None,
     ) -> model.ItemImportResponse:
         """Import Item
@@ -2468,37 +2070,30 @@ class AsyncPlaidClient:
 
         Upon creating an Item via `/item/import`, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (`target_account_id`)."""
         url = self.base_url + "/item/import"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("products"): products,
-            Ident("user_auth"): None if user_auth is None else user_auth.dict(),
-            Ident("options"): None if options is None else options.dict(),
+            "products": products,
+            "user_auth": None if user_auth is None else user_auth.dict(),
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.ItemImportResponse.parse_raw(text)
 
     async def deposit_switch_token_create(
-        self,
-        deposit_switch_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, deposit_switch_id: str
     ) -> model.DepositSwitchTokenCreateResponse:
         """Create a deposit switch token
 
         In order for the end user to take action, you will need to create a public token representing the deposit switch. This token is used to initialize Link. It can be used one time and expires after 30 minutes.
 
 
-        See endpoint docs at </deposit-switch/reference#deposit_switchtokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/deposit-switch/reference#deposit_switchtokencreate>."""
         url = self.base_url + "/deposit_switch/token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("deposit_switch_id"): deposit_switch_id,
+            "deposit_switch_id": deposit_switch_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.DepositSwitchTokenCreateResponse.parse_raw(text)
@@ -2507,12 +2102,11 @@ class AsyncPlaidClient:
         self,
         client_name: str,
         language: str,
-        country_codes: model.List[str],
+        country_codes: List[str],
         user: model.LinkTokenCreateRequestUser,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        products: Optional[model.List[str]] = None,
-        additional_consented_products: Optional[model.List[str]] = None,
+        *,
+        products: Optional[List[str]] = None,
+        additional_consented_products: Optional[List[str]] = None,
         webhook: Optional[str] = None,
         access_token: Optional[str] = None,
         link_customization_name: Optional[str] = None,
@@ -2543,159 +2137,126 @@ class AsyncPlaidClient:
 
         A `link_token` generated by `/link/token/create` is also used to initialize other Link flows, such as the update mode flow for tokens with expired credentials, or the Payment Initiation (Europe) flow.
 
-        See endpoint docs at </api/tokens/#linktokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/tokens/#linktokencreate>."""
         url = self.base_url + "/link/token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("client_name"): client_name,
-            Ident("language"): language,
-            Ident("country_codes"): country_codes,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("products"): products,
-            Ident("additional_consented_products"): additional_consented_products,
-            Ident("webhook"): webhook,
-            Ident("access_token"): access_token,
-            Ident("link_customization_name"): link_customization_name,
-            Ident("redirect_uri"): redirect_uri,
-            Ident("android_package_name"): android_package_name,
-            Ident("institution_data"): None
+            "client_name": client_name,
+            "language": language,
+            "country_codes": country_codes,
+            "user": None if user is None else user.dict(),
+            "products": products,
+            "additional_consented_products": additional_consented_products,
+            "webhook": webhook,
+            "access_token": access_token,
+            "link_customization_name": link_customization_name,
+            "redirect_uri": redirect_uri,
+            "android_package_name": android_package_name,
+            "institution_data": None
             if institution_data is None
             else institution_data.dict(),
-            Ident("account_filters"): None
+            "account_filters": None
             if account_filters is None
             else account_filters.dict(),
-            Ident("eu_config"): None if eu_config is None else eu_config.dict(),
-            Ident("institution_id"): institution_id,
-            Ident("payment_initiation"): None
+            "eu_config": None if eu_config is None else eu_config.dict(),
+            "institution_id": institution_id,
+            "payment_initiation": None
             if payment_initiation is None
             else payment_initiation.dict(),
-            Ident("deposit_switch"): None
-            if deposit_switch is None
-            else deposit_switch.dict(),
-            Ident("income_verification"): None
+            "deposit_switch": None if deposit_switch is None else deposit_switch.dict(),
+            "income_verification": None
             if income_verification is None
             else income_verification.dict(),
-            Ident("auth"): None if auth is None else auth.dict(),
-            Ident("transfer"): None if transfer is None else transfer.dict(),
-            Ident("update"): None if update is None else update.dict(),
-            Ident("identity_verification"): None
+            "auth": None if auth is None else auth.dict(),
+            "transfer": None if transfer is None else transfer.dict(),
+            "update": None if update is None else update.dict(),
+            "identity_verification": None
             if identity_verification is None
             else identity_verification.dict(),
-            Ident("user_token"): user_token,
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.LinkTokenCreateResponse.parse_raw(text)
 
-    async def link_token_get(
-        self,
-        link_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.LinkTokenGetResponse:
+    async def link_token_get(self, link_token: str) -> model.LinkTokenGetResponse:
         """Get Link Token
 
         The `/link/token/get` endpoint gets information about a previously-created `link_token` using the
         `/link/token/create` endpoint. It can be useful for debugging purposes.
 
-        See endpoint docs at </api/tokens/#linktokenget>."""
+        See endpoint docs at <https://plaid.com/docs/api/tokens/#linktokenget>."""
         url = self.base_url + "/link/token/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("link_token"): link_token,
+            "link_token": link_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.LinkTokenGetResponse.parse_raw(text)
 
     async def asset_report_audit_copy_get(
-        self,
-        audit_copy_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, audit_copy_token: str
     ) -> model.AssetReportGetResponse:
         """Retrieve an Asset Report Audit Copy
 
         `/asset_report/audit_copy/get` allows auditors to get a copy of an Asset Report that was previously shared via the `/asset_report/audit_copy/create` endpoint.  The caller of `/asset_report/audit_copy/create` must provide the `audit_copy_token` to the auditor.  This token can then be used to call `/asset_report/audit_copy/create`.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/asset_report/audit_copy/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("audit_copy_token"): audit_copy_token,
+            "audit_copy_token": audit_copy_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
     async def deposit_switch_get(
-        self,
-        deposit_switch_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, deposit_switch_id: str
     ) -> model.DepositSwitchGetResponse:
         """Retrieve a deposit switch
 
         This endpoint returns information related to how the user has configured their payroll allocation and the state of the switch. You can use this information to build logic related to the user's direct deposit allocation preferences.
 
-        See endpoint docs at </deposit-switch/reference#deposit_switchget>."""
+        See endpoint docs at <https://plaid.com/docs/deposit-switch/reference#deposit_switchget>."""
         url = self.base_url + "/deposit_switch/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("deposit_switch_id"): deposit_switch_id,
+            "deposit_switch_id": deposit_switch_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.DepositSwitchGetResponse.parse_raw(text)
 
-    async def transfer_get(
-        self,
-        transfer_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.TransferGetResponse:
+    async def transfer_get(self, transfer_id: str) -> model.TransferGetResponse:
         """Retrieve a transfer
 
         The `/transfer/get` fetches information about the transfer corresponding to the given `transfer_id`.
 
-        See endpoint docs at </api/products/transfer/#transferget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferget>."""
         url = self.base_url + "/transfer/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("transfer_id"): transfer_id,
+            "transfer_id": transfer_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferGetResponse.parse_raw(text)
 
     async def bank_transfer_get(
-        self,
-        bank_transfer_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, bank_transfer_id: str
     ) -> model.BankTransferGetResponse:
         """Retrieve a bank transfer
 
         The `/bank_transfer/get` fetches information about the bank transfer corresponding to the given `bank_transfer_id`.
 
-        See endpoint docs at </bank-transfers/reference#bank_transferget>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transferget>."""
         url = self.base_url + "/bank_transfer/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("bank_transfer_id"): bank_transfer_id,
+            "bank_transfer_id": bank_transfer_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferGetResponse.parse_raw(text)
@@ -2707,8 +2268,7 @@ class AsyncPlaidClient:
         amount: str,
         ach_class: str,
         user: model.TransferAuthorizationUserInRequest,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         access_token: Optional[str] = None,
         account_id: Optional[str] = None,
         device: Optional[model.TransferAuthorizationDevice] = None,
@@ -2735,25 +2295,23 @@ class AsyncPlaidClient:
 
         For guaranteed ACH customers, the following fields are required : `user.phone_number` (optional if `email_address` provided), `user.email_address` (optional if `phone_number` provided), `device.ip_address`, `device.user_agent`, and `user_present`.
 
-        See endpoint docs at </api/products/transfer/#transferauthorizationcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferauthorizationcreate>."""
         url = self.base_url + "/transfer/authorization/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("type"): type,
-            Ident("network"): network,
-            Ident("amount"): amount,
-            Ident("ach_class"): ach_class,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("device"): None if device is None else device.dict(),
-            Ident("origination_account_id"): origination_account_id,
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("user_present"): user_present,
-            Ident("payment_profile_id"): payment_profile_id,
+            "access_token": access_token,
+            "account_id": account_id,
+            "type": type,
+            "network": network,
+            "amount": amount,
+            "ach_class": ach_class,
+            "user": None if user is None else user.dict(),
+            "device": None if device is None else device.dict(),
+            "origination_account_id": origination_account_id,
+            "iso_currency_code": iso_currency_code,
+            "user_present": user_present,
+            "payment_profile_id": payment_profile_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferAuthorizationCreateResponse.parse_raw(text)
@@ -2767,8 +2325,7 @@ class AsyncPlaidClient:
         description: str,
         ach_class: str,
         user: model.TransferUserInRequest,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         idempotency_key: Optional[str] = None,
         access_token: Optional[str] = None,
         account_id: Optional[str] = None,
@@ -2781,27 +2338,25 @@ class AsyncPlaidClient:
 
         Use the `/transfer/create` endpoint to initiate a new transfer.
 
-        See endpoint docs at </api/products/transfer/#transfercreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfercreate>."""
         url = self.base_url + "/transfer/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("idempotency_key"): idempotency_key,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("authorization_id"): authorization_id,
-            Ident("type"): type,
-            Ident("network"): network,
-            Ident("amount"): amount,
-            Ident("description"): description,
-            Ident("ach_class"): ach_class,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("metadata"): None if metadata is None else metadata.dict(),
-            Ident("origination_account_id"): origination_account_id,
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("payment_profile_id"): payment_profile_id,
+            "idempotency_key": idempotency_key,
+            "access_token": access_token,
+            "account_id": account_id,
+            "authorization_id": authorization_id,
+            "type": type,
+            "network": network,
+            "amount": amount,
+            "description": description,
+            "ach_class": ach_class,
+            "user": None if user is None else user.dict(),
+            "metadata": None if metadata is None else metadata.dict(),
+            "origination_account_id": origination_account_id,
+            "iso_currency_code": iso_currency_code,
+            "payment_profile_id": payment_profile_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferCreateResponse.parse_raw(text)
@@ -2817,8 +2372,7 @@ class AsyncPlaidClient:
         iso_currency_code: str,
         description: str,
         user: model.BankTransferUser,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         ach_class: Optional[str] = None,
         custom_tag: Optional[str] = None,
         metadata: Optional[model.BankTransferMetadata] = None,
@@ -2828,34 +2382,31 @@ class AsyncPlaidClient:
 
         Use the `/bank_transfer/create` endpoint to initiate a new bank transfer.
 
-        See endpoint docs at </bank-transfers/reference#bank_transfercreate>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transfercreate>."""
         url = self.base_url + "/bank_transfer/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("idempotency_key"): idempotency_key,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("type"): type,
-            Ident("network"): network,
-            Ident("amount"): amount,
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("description"): description,
-            Ident("ach_class"): ach_class,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("custom_tag"): custom_tag,
-            Ident("metadata"): None if metadata is None else metadata.dict(),
-            Ident("origination_account_id"): origination_account_id,
+            "idempotency_key": idempotency_key,
+            "access_token": access_token,
+            "account_id": account_id,
+            "type": type,
+            "network": network,
+            "amount": amount,
+            "iso_currency_code": iso_currency_code,
+            "description": description,
+            "ach_class": ach_class,
+            "user": None if user is None else user.dict(),
+            "custom_tag": custom_tag,
+            "metadata": None if metadata is None else metadata.dict(),
+            "origination_account_id": origination_account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferCreateResponse.parse_raw(text)
 
     async def transfer_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         count: Optional[int] = None,
@@ -2867,26 +2418,23 @@ class AsyncPlaidClient:
         Use the `/transfer/list` endpoint to see a list of all your transfers and their statuses. Results are paginated; use the `count` and `offset` query parameters to retrieve the desired transfers.
 
 
-        See endpoint docs at </api/products/transfer/#transferlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferlist>."""
         url = self.base_url + "/transfer/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("count"): count,
-            Ident("offset"): offset,
-            Ident("origination_account_id"): origination_account_id,
+            "start_date": start_date,
+            "end_date": end_date,
+            "count": count,
+            "offset": offset,
+            "origination_account_id": origination_account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferListResponse.parse_raw(text)
 
     async def bank_transfer_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         count: Optional[int] = None,
@@ -2899,77 +2447,62 @@ class AsyncPlaidClient:
         Use the `/bank_transfer/list` endpoint to see a list of all your bank transfers and their statuses. Results are paginated; use the `count` and `offset` query parameters to retrieve the desired bank transfers.
 
 
-        See endpoint docs at </bank-transfers/reference#bank_transferlist>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transferlist>."""
         url = self.base_url + "/bank_transfer/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("count"): count,
-            Ident("offset"): offset,
-            Ident("origination_account_id"): origination_account_id,
-            Ident("direction"): direction,
+            "start_date": start_date,
+            "end_date": end_date,
+            "count": count,
+            "offset": offset,
+            "origination_account_id": origination_account_id,
+            "direction": direction,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferListResponse.parse_raw(text)
 
-    async def transfer_cancel(
-        self,
-        transfer_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.TransferCancelResponse:
+    async def transfer_cancel(self, transfer_id: str) -> model.TransferCancelResponse:
         """Cancel a transfer
 
         Use the `/transfer/cancel` endpoint to cancel a transfer.  A transfer is eligible for cancelation if the `cancellable` property returned by `/transfer/get` is `true`.
 
-        See endpoint docs at </api/products/transfer/#transfercancel>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfercancel>."""
         url = self.base_url + "/transfer/cancel"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("transfer_id"): transfer_id,
+            "transfer_id": transfer_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferCancelResponse.parse_raw(text)
 
     async def bank_transfer_cancel(
-        self,
-        bank_transfer_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, bank_transfer_id: str
     ) -> model.BankTransferCancelResponse:
         """Cancel a bank transfer
 
         Use the `/bank_transfer/cancel` endpoint to cancel a bank transfer.  A transfer is eligible for cancelation if the `cancellable` property returned by `/bank_transfer/get` is `true`.
 
-        See endpoint docs at </bank-transfers/reference#bank_transfercancel>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transfercancel>."""
         url = self.base_url + "/bank_transfer/cancel"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("bank_transfer_id"): bank_transfer_id,
+            "bank_transfer_id": bank_transfer_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferCancelResponse.parse_raw(text)
 
     async def transfer_event_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         transfer_id: Optional[str] = None,
         account_id: Optional[str] = None,
         transfer_type: Optional[str] = None,
-        event_types: Optional[model.List[str]] = None,
+        event_types: Optional[List[str]] = None,
         sweep_id: Optional[str] = None,
         count: Optional[int] = None,
         offset: Optional[int] = None,
@@ -2979,37 +2512,34 @@ class AsyncPlaidClient:
 
         Use the `/transfer/event/list` endpoint to get a list of transfer events based on specified filter criteria.
 
-        See endpoint docs at </api/products/transfer/#transfereventlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfereventlist>."""
         url = self.base_url + "/transfer/event/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("transfer_id"): transfer_id,
-            Ident("account_id"): account_id,
-            Ident("transfer_type"): transfer_type,
-            Ident("event_types"): event_types,
-            Ident("sweep_id"): sweep_id,
-            Ident("count"): count,
-            Ident("offset"): offset,
-            Ident("origination_account_id"): origination_account_id,
+            "start_date": start_date,
+            "end_date": end_date,
+            "transfer_id": transfer_id,
+            "account_id": account_id,
+            "transfer_type": transfer_type,
+            "event_types": event_types,
+            "sweep_id": sweep_id,
+            "count": count,
+            "offset": offset,
+            "origination_account_id": origination_account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferEventListResponse.parse_raw(text)
 
     async def bank_transfer_event_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         bank_transfer_id: Optional[str] = None,
         account_id: Optional[str] = None,
         bank_transfer_type: Optional[str] = None,
-        event_types: Optional[model.List[str]] = None,
+        event_types: Optional[List[str]] = None,
         count: Optional[int] = None,
         offset: Optional[int] = None,
         origination_account_id: Optional[str] = None,
@@ -3019,123 +2549,96 @@ class AsyncPlaidClient:
 
         Use the `/bank_transfer/event/list` endpoint to get a list of bank transfer events based on specified filter criteria.
 
-        See endpoint docs at </bank-transfers/reference#bank_transfereventlist>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transfereventlist>."""
         url = self.base_url + "/bank_transfer/event/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("bank_transfer_id"): bank_transfer_id,
-            Ident("account_id"): account_id,
-            Ident("bank_transfer_type"): bank_transfer_type,
-            Ident("event_types"): event_types,
-            Ident("count"): count,
-            Ident("offset"): offset,
-            Ident("origination_account_id"): origination_account_id,
-            Ident("direction"): direction,
+            "start_date": start_date,
+            "end_date": end_date,
+            "bank_transfer_id": bank_transfer_id,
+            "account_id": account_id,
+            "bank_transfer_type": bank_transfer_type,
+            "event_types": event_types,
+            "count": count,
+            "offset": offset,
+            "origination_account_id": origination_account_id,
+            "direction": direction,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferEventListResponse.parse_raw(text)
 
     async def transfer_event_sync(
-        self,
-        after_id: int,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        count: Optional[int] = None,
+        self, after_id: int, *, count: Optional[int] = None
     ) -> model.TransferEventSyncResponse:
         """Sync transfer events
 
         `/transfer/event/sync` allows you to request up to the next 25 transfer events that happened after a specific `event_id`. Use the `/transfer/event/sync` endpoint to guarantee you have seen all transfer events.
 
-        See endpoint docs at </api/products/transfer/#transfereventsync>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfereventsync>."""
         url = self.base_url + "/transfer/event/sync"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("after_id"): after_id,
-            Ident("count"): count,
+            "after_id": after_id,
+            "count": count,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferEventSyncResponse.parse_raw(text)
 
     async def bank_transfer_event_sync(
-        self,
-        after_id: int,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        count: Optional[int] = None,
+        self, after_id: int, *, count: Optional[int] = None
     ) -> model.BankTransferEventSyncResponse:
         """Sync bank transfer events
 
         `/bank_transfer/event/sync` allows you to request up to the next 25 bank transfer events that happened after a specific `event_id`. Use the `/bank_transfer/event/sync` endpoint to guarantee you have seen all bank transfer events.
 
-        See endpoint docs at </bank-transfers/reference#bank_transfereventsync>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transfereventsync>."""
         url = self.base_url + "/bank_transfer/event/sync"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("after_id"): after_id,
-            Ident("count"): count,
+            "after_id": after_id,
+            "count": count,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferEventSyncResponse.parse_raw(text)
 
-    async def transfer_sweep_get(
-        self,
-        sweep_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.TransferSweepGetResponse:
+    async def transfer_sweep_get(self, sweep_id: str) -> model.TransferSweepGetResponse:
         """Retrieve a sweep
 
         The `/transfer/sweep/get` endpoint fetches a sweep corresponding to the given `sweep_id`.
 
-        See endpoint docs at </api/products/transfer/#transfersweepget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfersweepget>."""
         url = self.base_url + "/transfer/sweep/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("sweep_id"): sweep_id,
+            "sweep_id": sweep_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferSweepGetResponse.parse_raw(text)
 
     async def bank_transfer_sweep_get(
-        self,
-        sweep_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, sweep_id: str
     ) -> model.BankTransferSweepGetResponse:
         """Retrieve a sweep
 
         The `/bank_transfer/sweep/get` endpoint fetches information about the sweep corresponding to the given `sweep_id`.
 
-        See endpoint docs at </api/products/transfer/#bank_transfersweepget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#bank_transfersweepget>."""
         url = self.base_url + "/bank_transfer/sweep/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("sweep_id"): sweep_id,
+            "sweep_id": sweep_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferSweepGetResponse.parse_raw(text)
 
     async def transfer_sweep_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         count: Optional[int] = None,
@@ -3145,25 +2648,22 @@ class AsyncPlaidClient:
 
         The `/transfer/sweep/list` endpoint fetches sweeps matching the given filters.
 
-        See endpoint docs at </api/products/transfer/#transfersweeplist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfersweeplist>."""
         url = self.base_url + "/transfer/sweep/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("count"): count,
-            Ident("offset"): offset,
+            "start_date": start_date,
+            "end_date": end_date,
+            "count": count,
+            "offset": offset,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferSweepListResponse.parse_raw(text)
 
     async def bank_transfer_sweep_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         origination_account_id: Optional[str] = None,
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
@@ -3173,26 +2673,21 @@ class AsyncPlaidClient:
 
         The `/bank_transfer/sweep/list` endpoint fetches information about the sweeps matching the given filters.
 
-        See endpoint docs at </api/products/transfer/#bank_transfersweeplist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#bank_transfersweeplist>."""
         url = self.base_url + "/bank_transfer/sweep/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("origination_account_id"): origination_account_id,
-            Ident("start_time"): start_time,
-            Ident("end_time"): end_time,
-            Ident("count"): count,
+            "origination_account_id": origination_account_id,
+            "start_time": start_time,
+            "end_time": end_time,
+            "count": count,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferSweepListResponse.parse_raw(text)
 
     async def bank_transfer_balance_get(
-        self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        origination_account_id: Optional[str] = None,
+        self, *, origination_account_id: Optional[str] = None
     ) -> model.BankTransferBalanceGetResponse:
         """Get balance of your Bank Transfer account
 
@@ -3202,14 +2697,12 @@ class AsyncPlaidClient:
 
         Note that this endpoint can only be used with FBO accounts, when using Bank Transfers in the Full Service configuration. It cannot be used on your own account when using Bank Transfers in the BTS Platform configuration.
 
-        See endpoint docs at </bank-transfers/reference#bank_transferbalanceget>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transferbalanceget>."""
         url = self.base_url + "/bank_transfer/balance/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("origination_account_id"): origination_account_id,
+            "origination_account_id": origination_account_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferBalanceGetResponse.parse_raw(text)
@@ -3219,25 +2712,22 @@ class AsyncPlaidClient:
         account_number: str,
         routing_number: str,
         account_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         wire_routing_number: Optional[str] = None,
     ) -> model.BankTransferMigrateAccountResponse:
         """Migrate account into Bank Transfers
 
         As an alternative to adding Items via Link, you can also use the `/bank_transfer/migrate_account` endpoint to migrate known account and routing numbers to Plaid Items.  Note that Items created in this way are not compatible with endpoints for other products, such as `/accounts/balance/get`, and can only be used with Bank Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to `/bank_transfer/migrate_account` is not enabled by default; to obtain access, contact your Plaid Account Manager.
 
-        See endpoint docs at </bank-transfers/reference#bank_transfermigrate_account>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference#bank_transfermigrate_account>."""
         url = self.base_url + "/bank_transfer/migrate_account"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("account_number"): account_number,
-            Ident("routing_number"): routing_number,
-            Ident("wire_routing_number"): wire_routing_number,
-            Ident("account_type"): account_type,
+            "account_number": account_number,
+            "routing_number": routing_number,
+            "wire_routing_number": wire_routing_number,
+            "account_type": account_type,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.BankTransferMigrateAccountResponse.parse_raw(text)
@@ -3247,25 +2737,22 @@ class AsyncPlaidClient:
         account_number: str,
         routing_number: str,
         account_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         wire_routing_number: Optional[str] = None,
     ) -> model.TransferMigrateAccountResponse:
         """Migrate account into Transfers
 
         As an alternative to adding Items via Link, you can also use the `/transfer/migrate_account` endpoint to migrate known account and routing numbers to Plaid Items.  Note that Items created in this way are not compatible with endpoints for other products, such as `/accounts/balance/get`, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to `/transfer/migrate_account` is not enabled by default; to obtain access, contact your Plaid Account Manager.
 
-        See endpoint docs at </api/products/transfer/#transfermigrate_account>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transfermigrate_account>."""
         url = self.base_url + "/transfer/migrate_account"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("account_number"): account_number,
-            Ident("routing_number"): routing_number,
-            Ident("wire_routing_number"): wire_routing_number,
-            Ident("account_type"): account_type,
+            "account_number": account_number,
+            "routing_number": routing_number,
+            "wire_routing_number": wire_routing_number,
+            "account_type": account_type,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferMigrateAccountResponse.parse_raw(text)
@@ -3277,8 +2764,7 @@ class AsyncPlaidClient:
         description: str,
         ach_class: str,
         user: model.TransferUserInRequest,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         account_id: Optional[str] = None,
         origination_account_id: Optional[str] = None,
         metadata: Optional[model.TransferMetadata] = None,
@@ -3289,53 +2775,45 @@ class AsyncPlaidClient:
 
         Use the `/transfer/intent/create` endpoint to generate a transfer intent object and invoke the Transfer UI.
 
-        See endpoint docs at </api/products/transfer/#transferintentcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferintentcreate>."""
         url = self.base_url + "/transfer/intent/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("account_id"): account_id,
-            Ident("mode"): mode,
-            Ident("amount"): amount,
-            Ident("description"): description,
-            Ident("ach_class"): ach_class,
-            Ident("origination_account_id"): origination_account_id,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("metadata"): None if metadata is None else metadata.dict(),
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("require_guarantee"): require_guarantee,
+            "account_id": account_id,
+            "mode": mode,
+            "amount": amount,
+            "description": description,
+            "ach_class": ach_class,
+            "origination_account_id": origination_account_id,
+            "user": None if user is None else user.dict(),
+            "metadata": None if metadata is None else metadata.dict(),
+            "iso_currency_code": iso_currency_code,
+            "require_guarantee": require_guarantee,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferIntentCreateResponse.parse_raw(text)
 
     async def transfer_intent_get(
-        self,
-        transfer_intent_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, transfer_intent_id: str
     ) -> model.TransferIntentGetResponse:
         """Retrieve more information about a transfer intent
 
         Use the `/transfer/intent/get` endpoint to retrieve more information about a transfer intent.
 
-        See endpoint docs at </api/products/transfer/#transferintentget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferintentget>."""
         url = self.base_url + "/transfer/intent/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("transfer_intent_id"): transfer_intent_id,
+            "transfer_intent_id": transfer_intent_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferIntentGetResponse.parse_raw(text)
 
     async def transfer_repayment_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         count: Optional[int] = None,
@@ -3345,17 +2823,15 @@ class AsyncPlaidClient:
 
         The `/transfer/repayment/list` endpoint fetches repayments matching the given filters. Repayments are returned in reverse-chronological order (most recent first) starting at the given `start_time`.
 
-        See endpoint docs at </api/products/transfer/#transferrepaymentlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferrepaymentlist>."""
         url = self.base_url + "/transfer/repayment/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("start_date"): start_date,
-            Ident("end_date"): end_date,
-            Ident("count"): count,
-            Ident("offset"): offset,
+            "start_date": start_date,
+            "end_date": end_date,
+            "count": count,
+            "offset": offset,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferRepaymentListResponse.parse_raw(text)
@@ -3363,8 +2839,7 @@ class AsyncPlaidClient:
     async def transfer_repayment_return_list(
         self,
         repayment_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         count: Optional[int] = None,
         offset: Optional[int] = None,
     ) -> model.TransferRepaymentReturnListResponse:
@@ -3372,16 +2847,14 @@ class AsyncPlaidClient:
 
         The `/transfer/repayment/return/list` endpoint retrieves the set of returns that were batched together into the specified repayment. The sum of amounts of returns retrieved by this request equals the amount of the repayment.
 
-        See endpoint docs at </api/products/transfer/#transferrepaymentreturnlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#transferrepaymentreturnlist>."""
         url = self.base_url + "/transfer/repayment/return/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("repayment_id"): repayment_id,
-            Ident("count"): count,
-            Ident("offset"): offset,
+            "repayment_id": repayment_id,
+            "count": count,
+            "offset": offset,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransferRepaymentReturnListResponse.parse_raw(text)
@@ -3390,45 +2863,37 @@ class AsyncPlaidClient:
         self,
         bank_transfer_id: str,
         event_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         failure_reason: Optional[model.BankTransferFailure] = None,
     ) -> model.SandboxBankTransferSimulateResponse:
         """Simulate a bank transfer event in Sandbox
 
         Use the `/sandbox/bank_transfer/simulate` endpoint to simulate a bank transfer event in the Sandbox environment.  Note that while an event will be simulated and will appear when using endpoints such as `/bank_transfer/event/sync` or `/bank_transfer/event/list`, no transactions will actually take place and funds will not move between accounts, even within the Sandbox.
 
-        See endpoint docs at </bank-transfers/reference/#sandboxbank_transfersimulate>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference/#sandboxbank_transfersimulate>."""
         url = self.base_url + "/sandbox/bank_transfer/simulate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("bank_transfer_id"): bank_transfer_id,
-            Ident("event_type"): event_type,
-            Ident("failure_reason"): None
-            if failure_reason is None
-            else failure_reason.dict(),
+            "bank_transfer_id": bank_transfer_id,
+            "event_type": event_type,
+            "failure_reason": None if failure_reason is None else failure_reason.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxBankTransferSimulateResponse.parse_raw(text)
 
     async def sandbox_transfer_sweep_simulate(
-        self, client_id: Optional[str] = None, secret: Optional[str] = None
+        self,
     ) -> model.SandboxTransferSweepSimulateResponse:
         """Simulate creating a sweep
 
         Use the `/sandbox/transfer/sweep/simulate` endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all `posted` or `pending` transfers with a sweep status of `unswept` will become `swept`, and all `returned` transfers with a sweep status of `swept` will become `return_swept`.
 
-        See endpoint docs at </api/sandbox/#sandboxtransfersweepsimulate>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxtransfersweepsimulate>."""
         url = self.base_url + "/sandbox/transfer/sweep/simulate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
-        data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-        }
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
+        data: Dict[str, Any] = {}
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferSweepSimulateResponse.parse_raw(text)
 
@@ -3436,76 +2901,59 @@ class AsyncPlaidClient:
         self,
         transfer_id: str,
         event_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         failure_reason: Optional[model.TransferFailure] = None,
     ) -> model.SandboxTransferSimulateResponse:
         """Simulate a transfer event in Sandbox
 
         Use the `/sandbox/transfer/simulate` endpoint to simulate a transfer event in the Sandbox environment.  Note that while an event will be simulated and will appear when using endpoints such as `/transfer/event/sync` or `/transfer/event/list`, no transactions will actually take place and funds will not move between accounts, even within the Sandbox.
 
-        See endpoint docs at </api/sandbox/#sandboxtransfersimulate>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxtransfersimulate>."""
         url = self.base_url + "/sandbox/transfer/simulate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("transfer_id"): transfer_id,
-            Ident("event_type"): event_type,
-            Ident("failure_reason"): None
-            if failure_reason is None
-            else failure_reason.dict(),
+            "transfer_id": transfer_id,
+            "event_type": event_type,
+            "failure_reason": None if failure_reason is None else failure_reason.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferSimulateResponse.parse_raw(text)
 
     async def sandbox_transfer_repayment_simulate(
-        self, client_id: Optional[str] = None, secret: Optional[str] = None
+        self,
     ) -> model.SandboxTransferRepaymentSimulateResponse:
         """Trigger the creation of a repayment
 
         Use the `/sandbox/transfer/repayment/simulate` endpoint to trigger the creation of a repayment. As a side effect of calling this route, a repayment is created that includes all unreimbursed returns of guaranteed transfers. If there are no such returns, an 400 error is returned.
 
-        See endpoint docs at </api/sandbox/#sandboxtransferrepaymentsimulate>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxtransferrepaymentsimulate>."""
         url = self.base_url + "/sandbox/transfer/repayment/simulate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
-        data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-        }
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
+        data: Dict[str, Any] = {}
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferRepaymentSimulateResponse.parse_raw(text)
 
     async def sandbox_transfer_fire_webhook(
-        self,
-        webhook: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, webhook: str
     ) -> model.SandboxTransferFireWebhookResponse:
         """Manually fire a Transfer webhook
 
         Use the `/sandbox/transfer/fire_webhook` endpoint to manually trigger a Transfer webhook in the Sandbox environment.
 
-        See endpoint docs at </api/sandbox/#sandboxtransferfire_webhook>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxtransferfire_webhook>."""
         url = self.base_url + "/sandbox/transfer/fire_webhook"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("webhook"): webhook,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxTransferFireWebhookResponse.parse_raw(text)
 
     async def employers_search(
-        self,
-        query: str,
-        products: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, query: str, products: List[str]
     ) -> model.EmployersSearchResponse:
         """Search employer database
 
@@ -3513,15 +2961,13 @@ class AsyncPlaidClient:
 
         The data in the employer database is currently limited. As the Deposit Switch and Income products progress through their respective beta periods, more employers are being regularly added. Because the employer database is frequently updated, we recommend that you do not cache or store data from this endpoint for more than a day.
 
-        See endpoint docs at </api/employers/#employerssearch>."""
+        See endpoint docs at <https://plaid.com/docs/api/employers/#employerssearch>."""
         url = self.base_url + "/employers/search"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("query"): query,
-            Ident("products"): products,
+            "query": query,
+            "products": products,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EmployersSearchResponse.parse_raw(text)
@@ -3529,8 +2975,7 @@ class AsyncPlaidClient:
     async def income_verification_create(
         self,
         webhook: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         precheck_id: Optional[str] = None,
         options: Optional[model.IncomeVerificationCreateRequestOptions] = None,
     ) -> model.IncomeVerificationCreateResponse:
@@ -3538,24 +2983,21 @@ class AsyncPlaidClient:
 
         `/income/verification/create` begins the income verification process by returning an `income_verification_id`. You can then provide the `income_verification_id` to `/link/token/create` under the `income_verification` parameter in order to create a Link instance that will prompt the user to go through the income verification flow. Plaid will fire an `INCOME` webhook once the user completes the Payroll Income flow, or when the uploaded documents in the Document Income flow have finished processing.
 
-        See endpoint docs at </api/products/income/#incomeverificationcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationcreate>."""
         url = self.base_url + "/income/verification/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("webhook"): webhook,
-            Ident("precheck_id"): precheck_id,
-            Ident("options"): None if options is None else options.dict(),
+            "webhook": webhook,
+            "precheck_id": precheck_id,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationCreateResponse.parse_raw(text)
 
     async def income_verification_paystubs_get(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         income_verification_id: Optional[str] = None,
         access_token: Optional[str] = None,
     ) -> model.IncomeVerificationPaystubsGetResponse:
@@ -3565,23 +3007,20 @@ class AsyncPlaidClient:
 
         This endpoint has been deprecated; new integrations should use `/credit/payroll_income/get` instead.
 
-        See endpoint docs at </api/products/income/#incomeverificationpaystubsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationpaystubsget>."""
         url = self.base_url + "/income/verification/paystubs/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("income_verification_id"): income_verification_id,
-            Ident("access_token"): access_token,
+            "income_verification_id": income_verification_id,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationPaystubsGetResponse.parse_raw(text)
 
     async def income_verification_documents_download(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         income_verification_id: Optional[str] = None,
         access_token: Optional[str] = None,
         document_id: Optional[str] = None,
@@ -3598,24 +3037,21 @@ class AsyncPlaidClient:
 
         The `request_id` is returned in the `Plaid-Request-ID` header.
 
-        See endpoint docs at </api/products/income/#incomeverificationdocumentsdownload>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationdocumentsdownload>."""
         url = self.base_url + "/income/verification/documents/download"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("income_verification_id"): income_verification_id,
-            Ident("access_token"): access_token,
-            Ident("document_id"): document_id,
+            "income_verification_id": income_verification_id,
+            "access_token": access_token,
+            "document_id": document_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return None
 
     async def income_verification_refresh(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         income_verification_id: Optional[str] = None,
         access_token: Optional[str] = None,
     ) -> model.IncomeVerificationRefreshResponse:
@@ -3623,23 +3059,20 @@ class AsyncPlaidClient:
 
         `/income/verification/refresh` refreshes a given income verification.
 
-        See endpoint docs at </api/products/income/#incomeverificationrefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationrefresh>."""
         url = self.base_url + "/income/verification/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("income_verification_id"): income_verification_id,
-            Ident("access_token"): access_token,
+            "income_verification_id": income_verification_id,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationRefreshResponse.parse_raw(text)
 
     async def income_verification_taxforms_get(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         income_verification_id: Optional[str] = None,
         access_token: Optional[str] = None,
     ) -> model.IncomeVerificationTaxformsGetResponse:
@@ -3649,27 +3082,24 @@ class AsyncPlaidClient:
 
         This endpoint has been deprecated; new integrations should use `/credit/payroll_income/get` instead.
 
-        See endpoint docs at </api/products/income/#incomeverificationtaxformsget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationtaxformsget>."""
         url = self.base_url + "/income/verification/taxforms/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("income_verification_id"): income_verification_id,
-            Ident("access_token"): access_token,
+            "income_verification_id": income_verification_id,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.IncomeVerificationTaxformsGetResponse.parse_raw(text)
 
     async def income_verification_precheck(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user: Optional[model.IncomeVerificationPrecheckUser] = None,
         employer: Optional[model.IncomeVerificationPrecheckEmployer] = None,
         transactions_access_token: Optional[str] = None,
-        transactions_access_tokens: Optional[model.List[str]] = None,
+        transactions_access_tokens: Optional[List[str]] = None,
         us_military_info: Optional[model.IncomeVerificationPrecheckMilitaryInfo] = None,
     ) -> model.IncomeVerificationPrecheckResponse:
         """(Deprecated) Check digital income verification eligibility and optimize conversion
@@ -3680,18 +3110,16 @@ class AsyncPlaidClient:
 
         This endpoint has been deprecated; new integrations should use `/credit/payroll_income/precheck` instead.
 
-        See endpoint docs at </api/products/income/#incomeverificationprecheck>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#incomeverificationprecheck>."""
         url = self.base_url + "/income/verification/precheck"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("employer"): None if employer is None else employer.dict(),
-            Ident("transactions_access_token"): transactions_access_token,
-            Ident("transactions_access_tokens"): transactions_access_tokens,
-            Ident("us_military_info"): None
+            "user": None if user is None else user.dict(),
+            "employer": None if employer is None else employer.dict(),
+            "transactions_access_token": transactions_access_token,
+            "transactions_access_tokens": transactions_access_tokens,
+            "us_military_info": None
             if us_military_info is None
             else us_military_info.dict(),
         }
@@ -3699,10 +3127,7 @@ class AsyncPlaidClient:
         return model.IncomeVerificationPrecheckResponse.parse_raw(text)
 
     async def employment_verification_get(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, access_token: str
     ) -> model.EmploymentVerificationGetResponse:
         """(Deprecated) Retrieve a summary of an individual's employment information
 
@@ -3710,14 +3135,12 @@ class AsyncPlaidClient:
 
         This endpoint has been deprecated; new integrations should use `/credit/employment/get` instead.
 
-        See endpoint docs at </api/products/income/#employmentverificationget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#employmentverificationget>."""
         url = self.base_url + "/employment/verification/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.EmploymentVerificationGetResponse.parse_raw(text)
@@ -3726,8 +3149,7 @@ class AsyncPlaidClient:
         self,
         target_account: model.DepositSwitchTargetAccount,
         target_user: model.DepositSwitchTargetUser,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         options: Optional[model.DepositSwitchCreateRequestOptions] = None,
         country_code: Optional[str] = None,
     ) -> model.DepositSwitchAltCreateResponse:
@@ -3735,29 +3157,21 @@ class AsyncPlaidClient:
 
         This endpoint provides an alternative to `/deposit_switch/create` for customers who have not yet fully integrated with Plaid Exchange. Like `/deposit_switch/create`, it creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
 
-        See endpoint docs at </deposit-switch/reference#deposit_switchaltcreate>."""
+        See endpoint docs at <https://plaid.com/docs/deposit-switch/reference#deposit_switchaltcreate>."""
         url = self.base_url + "/deposit_switch/alt/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("target_account"): None
-            if target_account is None
-            else target_account.dict(),
-            Ident("target_user"): None if target_user is None else target_user.dict(),
-            Ident("options"): None if options is None else options.dict(),
-            Ident("country_code"): country_code,
+            "target_account": None if target_account is None else target_account.dict(),
+            "target_user": None if target_user is None else target_user.dict(),
+            "options": None if options is None else options.dict(),
+            "country_code": country_code,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.DepositSwitchAltCreateResponse.parse_raw(text)
 
     async def credit_audit_copy_token_create(
-        self,
-        report_tokens: model.List[ReportToken],
-        auditor_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, report_tokens: List[ReportToken], auditor_id: str
     ) -> model.CreditAuditCopyTokenCreateResponse:
         """Create Asset or Income Report Audit Copy Token
 
@@ -3765,47 +3179,39 @@ class AsyncPlaidClient:
 
         To grant access to an Audit Copy token, use the `/credit/audit_copy_token/create` endpoint to create an `audit_copy_token` and then pass that token to the third party who needs access. Each third party has its own `auditor_id`, for example `fannie_mae`. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
 
-        See endpoint docs at </api/products/income/#creditaudit_copy_tokencreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditaudit_copy_tokencreate>."""
         url = self.base_url + "/credit/audit_copy_token/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("report_tokens"): None
+            "report_tokens": None
             if report_tokens is None
             else [d.dict() for d in report_tokens],
-            Ident("auditor_id"): auditor_id,
+            "auditor_id": auditor_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditAuditCopyTokenCreateResponse.parse_raw(text)
 
     async def credit_report_audit_copy_remove(
-        self,
-        audit_copy_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, audit_copy_token: str
     ) -> model.CreditAuditCopyTokenRemoveResponse:
         """Remove an Audit Copy token
 
         The `/credit/audit_copy_token/remove` endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the `audit_copy_token` associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Report data and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
 
-        See endpoint docs at </api/products/income/#creditaudit_copy_tokenremove>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditaudit_copy_tokenremove>."""
         url = self.base_url + "/credit/audit_copy_token/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("audit_copy_token"): audit_copy_token,
+            "audit_copy_token": audit_copy_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditAuditCopyTokenRemoveResponse.parse_raw(text)
 
     async def credit_bank_income_get(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user_token: Optional[str] = None,
         options: Optional[model.CreditBankIncomeGetRequestOptions] = None,
     ) -> model.CreditBankIncomeGetResponse:
@@ -3813,93 +3219,75 @@ class AsyncPlaidClient:
 
         `/credit/bank_income/get` returns the bank income report(s) for a specified user.
 
-        See endpoint docs at </api/products/income/#creditbank_incomeget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditbank_incomeget>."""
         url = self.base_url + "/credit/bank_income/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
-            Ident("options"): None if options is None else options.dict(),
+            "user_token": user_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditBankIncomeGetResponse.parse_raw(text)
 
-    async def credit_bank_income_pdf_get(
-        self,
-        user_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> None:
+    async def credit_bank_income_pdf_get(self, user_token: str) -> None:
         """Retrieve information from the bank accounts used for income verification in PDF format
 
         `/credit/bank_income/pdf/get` returns the most recent bank income report for a specified user in PDF format.
 
-        See endpoint docs at </api/products/income/#creditbank_incomepdfget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditbank_incomepdfget>."""
         url = self.base_url + "/credit/bank_income/pdf/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return None
 
     async def credit_bank_income_refresh(
         self,
-        client_id: str,
-        secret: str,
         user_token: str,
+        *,
         options: Optional[model.CreditBankIncomeRefreshRequestOptions] = None,
     ) -> model.CreditBankIncomeRefreshResponse:
         """Refresh a user's bank income information
 
         `/credit/bank_income/refresh` refreshes the bank income report data for a specific user.
 
-        See endpoint docs at </api/products/income/#creditbank_incomerefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditbank_incomerefresh>."""
         url = self.base_url + "/credit/bank_income/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
-            Ident("options"): None if options is None else options.dict(),
+            "user_token": user_token,
+            "options": None if options is None else options.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditBankIncomeRefreshResponse.parse_raw(text)
 
     async def credit_payroll_income_get(
-        self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        user_token: Optional[str] = None,
+        self, *, user_token: Optional[str] = None
     ) -> model.CreditPayrollIncomeGetResponse:
         """Retrieve a user's payroll information
 
         This endpoint gets payroll income information for a specific user, either as a result of the user connecting to their payroll provider or uploading a pay related document.
 
-        See endpoint docs at </api/products/income/#creditpayroll_incomeget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditpayroll_incomeget>."""
         url = self.base_url + "/credit/payroll_income/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditPayrollIncomeGetResponse.parse_raw(text)
 
     async def credit_payroll_income_precheck(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user_token: Optional[str] = None,
-        access_tokens: Optional[model.List[str]] = None,
+        access_tokens: Optional[List[str]] = None,
         employer: Optional[model.IncomeVerificationPrecheckEmployer] = None,
         us_military_info: Optional[model.IncomeVerificationPrecheckMilitaryInfo] = None,
     ) -> model.CreditPayrollIncomePrecheckResponse:
@@ -3909,17 +3297,15 @@ class AsyncPlaidClient:
 
         While all request fields are optional, providing `employer` data will increase the chance of receiving a useful result.
 
-        See endpoint docs at </api/products/income/#creditpayroll_incomeprecheck>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditpayroll_incomeprecheck>."""
         url = self.base_url + "/credit/payroll_income/precheck"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
-            Ident("access_tokens"): access_tokens,
-            Ident("employer"): None if employer is None else employer.dict(),
-            Ident("us_military_info"): None
+            "user_token": user_token,
+            "access_tokens": access_tokens,
+            "employer": None if employer is None else employer.dict(),
+            "us_military_info": None
             if us_military_info is None
             else us_military_info.dict(),
         }
@@ -3927,52 +3313,44 @@ class AsyncPlaidClient:
         return model.CreditPayrollIncomePrecheckResponse.parse_raw(text)
 
     async def credit_employment_get(
-        self, client_id: str, secret: str, user_token: str
+        self, user_token: str
     ) -> model.CreditEmploymentGetResponse:
         """Retrieve a summary of an individual's employment information
 
         `/credit/employment/get` returns a list of items with employment information from a user's payroll provider that was verified by an end user.
 
-        See endpoint docs at </api/products/income/#creditemploymentget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditemploymentget>."""
         url = self.base_url + "/credit/employment/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditEmploymentGetResponse.parse_raw(text)
 
     async def credit_payroll_income_refresh(
-        self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        user_token: Optional[str] = None,
+        self, *, user_token: Optional[str] = None
     ) -> model.CreditPayrollIncomeRefreshResponse:
         """Refresh a digital payroll income verification
 
         `/credit/payroll_income/refresh` refreshes a given digital payroll income verification.
 
-        See endpoint docs at </api/products/income/#creditpayroll_incomerefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/income/#creditpayroll_incomerefresh>."""
         url = self.base_url + "/credit/payroll_income/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("user_token"): user_token,
+            "user_token": user_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditPayrollIncomeRefreshResponse.parse_raw(text)
 
     async def credit_relay_create(
         self,
-        report_tokens: model.List[ReportToken],
+        report_tokens: List[ReportToken],
         secondary_client_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         webhook: Optional[str] = None,
     ) -> model.CreditRelayCreateResponse:
         """Create a `relay_token` to share an Asset Report with a partner client
@@ -3981,112 +3359,87 @@ class AsyncPlaidClient:
 
         To grant access to an Asset Report to a third party, use the `/credit/relay/create` endpoint to create a `relay_token` and then pass that token to the third party who needs access. Each third party has its own `secondary_client_id`, for example `ce5bd328dcd34123456`. You'll need to create a separate `relay_token` for each third party to whom you want to grant access to the Report.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/credit/relay/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("report_tokens"): None
+            "report_tokens": None
             if report_tokens is None
             else [d.dict() for d in report_tokens],
-            Ident("secondary_client_id"): secondary_client_id,
-            Ident("webhook"): webhook,
+            "secondary_client_id": secondary_client_id,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayCreateResponse.parse_raw(text)
 
     async def credit_relay_get(
-        self,
-        relay_token: str,
-        report_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, relay_token: str, report_type: str
     ) -> model.AssetReportGetResponse:
         """Retrieve the reports associated with a Relay token that was shared with you
 
         `/credit/relay/get` allows third parties to get a report that was shared with them, using an `relay_token` that was created by the report owner.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/credit/relay/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("relay_token"): relay_token,
-            Ident("report_type"): report_type,
+            "relay_token": relay_token,
+            "report_type": report_type,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.AssetReportGetResponse.parse_raw(text)
 
     async def credit_relay_refresh(
-        self,
-        relay_token: str,
-        report_type: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-        webhook: Optional[str] = None,
+        self, relay_token: str, report_type: str, *, webhook: Optional[str] = None
     ) -> model.CreditRelayRefreshResponse:
         """Refresh a report of a Relay Token
 
         The `/credit/relay/refresh` endpoint allows third parties to refresh an report that was relayed to them, using a `relay_token` that was created by the report owner. A new report will be created based on the old one, but with the most recent data available.
 
-        See endpoint docs at </api/products/#creditrelayrefresh>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#creditrelayrefresh>."""
         url = self.base_url + "/credit/relay/refresh"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("relay_token"): relay_token,
-            Ident("report_type"): report_type,
-            Ident("webhook"): webhook,
+            "relay_token": relay_token,
+            "report_type": report_type,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayRefreshResponse.parse_raw(text)
 
     async def credit_relay_remove(
-        self,
-        relay_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, relay_token: str
     ) -> model.CreditRelayRemoveResponse:
         """Remove Credit Relay Token
 
         The `/credit/relay/remove` endpoint allows you to invalidate a `relay_token`, meaning the third party holding the token will no longer be able to use it to access the reports to which the `relay_token` gives access to. The report, items associated with it, and other Relay tokens that provide access to the same report are not affected and will remain accessible after removing the given `relay_token.
 
-        See endpoint docs at </none/>."""
+        See endpoint docs at <https://plaid.com/docs/none/>."""
         url = self.base_url + "/credit/relay/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("relay_token"): relay_token,
+            "relay_token": relay_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.CreditRelayRemoveResponse.parse_raw(text)
 
     async def sandbox_bank_transfer_fire_webhook(
-        self,
-        webhook: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, webhook: str
     ) -> model.SandboxBankTransferFireWebhookResponse:
         """Manually fire a Bank Transfer webhook
 
         Use the `/sandbox/bank_transfer/fire_webhook` endpoint to manually trigger a Bank Transfers webhook in the Sandbox environment.
 
-        See endpoint docs at </bank-transfers/reference/#sandboxbank_transferfire_webhook>."""
+        See endpoint docs at <https://plaid.com/docs/bank-transfers/reference/#sandboxbank_transferfire_webhook>."""
         url = self.base_url + "/sandbox/bank_transfer/fire_webhook"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("webhook"): webhook,
+            "webhook": webhook,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxBankTransferFireWebhookResponse.parse_raw(text)
@@ -4096,39 +3449,36 @@ class AsyncPlaidClient:
         item_id: str,
         webhook: str,
         verification_status: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user_id: Optional[str] = None,
     ) -> model.SandboxIncomeFireWebhookResponse:
         """Manually fire an Income webhook
 
         Use the `/sandbox/income/fire_webhook` endpoint to manually trigger an Income webhook in the Sandbox environment.
 
-        See endpoint docs at </api/sandbox/#sandboxincomefire_webhook>."""
+        See endpoint docs at <https://plaid.com/docs/api/sandbox/#sandboxincomefire_webhook>."""
         url = self.base_url + "/sandbox/income/fire_webhook"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("item_id"): item_id,
-            Ident("user_id"): user_id,
-            Ident("webhook"): webhook,
-            Ident("verification_status"): verification_status,
+            "item_id": item_id,
+            "user_id": user_id,
+            "webhook": webhook,
+            "verification_status": verification_status,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxIncomeFireWebhookResponse.parse_raw(text)
 
     async def sandbox_oauth_select_accounts(
-        self, oauth_state_id: str, accounts: model.List[str]
+        self, oauth_state_id: str, accounts: List[str]
     ) -> model.SandboxOauthSelectAccountsResponse:
         """Save the selected accounts when connecting to the Platypus Oauth institution"""
         url = self.base_url + "/sandbox/oauth/select_accounts"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("oauth_state_id"): oauth_state_id,
-            Ident("accounts"): accounts,
+            "oauth_state_id": oauth_state_id,
+            "accounts": accounts,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SandboxOauthSelectAccountsResponse.parse_raw(text)
@@ -4139,8 +3489,7 @@ class AsyncPlaidClient:
         account_id: str,
         client_transaction_id: str,
         amount: float,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         user_present: Optional[bool] = None,
         client_user_id: Optional[str] = None,
         user: Optional[model.SignalUser] = None,
@@ -4152,21 +3501,19 @@ class AsyncPlaidClient:
 
         In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If `/signal/evaluate` is called on the same transaction multiple times within a 24-hour period, cached results may be returned.
 
-        See endpoint docs at </signal/reference#signalevaluate>."""
+        See endpoint docs at <https://plaid.com/docs/signal/reference#signalevaluate>."""
         url = self.base_url + "/signal/evaluate"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
-            Ident("account_id"): account_id,
-            Ident("client_transaction_id"): client_transaction_id,
-            Ident("amount"): amount,
-            Ident("user_present"): user_present,
-            Ident("client_user_id"): client_user_id,
-            Ident("user"): None if user is None else user.dict(),
-            Ident("device"): None if device is None else device.dict(),
+            "access_token": access_token,
+            "account_id": account_id,
+            "client_transaction_id": client_transaction_id,
+            "amount": amount,
+            "user_present": user_present,
+            "client_user_id": client_user_id,
+            "user": None if user is None else user.dict(),
+            "device": None if device is None else device.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SignalEvaluateResponse.parse_raw(text)
@@ -4175,122 +3522,91 @@ class AsyncPlaidClient:
         self,
         client_transaction_id: str,
         initiated: bool,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         days_funds_on_hold: Optional[int] = None,
     ) -> model.SignalDecisionReportResponse:
         """Report whether you initiated an ACH transaction
 
         After calling `/signal/evaluate`, call `/signal/decision/report` to report whether the transaction was initiated. This endpoint will return an `INVALID_REQUEST` error if called a second time with a different value for `initiated`.
 
-        See endpoint docs at </signal/reference#signaldecisionreport>."""
+        See endpoint docs at <https://plaid.com/docs/signal/reference#signaldecisionreport>."""
         url = self.base_url + "/signal/decision/report"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("client_transaction_id"): client_transaction_id,
-            Ident("initiated"): initiated,
-            Ident("days_funds_on_hold"): days_funds_on_hold,
+            "client_transaction_id": client_transaction_id,
+            "initiated": initiated,
+            "days_funds_on_hold": days_funds_on_hold,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SignalDecisionReportResponse.parse_raw(text)
 
     async def signal_return_report(
-        self,
-        client_transaction_id: str,
-        return_code: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, client_transaction_id: str, return_code: str
     ) -> model.SignalReturnReportResponse:
         """Report a return for an ACH transaction
 
         Call the `/signal/return/report` endpoint to report a returned transaction that was previously sent to the `/signal/evaluate` endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.
 
-        See endpoint docs at </signal/reference#signalreturnreport>."""
+        See endpoint docs at <https://plaid.com/docs/signal/reference#signalreturnreport>."""
         url = self.base_url + "/signal/return/report"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("client_transaction_id"): client_transaction_id,
-            Ident("return_code"): return_code,
+            "client_transaction_id": client_transaction_id,
+            "return_code": return_code,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SignalReturnReportResponse.parse_raw(text)
 
-    async def signal_prepare(
-        self,
-        access_token: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.SignalPrepareResponse:
+    async def signal_prepare(self, access_token: str) -> model.SignalPrepareResponse:
         """Prepare the Signal product before calling `/signal/evaluate`
 
         Call `/signal/prepare` with Plaid-linked bank account information at least 10 seconds before calling `/signal/evaluate` or as soon as an end-user enters the ACH deposit flow in your application.
 
-        See endpoint docs at </signal/reference#signalprepare>."""
+        See endpoint docs at <https://plaid.com/docs/signal/reference#signalprepare>."""
         url = self.base_url + "/signal/prepare"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("access_token"): access_token,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.SignalPrepareResponse.parse_raw(text)
 
-    async def wallet_create(
-        self,
-        iso_currency_code: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.WalletCreateResponse:
+    async def wallet_create(self, iso_currency_code: str) -> model.WalletCreateResponse:
         """Create an e-wallet
 
         Create an e-wallet. The response is the newly created e-wallet object.
 
-        See endpoint docs at </api/products/#walletcreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#walletcreate>."""
         url = self.base_url + "/wallet/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("iso_currency_code"): iso_currency_code,
+            "iso_currency_code": iso_currency_code,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletCreateResponse.parse_raw(text)
 
-    async def wallet_get(
-        self,
-        wallet_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
-    ) -> model.WalletGetResponse:
+    async def wallet_get(self, wallet_id: str) -> model.WalletGetResponse:
         """Fetch an e-wallet
 
         Fetch an e-wallet. The response includes the current balance.
 
-        See endpoint docs at </api/products/#walletget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#walletget>."""
         url = self.base_url + "/wallet/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("wallet_id"): wallet_id,
+            "wallet_id": wallet_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletGetResponse.parse_raw(text)
 
     async def wallet_list(
         self,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         iso_currency_code: Optional[str] = None,
         cursor: Optional[str] = None,
         count: Optional[int] = None,
@@ -4299,16 +3615,14 @@ class AsyncPlaidClient:
 
         This endpoint lists all e-wallets in descending order of creation.
 
-        See endpoint docs at </api/products/#walletlist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#walletlist>."""
         url = self.base_url + "/wallet/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("iso_currency_code"): iso_currency_code,
-            Ident("cursor"): cursor,
-            Ident("count"): count,
+            "iso_currency_code": iso_currency_code,
+            "cursor": cursor,
+            "count": count,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletListResponse.parse_raw(text)
@@ -4320,8 +3634,6 @@ class AsyncPlaidClient:
         counterparty: model.WalletTransactionCounterparty,
         amount: model.WalletTransactionAmount,
         reference: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
     ) -> model.WalletTransactionExecuteResponse:
         """Execute a transaction using an e-wallet
 
@@ -4329,40 +3641,31 @@ class AsyncPlaidClient:
         Specify the e-wallet to debit from, the counterparty to credit to, the idempotency key to prevent duplicate payouts, the amount and reference for the payout.
         The payouts are executed over the Faster Payment rails, where settlement usually only takes a few seconds.
 
-        See endpoint docs at </api/products/#wallettransactionexecute>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#wallettransactionexecute>."""
         url = self.base_url + "/wallet/transaction/execute"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("idempotency_key"): idempotency_key,
-            Ident("wallet_id"): wallet_id,
-            Ident("counterparty"): None
-            if counterparty is None
-            else counterparty.dict(),
-            Ident("amount"): None if amount is None else amount.dict(),
-            Ident("reference"): reference,
+            "idempotency_key": idempotency_key,
+            "wallet_id": wallet_id,
+            "counterparty": None if counterparty is None else counterparty.dict(),
+            "amount": None if amount is None else amount.dict(),
+            "reference": reference,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletTransactionExecuteResponse.parse_raw(text)
 
     async def wallet_transaction_get(
-        self,
-        transaction_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, transaction_id: str
     ) -> model.WalletTransactionGetResponse:
         """Fetch a specific e-wallet transaction
 
-        See endpoint docs at </api/products/#wallettransactionget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#wallettransactionget>."""
         url = self.base_url + "/wallet/transaction/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("transaction_id"): transaction_id,
+            "transaction_id": transaction_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletTransactionGetResponse.parse_raw(text)
@@ -4370,8 +3673,7 @@ class AsyncPlaidClient:
     async def wallet_transactions_list(
         self,
         wallet_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        *,
         cursor: Optional[str] = None,
         count: Optional[int] = None,
     ) -> model.WalletTransactionsListResponse:
@@ -4379,26 +3681,20 @@ class AsyncPlaidClient:
 
         This endpoint lists the latest transactions of the specified e-wallet. Transactions are returned in descending order by the `created_at` time.
 
-        See endpoint docs at </api/products/#wallettransactionslist>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/#wallettransactionslist>."""
         url = self.base_url + "/wallet/transactions/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("wallet_id"): wallet_id,
-            Ident("cursor"): cursor,
-            Ident("count"): count,
+            "wallet_id": wallet_id,
+            "cursor": cursor,
+            "count": count,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.WalletTransactionsListResponse.parse_raw(text)
 
     async def transactions_enhance(
-        self,
-        account_type: str,
-        transactions: model.List[ClientProvidedRawTransaction],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, account_type: str, transactions: List[ClientProvidedRawTransaction]
     ) -> model.TransactionsEnhanceGetResponse:
         """enhance locally-held transaction data
 
@@ -4406,13 +3702,11 @@ class AsyncPlaidClient:
 
         The product is currently in beta."""
         url = self.base_url + "/beta/transactions/v1/enhance"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("account_type"): account_type,
-            Ident("transactions"): None
+            "account_type": account_type,
+            "transactions": None
             if transactions is None
             else [d.dict() for d in transactions],
         }
@@ -4421,9 +3715,7 @@ class AsyncPlaidClient:
 
     async def transactions_rules_create(
         self,
-        client_id: str,
         access_token: str,
-        secret: str,
         personal_finance_category: str,
         rule_details: model.TransactionsRuleDetails,
     ) -> model.TransactionsRulesCreateResponse:
@@ -4435,113 +3727,90 @@ class AsyncPlaidClient:
 
         The product is currently in beta. To request access, contact transactions-feedback@plaid.com."""
         url = self.base_url + "/beta/transactions/rules/v1/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("personal_finance_category"): personal_finance_category,
-            Ident("rule_details"): None
-            if rule_details is None
-            else rule_details.dict(),
+            "access_token": access_token,
+            "personal_finance_category": personal_finance_category,
+            "rule_details": None if rule_details is None else rule_details.dict(),
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRulesCreateResponse.parse_raw(text)
 
     async def transactions_rules_list(
-        self, client_id: str, access_token: str, secret: str
+        self, access_token: str
     ) -> model.TransactionsRulesListResponse:
         """Return a list of rules created for the Item associated with the access token.
 
         The `/transactions/rules/v1/list` returns a list of transaction rules created for the Item associated with the access token."""
         url = self.base_url + "/beta/transactions/rules/v1/list"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
+            "access_token": access_token,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRulesListResponse.parse_raw(text)
 
     async def transactions_rules_remove(
-        self, client_id: str, access_token: str, secret: str, rule_id: str
+        self, access_token: str, rule_id: str
     ) -> model.TransactionsRulesRemoveResponse:
         """Remove transaction rule
 
         The `/transactions/rules/v1/remove` endpoint is used to remove a transaction rule."""
         url = self.base_url + "/beta/transactions/rules/v1/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("access_token"): access_token,
-            Ident("secret"): secret,
-            Ident("rule_id"): rule_id,
+            "access_token": access_token,
+            "rule_id": rule_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.TransactionsRulesRemoveResponse.parse_raw(text)
 
-    async def payment_profile_create(
-        self, client_id: Optional[str] = None, secret: Optional[str] = None
-    ) -> model.PaymentProfileCreateResponse:
+    async def payment_profile_create(self) -> model.PaymentProfileCreateResponse:
         """Create payment profile
 
         Use `/payment_profile/create` endpoint to create a new payment profile, the return value is a Payment Profile ID. Attach it to the link token create request and the link workflow will then "activate" this Payment Profile if the linkage is successful. It can then be used to create Transfers using `/transfer/authorization/create` and /transfer/create`.
 
-        See endpoint docs at </api/products/transfer/#payment_profilecreate>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#payment_profilecreate>."""
         url = self.base_url + "/payment_profile/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
-        data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-        }
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
+        data: Dict[str, Any] = {}
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentProfileCreateResponse.parse_raw(text)
 
     async def payment_profile_get(
-        self,
-        payment_profile_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, payment_profile_id: str
     ) -> model.PaymentProfileGetResponse:
         """Get payment profile
 
         Use the `/payment_profile/get` endpoint to get the status of a given Payment Profile.
 
-        See endpoint docs at </api/products/transfer/#payment_profileget>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#payment_profileget>."""
         url = self.base_url + "/payment_profile/get"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("payment_profile_id"): payment_profile_id,
+            "payment_profile_id": payment_profile_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentProfileGetResponse.parse_raw(text)
 
     async def payment_profile_remove(
-        self,
-        payment_profile_id: str,
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        self, payment_profile_id: str
     ) -> model.PaymentProfileRemoveResponse:
         """Remove payment profile
 
         Use the `/payment_profile/remove` endpoint to remove a given Payment Profile. Once it’s removed, it can no longer be used to create transfers.
 
-        See endpoint docs at </api/products/transfer/#payment_profileremove>."""
+        See endpoint docs at <https://plaid.com/docs/api/products/transfer/#payment_profileremove>."""
         url = self.base_url + "/payment_profile/remove"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("payment_profile_id"): payment_profile_id,
+            "payment_profile_id": payment_profile_id,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PaymentProfileRemoveResponse.parse_raw(text)
@@ -4550,24 +3819,21 @@ class AsyncPlaidClient:
         self,
         company_name: str,
         is_diligence_attested: bool,
-        products: model.List[str],
-        client_id: Optional[str] = None,
-        secret: Optional[str] = None,
+        products: List[str],
+        *,
         create_link_customization: Optional[bool] = None,
     ) -> model.PartnerCustomersCreateResponse:
         """Creates a new client for a reseller partner end customer.
 
         The `/partner/v1/customers/create` endpoint is used by reseller partners to create an end customer client."""
         url = self.base_url + "/beta/partner/v1/customers/create"
-        headers: Dict[str, str | None] = {}
-        params: Dict[str, str | int | None] = {}
+        headers: Dict[str, Union[str, None]] = {}
+        params: Dict[str, Union[str, int, None]] = {}
         data: Dict[str, Any] = {
-            Ident("client_id"): client_id,
-            Ident("secret"): secret,
-            Ident("company_name"): company_name,
-            Ident("is_diligence_attested"): is_diligence_attested,
-            Ident("products"): products,
-            Ident("create_link_customization"): create_link_customization,
+            "company_name": company_name,
+            "is_diligence_attested": is_diligence_attested,
+            "products": products,
+            "create_link_customization": create_link_customization,
         }
         text = await self.send("POST", url, headers, params, data)
         return model.PartnerCustomersCreateResponse.parse_raw(text)
@@ -4586,4 +3852,4 @@ class AsyncPlaidClient:
     def from_env(cls) -> "AsyncPlaidClient":
         env = os.environ["PLAID_ENV"]
         url = f"https://{env}.plaid.com"
-        return cls(base_url=url, authenticator=PlaidAuthenticator.from_env())
+        return cls(base_url=url, authenticator=PlaidAuthentication.from_env())

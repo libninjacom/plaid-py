@@ -5,7 +5,9 @@ from .external_payment_schedule_base import ExternalPaymentScheduleBase
 
 
 class ExternalPaymentScheduleGet(BaseModel):
-    __root__: Optional[ExternalPaymentScheduleBase] = None
+    """The schedule that the payment will be executed on. If a schedule is provided, the payment is automatically set up as a standing order. If no schedule is specified, the payment will be executed only once."""
+
+    external_payment_schedule_base: Optional[ExternalPaymentScheduleBase] = None
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""
@@ -15,7 +17,7 @@ class ExternalPaymentScheduleGet(BaseModel):
     def dict(self, **kwargs: Any) -> Dict[str, Any]:
         """Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict"""
         kwargs.setdefault("by_alias", True)
-        return super().dict(**kwargs)["__root__"]
+        return super().dict(**kwargs)
 
     @classmethod
     def parse_obj(cls, data: Any) -> "ExternalPaymentScheduleGet":

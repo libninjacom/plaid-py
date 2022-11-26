@@ -8,10 +8,10 @@ class WalletTransactionsListResponse(BaseModel):
     """An array of transactions of an e-wallet, associated with the given `wallet_id`"""
 
     transactions: List[WalletTransaction]
-    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
-    request_id: str
     """Cursor used for fetching transactions created before the latest transaction provided in this response"""
     next_cursor: Optional[str] = None
+    """A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive."""
+    request_id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

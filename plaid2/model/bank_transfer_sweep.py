@@ -7,12 +7,12 @@ class BankTransferSweep(BaseModel):
     """The datetime when the sweep occurred, in RFC 3339 format."""
 
     created_at: str
-    """Identifier of the sweep."""
-    id: str
     """The amount of the sweep."""
     amount: str
     """The currency of the sweep, e.g. "USD"."""
     iso_currency_code: str
+    """Identifier of the sweep."""
+    id: str
 
     def json(self, **kwargs: Any) -> str:
         """Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json"""

@@ -18,7 +18,6 @@ async def async_main():
 count = 1
 offset = 1
 country_codes = ["your country codes"]
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio

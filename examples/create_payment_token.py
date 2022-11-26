@@ -16,7 +16,6 @@ async def async_main():
 
 
 payment_id = "your payment id"
-
 if __name__ == "__main__":
     if os.environ.get("ASYNC"):
         import asyncio
