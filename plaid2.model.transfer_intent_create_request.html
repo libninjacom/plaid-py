@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plaid2.model.transfer_intent_create_request module &mdash; plaid2  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="plaid2.model.transfer_intent_create_response module" href="plaid2.model.transfer_intent_create_response.html" />
+    <link rel="prev" title="plaid2.model.transfer_intent_create_mode module" href="plaid2.model.transfer_intent_create_mode.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> plaid2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="plaid2.async_client.html">plaid2.async_client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaid2.client.html">plaid2.client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaid2.logger.html">plaid2.logger module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="plaid2.model.html">plaid2.model package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="plaid2.model.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.access_token.html">plaid2.model.access_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.access_token_nullable.html">plaid2.model.access_token_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_access.html">plaid2.model.account_access module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_assets.html">plaid2.model.account_assets module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_balance.html">plaid2.model.account_balance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_base.html">plaid2.model.account_base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_filter.html">plaid2.model.account_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_filter_subtypes.html">plaid2.model.account_filter_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_filters_response.html">plaid2.model.account_filters_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_identity.html">plaid2.model.account_identity module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_ids_with_updated_identity.html">plaid2.model.account_ids_with_updated_identity module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_product_access.html">plaid2.model.account_product_access module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_product_access_nullable.html">plaid2.model.account_product_access_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_selection_cardinality.html">plaid2.model.account_selection_cardinality module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_subtype.html">plaid2.model.account_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_subtypes.html">plaid2.model.account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.account_type.html">plaid2.model.account_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.accounts_balance_get_request.html">plaid2.model.accounts_balance_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.accounts_balance_get_request_options.html">plaid2.model.accounts_balance_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.accounts_get_request.html">plaid2.model.accounts_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.accounts_get_request_options.html">plaid2.model.accounts_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.accounts_get_response.html">plaid2.model.accounts_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.ach_class.html">plaid2.model.ach_class module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.address.html">plaid2.model.address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.address_data.html">plaid2.model.address_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.address_data_nullable.html">plaid2.model.address_data_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.address_nullable.html">plaid2.model.address_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.address_purpose_label.html">plaid2.model.address_purpose_label module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.api_client_id.html">plaid2.model.api_client_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.api_secret.html">plaid2.model.api_secret module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.application.html">plaid2.model.application module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.application_get_request.html">plaid2.model.application_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.application_get_response.html">plaid2.model.application_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.application_id.html">plaid2.model.application_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.apr.html">plaid2.model.apr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report.html">plaid2.model.asset_report module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_audit_copy_create_request.html">plaid2.model.asset_report_audit_copy_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_audit_copy_create_response.html">plaid2.model.asset_report_audit_copy_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_audit_copy_get_request.html">plaid2.model.asset_report_audit_copy_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_audit_copy_remove_request.html">plaid2.model.asset_report_audit_copy_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_audit_copy_remove_response.html">plaid2.model.asset_report_audit_copy_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_create_request.html">plaid2.model.asset_report_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_create_request_options.html">plaid2.model.asset_report_create_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_create_response.html">plaid2.model.asset_report_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_filter_request.html">plaid2.model.asset_report_filter_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_filter_response.html">plaid2.model.asset_report_filter_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_get_request.html">plaid2.model.asset_report_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_get_response.html">plaid2.model.asset_report_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_id.html">plaid2.model.asset_report_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_item.html">plaid2.model.asset_report_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_pdf_get_request.html">plaid2.model.asset_report_pdf_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_pdf_get_response.html">plaid2.model.asset_report_pdf_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_refresh_asset_report_token.html">plaid2.model.asset_report_refresh_asset_report_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_refresh_request.html">plaid2.model.asset_report_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_refresh_request_options.html">plaid2.model.asset_report_refresh_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_refresh_response.html">plaid2.model.asset_report_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_create_request.html">plaid2.model.asset_report_relay_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_create_response.html">plaid2.model.asset_report_relay_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_get_request.html">plaid2.model.asset_report_relay_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_refresh_request.html">plaid2.model.asset_report_relay_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_refresh_response.html">plaid2.model.asset_report_relay_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_remove_request.html">plaid2.model.asset_report_relay_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_relay_remove_response.html">plaid2.model.asset_report_relay_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_remove_request.html">plaid2.model.asset_report_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_remove_response.html">plaid2.model.asset_report_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_token.html">plaid2.model.asset_report_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_transaction.html">plaid2.model.asset_report_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.asset_report_user.html">plaid2.model.asset_report_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.assets_error_webhook.html">plaid2.model.assets_error_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.assets_product_ready_webhook.html">plaid2.model.assets_product_ready_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.assets_relay_webhook.html">plaid2.model.assets_relay_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_get_numbers.html">plaid2.model.auth_get_numbers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_get_request.html">plaid2.model.auth_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_get_request_options.html">plaid2.model.auth_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_get_response.html">plaid2.model.auth_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_metadata.html">plaid2.model.auth_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.auth_supported_methods.html">plaid2.model.auth_supported_methods module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.automatically_verified_webhook.html">plaid2.model.automatically_verified_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_initiated_return_risk.html">plaid2.model.bank_initiated_return_risk module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_initiated_risk_tier.html">plaid2.model.bank_initiated_risk_tier module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer.html">plaid2.model.bank_transfer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_access_token.html">plaid2.model.bank_transfer_access_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_amount.html">plaid2.model.bank_transfer_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_balance.html">plaid2.model.bank_transfer_balance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_balance_get_request.html">plaid2.model.bank_transfer_balance_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_balance_get_response.html">plaid2.model.bank_transfer_balance_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_cancel_request.html">plaid2.model.bank_transfer_cancel_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_cancel_response.html">plaid2.model.bank_transfer_cancel_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_create_request.html">plaid2.model.bank_transfer_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_create_response.html">plaid2.model.bank_transfer_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_direction.html">plaid2.model.bank_transfer_direction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event.html">plaid2.model.bank_transfer_event module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_list_bank_transfer_type.html">plaid2.model.bank_transfer_event_list_bank_transfer_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_list_direction.html">plaid2.model.bank_transfer_event_list_direction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_list_request.html">plaid2.model.bank_transfer_event_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_list_response.html">plaid2.model.bank_transfer_event_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_sync_request.html">plaid2.model.bank_transfer_event_sync_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_sync_response.html">plaid2.model.bank_transfer_event_sync_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_event_type.html">plaid2.model.bank_transfer_event_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_failure.html">plaid2.model.bank_transfer_failure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_get_request.html">plaid2.model.bank_transfer_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_get_response.html">plaid2.model.bank_transfer_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_id.html">plaid2.model.bank_transfer_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_idempotency_key.html">plaid2.model.bank_transfer_idempotency_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_list_request.html">plaid2.model.bank_transfer_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_list_response.html">plaid2.model.bank_transfer_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_metadata.html">plaid2.model.bank_transfer_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_migrate_account_request.html">plaid2.model.bank_transfer_migrate_account_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_migrate_account_response.html">plaid2.model.bank_transfer_migrate_account_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_network.html">plaid2.model.bank_transfer_network module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_status.html">plaid2.model.bank_transfer_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_sweep.html">plaid2.model.bank_transfer_sweep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_sweep_get_request.html">plaid2.model.bank_transfer_sweep_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_sweep_get_response.html">plaid2.model.bank_transfer_sweep_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_sweep_list_request.html">plaid2.model.bank_transfer_sweep_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_sweep_list_response.html">plaid2.model.bank_transfer_sweep_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_type.html">plaid2.model.bank_transfer_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfer_user.html">plaid2.model.bank_transfer_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.bank_transfers_events_update_webhook.html">plaid2.model.bank_transfers_events_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.categories_get_request.html">plaid2.model.categories_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.categories_get_response.html">plaid2.model.categories_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.category.html">plaid2.model.category module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.cause.html">plaid2.model.cause module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.city.html">plaid2.model.city module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.client_provided_enhanced_transaction.html">plaid2.model.client_provided_enhanced_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.client_provided_raw_transaction.html">plaid2.model.client_provided_raw_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.client_user_id.html">plaid2.model.client_user_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.connected_application.html">plaid2.model.connected_application module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.consent_payment_idempotency_key.html">plaid2.model.consent_payment_idempotency_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.country_code.html">plaid2.model.country_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.create_entity_screening_request.html">plaid2.model.create_entity_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.create_entity_watchlist_screening_review_request.html">plaid2.model.create_entity_watchlist_screening_review_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.create_individual_watchlist_screening_review_request.html">plaid2.model.create_individual_watchlist_screening_review_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_1099.html">plaid2.model.credit_1099 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_1099_filer.html">plaid2.model.credit_1099_filer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_1099_payer.html">plaid2.model.credit_1099_payer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_1099_recipient.html">plaid2.model.credit_1099_recipient module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_account.html">plaid2.model.credit_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_account_subtype.html">plaid2.model.credit_account_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_account_subtypes.html">plaid2.model.credit_account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_audit_copy_token_create_request.html">plaid2.model.credit_audit_copy_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_audit_copy_token_create_response.html">plaid2.model.credit_audit_copy_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_audit_copy_token_remove_request.html">plaid2.model.credit_audit_copy_token_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_audit_copy_token_remove_response.html">plaid2.model.credit_audit_copy_token_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income.html">plaid2.model.credit_bank_income module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_account.html">plaid2.model.credit_bank_income_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_account_type.html">plaid2.model.credit_bank_income_account_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_category.html">plaid2.model.credit_bank_income_category module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_cause.html">plaid2.model.credit_bank_income_cause module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_error_type.html">plaid2.model.credit_bank_income_error_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_get_request.html">plaid2.model.credit_bank_income_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_get_request_options.html">plaid2.model.credit_bank_income_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_get_response.html">plaid2.model.credit_bank_income_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_historical_summary.html">plaid2.model.credit_bank_income_historical_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_item.html">plaid2.model.credit_bank_income_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_pay_frequency.html">plaid2.model.credit_bank_income_pay_frequency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_pdf_get_request.html">plaid2.model.credit_bank_income_pdf_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_pdf_get_response.html">plaid2.model.credit_bank_income_pdf_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_refresh_request.html">plaid2.model.credit_bank_income_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_refresh_request_options.html">plaid2.model.credit_bank_income_refresh_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_refresh_response.html">plaid2.model.credit_bank_income_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_source.html">plaid2.model.credit_bank_income_source module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_summary.html">plaid2.model.credit_bank_income_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_transaction.html">plaid2.model.credit_bank_income_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_warning.html">plaid2.model.credit_bank_income_warning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_warning_code.html">plaid2.model.credit_bank_income_warning_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_bank_income_warning_type.html">plaid2.model.credit_bank_income_warning_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_card_liability.html">plaid2.model.credit_card_liability module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_document_metadata.html">plaid2.model.credit_document_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_document_type.html">plaid2.model.credit_document_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employer_verification.html">plaid2.model.credit_employer_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_employee_type.html">plaid2.model.credit_employment_employee_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_get_request.html">plaid2.model.credit_employment_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_get_response.html">plaid2.model.credit_employment_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_item.html">plaid2.model.credit_employment_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_verification.html">plaid2.model.credit_employment_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_employment_verification_status.html">plaid2.model.credit_employment_verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_filter.html">plaid2.model.credit_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_iso_currency_code.html">plaid2.model.credit_iso_currency_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub.html">plaid2.model.credit_pay_stub module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_address.html">plaid2.model.credit_pay_stub_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_deductions.html">plaid2.model.credit_pay_stub_deductions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_earnings.html">plaid2.model.credit_pay_stub_earnings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_employee.html">plaid2.model.credit_pay_stub_employee module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_employer.html">plaid2.model.credit_pay_stub_employer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_net_pay.html">plaid2.model.credit_pay_stub_net_pay module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_verification.html">plaid2.model.credit_pay_stub_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pay_stub_verification_status.html">plaid2.model.credit_pay_stub_verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_get_request.html">plaid2.model.credit_payroll_income_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_get_response.html">plaid2.model.credit_payroll_income_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_precheck_request.html">plaid2.model.credit_payroll_income_precheck_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_precheck_response.html">plaid2.model.credit_payroll_income_precheck_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_refresh_request.html">plaid2.model.credit_payroll_income_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_refresh_response.html">plaid2.model.credit_payroll_income_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_refresh_status.html">plaid2.model.credit_payroll_income_refresh_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_risk_signals_get_request.html">plaid2.model.credit_payroll_income_risk_signals_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_payroll_income_risk_signals_get_response.html">plaid2.model.credit_payroll_income_risk_signals_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_platform_ids.html">plaid2.model.credit_platform_ids module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_pull_id.html">plaid2.model.credit_pull_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_create_request.html">plaid2.model.credit_relay_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_create_response.html">plaid2.model.credit_relay_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_get_request.html">plaid2.model.credit_relay_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_refresh_request.html">plaid2.model.credit_relay_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_refresh_response.html">plaid2.model.credit_relay_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_remove_request.html">plaid2.model.credit_relay_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_relay_remove_response.html">plaid2.model.credit_relay_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_unofficial_currency_code.html">plaid2.model.credit_unofficial_currency_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.credit_w_2.html">plaid2.model.credit_w_2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.cursor.html">plaid2.model.cursor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.customer_initiated_return_risk.html">plaid2.model.customer_initiated_return_risk module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.customer_initiated_risk_tier.html">plaid2.model.customer_initiated_risk_tier module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.dashboard_user.html">plaid2.model.dashboard_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.dashboard_user_id.html">plaid2.model.dashboard_user_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.dashboard_user_response.html">plaid2.model.dashboard_user_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.dashboard_user_status.html">plaid2.model.dashboard_user_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.date.html">plaid2.model.date module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.date_range.html">plaid2.model.date_range module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deductions.html">plaid2.model.deductions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deductions_breakdown.html">plaid2.model.deductions_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deductions_total.html">plaid2.model.deductions_total module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.default_update_webhook.html">plaid2.model.default_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_address_data.html">plaid2.model.deposit_switch_address_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_alt_create_request.html">plaid2.model.deposit_switch_alt_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_alt_create_response.html">plaid2.model.deposit_switch_alt_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_create_request.html">plaid2.model.deposit_switch_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_create_request_options.html">plaid2.model.deposit_switch_create_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_create_response.html">plaid2.model.deposit_switch_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_get_request.html">plaid2.model.deposit_switch_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_get_response.html">plaid2.model.deposit_switch_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_state_update_webhook.html">plaid2.model.deposit_switch_state_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_target_account.html">plaid2.model.deposit_switch_target_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_target_user.html">plaid2.model.deposit_switch_target_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_token_create_request.html">plaid2.model.deposit_switch_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.deposit_switch_token_create_response.html">plaid2.model.deposit_switch_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.depository_account.html">plaid2.model.depository_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.depository_account_subtype.html">plaid2.model.depository_account_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.depository_account_subtypes.html">plaid2.model.depository_account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.depository_filter.html">plaid2.model.depository_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.distribution_breakdown.html">plaid2.model.distribution_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.doc_type.html">plaid2.model.doc_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_analysis.html">plaid2.model.document_analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_authenticity_match_code.html">plaid2.model.document_authenticity_match_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_date_of_birth_match_code.html">plaid2.model.document_date_of_birth_match_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_image_back.html">plaid2.model.document_image_back module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_image_cropped_back.html">plaid2.model.document_image_cropped_back module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_image_cropped_front.html">plaid2.model.document_image_cropped_front module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_image_face.html">plaid2.model.document_image_face module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_image_front.html">plaid2.model.document_image_front module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_metadata.html">plaid2.model.document_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_name_match_code.html">plaid2.model.document_name_match_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_risk_signal.html">plaid2.model.document_risk_signal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_risk_signal_institution_metadata.html">plaid2.model.document_risk_signal_institution_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_risk_signals_object.html">plaid2.model.document_risk_signals_object module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.document_status.html">plaid2.model.document_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.documentary_verification.html">plaid2.model.documentary_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.documentary_verification_document.html">plaid2.model.documentary_verification_document module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.earnings.html">plaid2.model.earnings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.earnings_breakdown.html">plaid2.model.earnings_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.earnings_breakdown_canonical_description.html">plaid2.model.earnings_breakdown_canonical_description module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.earnings_total.html">plaid2.model.earnings_total module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.email.html">plaid2.model.email module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.email_address.html">plaid2.model.email_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employee.html">plaid2.model.employee module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employee_income_summary_field_string.html">plaid2.model.employee_income_summary_field_string module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employer.html">plaid2.model.employer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employer_income_summary_field_string.html">plaid2.model.employer_income_summary_field_string module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employer_verification.html">plaid2.model.employer_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employers_search_request.html">plaid2.model.employers_search_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employers_search_response.html">plaid2.model.employers_search_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employment_details.html">plaid2.model.employment_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employment_verification.html">plaid2.model.employment_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employment_verification_get_request.html">plaid2.model.employment_verification_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employment_verification_get_response.html">plaid2.model.employment_verification_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.employment_verification_status.html">plaid2.model.employment_verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.enhancements.html">plaid2.model.enhancements module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_document.html">plaid2.model.entity_document module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_document_type.html">plaid2.model.entity_document_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_analysis.html">plaid2.model.entity_screening_hit_analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_data.html">plaid2.model.entity_screening_hit_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_documents_items.html">plaid2.model.entity_screening_hit_documents_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_emails.html">plaid2.model.entity_screening_hit_emails module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_emails_items.html">plaid2.model.entity_screening_hit_emails_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_names.html">plaid2.model.entity_screening_hit_names module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_names_items.html">plaid2.model.entity_screening_hit_names_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_phone_numbers.html">plaid2.model.entity_screening_hit_phone_numbers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_urls.html">plaid2.model.entity_screening_hit_urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hit_urls_items.html">plaid2.model.entity_screening_hit_urls_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_hits_phone_number_items.html">plaid2.model.entity_screening_hits_phone_number_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_screening_status_updated_webhook.html">plaid2.model.entity_screening_status_updated_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_code.html">plaid2.model.entity_watchlist_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_program.html">plaid2.model.entity_watchlist_program module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_program_id.html">plaid2.model.entity_watchlist_program_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_program_response.html">plaid2.model.entity_watchlist_program_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening.html">plaid2.model.entity_watchlist_screening module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_hit.html">plaid2.model.entity_watchlist_screening_hit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_hit_id.html">plaid2.model.entity_watchlist_screening_hit_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_id.html">plaid2.model.entity_watchlist_screening_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_name.html">plaid2.model.entity_watchlist_screening_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_program_name.html">plaid2.model.entity_watchlist_screening_program_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_response.html">plaid2.model.entity_watchlist_screening_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_review.html">plaid2.model.entity_watchlist_screening_review module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_review_id.html">plaid2.model.entity_watchlist_screening_review_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_review_response.html">plaid2.model.entity_watchlist_screening_review_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_screening_search_terms.html">plaid2.model.entity_watchlist_screening_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.entity_watchlist_search_terms.html">plaid2.model.entity_watchlist_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.error.html">plaid2.model.error module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.expiration_date.html">plaid2.model.expiration_date module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_initiation_consent_options.html">plaid2.model.external_payment_initiation_consent_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_options.html">plaid2.model.external_payment_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_refund_details.html">plaid2.model.external_payment_refund_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_schedule_base.html">plaid2.model.external_payment_schedule_base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_schedule_get.html">plaid2.model.external_payment_schedule_get module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.external_payment_schedule_request.html">plaid2.model.external_payment_schedule_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.family_name_field.html">plaid2.model.family_name_field module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.form_1099_type.html">plaid2.model.form_1099_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.generic_country_code.html">plaid2.model.generic_country_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.generic_screening_hit_location_items.html">plaid2.model.generic_screening_hit_location_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_dashboard_user_request.html">plaid2.model.get_dashboard_user_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_entity_watchlist_screening_request.html">plaid2.model.get_entity_watchlist_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_identity_verification_request.html">plaid2.model.get_identity_verification_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_individual_watchlist_screening_request.html">plaid2.model.get_individual_watchlist_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_watchlist_screening_entity_program_request.html">plaid2.model.get_watchlist_screening_entity_program_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.get_watchlist_screening_individual_program_request.html">plaid2.model.get_watchlist_screening_individual_program_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.given_name_field.html">plaid2.model.given_name_field module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.health_incident.html">plaid2.model.health_incident module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.historical_balance.html">plaid2.model.historical_balance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.historical_update_webhook.html">plaid2.model.historical_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.holding.html">plaid2.model.holding module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.holdings_default_update_webhook.html">plaid2.model.holdings_default_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.holdings_override.html">plaid2.model.holdings_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.id_number_type.html">plaid2.model.id_number_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.id_number_value.html">plaid2.model.id_number_value module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.idempotency_flag.html">plaid2.model.idempotency_flag module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_default_update_webhook.html">plaid2.model.identity_default_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_get_request.html">plaid2.model.identity_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_get_request_options.html">plaid2.model.identity_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_get_response.html">plaid2.model.identity_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_match_request.html">plaid2.model.identity_match_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_match_request_options.html">plaid2.model.identity_match_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_match_response.html">plaid2.model.identity_match_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_match_user.html">plaid2.model.identity_match_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_update_types.html">plaid2.model.identity_update_types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification.html">plaid2.model.identity_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_consent.html">plaid2.model.identity_verification_consent module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_create_request.html">plaid2.model.identity_verification_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_id.html">plaid2.model.identity_verification_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_request_user.html">plaid2.model.identity_verification_request_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_response.html">plaid2.model.identity_verification_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_retried_webhook.html">plaid2.model.identity_verification_retried_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_retry_request.html">plaid2.model.identity_verification_retry_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_retry_request_steps_object.html">plaid2.model.identity_verification_retry_request_steps_object module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_status.html">plaid2.model.identity_verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_status_updated_webhook.html">plaid2.model.identity_verification_status_updated_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_step_status.html">plaid2.model.identity_verification_step_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_step_summary.html">plaid2.model.identity_verification_step_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_step_updated_webhook.html">plaid2.model.identity_verification_step_updated_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_template_id.html">plaid2.model.identity_verification_template_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_template_reference.html">plaid2.model.identity_verification_template_reference module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_template_version.html">plaid2.model.identity_verification_template_version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_user_address.html">plaid2.model.identity_verification_user_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_user_data.html">plaid2.model.identity_verification_user_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.identity_verification_user_phone_number.html">plaid2.model.identity_verification_user_phone_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.image_quality.html">plaid2.model.image_quality module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.incident_update.html">plaid2.model.incident_update module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_breakdown.html">plaid2.model.income_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_breakdown_type.html">plaid2.model.income_breakdown_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_override.html">plaid2.model.income_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_summary.html">plaid2.model.income_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_summary_field_number.html">plaid2.model.income_summary_field_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_summary_field_string.html">plaid2.model.income_summary_field_string module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_create_request.html">plaid2.model.income_verification_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_create_request_options.html">plaid2.model.income_verification_create_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_create_response.html">plaid2.model.income_verification_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_documents_download_request.html">plaid2.model.income_verification_documents_download_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_payroll_flow_type.html">plaid2.model.income_verification_payroll_flow_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_paystubs_get_request.html">plaid2.model.income_verification_paystubs_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_paystubs_get_response.html">plaid2.model.income_verification_paystubs_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_confidence.html">plaid2.model.income_verification_precheck_confidence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_employer.html">plaid2.model.income_verification_precheck_employer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_employer_address.html">plaid2.model.income_verification_precheck_employer_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_employer_address_data.html">plaid2.model.income_verification_precheck_employer_address_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_military_info.html">plaid2.model.income_verification_precheck_military_info module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_request.html">plaid2.model.income_verification_precheck_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_response.html">plaid2.model.income_verification_precheck_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_precheck_user.html">plaid2.model.income_verification_precheck_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_refresh_request.html">plaid2.model.income_verification_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_refresh_response.html">plaid2.model.income_verification_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_source_type.html">plaid2.model.income_verification_source_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_status_webhook.html">plaid2.model.income_verification_status_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_taxforms_get_request.html">plaid2.model.income_verification_taxforms_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_taxforms_get_response.html">plaid2.model.income_verification_taxforms_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.income_verification_webhook_status.html">plaid2.model.income_verification_webhook_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.individual_screening_hit_names.html">plaid2.model.individual_screening_hit_names module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.individual_watchlist_code.html">plaid2.model.individual_watchlist_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.individual_watchlist_program.html">plaid2.model.individual_watchlist_program module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.individual_watchlist_program_response.html">plaid2.model.individual_watchlist_program_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.individual_watchlist_screening_program_name.html">plaid2.model.individual_watchlist_screening_program_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.inflow_model.html">plaid2.model.inflow_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.initial_update_webhook.html">plaid2.model.initial_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institution.html">plaid2.model.institution module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institution_status.html">plaid2.model.institution_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_by_id_request.html">plaid2.model.institutions_get_by_id_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_by_id_request_options.html">plaid2.model.institutions_get_by_id_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_by_id_response.html">plaid2.model.institutions_get_by_id_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_request.html">plaid2.model.institutions_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_request_options.html">plaid2.model.institutions_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_get_response.html">plaid2.model.institutions_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_search_account_filter.html">plaid2.model.institutions_search_account_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_search_payment_initiation_options.html">plaid2.model.institutions_search_payment_initiation_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_search_request.html">plaid2.model.institutions_search_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_search_request_options.html">plaid2.model.institutions_search_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.institutions_search_response.html">plaid2.model.institutions_search_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.internal_uid.html">plaid2.model.internal_uid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_account_subtype.html">plaid2.model.investment_account_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_account_subtype_standalone.html">plaid2.model.investment_account_subtype_standalone module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_account_subtypes.html">plaid2.model.investment_account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_filter.html">plaid2.model.investment_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_holdings_get_request_options.html">plaid2.model.investment_holdings_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_transaction.html">plaid2.model.investment_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_transaction_subtype.html">plaid2.model.investment_transaction_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investment_transaction_type.html">plaid2.model.investment_transaction_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_default_update_webhook.html">plaid2.model.investments_default_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_holdings_get_request.html">plaid2.model.investments_holdings_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_holdings_get_response.html">plaid2.model.investments_holdings_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_transactions_get_request.html">plaid2.model.investments_transactions_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_transactions_get_request_options.html">plaid2.model.investments_transactions_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_transactions_get_response.html">plaid2.model.investments_transactions_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.investments_transactions_override.html">plaid2.model.investments_transactions_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.ip_address.html">plaid2.model.ip_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.iso_8601_date.html">plaid2.model.iso_8601_date module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.issuing_country.html">plaid2.model.issuing_country module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item.html">plaid2.model.item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_access_token_invalidate_request.html">plaid2.model.item_access_token_invalidate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_access_token_invalidate_response.html">plaid2.model.item_access_token_invalidate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_application_list_request.html">plaid2.model.item_application_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_application_list_response.html">plaid2.model.item_application_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_application_list_user_auth.html">plaid2.model.item_application_list_user_auth module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_application_scopes_update_request.html">plaid2.model.item_application_scopes_update_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_application_scopes_update_response.html">plaid2.model.item_application_scopes_update_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_error_webhook.html">plaid2.model.item_error_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_get_request.html">plaid2.model.item_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_get_response.html">plaid2.model.item_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_id.html">plaid2.model.item_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_import_request.html">plaid2.model.item_import_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_import_request_options.html">plaid2.model.item_import_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_import_request_user_auth.html">plaid2.model.item_import_request_user_auth module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_import_response.html">plaid2.model.item_import_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_product_ready_webhook.html">plaid2.model.item_product_ready_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_public_token_create_request.html">plaid2.model.item_public_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_public_token_create_response.html">plaid2.model.item_public_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_public_token_exchange_request.html">plaid2.model.item_public_token_exchange_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_public_token_exchange_response.html">plaid2.model.item_public_token_exchange_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_remove_request.html">plaid2.model.item_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_remove_response.html">plaid2.model.item_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_status.html">plaid2.model.item_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_status_investments.html">plaid2.model.item_status_investments module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_status_last_webhook.html">plaid2.model.item_status_last_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_status_nullable.html">plaid2.model.item_status_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_status_transactions.html">plaid2.model.item_status_transactions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_webhook_update_request.html">plaid2.model.item_webhook_update_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.item_webhook_update_response.html">plaid2.model.item_webhook_update_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.jwk_public_key.html">plaid2.model.jwk_public_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.jwt_header.html">plaid2.model.jwt_header module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_address_summary.html">plaid2.model.kyc_check_address_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_date_of_birth_summary.html">plaid2.model.kyc_check_date_of_birth_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_details.html">plaid2.model.kyc_check_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_id_number_summary.html">plaid2.model.kyc_check_id_number_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_name_summary.html">plaid2.model.kyc_check_name_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.kyc_check_phone_summary.html">plaid2.model.kyc_check_phone_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_account_ids_with_updated_liabilities.html">plaid2.model.liabilities_account_ids_with_updated_liabilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_default_update_webhook.html">plaid2.model.liabilities_default_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_get_request.html">plaid2.model.liabilities_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_get_request_options.html">plaid2.model.liabilities_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_get_response.html">plaid2.model.liabilities_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liabilities_object.html">plaid2.model.liabilities_object module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.liability_override.html">plaid2.model.liability_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_account_filters.html">plaid2.model.link_token_account_filters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_credit_filter.html">plaid2.model.link_token_create_credit_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_depository_filter.html">plaid2.model.link_token_create_depository_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_institution_data.html">plaid2.model.link_token_create_institution_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_investment_filter.html">plaid2.model.link_token_create_investment_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_loan_filter.html">plaid2.model.link_token_create_loan_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request.html">plaid2.model.link_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_account_subtypes.html">plaid2.model.link_token_create_request_account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_auth.html">plaid2.model.link_token_create_request_auth module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_deposit_switch.html">plaid2.model.link_token_create_request_deposit_switch module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_identity_verification.html">plaid2.model.link_token_create_request_identity_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_income_verification.html">plaid2.model.link_token_create_request_income_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_income_verification_bank_income.html">plaid2.model.link_token_create_request_income_verification_bank_income module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_income_verification_payroll_income.html">plaid2.model.link_token_create_request_income_verification_payroll_income module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_payment_initiation.html">plaid2.model.link_token_create_request_payment_initiation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_transfer.html">plaid2.model.link_token_create_request_transfer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_update.html">plaid2.model.link_token_create_request_update module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_user.html">plaid2.model.link_token_create_request_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_request_user_stated_income_source.html">plaid2.model.link_token_create_request_user_stated_income_source module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_create_response.html">plaid2.model.link_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_eu_config.html">plaid2.model.link_token_eu_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_get_metadata_response.html">plaid2.model.link_token_get_metadata_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_get_request.html">plaid2.model.link_token_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.link_token_get_response.html">plaid2.model.link_token_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_dashboard_user_request.html">plaid2.model.list_dashboard_user_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_entity_watchlist_screening_request.html">plaid2.model.list_entity_watchlist_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_identity_verification_request.html">plaid2.model.list_identity_verification_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_individual_watchlist_screening_request.html">plaid2.model.list_individual_watchlist_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_entity_history_request.html">plaid2.model.list_watchlist_screening_entity_history_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_entity_hit_request.html">plaid2.model.list_watchlist_screening_entity_hit_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_entity_programs_request.html">plaid2.model.list_watchlist_screening_entity_programs_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_entity_reviews_request.html">plaid2.model.list_watchlist_screening_entity_reviews_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_individual_history_request.html">plaid2.model.list_watchlist_screening_individual_history_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_individual_hit_request.html">plaid2.model.list_watchlist_screening_individual_hit_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_individual_programs_request.html">plaid2.model.list_watchlist_screening_individual_programs_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.list_watchlist_screening_individual_reviews_request.html">plaid2.model.list_watchlist_screening_individual_reviews_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.loan_account.html">plaid2.model.loan_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.loan_account_subtype.html">plaid2.model.loan_account_subtype module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.loan_account_subtypes.html">plaid2.model.loan_account_subtypes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.loan_filter.html">plaid2.model.loan_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.location.html">plaid2.model.location module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.match_summary.html">plaid2.model.match_summary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.match_summary_code.html">plaid2.model.match_summary_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.meta.html">plaid2.model.meta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.mfa.html">plaid2.model.mfa module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.min_last_updated_datetime.html">plaid2.model.min_last_updated_datetime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.mortgage_interest_rate.html">plaid2.model.mortgage_interest_rate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.mortgage_liability.html">plaid2.model.mortgage_liability module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.mortgage_property_address.html">plaid2.model.mortgage_property_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.multi_document_risk_signal.html">plaid2.model.multi_document_risk_signal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.net_pay.html">plaid2.model.net_pay module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.new_accounts_available_webhook.html">plaid2.model.new_accounts_available_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers.html">plaid2.model.numbers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_ach.html">plaid2.model.numbers_ach module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_ach_nullable.html">plaid2.model.numbers_ach_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_bacs.html">plaid2.model.numbers_bacs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_bacs_nullable.html">plaid2.model.numbers_bacs_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_eft.html">plaid2.model.numbers_eft module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_eft_nullable.html">plaid2.model.numbers_eft_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_iban.html">plaid2.model.numbers_iban module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_iban_nullable.html">plaid2.model.numbers_iban_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_international.html">plaid2.model.numbers_international module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_international_iban.html">plaid2.model.numbers_international_iban module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.numbers_international_nullable.html">plaid2.model.numbers_international_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.override_account_type.html">plaid2.model.override_account_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.override_accounts.html">plaid2.model.override_accounts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.owner.html">plaid2.model.owner module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.owner_override.html">plaid2.model.owner_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_dashboard_user_list_response.html">plaid2.model.paginated_dashboard_user_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_entity_watchlist_program_list_response.html">plaid2.model.paginated_entity_watchlist_program_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_entity_watchlist_screening_hit_list_response.html">plaid2.model.paginated_entity_watchlist_screening_hit_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_entity_watchlist_screening_list_response.html">plaid2.model.paginated_entity_watchlist_screening_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_entity_watchlist_screening_review_list_response.html">plaid2.model.paginated_entity_watchlist_screening_review_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_identity_verification_list_response.html">plaid2.model.paginated_identity_verification_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_individual_watchlist_program_list_response.html">plaid2.model.paginated_individual_watchlist_program_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_individual_watchlist_screening_hit_list_response.html">plaid2.model.paginated_individual_watchlist_screening_hit_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_individual_watchlist_screening_list_response.html">plaid2.model.paginated_individual_watchlist_screening_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paginated_individual_watchlist_screening_review_list_response.html">plaid2.model.paginated_individual_watchlist_screening_review_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.partner_customers_create_request.html">plaid2.model.partner_customers_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.partner_customers_create_response.html">plaid2.model.partner_customers_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.partner_end_customer_client.html">plaid2.model.partner_end_customer_client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay.html">plaid2.model.pay module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_frequency.html">plaid2.model.pay_frequency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_frequency_value.html">plaid2.model.pay_frequency_value module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_period_details.html">plaid2.model.pay_period_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_deductions_breakdown.html">plaid2.model.pay_stub_deductions_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_deductions_total.html">plaid2.model.pay_stub_deductions_total module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_distribution_breakdown.html">plaid2.model.pay_stub_distribution_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_earnings_breakdown.html">plaid2.model.pay_stub_earnings_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_earnings_breakdown_canonical_description.html">plaid2.model.pay_stub_earnings_breakdown_canonical_description module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_earnings_total.html">plaid2.model.pay_stub_earnings_total module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_pay_period_details.html">plaid2.model.pay_stub_pay_period_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_taxpayer_id.html">plaid2.model.pay_stub_taxpayer_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pay_stub_verification_attribute.html">plaid2.model.pay_stub_verification_attribute module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_amount.html">plaid2.model.payment_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_amount_currency.html">plaid2.model.payment_amount_currency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_channel.html">plaid2.model.payment_channel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_max_payment_amount.html">plaid2.model.payment_consent_max_payment_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_periodic_alignment.html">plaid2.model.payment_consent_periodic_alignment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_periodic_amount.html">plaid2.model.payment_consent_periodic_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_periodic_amount_amount.html">plaid2.model.payment_consent_periodic_amount_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_periodic_interval.html">plaid2.model.payment_consent_periodic_interval module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_consent_valid_date_time.html">plaid2.model.payment_consent_valid_date_time module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_address.html">plaid2.model.payment_initiation_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent.html">plaid2.model.payment_initiation_consent module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_constraints.html">plaid2.model.payment_initiation_consent_constraints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_create_request.html">plaid2.model.payment_initiation_consent_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_create_response.html">plaid2.model.payment_initiation_consent_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_get_request.html">plaid2.model.payment_initiation_consent_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_get_response.html">plaid2.model.payment_initiation_consent_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_payment_execute_request.html">plaid2.model.payment_initiation_consent_payment_execute_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_payment_execute_response.html">plaid2.model.payment_initiation_consent_payment_execute_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_revoke_request.html">plaid2.model.payment_initiation_consent_revoke_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_revoke_response.html">plaid2.model.payment_initiation_consent_revoke_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_scope.html">plaid2.model.payment_initiation_consent_scope module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_consent_status.html">plaid2.model.payment_initiation_consent_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_maximum_payment_amount.html">plaid2.model.payment_initiation_maximum_payment_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_metadata.html">plaid2.model.payment_initiation_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_optional_restriction_bacs.html">plaid2.model.payment_initiation_optional_restriction_bacs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment.html">plaid2.model.payment_initiation_payment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_create_request.html">plaid2.model.payment_initiation_payment_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_create_response.html">plaid2.model.payment_initiation_payment_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_create_status.html">plaid2.model.payment_initiation_payment_create_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_get_request.html">plaid2.model.payment_initiation_payment_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_get_response.html">plaid2.model.payment_initiation_payment_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_list_request.html">plaid2.model.payment_initiation_payment_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_list_response.html">plaid2.model.payment_initiation_payment_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_reverse_request.html">plaid2.model.payment_initiation_payment_reverse_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_reverse_response.html">plaid2.model.payment_initiation_payment_reverse_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_status.html">plaid2.model.payment_initiation_payment_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_token_create_request.html">plaid2.model.payment_initiation_payment_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_payment_token_create_response.html">plaid2.model.payment_initiation_payment_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient.html">plaid2.model.payment_initiation_recipient module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_create_request.html">plaid2.model.payment_initiation_recipient_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_create_response.html">plaid2.model.payment_initiation_recipient_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_get_request.html">plaid2.model.payment_initiation_recipient_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_get_response.html">plaid2.model.payment_initiation_recipient_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_list_request.html">plaid2.model.payment_initiation_recipient_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_recipient_list_response.html">plaid2.model.payment_initiation_recipient_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_refund_status.html">plaid2.model.payment_initiation_refund_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_initiation_standing_order_metadata.html">plaid2.model.payment_initiation_standing_order_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_meta.html">plaid2.model.payment_meta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_create_request.html">plaid2.model.payment_profile_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_create_response.html">plaid2.model.payment_profile_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_get_request.html">plaid2.model.payment_profile_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_get_response.html">plaid2.model.payment_profile_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_id.html">plaid2.model.payment_profile_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_remove_request.html">plaid2.model.payment_profile_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_remove_response.html">plaid2.model.payment_profile_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_profile_status.html">plaid2.model.payment_profile_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_schedule_interval.html">plaid2.model.payment_schedule_interval module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_scheme.html">plaid2.model.payment_scheme module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payment_status_update_webhook.html">plaid2.model.payment_status_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_income_account_data.html">plaid2.model.payroll_income_account_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_income_object.html">plaid2.model.payroll_income_object module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_income_rate_of_pay.html">plaid2.model.payroll_income_rate_of_pay module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_item.html">plaid2.model.payroll_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_item_status.html">plaid2.model.payroll_item_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.payroll_risk_signals_item.html">plaid2.model.payroll_risk_signals_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub.html">plaid2.model.paystub module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_address.html">plaid2.model.paystub_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_deduction.html">plaid2.model.paystub_deduction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_details.html">plaid2.model.paystub_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_employer.html">plaid2.model.paystub_employer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_override.html">plaid2.model.paystub_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_override_employee.html">plaid2.model.paystub_override_employee module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_override_employee_address.html">plaid2.model.paystub_override_employee_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_override_employer.html">plaid2.model.paystub_override_employer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_pay_frequency.html">plaid2.model.paystub_pay_frequency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_verification.html">plaid2.model.paystub_verification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_verification_status.html">plaid2.model.paystub_verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.paystub_ytd_details.html">plaid2.model.paystub_ytd_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pending_expiration_webhook.html">plaid2.model.pending_expiration_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.personal_finance_category.html">plaid2.model.personal_finance_category module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.phone_number.html">plaid2.model.phone_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.phone_type.html">plaid2.model.phone_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.physical_document_category.html">plaid2.model.physical_document_category module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.physical_document_extracted_data.html">plaid2.model.physical_document_extracted_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.physical_document_extracted_data_analysis.html">plaid2.model.physical_document_extracted_data_analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.physical_document_id_number.html">plaid2.model.physical_document_id_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.physical_document_images.html">plaid2.model.physical_document_images module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.plaid_error.html">plaid2.model.plaid_error module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.platform_ids.html">plaid2.model.platform_ids module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.po_box_status.html">plaid2.model.po_box_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.postal_code.html">plaid2.model.postal_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.previous_identity_verification_attempt_id.html">plaid2.model.previous_identity_verification_attempt_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_apex_processor_token_create_request.html">plaid2.model.processor_apex_processor_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_auth_get_request.html">plaid2.model.processor_auth_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_auth_get_response.html">plaid2.model.processor_auth_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_balance_get_request.html">plaid2.model.processor_balance_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_balance_get_request_options.html">plaid2.model.processor_balance_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_balance_get_response.html">plaid2.model.processor_balance_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_bank_transfer_create_request.html">plaid2.model.processor_bank_transfer_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_bank_transfer_create_response.html">plaid2.model.processor_bank_transfer_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_identity_get_request.html">plaid2.model.processor_identity_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_identity_get_response.html">plaid2.model.processor_identity_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_number.html">plaid2.model.processor_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_stripe_bank_account_token_create_request.html">plaid2.model.processor_stripe_bank_account_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_stripe_bank_account_token_create_response.html">plaid2.model.processor_stripe_bank_account_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_token.html">plaid2.model.processor_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_token_create_request.html">plaid2.model.processor_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.processor_token_create_response.html">plaid2.model.processor_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.product_access.html">plaid2.model.product_access module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.product_status.html">plaid2.model.product_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.product_status_breakdown.html">plaid2.model.product_status_breakdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.products.html">plaid2.model.products module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.program_archived.html">plaid2.model.program_archived module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.program_name_sensitivity.html">plaid2.model.program_name_sensitivity module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.projected_income_summary_field_number.html">plaid2.model.projected_income_summary_field_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.pslf_status.html">plaid2.model.pslf_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.recaptcha_required_error.html">plaid2.model.recaptcha_required_error module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.recipient_bacs.html">plaid2.model.recipient_bacs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.recipient_bacs_nullable.html">plaid2.model.recipient_bacs_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.recurring_transaction_frequency.html">plaid2.model.recurring_transaction_frequency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.recurring_transactions_update_webhook.html">plaid2.model.recurring_transactions_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.region.html">plaid2.model.region module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.relay_event.html">plaid2.model.relay_event module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.removed_transaction.html">plaid2.model.removed_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.report_token.html">plaid2.model.report_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.report_type.html">plaid2.model.report_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.request_id.html">plaid2.model.request_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.review_comment.html">plaid2.model.review_comment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.risk_signal_document_reference.html">plaid2.model.risk_signal_document_reference module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_bank_transfer_fire_webhook_request.html">plaid2.model.sandbox_bank_transfer_fire_webhook_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_bank_transfer_fire_webhook_response.html">plaid2.model.sandbox_bank_transfer_fire_webhook_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_bank_transfer_simulate_request.html">plaid2.model.sandbox_bank_transfer_simulate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_bank_transfer_simulate_response.html">plaid2.model.sandbox_bank_transfer_simulate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_income_fire_webhook_request.html">plaid2.model.sandbox_income_fire_webhook_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_income_fire_webhook_response.html">plaid2.model.sandbox_income_fire_webhook_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_fire_webhook_request.html">plaid2.model.sandbox_item_fire_webhook_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_fire_webhook_response.html">plaid2.model.sandbox_item_fire_webhook_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_reset_login_request.html">plaid2.model.sandbox_item_reset_login_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_reset_login_response.html">plaid2.model.sandbox_item_reset_login_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_set_verification_status_request.html">plaid2.model.sandbox_item_set_verification_status_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_item_set_verification_status_response.html">plaid2.model.sandbox_item_set_verification_status_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_oauth_select_accounts_request.html">plaid2.model.sandbox_oauth_select_accounts_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_oauth_select_accounts_response.html">plaid2.model.sandbox_oauth_select_accounts_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_override_password.html">plaid2.model.sandbox_override_password module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_override_username.html">plaid2.model.sandbox_override_username module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_processor_token_create_request.html">plaid2.model.sandbox_processor_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_processor_token_create_request_options.html">plaid2.model.sandbox_processor_token_create_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_processor_token_create_response.html">plaid2.model.sandbox_processor_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_public_token_create_request.html">plaid2.model.sandbox_public_token_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_public_token_create_request_options.html">plaid2.model.sandbox_public_token_create_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_public_token_create_request_options_transactions.html">plaid2.model.sandbox_public_token_create_request_options_transactions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_public_token_create_response.html">plaid2.model.sandbox_public_token_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_fire_webhook_request.html">plaid2.model.sandbox_transfer_fire_webhook_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_fire_webhook_response.html">plaid2.model.sandbox_transfer_fire_webhook_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_repayment_simulate_request.html">plaid2.model.sandbox_transfer_repayment_simulate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_repayment_simulate_response.html">plaid2.model.sandbox_transfer_repayment_simulate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_simulate_request.html">plaid2.model.sandbox_transfer_simulate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_simulate_response.html">plaid2.model.sandbox_transfer_simulate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_sweep_simulate_request.html">plaid2.model.sandbox_transfer_sweep_simulate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sandbox_transfer_sweep_simulate_response.html">plaid2.model.sandbox_transfer_sweep_simulate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.scopes.html">plaid2.model.scopes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.scopes_context.html">plaid2.model.scopes_context module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.scopes_nullable.html">plaid2.model.scopes_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.scopes_state.html">plaid2.model.scopes_state module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_hit_analysis.html">plaid2.model.screening_hit_analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_hit_data.html">plaid2.model.screening_hit_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_hit_date_of_birth_item.html">plaid2.model.screening_hit_date_of_birth_item module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_hit_documents_items.html">plaid2.model.screening_hit_documents_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_hit_names_items.html">plaid2.model.screening_hit_names_items module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.screening_status_updated_webhook.html">plaid2.model.screening_status_updated_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.security.html">plaid2.model.security module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.security_override.html">plaid2.model.security_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sender_bacs_nullable.html">plaid2.model.sender_bacs_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.servicer_address_data.html">plaid2.model.servicer_address_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.shareable_url.html">plaid2.model.shareable_url module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_address_data.html">plaid2.model.signal_address_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_decision_report_request.html">plaid2.model.signal_decision_report_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_decision_report_response.html">plaid2.model.signal_decision_report_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_device.html">plaid2.model.signal_device module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_evaluate_core_attributes.html">plaid2.model.signal_evaluate_core_attributes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_evaluate_request.html">plaid2.model.signal_evaluate_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_evaluate_response.html">plaid2.model.signal_evaluate_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_person_name.html">plaid2.model.signal_person_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_prepare_request.html">plaid2.model.signal_prepare_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_prepare_response.html">plaid2.model.signal_prepare_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_return_report_request.html">plaid2.model.signal_return_report_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_return_report_response.html">plaid2.model.signal_return_report_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_score.html">plaid2.model.signal_score module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_scores.html">plaid2.model.signal_scores module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.signal_user.html">plaid2.model.signal_user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.simulated_transfer_sweep.html">plaid2.model.simulated_transfer_sweep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.single_document_risk_signal.html">plaid2.model.single_document_risk_signal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.source.html">plaid2.model.source module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.source_uid.html">plaid2.model.source_uid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_account_type.html">plaid2.model.standalone_account_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_currency_code_list.html">plaid2.model.standalone_currency_code_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_buy_type.html">plaid2.model.standalone_investment_transaction_buy_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_cash_type.html">plaid2.model.standalone_investment_transaction_cash_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_fee_type.html">plaid2.model.standalone_investment_transaction_fee_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_sell_type.html">plaid2.model.standalone_investment_transaction_sell_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_transfer_type.html">plaid2.model.standalone_investment_transaction_transfer_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.standalone_investment_transaction_type.html">plaid2.model.standalone_investment_transaction_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.strategy.html">plaid2.model.strategy module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.street.html">plaid2.model.street module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.street_2.html">plaid2.model.street_2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.student_loan.html">plaid2.model.student_loan module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.student_loan_repayment_model.html">plaid2.model.student_loan_repayment_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.student_loan_status.html">plaid2.model.student_loan_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.student_repayment_plan.html">plaid2.model.student_repayment_plan module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.sync_updates_available_webhook.html">plaid2.model.sync_updates_available_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.taxform.html">plaid2.model.taxform module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.taxpayer_id.html">plaid2.model.taxpayer_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.timestamp.html">plaid2.model.timestamp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.timestamp_nullable.html">plaid2.model.timestamp_nullable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.total.html">plaid2.model.total module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.total_canonical_description.html">plaid2.model.total_canonical_description module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction.html">plaid2.model.transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_base.html">plaid2.model.transaction_base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_code.html">plaid2.model.transaction_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_data.html">plaid2.model.transaction_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_override.html">plaid2.model.transaction_override module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_stream.html">plaid2.model.transaction_stream module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_stream_amount.html">plaid2.model.transaction_stream_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transaction_stream_status.html">plaid2.model.transaction_stream_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_category_rule.html">plaid2.model.transactions_category_rule module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_enhance_get_request.html">plaid2.model.transactions_enhance_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_enhance_get_response.html">plaid2.model.transactions_enhance_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_get_request.html">plaid2.model.transactions_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_get_request_options.html">plaid2.model.transactions_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_get_response.html">plaid2.model.transactions_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_recurring_get_request.html">plaid2.model.transactions_recurring_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_recurring_get_request_options.html">plaid2.model.transactions_recurring_get_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_recurring_get_response.html">plaid2.model.transactions_recurring_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_refresh_request.html">plaid2.model.transactions_refresh_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_refresh_response.html">plaid2.model.transactions_refresh_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_removed_webhook.html">plaid2.model.transactions_removed_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rule_details.html">plaid2.model.transactions_rule_details module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rule_field.html">plaid2.model.transactions_rule_field module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rule_type.html">plaid2.model.transactions_rule_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_create_request.html">plaid2.model.transactions_rules_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_create_response.html">plaid2.model.transactions_rules_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_list_request.html">plaid2.model.transactions_rules_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_list_response.html">plaid2.model.transactions_rules_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_remove_request.html">plaid2.model.transactions_rules_remove_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_rules_remove_response.html">plaid2.model.transactions_rules_remove_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_sync_request.html">plaid2.model.transactions_sync_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_sync_request_options.html">plaid2.model.transactions_sync_request_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transactions_sync_response.html">plaid2.model.transactions_sync_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer.html">plaid2.model.transfer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_access_token.html">plaid2.model.transfer_access_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_amount.html">plaid2.model.transfer_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization.html">plaid2.model.transfer_authorization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_create_request.html">plaid2.model.transfer_authorization_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_create_response.html">plaid2.model.transfer_authorization_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_decision.html">plaid2.model.transfer_authorization_decision module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_decision_rationale.html">plaid2.model.transfer_authorization_decision_rationale module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_decision_rationale_code.html">plaid2.model.transfer_authorization_decision_rationale_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_device.html">plaid2.model.transfer_authorization_device module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_guarantee_decision.html">plaid2.model.transfer_authorization_guarantee_decision module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_guarantee_decision_rationale.html">plaid2.model.transfer_authorization_guarantee_decision_rationale module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_guarantee_decision_rationale_code.html">plaid2.model.transfer_authorization_guarantee_decision_rationale_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_id.html">plaid2.model.transfer_authorization_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_proposed_transfer.html">plaid2.model.transfer_authorization_proposed_transfer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_authorization_user_in_request.html">plaid2.model.transfer_authorization_user_in_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_cancel_request.html">plaid2.model.transfer_cancel_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_cancel_response.html">plaid2.model.transfer_cancel_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_create_idempotency_key.html">plaid2.model.transfer_create_idempotency_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_create_request.html">plaid2.model.transfer_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_create_response.html">plaid2.model.transfer_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event.html">plaid2.model.transfer_event module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_list_request.html">plaid2.model.transfer_event_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_list_response.html">plaid2.model.transfer_event_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_list_transfer_type.html">plaid2.model.transfer_event_list_transfer_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_sync_request.html">plaid2.model.transfer_event_sync_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_sync_response.html">plaid2.model.transfer_event_sync_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_event_type.html">plaid2.model.transfer_event_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_events_update_webhook.html">plaid2.model.transfer_events_update_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_failure.html">plaid2.model.transfer_failure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_get_request.html">plaid2.model.transfer_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_get_response.html">plaid2.model.transfer_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_id.html">plaid2.model.transfer_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_authorization_decision.html">plaid2.model.transfer_intent_authorization_decision module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_create.html">plaid2.model.transfer_intent_create module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_create_mode.html">plaid2.model.transfer_intent_create_mode module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">plaid2.model.transfer_intent_create_request module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest"><code class="docutils literal notranslate"><span class="pre">TransferIntentCreateRequest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_create_response.html">plaid2.model.transfer_intent_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_get.html">plaid2.model.transfer_intent_get module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_get_failure_reason.html">plaid2.model.transfer_intent_get_failure_reason module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_get_request.html">plaid2.model.transfer_intent_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_get_response.html">plaid2.model.transfer_intent_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_intent_status.html">plaid2.model.transfer_intent_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_list_request.html">plaid2.model.transfer_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_list_response.html">plaid2.model.transfer_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_metadata.html">plaid2.model.transfer_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_migrate_account_request.html">plaid2.model.transfer_migrate_account_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_migrate_account_response.html">plaid2.model.transfer_migrate_account_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_network.html">plaid2.model.transfer_network module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment.html">plaid2.model.transfer_repayment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment_list_request.html">plaid2.model.transfer_repayment_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment_list_response.html">plaid2.model.transfer_repayment_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment_return.html">plaid2.model.transfer_repayment_return module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment_return_list_request.html">plaid2.model.transfer_repayment_return_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_repayment_return_list_response.html">plaid2.model.transfer_repayment_return_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_status.html">plaid2.model.transfer_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep.html">plaid2.model.transfer_sweep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_amount.html">plaid2.model.transfer_sweep_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_get_request.html">plaid2.model.transfer_sweep_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_get_response.html">plaid2.model.transfer_sweep_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_id.html">plaid2.model.transfer_sweep_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_list_request.html">plaid2.model.transfer_sweep_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_list_response.html">plaid2.model.transfer_sweep_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_sweep_status.html">plaid2.model.transfer_sweep_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_type.html">plaid2.model.transfer_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_user_address_in_request.html">plaid2.model.transfer_user_address_in_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_user_address_in_response.html">plaid2.model.transfer_user_address_in_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_user_in_request.html">plaid2.model.transfer_user_in_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.transfer_user_in_response.html">plaid2.model.transfer_user_in_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.unofficial_currency_code_list.html">plaid2.model.unofficial_currency_code_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_entity_screening_request.html">plaid2.model.update_entity_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_entity_screening_request_resettable_field.html">plaid2.model.update_entity_screening_request_resettable_field module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_entity_screening_request_resettable_field_list.html">plaid2.model.update_entity_screening_request_resettable_field_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_entity_screening_request_search_terms.html">plaid2.model.update_entity_screening_request_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_individual_screening_request.html">plaid2.model.update_individual_screening_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_individual_screening_request_resettable_field.html">plaid2.model.update_individual_screening_request_resettable_field module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_individual_screening_request_resettable_field_list.html">plaid2.model.update_individual_screening_request_resettable_field_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.update_individual_screening_request_search_terms.html">plaid2.model.update_individual_screening_request_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.url.html">plaid2.model.url module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_address.html">plaid2.model.user_address module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_create_request.html">plaid2.model.user_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_create_response.html">plaid2.model.user_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_custom_password.html">plaid2.model.user_custom_password module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_id.html">plaid2.model.user_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_id_number.html">plaid2.model.user_id_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_name.html">plaid2.model.user_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_permission_revoked_webhook.html">plaid2.model.user_permission_revoked_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_stated_income_source_category.html">plaid2.model.user_stated_income_source_category module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_stated_income_source_frequency.html">plaid2.model.user_stated_income_source_frequency module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_stated_income_source_pay_type.html">plaid2.model.user_stated_income_source_pay_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.user_token.html">plaid2.model.user_token module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.verification_attribute.html">plaid2.model.verification_attribute module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.verification_expired_webhook.html">plaid2.model.verification_expired_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.verification_refresh_status.html">plaid2.model.verification_refresh_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.verification_status.html">plaid2.model.verification_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.w_2.html">plaid2.model.w_2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.w_2_box_12.html">plaid2.model.w_2_box_12 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.w_2_state_and_local_wages.html">plaid2.model.w_2_state_and_local_wages module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet.html">plaid2.model.wallet module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_balance.html">plaid2.model.wallet_balance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_create_request.html">plaid2.model.wallet_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_create_response.html">plaid2.model.wallet_create_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_get_request.html">plaid2.model.wallet_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_get_response.html">plaid2.model.wallet_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_iso_currency_code.html">plaid2.model.wallet_iso_currency_code module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_list_request.html">plaid2.model.wallet_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_list_response.html">plaid2.model.wallet_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_numbers.html">plaid2.model.wallet_numbers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction.html">plaid2.model.wallet_transaction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_amount.html">plaid2.model.wallet_transaction_amount module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_counterparty.html">plaid2.model.wallet_transaction_counterparty module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_counterparty_bacs.html">plaid2.model.wallet_transaction_counterparty_bacs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_counterparty_international.html">plaid2.model.wallet_transaction_counterparty_international module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_counterparty_numbers.html">plaid2.model.wallet_transaction_counterparty_numbers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_execute_request.html">plaid2.model.wallet_transaction_execute_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_execute_response.html">plaid2.model.wallet_transaction_execute_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_get_request.html">plaid2.model.wallet_transaction_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_get_response.html">plaid2.model.wallet_transaction_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_idempotency_key.html">plaid2.model.wallet_transaction_idempotency_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transaction_status.html">plaid2.model.wallet_transaction_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transactions_list_request.html">plaid2.model.wallet_transactions_list_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.wallet_transactions_list_response.html">plaid2.model.wallet_transactions_list_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.warning.html">plaid2.model.warning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_program_id.html">plaid2.model.watchlist_program_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_audit_trail.html">plaid2.model.watchlist_screening_audit_trail module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_create_request.html">plaid2.model.watchlist_screening_create_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_document.html">plaid2.model.watchlist_screening_document module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_document_type.html">plaid2.model.watchlist_screening_document_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_document_value.html">plaid2.model.watchlist_screening_document_value module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_hit.html">plaid2.model.watchlist_screening_hit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_hit_id.html">plaid2.model.watchlist_screening_hit_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_hit_locations.html">plaid2.model.watchlist_screening_hit_locations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_hit_status.html">plaid2.model.watchlist_screening_hit_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_individual.html">plaid2.model.watchlist_screening_individual module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_individual_id.html">plaid2.model.watchlist_screening_individual_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_individual_name.html">plaid2.model.watchlist_screening_individual_name module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_individual_response.html">plaid2.model.watchlist_screening_individual_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_phone_number.html">plaid2.model.watchlist_screening_phone_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_request_search_terms.html">plaid2.model.watchlist_screening_request_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_review.html">plaid2.model.watchlist_screening_review module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_review_id.html">plaid2.model.watchlist_screening_review_id module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_review_response.html">plaid2.model.watchlist_screening_review_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_search_terms.html">plaid2.model.watchlist_screening_search_terms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.watchlist_screening_status.html">plaid2.model.watchlist_screening_status module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.weak_alias_determination.html">plaid2.model.weak_alias_determination module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.webhook_type.html">plaid2.model.webhook_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.webhook_update_acknowledged_webhook.html">plaid2.model.webhook_update_acknowledged_webhook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.webhook_verification_key_get_request.html">plaid2.model.webhook_verification_key_get_request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.webhook_verification_key_get_response.html">plaid2.model.webhook_verification_key_get_response module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.ytd_gross_income_summary_field_number.html">plaid2.model.ytd_gross_income_summary_field_number module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaid2.model.ytd_net_income_summary_field_number.html">plaid2.model.ytd_net_income_summary_field_number module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plaid2.model.html#module-plaid2.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plaid2.authenticator.html">plaid2.authenticator module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">plaid2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="plaid2.model.html">plaid2.model package</a></li>
+      <li class="breadcrumb-item active">plaid2.model.transfer_intent_create_request module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plaid2.model.transfer_intent_create_request.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-plaid2.model.transfer_intent_create_request">
+<span id="plaid2-model-transfer-intent-create-request-module"></span><h1>plaid2.model.transfer_intent_create_request module<a class="headerlink" href="#module-plaid2.model.transfer_intent_create_request" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plaid2.model.transfer_intent_create_request.</span></span><span class="sig-name descname"><span class="pre">TransferIntentCreateRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_guarantee</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origination_account_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plaid2.model.transfer_metadata.html#plaid2.model.transfer_metadata.TransferMetadata" title="plaid2.model.transfer_metadata.TransferMetadata"><span class="pre">TransferMetadata</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso_currency_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="plaid2.model.transfer_user_in_request.html#plaid2.model.transfer_user_in_request.TransferUserInRequest" title="plaid2.model.transfer_user_in_request.TransferUserInRequest"><span class="pre">TransferUserInRequest</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ach_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plaid2/model/transfer_intent_create_request.html#TransferIntentCreateRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.account_id">
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.account_id" title="Permalink to this definition"></a></dt>
+<dd><p>The Plaid <cite>account_id</cite> for the account that will be debited or credited.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.ach_class">
+<span class="sig-name descname"><span class="pre">ach_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.ach_class" title="Permalink to this definition"></a></dt>
+<dd><p>Specifies the use case of the transfer. Required for transfers on an ACH network.</p>
+<p><cite>“ccd”</cite> - Corporate Credit or Debit - fund transfer between two corporate bank accounts</p>
+<p><cite>“ppd”</cite> - Prearranged Payment or Deposit - the transfer is part of a pre-existing relationship with a consumer, eg. bill payment</p>
+<p><cite>“tel”</cite> - Telephone-Initiated Entry</p>
+<p><cite>“web”</cite> - Internet-Initiated Entry - debits from a consumer’s account where their authorization is obtained over the Internet</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.amount" title="Permalink to this definition"></a></dt>
+<dd><p>The amount of the transfer (decimal string with two digits of precision e.g. “10.00”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.description" title="Permalink to this definition"></a></dt>
+<dd><p>A description for the underlying transfer. Maximum of 8 characters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.dict">
+<span class="sig-name descname"><span class="pre">dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plaid2/model/transfer_intent_create_request.html#TransferIntentCreateRequest.dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.dict" title="Permalink to this definition"></a></dt>
+<dd><p>Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.iso_currency_code">
+<span class="sig-name descname"><span class="pre">iso_currency_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.iso_currency_code" title="Permalink to this definition"></a></dt>
+<dd><p>The currency of the transfer amount, e.g. “USD”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.json">
+<span class="sig-name descname"><span class="pre">json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/plaid2/model/transfer_intent_create_request.html#TransferIntentCreateRequest.json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.json" title="Permalink to this definition"></a></dt>
+<dd><p>Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plaid2.model.transfer_metadata.html#plaid2.model.transfer_metadata.TransferMetadata" title="plaid2.model.transfer_metadata.TransferMetadata"><span class="pre">TransferMetadata</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.metadata" title="Permalink to this definition"></a></dt>
+<dd><p>The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply:
+- The JSON values must be Strings (no nested JSON objects allowed)
+- Only ASCII characters may be used
+- Maximum of 50 key/value pairs
+- Maximum key length of 40 characters
+- Maximum value length of 500 characters</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.mode" title="Permalink to this definition"></a></dt>
+<dd><p>The direction of the flow of transfer funds.</p>
+<ul class="simple">
+<li><p><cite>PAYMENT</cite> – Transfers funds from an end user’s account to your business account.</p></li>
+<li><p><cite>DISBURSEMENT</cite> – Transfers funds from your business account to an end user’s account.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.origination_account_id">
+<span class="sig-name descname"><span class="pre">origination_account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.origination_account_id" title="Permalink to this definition"></a></dt>
+<dd><p>Plaid’s unique identifier for the origination account for the intent. If not provided, the default account will be used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.parse_obj">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest" title="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest"><span class="pre">TransferIntentCreateRequest</span></a></span></span><a class="reference internal" href="_modules/plaid2/model/transfer_intent_create_request.html#TransferIntentCreateRequest.parse_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.parse_obj" title="Permalink to this definition"></a></dt>
+<dd><p>Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.parse_raw">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest" title="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest"><span class="pre">TransferIntentCreateRequest</span></a></span></span><a class="reference internal" href="_modules/plaid2/model/transfer_intent_create_request.html#TransferIntentCreateRequest.parse_raw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.parse_raw" title="Permalink to this definition"></a></dt>
+<dd><p>Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.require_guarantee">
+<span class="sig-name descname"><span class="pre">require_guarantee</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.require_guarantee" title="Permalink to this definition"></a></dt>
+<dd><p>When <cite>true</cite>, the transfer requires a <cite>GUARANTEED</cite> decision by Plaid to proceed (Guaranteed ACH customers only).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.user">
+<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="plaid2.model.transfer_user_in_request.html#plaid2.model.transfer_user_in_request.TransferUserInRequest" title="plaid2.model.transfer_user_in_request.TransferUserInRequest"><span class="pre">TransferUserInRequest</span></a></em><a class="headerlink" href="#plaid2.model.transfer_intent_create_request.TransferIntentCreateRequest.user" title="Permalink to this definition"></a></dt>
+<dd><p>The legal name and other information for the account holder.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plaid2.model.transfer_intent_create_mode.html" class="btn btn-neutral float-left" title="plaid2.model.transfer_intent_create_mode module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plaid2.model.transfer_intent_create_response.html" class="btn btn-neutral float-right" title="plaid2.model.transfer_intent_create_response module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Libninja.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

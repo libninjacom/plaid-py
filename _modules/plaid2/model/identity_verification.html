@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plaid2.model.identity_verification &mdash; plaid2  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> plaid2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.async_client.html">plaid2.async_client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.client.html">plaid2.client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.logger.html">plaid2.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.model.html">plaid2.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.authenticator.html">plaid2.authenticator module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">plaid2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plaid2.model.identity_verification</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plaid2.model.identity_verification</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">.documentary_verification</span> <span class="kn">import</span> <span class="n">DocumentaryVerification</span>
+<span class="kn">from</span> <span class="nn">.identity_verification_step_summary</span> <span class="kn">import</span> <span class="n">IdentityVerificationStepSummary</span>
+<span class="kn">from</span> <span class="nn">.identity_verification_template_reference</span> <span class="kn">import</span> <span class="n">IdentityVerificationTemplateReference</span>
+<span class="kn">from</span> <span class="nn">.identity_verification_user_data</span> <span class="kn">import</span> <span class="n">IdentityVerificationUserData</span>
+<span class="kn">from</span> <span class="nn">.kyc_check_details</span> <span class="kn">import</span> <span class="n">KycCheckDetails</span>
+
+
+<div class="viewcode-block" id="IdentityVerification"><a class="viewcode-back" href="../../../plaid2.model.identity_verification.html#plaid2.model.IdentityVerification">[docs]</a><span class="k">class</span> <span class="nc">IdentityVerification</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">IdentityVerificationStepSummary</span>
+    <span class="sd">&quot;&quot;&quot;Each step will be one of the following values:</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    `active` - This step is the user&#39;s current step. They are either in the process of completing this step, or they recently closed their Identity Verification attempt while in the middle of this step. Only one step will be marked as `active` at any given point.</span>
+<span class="sd">    </span>
+<span class="sd">    `success` - The Identity Verification attempt has completed this step.</span>
+<span class="sd">    </span>
+<span class="sd">    `failed` - The user failed this step. This can either call the user to fail the session as a whole, or cause them to fallback to another step depending on how the Identity Verification template is configured. A failed step does not imply a failed session.</span>
+<span class="sd">    </span>
+<span class="sd">    `waiting_for_prerequisite` - The user needs to complete another step first, before they progress to this step. This step may never run, depending on if the user fails an earlier step or if the step is only run as a fallback.</span>
+<span class="sd">    </span>
+<span class="sd">    `not_applicable` - This step will not be run for this session.</span>
+<span class="sd">    </span>
+<span class="sd">    `skipped` - The retry instructions that created this Identity Verification attempt specified that this step should be skipped.</span>
+<span class="sd">    </span>
+<span class="sd">    `expired` - This step had not yet been completed when the Identity Verification attempt as a whole expired.</span>
+<span class="sd">    </span>
+<span class="sd">    `canceled` - The Identity Verification attempt was canceled before the user completed this step.</span>
+<span class="sd">    </span>
+<span class="sd">    `pending_review` - The Identity Verification attempt template was configured to perform a screening that had one or more hits needing review.</span>
+<span class="sd">    </span>
+<span class="sd">    `manually_approved` - The step was manually overridden to pass by a team member in the dashboard.</span>
+<span class="sd">    </span>
+<span class="sd">    `manually_rejected` - The step was manually overridden to fail by a team member in the dashboard.&quot;&quot;&quot;</span>
+
+    <span class="n">shareable_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;A shareable URL that can be sent directly to the user to complete verification&quot;&quot;&quot;</span>
+
+    <span class="n">template</span><span class="p">:</span> <span class="n">IdentityVerificationTemplateReference</span>
+    <span class="sd">&quot;&quot;&quot;The resource ID and version number of the template configuring the behavior of a given identity verification.&quot;&quot;&quot;</span>
+
+    <span class="n">created_at</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;An ISO8601 formatted timestamp.&quot;&quot;&quot;</span>
+
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;The status of this Identity Verification attempt.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    `active` - The Identity Verification attempt is incomplete. The user may have completed part of the session, but has neither failed or passed.</span>
+<span class="sd">    </span>
+<span class="sd">    `success` - The Identity Verification attempt has completed, passing all steps defined to the associated Identity Verification template</span>
+<span class="sd">    </span>
+<span class="sd">    `failed` - The user failed one or more steps in the session and was told to contact support.</span>
+<span class="sd">    </span>
+<span class="sd">    `expired` - The Identity Verification attempt was active for more than 48 hours without being completed and was automatically marked as expired.</span>
+<span class="sd">    </span>
+<span class="sd">    `canceled` - The Identity Verification attempt was canceled, either via the dashboard by a user, or via API. The user may have completed part of the session, but has neither failed or passed.</span>
+<span class="sd">    </span>
+<span class="sd">    `pending_review` - The Identity Verification attempt template was configured to perform a screening that had one or more hits needing review.&quot;&quot;&quot;</span>
+
+    <span class="n">watchlist_screening_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">completed_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;An ISO8601 formatted timestamp.&quot;&quot;&quot;</span>
+
+    <span class="n">client_user_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;An identifier to help you connect this object to your internal systems. For example, your database ID corresponding to this object.&quot;&quot;&quot;</span>
+
+    <span class="n">previous_attempt_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The ID for the Identity Verification preceding this session. This field will only be filled if the current Identity Verification is a retry of a previous attempt.&quot;&quot;&quot;</span>
+
+    <span class="n">documentary_verification</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DocumentaryVerification</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;data, images, analysis, and results from the `documentary_verification` step.&quot;&quot;&quot;</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;ID of the associated Identity Verification attempt.&quot;&quot;&quot;</span>
+
+    <span class="n">user</span><span class="p">:</span> <span class="n">IdentityVerificationUserData</span>
+    <span class="sd">&quot;&quot;&quot;The identity data that was either collected from the user or provided via API in order to perform an identity verification.&quot;&quot;&quot;</span>
+
+    <span class="n">kyc_check</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KycCheckDetails</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The outcome of the `kyc_check` step.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IdentityVerification.json"><a class="viewcode-back" href="../../../plaid2.model.identity_verification.html#plaid2.model.IdentityVerification.json">[docs]</a>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IdentityVerification.dict"><a class="viewcode-back" href="../../../plaid2.model.identity_verification.html#plaid2.model.IdentityVerification.dict">[docs]</a>    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IdentityVerification.parse_obj"><a class="viewcode-back" href="../../../plaid2.model.identity_verification.html#plaid2.model.IdentityVerification.parse_obj">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;IdentityVerification&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IdentityVerification.parse_raw"><a class="viewcode-back" href="../../../plaid2.model.identity_verification.html#plaid2.model.IdentityVerification.parse_raw">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_raw</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;IdentityVerification&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Libninja.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

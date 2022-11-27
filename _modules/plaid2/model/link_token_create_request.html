@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plaid2.model.link_token_create_request &mdash; plaid2  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> plaid2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.async_client.html">plaid2.async_client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.client.html">plaid2.client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.logger.html">plaid2.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.model.html">plaid2.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.authenticator.html">plaid2.authenticator module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">plaid2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plaid2.model.link_token_create_request</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plaid2.model.link_token_create_request</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">.link_token_account_filters</span> <span class="kn">import</span> <span class="n">LinkTokenAccountFilters</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_auth</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestAuth</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_identity_verification</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestIdentityVerification</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_income_verification</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestIncomeVerification</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_payment_initiation</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestPaymentInitiation</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_transfer</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestTransfer</span>
+<span class="kn">from</span> <span class="nn">.link_token_create_request_user</span> <span class="kn">import</span> <span class="n">LinkTokenCreateRequestUser</span>
+
+
+<div class="viewcode-block" id="LinkTokenCreateRequest"><a class="viewcode-back" href="../../../plaid2.model.link_token_create_request.html#plaid2.model.LinkTokenCreateRequest">[docs]</a><span class="k">class</span> <span class="nc">LinkTokenCreateRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">income_verification</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenCreateRequestIncomeVerification</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for use with the Income (beta) product. This field is required if `income_verification` is included in the `products` array.&quot;&quot;&quot;</span>
+
+    <span class="n">client_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;The name of your application, as it should be displayed in Link. Maximum length of 30 characters. If a value longer than 30 characters is provided, Link will display &quot;This Application&quot; instead.&quot;&quot;&quot;</span>
+
+    <span class="n">institution_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;A map containing data used to highlight institutions in Link.&quot;&quot;&quot;</span>
+
+    <span class="n">auth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenCreateRequestAuth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for use with the Auth product. This field can be used to enable or disable extended Auth flows for the resulting Link session. Omitting any field will result in a default that can be configured by your account manager.&quot;&quot;&quot;</span>
+
+    <span class="n">transfer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenCreateRequestTransfer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for use with the Transfer product.&quot;&quot;&quot;</span>
+
+    <span class="n">additional_consented_products</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;(Beta) This field has no effect unless you are participating in the Product Scope Transparency beta program.</span>
+<span class="sd">    List of additional Plaid product(s) you wish to collect consent for. These products will not be billed until you start using them by calling the relevant endpoints.</span>
+<span class="sd">    </span>
+<span class="sd">    `balance` is *not* a valid value, the Balance product does not require explicit initialization and will automatically have consent collected.</span>
+<span class="sd">    </span>
+<span class="sd">    Institutions that do not support these products will still be shown in Link&quot;&quot;&quot;</span>
+
+    <span class="n">products</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;List of Plaid product(s) you wish to use. If launching Link in update mode, should be omitted; required otherwise.</span>
+<span class="sd">    </span>
+<span class="sd">    `balance` is *not* a valid value, the Balance product does not require explicit initialization and will automatically be initialized when any other product is initialized.</span>
+<span class="sd">    </span>
+<span class="sd">    The products specified here will determine which institutions will be available to your users in Link. Only institutions that support *all* requested products can be selected; a if a user attempts to select an institution that does not support a listed product, a &quot;Connectivity not supported&quot; error message will appear in Link. To maximize the number of institutions available, initialize Link with the minimal product set required for your use case. Additional products can be added after Link initialization by calling the relevant endpoints. For details and exceptions, see [Choosing when to initialize products](https://plaid.com/docs/link/best-practices/#choosing-when-to-initialize-products).</span>
+<span class="sd">    </span>
+<span class="sd">    Note that, unless you have opted to disable Instant Match support, institutions that support Instant Match will also be shown in Link if `auth` is specified as a product, even though these institutions do not contain `auth` in their product array.</span>
+<span class="sd">    </span>
+<span class="sd">    In Production, you will be billed for each product that you specify when initializing Link. Note that a product cannot be removed from an Item once the Item has been initialized with that product. To stop billing on an Item for subscription-based products, such as Liabilities, Investments, and Transactions, remove the Item via `/item/remove`.&quot;&quot;&quot;</span>
+
+    <span class="n">identity_verification</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenCreateRequestIdentityVerification</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies option for initializing Link for use with the Identity Verification product.&quot;&quot;&quot;</span>
+
+    <span class="n">account_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenAccountFilters</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;By default, Link will provide limited account filtering: it will only display Institutions that are compatible with all products supplied in the `products` parameter of `/link/token/create`, and, if `auth` is specified in the `products` array, will also filter out accounts other than `checking` and `savings` accounts on the Account Select pane. You can further limit the accounts shown in Link by using `account_filters` to specify the account subtypes to be shown in Link. Only the specified subtypes will be shown. This filtering applies to both the Account Select view (if enabled) and the Institution Select view. Institutions that do not support the selected subtypes will be omitted from Link. To indicate that all subtypes should be shown, use the value `&quot;all&quot;`. If the `account_filters` filter is used, any account type for which a filter is not specified will be entirely omitted from Link. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema).</span>
+<span class="sd">    </span>
+<span class="sd">    For institutions using OAuth, the filter will not affect the list of accounts shown by the bank in the OAuth window.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">webhook</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The destination URL to which any webhooks should be sent.&quot;&quot;&quot;</span>
+
+    <span class="n">eu_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Configuration parameters for EU flows&quot;&quot;&quot;</span>
+
+    <span class="n">update</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for [update mode](https://plaid.com/docs/link/update-mode).&quot;&quot;&quot;</span>
+
+    <span class="n">country_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown.  Supported country codes are: `US`, `CA`, `DE`, `ES`, `FR`, `GB`, `IE`, `IT`, `NL`. For a complete mapping of supported products by country, see https://plaid.com/global/.</span>
+<span class="sd">    </span>
+<span class="sd">    If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. Note that while all countries are enabled by default in Sandbox and Development, in Production only US and Canada are enabled by default. To gain access to European institutions in the Production environment, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If you initialize with a European country code, your users will see the European consent panel during the Link flow.</span>
+<span class="sd">    </span>
+<span class="sd">    If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`. If both `country_codes` and a Link customization are used, the value in `country_codes` may override the value in the customization.</span>
+<span class="sd">    </span>
+<span class="sd">    If using the Auth features Instant Match, Same-day Micro-deposits, or Automated Micro-deposits, `country_codes` must be set to `[&#39;US&#39;]`.&quot;&quot;&quot;</span>
+
+    <span class="n">android_package_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The name of your app&#39;s Android package. Required if using the `link_token` to initialize Link on Android. When creating a `link_token` for initializing Link on other platforms, this field must be left blank. Any package name specified here must also be added to the Allowed Android package names setting on the [developer dashboard](https://dashboard.plaid.com/team/api). &quot;&quot;&quot;</span>
+
+    <span class="n">language</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;The language that Link should be displayed in.</span>
+<span class="sd">    </span>
+<span class="sd">    Supported languages are:</span>
+<span class="sd">    - English (`&#39;en&#39;`)</span>
+<span class="sd">    - French (`&#39;fr&#39;`)</span>
+<span class="sd">    - Spanish (`&#39;es&#39;`)</span>
+<span class="sd">    - Dutch (`&#39;nl&#39;`)</span>
+<span class="sd">    - German(`&#39;de&#39;`)</span>
+<span class="sd">    </span>
+<span class="sd">    When using a Link customization, the language configured here must match the setting in the customization, or the customization will not be applied.&quot;&quot;&quot;</span>
+
+    <span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;A user token generated using `/user/create`. Any item created during the link session will be associated with the user.&quot;&quot;&quot;</span>
+
+    <span class="n">link_customization_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The name of the Link customization from the Plaid Dashboard to be applied to Link. If not specified, the `default` customization will be used. When using a Link customization, the language in the customization must match the language selected via the `language` parameter, and the countries in the customization should match the country codes selected via `country_codes`.&quot;&quot;&quot;</span>
+
+    <span class="n">institution_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Used for certain Europe-only configurations, as well as certain legacy use cases in other regions.&quot;&quot;&quot;</span>
+
+    <span class="n">user</span><span class="p">:</span> <span class="n">LinkTokenCreateRequestUser</span>
+    <span class="sd">&quot;&quot;&quot;An object specifying information about the end user who will be linking their account.&quot;&quot;&quot;</span>
+
+    <span class="n">redirect_uri</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;A URI indicating the destination where a user should be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or via a webview. The `redirect_uri` should not contain any query parameters. When used in Production or Development, must be an https URI. To specify any subdomain, use `*` as a wildcard character, e.g. `https://*.example.com/oauth.html`. If `android_package_name` is specified, this field should be left blank.  Note that any redirect URI must also be added to the Allowed redirect URIs list in the [developer dashboard](https://dashboard.plaid.com/team/api).&quot;&quot;&quot;</span>
+
+    <span class="n">access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;The `access_token` associated with the Item to update, used when updating or modifying an existing `access_token`. Used when launching Link in update mode, when completing the Same-day (manual) Micro-deposit flow, or (optionally) when initializing Link as part of the Payment Initiation (UK and Europe) flow.&quot;&quot;&quot;</span>
+
+    <span class="n">payment_initiation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkTokenCreateRequestPaymentInitiation</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for use with the Payment Initiation (Europe) product. This field is required if `payment_initiation` is included in the `products` array.&quot;&quot;&quot;</span>
+
+    <span class="n">deposit_switch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specifies options for initializing Link for use with the Deposit Switch (beta) product. This field is required if `deposit_switch` is included in the `products` array.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LinkTokenCreateRequest.json"><a class="viewcode-back" href="../../../plaid2.model.link_token_create_request.html#plaid2.model.LinkTokenCreateRequest.json">[docs]</a>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinkTokenCreateRequest.dict"><a class="viewcode-back" href="../../../plaid2.model.link_token_create_request.html#plaid2.model.LinkTokenCreateRequest.dict">[docs]</a>    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinkTokenCreateRequest.parse_obj"><a class="viewcode-back" href="../../../plaid2.model.link_token_create_request.html#plaid2.model.LinkTokenCreateRequest.parse_obj">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LinkTokenCreateRequest&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinkTokenCreateRequest.parse_raw"><a class="viewcode-back" href="../../../plaid2.model.link_token_create_request.html#plaid2.model.LinkTokenCreateRequest.parse_raw">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_raw</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LinkTokenCreateRequest&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Libninja.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

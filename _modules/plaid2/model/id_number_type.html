@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plaid2.model.id_number_type &mdash; plaid2  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> plaid2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.async_client.html">plaid2.async_client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.client.html">plaid2.client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.logger.html">plaid2.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.model.html">plaid2.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.authenticator.html">plaid2.authenticator module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">plaid2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plaid2.model.id_number_type</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plaid2.model.id_number_type</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+
+<div class="viewcode-block" id="IdNumberType"><a class="viewcode-back" href="../../../plaid2.model.id_number_type.html#plaid2.model.IdNumberType">[docs]</a><span class="k">class</span> <span class="nc">IdNumberType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">ar_dni</span> <span class="o">=</span> <span class="s2">&quot;ar_dni&quot;</span>
+    <span class="n">au_drivers_license</span> <span class="o">=</span> <span class="s2">&quot;au_drivers_license&quot;</span>
+    <span class="n">au_passport</span> <span class="o">=</span> <span class="s2">&quot;au_passport&quot;</span>
+    <span class="n">br_cpf</span> <span class="o">=</span> <span class="s2">&quot;br_cpf&quot;</span>
+    <span class="n">ca_sin</span> <span class="o">=</span> <span class="s2">&quot;ca_sin&quot;</span>
+    <span class="n">cl_run</span> <span class="o">=</span> <span class="s2">&quot;cl_run&quot;</span>
+    <span class="n">cn_resident_card</span> <span class="o">=</span> <span class="s2">&quot;cn_resident_card&quot;</span>
+    <span class="n">co_nit</span> <span class="o">=</span> <span class="s2">&quot;co_nit&quot;</span>
+    <span class="n">dk_cpr</span> <span class="o">=</span> <span class="s2">&quot;dk_cpr&quot;</span>
+    <span class="n">eg_national_id</span> <span class="o">=</span> <span class="s2">&quot;eg_national_id&quot;</span>
+    <span class="n">es_dni</span> <span class="o">=</span> <span class="s2">&quot;es_dni&quot;</span>
+    <span class="n">es_nie</span> <span class="o">=</span> <span class="s2">&quot;es_nie&quot;</span>
+    <span class="n">hk_hkid</span> <span class="o">=</span> <span class="s2">&quot;hk_hkid&quot;</span>
+    <span class="n">in_pan</span> <span class="o">=</span> <span class="s2">&quot;in_pan&quot;</span>
+    <span class="n">it_cf</span> <span class="o">=</span> <span class="s2">&quot;it_cf&quot;</span>
+    <span class="n">jo_civil_id</span> <span class="o">=</span> <span class="s2">&quot;jo_civil_id&quot;</span>
+    <span class="n">jp_my_number</span> <span class="o">=</span> <span class="s2">&quot;jp_my_number&quot;</span>
+    <span class="n">ke_huduma_namba</span> <span class="o">=</span> <span class="s2">&quot;ke_huduma_namba&quot;</span>
+    <span class="n">kw_civil_id</span> <span class="o">=</span> <span class="s2">&quot;kw_civil_id&quot;</span>
+    <span class="n">mx_curp</span> <span class="o">=</span> <span class="s2">&quot;mx_curp&quot;</span>
+    <span class="n">mx_rfc</span> <span class="o">=</span> <span class="s2">&quot;mx_rfc&quot;</span>
+    <span class="n">my_nric</span> <span class="o">=</span> <span class="s2">&quot;my_nric&quot;</span>
+    <span class="n">ng_nin</span> <span class="o">=</span> <span class="s2">&quot;ng_nin&quot;</span>
+    <span class="n">nz_drivers_license</span> <span class="o">=</span> <span class="s2">&quot;nz_drivers_license&quot;</span>
+    <span class="n">om_civil_id</span> <span class="o">=</span> <span class="s2">&quot;om_civil_id&quot;</span>
+    <span class="n">ph_psn</span> <span class="o">=</span> <span class="s2">&quot;ph_psn&quot;</span>
+    <span class="n">pl_pesel</span> <span class="o">=</span> <span class="s2">&quot;pl_pesel&quot;</span>
+    <span class="n">ro_cnp</span> <span class="o">=</span> <span class="s2">&quot;ro_cnp&quot;</span>
+    <span class="n">sa_national_id</span> <span class="o">=</span> <span class="s2">&quot;sa_national_id&quot;</span>
+    <span class="n">se_pin</span> <span class="o">=</span> <span class="s2">&quot;se_pin&quot;</span>
+    <span class="n">sg_nric</span> <span class="o">=</span> <span class="s2">&quot;sg_nric&quot;</span>
+    <span class="n">tr_tc_kimlik</span> <span class="o">=</span> <span class="s2">&quot;tr_tc_kimlik&quot;</span>
+    <span class="n">us_ssn</span> <span class="o">=</span> <span class="s2">&quot;us_ssn&quot;</span>
+    <span class="n">us_ssn_last_4</span> <span class="o">=</span> <span class="s2">&quot;us_ssn_last_4&quot;</span>
+    <span class="n">za_smart_id</span> <span class="o">=</span> <span class="s2">&quot;za_smart_id&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Libninja.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

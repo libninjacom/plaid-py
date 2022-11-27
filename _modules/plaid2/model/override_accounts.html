@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plaid2.model.override_accounts &mdash; plaid2  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> plaid2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.async_client.html">plaid2.async_client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.client.html">plaid2.client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.logger.html">plaid2.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.model.html">plaid2.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plaid2.authenticator.html">plaid2.authenticator module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">plaid2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plaid2.model.override_accounts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plaid2.model.override_accounts</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">.holdings_override</span> <span class="kn">import</span> <span class="n">HoldingsOverride</span>
+<span class="kn">from</span> <span class="nn">.inflow_model</span> <span class="kn">import</span> <span class="n">InflowModel</span>
+<span class="kn">from</span> <span class="nn">.investments_transactions_override</span> <span class="kn">import</span> <span class="n">InvestmentsTransactionsOverride</span>
+<span class="kn">from</span> <span class="nn">.liability_override</span> <span class="kn">import</span> <span class="n">LiabilityOverride</span>
+<span class="kn">from</span> <span class="nn">.meta</span> <span class="kn">import</span> <span class="n">Meta</span>
+<span class="kn">from</span> <span class="nn">.numbers</span> <span class="kn">import</span> <span class="n">Numbers</span>
+<span class="kn">from</span> <span class="nn">.owner_override</span> <span class="kn">import</span> <span class="n">OwnerOverride</span>
+<span class="kn">from</span> <span class="nn">.paystub_override</span> <span class="kn">import</span> <span class="n">PaystubOverride</span>
+<span class="kn">from</span> <span class="nn">.transaction_override</span> <span class="kn">import</span> <span class="n">TransactionOverride</span>
+
+
+<div class="viewcode-block" id="OverrideAccounts"><a class="viewcode-back" href="../../../plaid2.model.override_accounts.html#plaid2.model.OverrideAccounts">[docs]</a><span class="k">class</span> <span class="nc">OverrideAccounts</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">currency</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;ISO-4217 currency code. If provided, the account will be denominated in the given currency. Transactions will also be in this currency by default.&quot;&quot;&quot;</span>
+
+    <span class="n">liability</span><span class="p">:</span> <span class="n">LiabilityOverride</span>
+    <span class="sd">&quot;&quot;&quot;Used to configure Sandbox test data for the Liabilities product&quot;&quot;&quot;</span>
+
+    <span class="n">subtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;See the [Account type schema](https://plaid.com/docs/api/accounts/#account-type-schema) for a full listing of account types and corresponding subtypes.&quot;&quot;&quot;</span>
+
+    <span class="n">transactions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransactionOverride</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Specify the list of transactions on the account.&quot;&quot;&quot;</span>
+
+    <span class="n">starting_balance</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="sd">&quot;&quot;&quot;If provided, the account will start with this amount as the current balance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">investment_transactions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InvestmentsTransactionsOverride</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specify the list of investments transactions on the account.&quot;&quot;&quot;</span>
+
+    <span class="n">identity</span><span class="p">:</span> <span class="n">OwnerOverride</span>
+    <span class="sd">&quot;&quot;&quot;Data about the owner or owners of an account. Any fields not specified will be filled in with default Sandbox information.&quot;&quot;&quot;</span>
+
+    <span class="n">inflow_model</span><span class="p">:</span> <span class="n">InflowModel</span>
+    <span class="sd">&quot;&quot;&quot;The `inflow_model` allows you to model a test account that receives regular income or make regular payments on a loan. Any transactions generated by the `inflow_model` will appear in addition to randomly generated test data or transactions specified by `override_accounts`.&quot;&quot;&quot;</span>
+
+    <span class="n">numbers</span><span class="p">:</span> <span class="n">Numbers</span>
+    <span class="sd">&quot;&quot;&quot;Account and bank identifier number data used to configure the test account. All values are optional.&quot;&quot;&quot;</span>
+
+    <span class="n">income</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PaystubOverride</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specify payroll data on the account.&quot;&quot;&quot;</span>
+
+    <span class="n">meta</span><span class="p">:</span> <span class="n">Meta</span>
+    <span class="sd">&quot;&quot;&quot;Allows specifying the metadata of the test account&quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="sd">&quot;&quot;&quot;`investment:` Investment account.</span>
+<span class="sd">    </span>
+<span class="sd">    `credit:` Credit card</span>
+<span class="sd">    </span>
+<span class="sd">    `depository:` Depository account</span>
+<span class="sd">    </span>
+<span class="sd">    `loan:` Loan account</span>
+<span class="sd">    </span>
+<span class="sd">    `payroll:` Payroll account</span>
+<span class="sd">    </span>
+<span class="sd">    `other:` Non-specified account type</span>
+<span class="sd">    </span>
+<span class="sd">    See the [Account type schema](https://plaid.com/docs/api/accounts#account-type-schema) for a full listing of account types and corresponding subtypes.&quot;&quot;&quot;</span>
+
+    <span class="n">force_available_balance</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="sd">&quot;&quot;&quot;If provided, the account will always have this amount as its  available balance, regardless of current balance or changes in transactions over time.&quot;&quot;&quot;</span>
+
+    <span class="n">holdings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HoldingsOverride</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Specify the holdings on the account.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OverrideAccounts.json"><a class="viewcode-back" href="../../../plaid2.model.override_accounts.html#plaid2.model.OverrideAccounts.json">[docs]</a>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json string representation of the object. Takes same keyword arguments as pydantic.BaseModel.json&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OverrideAccounts.dict"><a class="viewcode-back" href="../../../plaid2.model.override_accounts.html#plaid2.model.OverrideAccounts.dict">[docs]</a>    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dict representation of the object. Takes same keyword arguments as pydantic.BaseModel.dict&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;by_alias&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OverrideAccounts.parse_obj"><a class="viewcode-back" href="../../../plaid2.model.override_accounts.html#plaid2.model.OverrideAccounts.parse_obj">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OverrideAccounts&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a dict into the object. Takes same keyword arguments as pydantic.BaseModel.parse_obj&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OverrideAccounts.parse_raw"><a class="viewcode-back" href="../../../plaid2.model.override_accounts.html#plaid2.model.OverrideAccounts.parse_raw">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_raw</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OverrideAccounts&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse a json string into the object. Takes same keyword arguments as pydantic.BaseModel.parse_raw&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Libninja.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
